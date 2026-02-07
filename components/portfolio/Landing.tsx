@@ -8,6 +8,7 @@ import SkillArchitecture from './SkillArchitecture';
 import SystemBrain from './SystemBrain';
 import Projects from './Projects';
 import LiveAIDemo from './LiveAIDemo';
+import MatrixRain from '../visuals/MatrixRain';
 
 export default function Landing() {
   const { setHeroAnimationComplete } = useUI();
@@ -97,65 +98,7 @@ export default function Landing() {
     return () => clearInterval(interval);
   }, [stage, nameText]);
 
-  // Matrix Rain Effect
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
 
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return;
-
-    const updateSize = () => {
-      if (canvas.parentElement) {
-        canvas.width = canvas.parentElement.clientWidth;
-        canvas.height = canvas.parentElement.clientHeight;
-      } else {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-      }
-    };
-    updateSize();
-
-    const binary = '10';
-    const fontSize = 16;
-    const columns = canvas.width / fontSize;
-    const drops: number[] = [];
-
-    for (let x = 0; x < columns; x++) {
-      drops[x] = 1;
-    }
-
-    const draw = () => {
-      // Trail color depends on hero background
-      ctx.fillStyle = isHeroDark ? 'rgba(0, 0, 0, 0.05)' : 'rgba(255, 255, 255, 0.05)';
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-      ctx.font = `${fontSize}px monospace`;
-
-      for (let i = 0; i < drops.length; i++) {
-        const text = binary.charAt(Math.floor(Math.random() * binary.length));
-
-        ctx.fillStyle = isHeroDark ? '#404040' : '#d4d4d4';
-        if (Math.random() > 0.95) ctx.fillStyle = isHeroDark ? '#ffffff' : '#000000';
-
-        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-
-        if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
-          drops[i] = 0;
-        }
-
-        drops[i]++;
-      }
-    };
-
-    const interval = setInterval(draw, 33);
-    window.addEventListener('resize', updateSize);
-
-    return () => {
-      clearInterval(interval);
-      window.removeEventListener('resize', updateSize);
-    };
-  }, [isHeroDark]);
 
   // Scroll Reveal Observer
   useEffect(() => {
@@ -169,7 +112,20 @@ export default function Landing() {
 
     document.querySelectorAll('.scroll-reveal').forEach((el) => observer.observe(el));
 
-    return () => observer.disconnect();
+    // Handle global CTA toggle
+    const handleToggle = () => {
+      setShowAi(true);
+      // Wait for state update then scroll to mini-tab if needed
+      setTimeout(() => {
+        window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+      }, 100);
+    };
+    window.addEventListener('toggle-ai-assistant', handleToggle);
+
+    return () => {
+      observer.disconnect();
+      window.removeEventListener('toggle-ai-assistant', handleToggle);
+    };
   }, []);
 
 
@@ -192,7 +148,7 @@ export default function Landing() {
         }}
       >
 
-        <canvas ref={canvasRef} className="matrix-canvas" style={{ position: 'absolute', top: 0, left: 0, zIndex: 0, opacity: 0.8 }} />
+        <MatrixRain isDark={isHeroDark} opacity={isHeroDark ? 0.4 : 0.2} />
         <div
           className="hero-overlay"
           style={{
@@ -287,39 +243,7 @@ export default function Landing() {
         <Projects />
       </div>
 
-      {/* --- LIVE AI FAB --- */}
-      <button
-        className="floating-ai-btn"
-        onClick={() => setShowAi(!showAi)}
-        title="Chat with AI"
-      >
-        {showAi ? (
-          <TbX size={28} />
-        ) : (
-          <svg width="34" height="34" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="30" cy="45" r="9" fill="white" />
-            <circle cx="70" cy="45" r="9" fill="white" />
-            <rect x="30" y="65" width="40" height="10" rx="5" fill="white" />
-          </svg>
-        )}
-      </button>
-
-      {/* --- LIVE AI MINITAB --- */}
-      {showAi && (
-        <div className="ai-minitab">
-          <div style={{ padding: '1rem', borderBottom: '1px solid var(--border-light)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: 'var(--bg-secondary)' }}>
-            <span style={{ fontWeight: 600, fontSize: '0.9rem' }}>Live AI Assistant</span>
-            <span style={{ fontSize: '0.7rem', opacity: 0.6 }}>Gemini 2.0 Flash</span>
-          </div>
-          <div style={{ height: '400px', overflow: 'hidden', position: 'relative' }}>
-            {/* Scale down the demo to fit the mini tab */}
-            <div style={{ transform: 'scale(0.7)', transformOrigin: 'top center', height: '100%' }}>
-              <LiveAIDemo />
-            </div>
-          </div>
-        </div>
-      )}
-
     </div>
   );
 }
+

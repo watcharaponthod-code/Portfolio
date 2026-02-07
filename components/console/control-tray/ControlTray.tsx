@@ -25,6 +25,7 @@ import { AudioRecorder } from '../../../lib/audio-recorder';
 
 import { useLiveAPIContext } from '../../../contexts/LiveAPIContext';
 import { useUI } from '@/lib/state';
+import { saveToMemory } from '@/lib/memory';
 
 export type ControlTrayProps = {
   children?: ReactNode;
@@ -50,6 +51,21 @@ function ControlTray({ children }: ControlTrayProps) {
       connectButtonRef.current.focus();
     }
   }, [connected]);
+
+  useEffect(() => {
+    const onLog = (log: any) => {
+      if (log.type === 'server.content' && log.message?.serverContent?.modelTurn?.parts) {
+        const text = log.message.serverContent.modelTurn.parts.map((p: any) => p.text).join(' ');
+        if (text) saveToMemory('model', text);
+      }
+      if (log.type === 'client.send' && Array.isArray(log.message)) {
+        const text = log.message.map((p: any) => p.text).join(' ');
+        if (text) saveToMemory('user', text);
+      }
+    };
+    client.on('log', onLog);
+    return () => client.off('log', onLog);
+  }, [client]);
 
   useEffect(() => {
     const onData = (base64: string) => {

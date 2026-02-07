@@ -1,5 +1,6 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { GoogleGenAI } from "@google/genai";
+import { TbMessageCircle, TbTerminal, TbCpu } from 'react-icons/tb';
 import { getRelevantContext } from '@/lib/knowledge';
 
 export default function AIPlayground() {
@@ -11,6 +12,21 @@ export default function AIPlayground() {
   const [traceStep, setTraceStep] = useState<number>(0);
 
   const bottomRef = useRef<HTMLDivElement>(null);
+
+  // Scroll Reveal Observer
+  useEffect(() => {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.scroll-reveal').forEach((el) => observer.observe(el));
+
+    return () => observer.disconnect();
+  }, []);
 
   const generate = async () => {
     if (!input.trim()) return;
@@ -218,6 +234,112 @@ export default function AIPlayground() {
         @media (max-width: 900px) {
           .playground-layout {
             flex-direction: column !important;
+          }
+        }
+      `}</style>
+
+      {/* --- RAG ARCHITECTURE DIAGRAM --- */}
+      <div className="scroll-reveal reveal-left" style={{ marginTop: '6rem', borderTop: '1px solid var(--border-light)', paddingTop: '4rem' }}>
+        <div className="label" style={{ marginBottom: '1rem', textAlign: 'center' }}>System Intelligence</div>
+        <h2 style={{ textAlign: 'center', marginBottom: '4rem' }}>How this RAG works</h2>
+
+        <div style={{ position: 'relative', maxWidth: '1000px', margin: '0 auto', padding: '2rem', background: 'var(--bg-secondary)', borderRadius: '16px' }}>
+          <div className="diagram-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '1.5rem', position: 'relative', zIndex: 1 }}>
+
+            {/* Step 1: User Query */}
+            <div className="diagram-node" style={{ textAlign: 'center' }}>
+              <div className="node-icon" style={{ width: '60px', height: '60px', background: 'black', borderRadius: '12px', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 1rem' }}>
+                <TbMessageCircle size={30} />
+              </div>
+              <div className="mono" style={{ fontWeight: 700, fontSize: '0.8rem', marginBottom: '0.5rem' }}>1. INPUT</div>
+              <p style={{ fontSize: '0.75rem', opacity: 0.7 }}>User asks a question via UI.</p>
+            </div>
+
+            {/* Step 2: Retrieval */}
+            <div className="diagram-node" style={{ textAlign: 'center' }}>
+              <div className="node-icon" style={{ width: '60px', height: '60px', background: 'white', border: '2px solid black', borderRadius: '12px', color: 'black', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 1rem' }}>
+                <TbTerminal size={30} />
+              </div>
+              <div className="mono" style={{ fontWeight: 700, fontSize: '0.8rem', marginBottom: '0.5rem' }}>2. RETRIEVAL</div>
+              <p style={{ fontSize: '0.75rem', opacity: 0.7 }}>System searches Site-wide Knowledge Database.</p>
+            </div>
+
+            {/* Step 3: Augmentation */}
+            <div className="diagram-node" style={{ textAlign: 'center' }}>
+              <div className="node-icon" style={{ width: '60px', height: '60px', background: 'white', border: '2px solid black', borderRadius: '12px', color: 'black', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 1rem' }}>
+                <TbCpu size={30} />
+              </div>
+              <div className="mono" style={{ fontWeight: 700, fontSize: '0.8rem', marginBottom: '0.5rem' }}>3. CONTEXT</div>
+              <p style={{ fontSize: '0.75rem', opacity: 0.7 }}>Retrieved data is injected into the AI prompt.</p>
+            </div>
+
+            {/* Step 4: Generation */}
+            <div className="diagram-node" style={{ textAlign: 'center' }}>
+              <div className="node-icon" style={{ width: '60px', height: '60px', background: 'black', borderRadius: '12px', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 1rem' }}>
+                <svg width="30" height="30" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="30" cy="45" r="9" fill="white" />
+                  <circle cx="70" cy="45" r="9" fill="white" />
+                  <rect x="30" y="65" width="40" height="10" rx="5" fill="white" />
+                </svg>
+              </div>
+              <div className="mono" style={{ fontWeight: 700, fontSize: '0.8rem', marginBottom: '0.5rem' }}>4. GENERATE</div>
+              <p style={{ fontSize: '0.75rem', opacity: 0.7 }}>Gemini generates answer based ONLY on context.</p>
+            </div>
+          </div>
+
+          {/* Connection Lines (Desktop Only) */}
+          <div className="diagram-lines" style={{ position: 'absolute', top: '50px', left: '15%', right: '15%', height: '2px', background: 'rgba(0,0,0,0.1)', zIndex: 0 }}>
+            <div className="flow-dot" style={{ position: 'absolute', width: '8px', height: '8px', background: 'black', borderRadius: '50%', top: '-3px' }}></div>
+          </div>
+        </div>
+
+        <div style={{ marginTop: '4rem', maxWidth: '900px', margin: '4rem auto 0' }}>
+          <h3 className="mono" style={{ fontSize: '1.2rem', marginBottom: '1.5rem', color: 'var(--text-primary)' }}>Architecture Deep Dive</h3>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '2.5rem', textAlign: 'left' }}>
+            <div>
+              <h4 className="mono" style={{ fontSize: '0.9rem', color: 'var(--accent-primary)', marginBottom: '1rem' }}>// The Knowledge Base</h4>
+              <p style={{ fontSize: '0.95rem', lineHeight: '1.6' }}>
+                The system utilizes a structured local knowledge base indexed by semantic keywords. This index covers every section of this portfolio—from project metrics to engineering philosophies—ensuring the AI has a comprehensive understanding of the developer's background.
+              </p>
+            </div>
+            <div>
+              <h4 className="mono" style={{ fontSize: '0.9rem', color: 'var(--accent-primary)', marginBottom: '1rem' }}>// Contextual Retrieval</h4>
+              <p style={{ fontSize: '0.95rem', lineHeight: '1.6' }}>
+                Instead of generic prompting, the system performs a multi-stage retrieval process. It analyzes the user query, extracts intent, and fetches only the most relevant context blocks. This "Augmentation" phase significantly reduces hallucinations and ensures factual accuracy.
+              </p>
+            </div>
+            <div>
+              <h4 className="mono" style={{ fontSize: '0.9rem', color: 'var(--accent-primary)', marginBottom: '1rem' }}>// Decision Logic</h4>
+              <p style={{ fontSize: '0.95rem', lineHeight: '1.6' }}>
+                The engine uses a deterministic matching algorithm. It parses the user query for specific "Intents" which are mapped against a Keyword Matrix of the entire site. If a query matches "Projects", the system pulls technical specs; if it relates to "Identity", it pulls philosophical context. This ensures the AI always speaks with the "Ground Truth" of this portfolio.
+              </p>
+            </div>
+          </div>
+
+          <div style={{ marginTop: '3rem', padding: '1.5rem', borderLeft: '2px solid black', background: 'white' }}>
+            <p style={{ fontSize: '0.95rem', color: 'var(--text-secondary)', fontStyle: 'italic', margin: 0 }}>
+              "By combining Gemini 1.5 Flash's inference capabilities with a precision-tuned local retrieval engine, we achieve a high-performance RAG pipeline that delivers sub-second, context-aware responses without the overhead of heavy vector databases."
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <style>{`
+        .flow-dot {
+          animation: moveDot 4s linear infinite;
+        }
+        @keyframes moveDot {
+          0% { left: 0%; opacity: 0; }
+          20% { opacity: 1; }
+          80% { opacity: 1; }
+          100% { left: 100%; opacity: 0; }
+        }
+        @media (max-width: 768px) {
+          .diagram-grid {
+            grid-template-columns: 1fr !important;
+          }
+          .diagram-lines {
+            display: none;
           }
         }
       `}</style>
