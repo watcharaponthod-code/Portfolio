@@ -21,7 +21,7 @@ Welcome to my next-generation portfolio! This project isn't just a static resume
 - **AI Integration**: [Google Generative AI (Gemini)](https://ai.google.dev/)
 - **State Management**: [Zustand](https://github.com/pmndrs/zustand)
 - **Styling**: Vanilla CSS (Modern Custom Properties)
-- **Deployment**: [Vercel](https://vercel.com/)
+- **Deployment**: [Vercel](https://vercel.com/).
 
 ---
 
