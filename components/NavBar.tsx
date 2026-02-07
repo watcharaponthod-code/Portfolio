@@ -1,12 +1,18 @@
 
 import { useUI, ViewType } from '@/lib/state';
 import classNames from 'classnames';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { TbMenu2, TbX } from 'react-icons/tb';
 
 export default function NavBar() {
   const { currentView, setView, heroAnimationComplete } = useUI();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isReady, setIsReady] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setIsReady(true), 1500);
+    return () => clearTimeout(timer);
+  }, []);
 
   const navItems: { id: ViewType; label: string }[] = [
     { id: 'landing', label: 'Home' },
@@ -25,7 +31,7 @@ export default function NavBar() {
 
   return (
     <>
-      <nav className={classNames('navbar', { 'visible': heroAnimationComplete })}>
+      <nav className={classNames('navbar', { 'visible': isReady || heroAnimationComplete || currentView !== 'landing' })}>
         <div className="logo mono" style={{ fontWeight: 800, fontSize: '1.2rem', letterSpacing: '-0.05em' }}>
           WATCHARAPON<span style={{ color: 'var(--accent-primary)', opacity: 0.5 }}>.DEV</span>
         </div>

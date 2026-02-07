@@ -44,7 +44,7 @@ export default function Landing() {
           clearInterval(nameTimer);
           setStage(1);
 
-          // Start typing Role after Name finishes + 300ms
+          // Start typing Role after Name finishes + 200ms
           setTimeout(() => {
             roleTimer = setInterval(() => {
               setRoleText(fullRole.slice(0, roleIndex + 1));
@@ -53,11 +53,11 @@ export default function Landing() {
                 clearInterval(roleTimer);
                 setStage(2);
               }
-            }, 50); // Faster for role
-          }, 300);
+            }, 30); // Faster for role
+          }, 200);
         }
-      }, 100); // Slower for name
-    }, 500);
+      }, 70); // Slower for name
+    }, 300);
 
     return () => {
       clearTimeout(startTyping);
@@ -106,8 +106,13 @@ export default function Landing() {
     if (!ctx) return;
 
     const updateSize = () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
+      if (canvas.parentElement) {
+        canvas.width = canvas.parentElement.clientWidth;
+        canvas.height = canvas.parentElement.clientHeight;
+      } else {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      }
     };
     updateSize();
 
@@ -203,14 +208,14 @@ export default function Landing() {
         <div className="container hero-content" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center', height: '100vh', paddingTop: 0, position: 'relative', zIndex: 2 }}>
 
           {/* Glitchy/Typewriter Name */}
-          <h1 className="hero-name-container" style={{ marginBottom: '1rem', width: '100%', minHeight: '12rem' }}>
+          <h1 className="hero-name-container" style={{ marginBottom: '1rem', width: '100%', minHeight: 'auto' }}>
             <div className="mono hero-name" style={{
-              fontSize: 'clamp(4rem, 15vw, 12rem)',
+              fontSize: 'clamp(2.5rem, 12vw, 8rem)',
               fontWeight: 800,
               letterSpacing: '-0.05em',
               lineHeight: '0.9',
               color: 'inherit',
-              wordBreak: 'break-all'
+              wordWrap: 'break-word'
             }}>
               {stage < 1 ? nameText : glitchName}
               {stage === 0 && <span className="cursor-blink">_</span>}
@@ -219,19 +224,19 @@ export default function Landing() {
 
           {/* Subtitle */}
           <div className="hero-subtitle" style={{
-            fontSize: 'clamp(1rem, 3vw, 2rem)',
+            fontSize: 'clamp(0.875rem, 2.5vw, 1.5rem)',
             fontWeight: 400,
             color: 'inherit',
             opacity: 0.8,
             fontFamily: 'var(--font-mono)',
-            marginTop: '1rem',
-            letterSpacing: '0.1em',
+            marginTop: '0.5rem',
+            letterSpacing: '0.05em',
             textTransform: 'uppercase',
-            minHeight: '2.5rem'
+            minHeight: '1.5rem'
           }}>
             {stage >= 1 && (
               <>
-                <span className="hero-prompt-char" style={{ opacity: 0.9, marginRight: '10px' }}>&gt;</span>
+                <span className="hero-prompt-char" style={{ opacity: 0.9, marginRight: '8px' }}>&gt;</span>
                 {roleText}
                 <span className="cursor-blink">_</span>
               </>
@@ -244,11 +249,11 @@ export default function Landing() {
       <style>{`
         @media (max-width: 768px) {
           .hero-name {
-            font-size: clamp(3rem, 12vw, 5rem) !important;
-            letter-spacing: -0.02em !important;
+            font-size: clamp(2.5rem, 10vw, 4rem) !important;
+            letter-spacing: -0.01em !important;
           }
           .hero-name-container {
-            min-height: 8rem !important;
+            min-height: 5rem !important;
           }
           .hero-subtitle {
             font-size: 0.9rem !important;
