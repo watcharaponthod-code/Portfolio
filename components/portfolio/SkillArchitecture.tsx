@@ -21,6 +21,7 @@ import {
 import { FaDatabase, FaProjectDiagram } from 'react-icons/fa';
 import { VscSettings } from 'react-icons/vsc';
 import { BsLayersHalf } from 'react-icons/bs';
+import GlitchText from '../visuals/GlitchText';
 
 export default function SkillArchitecture() {
   const domains = [
@@ -73,8 +74,8 @@ export default function SkillArchitecture() {
             02 / Engineering Competency
           </div>
           <h1 style={{ fontSize: 'clamp(2rem, 4vw, 3.5rem)', fontWeight: 800, lineHeight: 1.1 }}>
-            Architecture &<br />
-            Technical Stack.
+            <GlitchText text="Architecture &" /><br />
+            <GlitchText text="Technical Stack." />
           </h1>
           <p className="mono" style={{ marginTop: '1.5rem', color: 'var(--text-secondary)', maxWidth: '500px' }}>
             Industrial-grade implementation strategies for scalable systems and complex data processing.
