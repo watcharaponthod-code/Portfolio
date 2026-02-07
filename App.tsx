@@ -19,6 +19,7 @@ import { useState, useEffect } from 'react';
 import LiveAIDemo from './components/portfolio/LiveAIDemo';
 import AIPlayground from './components/portfolio/AIPlayground';
 import MatrixRain from './components/visuals/MatrixRain';
+import GlitchText from './components/visuals/GlitchText';
 
 const API_KEY = process.env.GEMINI_API_KEY as string;
 if (typeof API_KEY !== 'string') {
@@ -86,7 +87,7 @@ function App() {
             zIndex: 10,
             overflow: 'hidden'
           }}>
-            <MatrixRain opacity={0.6} isDark={true} />
+            <MatrixRain opacity={0.8} isDark={true} />
             <div
               style={{
                 position: 'absolute', top: 0, left: 0, right: 0, bottom: 0,
@@ -99,7 +100,9 @@ function App() {
               <div className="mono" style={{ fontSize: '0.8rem', color: 'rgba(255,255,255,0.4)', marginBottom: '1.5rem', textTransform: 'uppercase', letterSpacing: '0.2em' }}>
                 End of Page
               </div>
-              <h1 style={{ marginBottom: '1rem', fontSize: 'clamp(2.5rem, 6vw, 5rem)', color: 'white' }}>Talk with My AI</h1>
+              <h1 style={{ marginBottom: '1rem', fontSize: 'clamp(2.5rem, 6vw, 5rem)', color: 'white' }}>
+                <GlitchText text="Talk with My AI" />
+              </h1>
               <p style={{ margin: '0 auto 3rem', maxWidth: '600px', color: 'rgba(255,255,255,0.7)' }}>
                 Have specific questions about my experience or technical choices?
                 My AI twin is trained on my entire career history and project data.

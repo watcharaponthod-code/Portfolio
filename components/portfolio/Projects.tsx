@@ -1,3 +1,5 @@
+import GlitchText from '../visuals/GlitchText';
+
 export default function Projects() {
   const projects = [
     {
@@ -31,8 +33,8 @@ export default function Projects() {
             04 / Selected Works
           </div>
           <h1 style={{ fontSize: 'clamp(2.2rem, 5vw, 4rem)', fontWeight: 800, lineHeight: 1 }}>
-            Deep Dives &<br />
-            Case Studies.
+            <GlitchText text="Deep Dives &" /><br />
+            <GlitchText text="Case Studies." />
           </h1>
         </header>
 

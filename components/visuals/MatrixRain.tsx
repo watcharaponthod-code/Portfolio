@@ -26,33 +26,40 @@ export default function MatrixRain({ isDark = true, opacity = 0.4 }: MatrixRainP
         updateSize();
 
         const binary = '10';
-        const fontSize = 16;
-        const columns = Math.floor(canvas.width / fontSize);
+        const fontSize = 14;
+        const colStep = 10; // Much denser columns
+        const columns = Math.floor(canvas.width / colStep);
         const drops: number[] = [];
 
         for (let x = 0; x < columns; x++) {
-            drops[x] = Math.random() * -100; // Staggered start
+            drops[x] = Math.random() * -100;
         }
 
         const draw = () => {
-            ctx.fillStyle = isDark ? 'rgba(0, 0, 0, 0.05)' : 'rgba(255, 255, 255, 0.05)';
+            // Lower alpha clear for longer trails, higher contrast
+            ctx.fillStyle = isDark ? 'rgba(0, 0, 0, 0.08)' : 'rgba(255, 255, 255, 0.08)';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-            ctx.font = `${fontSize}px monospace`;
+            ctx.font = `bold ${fontSize}px var(--font-mono)`;
 
             for (let i = 0; i < drops.length; i++) {
                 const text = binary.charAt(Math.floor(Math.random() * binary.length));
 
-                ctx.fillStyle = isDark ? '#404040' : '#d4d4d4';
-                if (Math.random() > 0.95) ctx.fillStyle = isDark ? '#ffffff' : '#000000';
+                // High contrast base color
+                ctx.fillStyle = isDark ? 'rgba(255, 255, 255, 0.35)' : 'rgba(0, 0, 0, 0.35)';
 
-                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+                // Highlight 25% of the characters for 'clearly visible' effect
+                if (Math.random() > 0.75) {
+                    ctx.fillStyle = isDark ? '#ffffff' : '#000000';
+                }
 
-                if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                ctx.fillText(text, i * colStep, drops[i] * fontSize);
+
+                if (drops[i] * fontSize > canvas.height && Math.random() > 0.985) {
                     drops[i] = 0;
                 }
 
-                drops[i]++;
+                drops[i] += 1.2; // Faster speed
             }
         };
 

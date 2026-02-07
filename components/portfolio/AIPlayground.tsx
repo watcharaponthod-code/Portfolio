@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import { GoogleGenAI } from "@google/genai";
 import { TbMessageCircle, TbTerminal, TbCpu } from 'react-icons/tb';
 import { getRelevantContext } from '@/lib/knowledge';
+import GlitchText from '../visuals/GlitchText';
 
 export default function AIPlayground() {
   const [input, setInput] = useState('');
@@ -94,7 +95,9 @@ export default function AIPlayground() {
         {/* Left Column: Interaction */}
         <div style={{ flex: 1, display: 'flex', flexDirection: 'column', minWidth: 0 }}>
           <div style={{ marginBottom: '2rem' }}>
-            <h1 style={{ fontSize: 'clamp(2rem, 5vw, 3.5rem)', marginBottom: '1rem' }}>AI System Sandbox</h1>
+            <h1 style={{ fontSize: 'clamp(2rem, 5vw, 3.5rem)', marginBottom: '1rem' }}>
+              <GlitchText text="AI System Sandbox" />
+            </h1>
             <p className="mono" style={{ fontSize: '0.9rem' }}>
               Test the retrieval-augmented generation pipeline.
             </p>

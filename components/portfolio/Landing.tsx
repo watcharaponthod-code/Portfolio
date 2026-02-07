@@ -72,6 +72,14 @@ export default function Landing() {
   const [glitchName, setGlitchName] = useState(fullName);
   const glitchChars = "!@#$%^&*()_+{}[]:;<>?";
 
+  // Auto-switch Hero Theme (Every 3s)
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setIsHeroDark(prev => !prev);
+    }, 3000);
+    return () => clearInterval(interval);
+  }, []);
+
   // Scramble/Glitch Animation every 2s (1-2 chars)
   useEffect(() => {
     if (stage === 0 && nameText.length < fullName.length) return;
@@ -148,7 +156,7 @@ export default function Landing() {
         }}
       >
 
-        <MatrixRain isDark={isHeroDark} opacity={isHeroDark ? 0.4 : 0.2} />
+        <MatrixRain isDark={isHeroDark} opacity={isHeroDark ? 0.7 : 0.4} />
         <div
           className="hero-overlay"
           style={{

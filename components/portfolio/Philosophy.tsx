@@ -1,4 +1,5 @@
 import mineImg from '@/imge/mine.jpg';
+import GlitchText from '../visuals/GlitchText';
 
 export default function Philosophy() {
   return (
@@ -39,8 +40,8 @@ export default function Philosophy() {
               01 / Introduction
             </div>
             <h1 style={{ fontSize: 'clamp(2.2rem, 5vw, 4rem)', fontWeight: 800, lineHeight: '1.1', marginBottom: '2rem' }}>
-              Building the Future,<br />
-              <span style={{ color: 'var(--text-tertiary)' }}>One system at a time.</span>
+              <GlitchText text="Building the Future," /><br />
+              <span style={{ color: 'var(--text-tertiary)' }}><GlitchText text="One system at a time." /></span>
             </h1>
           </header>
 
