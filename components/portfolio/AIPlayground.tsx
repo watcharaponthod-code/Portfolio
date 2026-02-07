@@ -1,16 +1,6 @@
-
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef } from 'react';
 import { GoogleGenAI } from "@google/genai";
-import classNames from 'classnames';
-
-// Mock context for RAG demo
-const RAG_CONTEXT = `
-Watcharapon is a Senior Systems Engineer based in San Francisco.
-Key skills: React, TypeScript, Node.js, Kubernetes, Google Cloud.
-Experience: 8 years building high-scale SaaS platforms.
-Philosophy: "Building production-grade systems, not just interfaces."
-Recent Project: Enterprise RAG Platform processing 500k documents.
-`;
+import { getRelevantContext } from '@/lib/knowledge';
 
 export default function AIPlayground() {
   const [input, setInput] = useState('');
@@ -41,9 +31,10 @@ export default function AIPlayground() {
       setTimeout(() => setTraceStep(3), 600); // Model Inference Start
 
       // Construct Prompt
-      const systemPrompt = "You are a technical assistant. Be concise.";
+      const systemPrompt = "You are a technical assistant. Be concise. Answer based on the provided context about Watcharapon.";
+      const context = useRAG ? getRelevantContext(input) : "";
       const finalPrompt = useRAG
-        ? `Context:\n${RAG_CONTEXT}\n\nUser Question: ${input}`
+        ? `Context:\n${context}\n\nUser Question: ${input}`
         : input;
 
       const response = await ai.models.generateContentStream({
@@ -213,7 +204,7 @@ export default function AIPlayground() {
                 maxHeight: '150px'
               }}>
                 {useRAG
-                  ? `User: ${input}\n+ Context: [${RAG_CONTEXT.substring(0, 30)}...]`
+                  ? `User: ${input}\n+ Context: [${getRelevantContext(input).substring(0, 50)}...]`
                   : `User: ${input}`
                 }
               </div>
