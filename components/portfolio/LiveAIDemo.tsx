@@ -3,6 +3,7 @@ import { Modality } from '@google/genai';
 import { useLiveAPIContext } from '@/contexts/LiveAPIContext';
 import { useAgent, useUser } from '@/lib/state';
 import { createSystemInstructions } from '@/lib/prompts';
+import { getMemoryString } from '@/lib/memory';
 import ControlTray from '@/components/console/control-tray/ControlTray';
 import BasicFace from '@/components/demo/basic-face/BasicFace';
 
@@ -36,6 +37,11 @@ export default function LiveAIDemo() {
     5. Use slightly tired but cool tone.
     `;
 
+    const memoryContext = getMemoryString();
+    const finalInstructions = baseInstructions +
+      (lang === 'th' ? thaiInstruction : englishInstruction) +
+      (memoryContext ? `\n\n--- RECENT CONVERSATION HISTORY (SHORT-TERM MEMORY) ---\n${memoryContext}\n-------------------------------------------------------` : "");
+
     setConfig({
       responseModalities: [Modality.AUDIO],
       speechConfig: {
@@ -46,7 +52,7 @@ export default function LiveAIDemo() {
       systemInstruction: {
         parts: [
           {
-            text: baseInstructions + (lang === 'th' ? thaiInstruction : englishInstruction),
+            text: finalInstructions,
           },
         ],
       },
