@@ -295,11 +295,27 @@ p {
 
 @media (max-width: 768px) {
   .container {
-    padding: 0 1rem;
+    padding: 0 2rem;
   }
 
   .section {
     padding: 3rem 0;
+  }
+
+  /* Prevent text overflow */
+  h1,
+  h2,
+  h3,
+  p {
+    overflow-wrap: break-word;
+    /* Ensure long words break */
+    hyphens: auto;
+  }
+
+  /* Add paragraph indentation */
+  p {
+    text-indent: 1.5rem;
+    margin-bottom: 1rem;
   }
 }
 

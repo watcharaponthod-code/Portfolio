@@ -1,5 +1,6 @@
 import mineImg from '@/imge/mine.jpg';
 import GlitchText from '../visuals/GlitchText';
+import SectionHeader from './SectionHeader';
 
 export default function Philosophy() {
   return (
@@ -35,19 +36,15 @@ export default function Philosophy() {
 
         {/* Right Column: Narrative */}
         <div className="stagger-item">
-          <header style={{ marginBottom: '4rem' }}>
-            <div className="mono" style={{ color: 'var(--text-tertiary)', marginBottom: '1rem', letterSpacing: '0.2em', textTransform: 'uppercase', fontSize: '0.8rem' }}>
-              01 / Introduction
-            </div>
-            <h1 style={{ fontSize: 'clamp(2.2rem, 5vw, 4rem)', fontWeight: 800, lineHeight: '1.1', marginBottom: '2rem' }}>
-              <GlitchText text="Building the Future," /><br />
-              <span style={{ color: 'var(--text-tertiary)' }}><GlitchText text="One system at a time." /></span>
-            </h1>
-          </header>
+          <SectionHeader
+            subtitle="01 / INTRODUCTION"
+            titleLines={["Building the Future,", "One system at a time."]}
+          />
 
           <div style={{ display: 'grid', gap: '3rem', maxWidth: '600px' }}>
             <div>
               <p style={{ fontSize: 'clamp(1.1rem, 2vw, 1.25rem)', lineHeight: '1.6', color: 'var(--text-secondary)' }}>
+
                 I am a full-stack systems engineer based in Bangkok, specializing in building robust,
                 scalable applications that bridge the gap between complex backend logic and seamless user experiences.
               </p>

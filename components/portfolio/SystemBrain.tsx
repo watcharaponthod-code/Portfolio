@@ -1,6 +1,7 @@
 import { useState, useMemo } from 'react';
 import { TbBrandReact, TbCloudComputing, TbDatabase, TbSettingsAutomation, TbCpu } from 'react-icons/tb';
 import GlitchText from '../visuals/GlitchText';
+import SectionHeader from './SectionHeader';
 
 interface Node {
   id: string;
@@ -62,15 +63,10 @@ export default function SystemBrain() {
 
   return (
     <div className="section container" style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-      <header style={{ marginBottom: '4rem' }}>
-        <div className="mono" style={{ color: 'var(--text-tertiary)', marginBottom: '1rem', letterSpacing: '0.2em', textTransform: 'uppercase', fontSize: '0.8rem' }}>
-          03 / System Architecture
-        </div>
-        <h1 style={{ fontSize: 'clamp(2.5rem, 5.5vw, 6rem)', fontWeight: 800, lineHeight: 1, letterSpacing: '-0.04em' }}>
-          <GlitchText text="Interactive" /><br />
-          <GlitchText text="System Map." />
-        </h1>
-      </header>
+      <SectionHeader
+        subtitle="03 / SYSTEM ARCHITECTURE"
+        titleLines={["Interactive", "System Map."]}
+      />
 
       {/* Desktop Diagram Container */}
       <div className="desktop-diagram" style={{
