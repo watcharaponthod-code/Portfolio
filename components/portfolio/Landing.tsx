@@ -242,8 +242,7 @@ export default function Landing() {
 
       <div id="system" className="scroll-reveal reveal-left" style={{ position: 'relative', zIndex: 10, background: 'var(--bg-primary)' }}>
         <div className="container section">
-          <h2 style={{ marginBottom: '2rem' }}>System Architecture</h2>
-          <SystemBrain />
+          <SystemBrain /> 
         </div>
       </div>
 
