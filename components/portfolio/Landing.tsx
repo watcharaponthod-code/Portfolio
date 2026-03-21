@@ -1,18 +1,16 @@
 import { useEffect, useRef, useState } from 'react';
 import { useUI } from '@/lib/state';
-import { TbCpu, TbApps, TbUserCircle, TbTerminal, TbMessageCircle, TbX } from 'react-icons/tb';
+import { TbArrowDown, TbBrandGithub, TbMail } from 'react-icons/tb';
 
 // Sections
 import Philosophy from './Philosophy';
 import SkillArchitecture from './SkillArchitecture';
 import SystemBrain from './SystemBrain';
 import Projects from './Projects';
-import LiveAIDemo from './LiveAIDemo';
 import MatrixRain from '../visuals/MatrixRain';
 
 export default function Landing() {
-  const { setHeroAnimationComplete } = useUI();
-  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const { setHeroAnimationComplete, setView } = useUI();
   const [showAi, setShowAi] = useState(false);
 
   // Typewriter State
@@ -36,7 +34,6 @@ export default function Landing() {
     let nameTimer: NodeJS.Timeout;
     let roleTimer: NodeJS.Timeout;
 
-    // Start typing Name after 500ms
     const startTyping = setTimeout(() => {
       nameTimer = setInterval(() => {
         setNameText(fullName.slice(0, nameIndex + 1));
@@ -44,8 +41,6 @@ export default function Landing() {
         if (nameIndex === fullName.length) {
           clearInterval(nameTimer);
           setStage(1);
-
-          // Start typing Role after Name finishes + 200ms
           setTimeout(() => {
             roleTimer = setInterval(() => {
               setRoleText(fullRole.slice(0, roleIndex + 1));
@@ -54,10 +49,10 @@ export default function Landing() {
                 clearInterval(roleTimer);
                 setStage(2);
               }
-            }, 30); // Faster for role
+            }, 30);
           }, 200);
         }
-      }, 70); // Slower for name
+      }, 70);
     }, 300);
 
     return () => {
@@ -80,7 +75,7 @@ export default function Landing() {
     return () => clearInterval(interval);
   }, []);
 
-  // Scramble/Glitch Animation every 2s (1-2 chars)
+  // Scramble/Glitch Animation every 2s
   useEffect(() => {
     if (stage === 0 && nameText.length < fullName.length) return;
 
@@ -99,14 +94,11 @@ export default function Landing() {
       });
 
       setGlitchName(nameArray.join(''));
-
       setTimeout(() => setGlitchName(fullName), 300);
     }, 2000);
 
     return () => clearInterval(interval);
   }, [stage, nameText]);
-
-
 
   // Scroll Reveal Observer
   useEffect(() => {
@@ -120,10 +112,8 @@ export default function Landing() {
 
     document.querySelectorAll('.scroll-reveal').forEach((el) => observer.observe(el));
 
-    // Handle global CTA toggle
     const handleToggle = () => {
       setShowAi(true);
-      // Wait for state update then scroll to mini-tab if needed
       setTimeout(() => {
         window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
       }, 100);
@@ -136,15 +126,21 @@ export default function Landing() {
     };
   }, []);
 
-
   const scrollToSection = (id: string) => {
     const el = document.getElementById(id);
     if (el) el.scrollIntoView({ behavior: 'smooth' });
   };
 
+  const heroStats = [
+    { value: "B.Sc. CS", label: "KU CO-OP" },
+    { value: "5+", label: "Enterprise Proj" },
+    { value: "3", label: "Hackathons" },
+    { value: "Available", label: "For Hire" },
+  ];
+
   return (
     <div className="landing-page" style={{ background: 'var(--bg-primary)', color: 'var(--text-primary)' }}>
-      {/* ... Hero Section ... */}
+      {/* Hero Section */}
       <div
         className="hero-section"
         style={{
@@ -155,7 +151,6 @@ export default function Landing() {
           transition: 'background 0.5s ease, color 0.5s ease'
         }}
       >
-
         <MatrixRain isDark={isHeroDark} opacity={isHeroDark ? 0.7 : 0.4} />
         <div
           className="hero-overlay"
@@ -169,10 +164,30 @@ export default function Landing() {
           }}
         />
 
-        <div className="container hero-content" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center', height: '100vh', paddingTop: 0, position: 'relative', zIndex: 2 }}>
+        <div className="container hero-content" style={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          textAlign: 'center',
+          height: '100vh',
+          paddingTop: 0,
+          position: 'relative',
+          zIndex: 2
+        }}>
+          {/* Location badge */}
+          <div className="hero-location-badge mono" style={{
+            marginBottom: '2rem',
+            opacity: stage >= 1 ? 1 : 0,
+            transition: 'opacity 0.5s ease',
+            color: 'inherit',
+          }}>
+            <span style={{ opacity: 0.5, marginRight: '0.5rem' }}>●</span>
+            Bangkok, Thailand
+          </div>
 
-          {/* Glitchy/Typewriter Name */}
-          <h1 className="hero-name-container" style={{ marginBottom: '1rem', width: '100%', minHeight: 'auto' }}>
+          {/* Name */}
+          <h1 className="hero-name-container" style={{ marginBottom: '0.5rem', width: '100%', minHeight: 'auto' }}>
             <div className="mono hero-name" style={{
               fontSize: 'clamp(2.5rem, 12vw, 8rem)',
               fontWeight: 800,
@@ -186,14 +201,14 @@ export default function Landing() {
             </div>
           </h1>
 
-          {/* Subtitle */}
+          {/* Role subtitle */}
           <div className="hero-subtitle" style={{
             fontSize: 'clamp(0.875rem, 2.5vw, 1.5rem)',
             fontWeight: 400,
             color: 'inherit',
             opacity: 0.8,
             fontFamily: 'var(--font-mono)',
-            marginTop: '0.5rem',
+            marginTop: '0.75rem',
             letterSpacing: '0.05em',
             textTransform: 'uppercase',
             minHeight: '1.5rem'
@@ -207,10 +222,123 @@ export default function Landing() {
             )}
           </div>
 
+          {/* CTA buttons */}
+          {stage >= 2 && (
+            <div className="hero-ctas" style={{
+              display: 'flex',
+              gap: '1rem',
+              marginTop: '3rem',
+              opacity: 1,
+              animation: 'fadeInUp 0.6s ease forwards',
+            }}>
+              <button
+                onClick={() => scrollToSection('projects')}
+                className="hero-cta-primary mono"
+                style={{
+                  background: isHeroDark ? 'white' : 'black',
+                  color: isHeroDark ? 'black' : 'white',
+                  border: 'none',
+                  padding: '0.85rem 2rem',
+                  fontSize: '0.8rem',
+                  fontWeight: 700,
+                  letterSpacing: '0.1em',
+                  textTransform: 'uppercase',
+                  cursor: 'pointer',
+                  transition: 'opacity 0.2s',
+                }}
+              >
+                VIEW WORKS
+              </button>
+              <button
+                onClick={() => scrollToSection('philosophy')}
+                className="hero-cta-secondary mono"
+                style={{
+                  background: 'transparent',
+                  color: 'inherit',
+                  border: `1px solid ${isHeroDark ? 'rgba(255,255,255,0.4)' : 'rgba(0,0,0,0.4)'}`,
+                  padding: '0.85rem 2rem',
+                  fontSize: '0.8rem',
+                  fontWeight: 700,
+                  letterSpacing: '0.1em',
+                  textTransform: 'uppercase',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s',
+                }}
+              >
+                MY STORY
+              </button>
+            </div>
+          )}
+
+          {/* Quick stats row */}
+          {stage >= 2 && (
+            <div className="hero-stats-row" style={{
+              position: 'absolute',
+              bottom: '6rem',
+              left: 0,
+              right: 0,
+              display: 'flex',
+              justifyContent: 'center',
+              gap: '0',
+              padding: '0 4rem',
+              animation: 'fadeInUp 0.8s 0.3s ease forwards',
+              opacity: 0,
+            }}>
+              {heroStats.map((s, i) => (
+                <div key={i} className="hero-stat-item" style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  padding: '1rem 2rem',
+                  borderRight: i < heroStats.length - 1 ? `1px solid ${isHeroDark ? 'rgba(255,255,255,0.15)' : 'rgba(0,0,0,0.1)'}` : 'none',
+                }}>
+                  <span className="mono" style={{ fontSize: '1.2rem', fontWeight: 800, color: 'inherit' }}>{s.value}</span>
+                  <span className="mono" style={{ fontSize: '0.6rem', color: 'inherit', opacity: 0.5, letterSpacing: '0.1em', textTransform: 'uppercase', marginTop: '0.2rem' }}>{s.label}</span>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {/* Scroll indicator */}
+          {stage >= 2 && (
+            <div
+              onClick={() => scrollToSection('philosophy')}
+              style={{
+                position: 'absolute',
+                bottom: '2.5rem',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                gap: '0.5rem',
+                cursor: 'pointer',
+                animation: 'fadeInUp 1s 0.5s ease forwards',
+                opacity: 0,
+                color: 'inherit',
+              }}
+            >
+              <span className="mono" style={{ fontSize: '0.6rem', opacity: 0.4, letterSpacing: '0.15em', textTransform: 'uppercase' }}>scroll</span>
+              <TbArrowDown size={16} style={{ opacity: 0.4, animation: 'bounce 2s infinite' }} />
+            </div>
+          )}
         </div>
       </div>
 
       <style>{`
+        @keyframes bounce {
+          0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+          40% { transform: translateY(-6px); }
+          60% { transform: translateY(-3px); }
+        }
+
+        .hero-cta-primary:hover {
+          opacity: 0.85 !important;
+        }
+
+        .hero-cta-secondary:hover {
+          border-opacity: 0.8 !important;
+          background: rgba(255,255,255,0.05) !important;
+        }
+
         @media (max-width: 768px) {
           .hero-name {
             font-size: clamp(2.5rem, 10vw, 4rem) !important;
@@ -226,13 +354,22 @@ export default function Landing() {
           .hero-prompt-char {
             display: none;
           }
+          .hero-stats-row {
+            padding: 0 1rem !important;
+            gap: 0 !important;
+          }
+          .hero-stat-item {
+            padding: 0.75rem 1rem !important;
+          }
+          .hero-ctas {
+            flex-direction: column;
+            align-items: center;
+          }
         }
       `}</style>
 
-
-      {/* --- STORY SECTIONS (White Theme) --- */}
-
-      <div id="philosophy" className="scroll-reveal reveal-left" style={{ position: 'relative', zIndex: 10, background: 'var(--bg-primary)', borderTop: '1px solid #333' }}>
+      {/* --- STORY SECTIONS --- */}
+      <div id="philosophy" className="scroll-reveal reveal-left" style={{ position: 'relative', zIndex: 10, background: 'var(--bg-primary)', borderTop: '1px solid #e5e7eb' }}>
         <Philosophy />
       </div>
 
@@ -242,15 +379,13 @@ export default function Landing() {
 
       <div id="system" className="scroll-reveal reveal-left" style={{ position: 'relative', zIndex: 10, background: 'var(--bg-primary)' }}>
         <div className="container section">
-          <SystemBrain /> 
+          <SystemBrain />
         </div>
       </div>
 
       <div id="projects" className="scroll-reveal reveal-right" style={{ position: 'relative', zIndex: 10, background: 'var(--bg-secondary)' }}>
         <Projects />
       </div>
-
     </div>
   );
 }
-
