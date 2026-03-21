@@ -5,22 +5,39 @@
  */
 
 export const CREATOR_IDENTITY = {
-    name: "Watcharapon (Oat)",
-    role: "Full Stack Systems Engineer",
+    name: "Watcharapon Thodraksa (Oat)",
+    role: "Full-Stack Developer | AI Application | Mobile | UX/UI Design",
     location: "Bangkok, Thailand",
-    philosophy: "Building production-grade systems, not just interfaces. Clarity over cleverness.",
+    email: "watcharapon.thod@gmail.com",
+    phone: "094-453-2072",
+    github: "github.com/watcharapon",
+    portfolio: "profiledevai.vercel.app",
+    education: "B.Sc. Computer Science (Co-op Program), Kasetsart University Chalermphrakiat, GPA 2.97 (2022–present)",
+    philosophy: "Building production-grade systems, not just interfaces. Clarity over cleverness. Every technical decision must serve a clear user need.",
     specialties: [
-        "Frontend Architecture (React 19, TypeScript, Next.js)",
-        "Backend Infrastructure (Node.js, Go, Kubernetes)",
-        "AI Integration (Gemini, RAG Pipelines, Agentic Workflows)",
-        "Data Engineering (PostgreSQL, Kafka, ETL)"
+        "Full-Stack Development: React, Next.js, NestJS, FastAPI, Python, TypeScript, Java Spring Boot",
+        "AI & RAG Pipelines: LangChain, LangGraph, LlamaIndex, pgvector, Qdrant, Gemini API, Hugging Face",
+        "Mobile Development: React Native + Gemini API (iOS/Android)",
+        "DevOps & Infrastructure: Docker, Kubernetes, GitLab CI/CD, Apache Kafka, ELK Stack, Prometheus, Grafana",
+        "Database: PostgreSQL, MySQL, MongoDB, Firebase, Redis",
+        "UX/UI Design: Figma, JTBD, Business Model Canvas, Canva, Power BI, n8n"
     ],
     achievements: [
-        "Architected Enterprise RAG Platform processing 500k+ documents.",
-        "Engineered High-Latency Trading UI with sub-50ms visualization.",
-        "Developed Distributed AI Agent Orchestrator Framework."
+        "Built Sycapt AI Enterprise — Full-stack On-Premises RAG system (Next.js, NestJS, Python) with Hybrid Search + Re-ranking, deployed on Kubernetes.",
+        "Solved GPU VRAM 16GB constraint: designed Model Swapping system cycling 4 LLMs using 120GB RAM as buffer.",
+        "Built EDC Geo Map Dashboard visualizing 15,423 Bangkok Bank EDC machines nationwide with real-time filtering (Leaflet.js + FastAPI).",
+        "Developed VHQ SOM Connector Microservice: Event-Driven Kafka integration in 3 phases (Java 21, Spring Boot, ELK Stack).",
+        "Designed full GitLab CI/CD Pipeline: Build → Test → Docker Build → Staging → Production with Auto Rollback on Kubernetes.",
+        "2nd Place Runner-Up — KUSE AI Hackathon 2025 (AI system built in 3 days using ML, Prompt Engineering, Design Thinking).",
+        "Invited Lecturer at KU Chalermphrakiat: React Native + Gemini API workshop (7,500 THB) and Git/GitHub workshop (5,000 THB).",
+        "Freelance: Delivered Donlaya Makeup portfolio website (Next.js, TypeScript, Tailwind CSS) on-time within 3,000 THB budget."
     ],
-    personality: "Technical yet approachable. A 'Tech Bro' who cares about deep system internals but also loves cool UI/UX. Energetic, slightly tired (from coding hard), but always ready to talk about architecture.",
+    awards: [
+        "🥈 2nd Place Runner-Up — KUSE AI Hackathon 2025",
+        "🏆 UI Design-athon 2025 (JTBD + Business Model Canvas)",
+        "🔐 RERU Cyber Hackathon 2025 Open Level (Penetration Testing & Defensive Tools)"
+    ],
+    personality: "Technical yet approachable Thai developer who solves real constraints creatively (like squeezing 4 LLMs into 16GB VRAM). Passionate about AI systems, clean architecture, and teaching. Always ready to talk system design and build things that actually work.",
 };
 
 export const IDENTITY_CONTEXT_STRING = `

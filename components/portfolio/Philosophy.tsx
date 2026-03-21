@@ -44,9 +44,10 @@ export default function Philosophy() {
           <div style={{ display: 'grid', gap: '3rem', maxWidth: '600px' }}>
             <div>
               <p style={{ fontSize: 'clamp(1.1rem, 2vw, 1.25rem)', lineHeight: '1.6', color: 'var(--text-secondary)' }}>
-
-                I am a full-stack systems engineer based in Bangkok, specializing in building robust,
-                scalable applications that bridge the gap between complex backend logic and seamless user experiences.
+                I'm a Full-Stack Developer and AI Engineer from Thailand, currently completing my B.Sc. in Computer Science
+                (Co-op Program) at Kasetsart University. My co-op at Sycapt Co., Ltd. gave me real enterprise experience —
+                from building On-Premises RAG systems to solving hardware constraints creatively,
+                like running 4 LLMs on just 16GB of VRAM.
               </p>
             </div>
 
@@ -55,18 +56,22 @@ export default function Philosophy() {
               <div style={{ display: 'grid', gap: '1.5rem' }}>
                 <p style={{ fontSize: '1rem' }}>
                   <strong style={{ display: 'block', marginBottom: '0.25rem', color: 'var(--text-primary)' }}>Clarity over Cleverness</strong>
-                  I prioritize readable, maintainable code over obscure abstractions. A system is only as good as its weakest link, which is often its maintainability.
+                  Readable, maintainable code over obscure abstractions. A system is only as good as its weakest link — and that's often maintainability.
                 </p>
                 <p style={{ fontSize: '1rem' }}>
                   <strong style={{ display: 'block', marginBottom: '0.25rem', color: 'var(--text-primary)' }}>Impact-Driven Engineering</strong>
-                  Every technical decision—from database schema to infrastructure—must serve a clear user need and advance the business goals.
+                  Every decision — database schema, infrastructure, AI model choice — must serve a clear user need and real business goals.
+                </p>
+                <p style={{ fontSize: '1rem' }}>
+                  <strong style={{ display: 'block', marginBottom: '0.25rem', color: 'var(--text-primary)' }}>Constraint-Driven Innovation</strong>
+                  My best solutions came from hard limits. When you only have 16GB VRAM but need 4 LLMs, you don't give up — you design a smarter system.
                 </p>
               </div>
             </div>
 
             <div className="stagger-item contact-section" style={{ marginTop: '2rem' }}>
-              <div className="mono" style={{ fontSize: '0.8rem', color: 'var(--text-tertiary)', marginBottom: '1rem' }}>Available for contracts & consulting</div>
-              <a href="mailto:hello@watcharapon.dev"
+              <div className="mono" style={{ fontSize: '0.8rem', color: 'var(--text-tertiary)', marginBottom: '1rem' }}>Open to Full-Time & Freelance opportunities</div>
+              <a href="mailto:watcharapon.thod@gmail.com"
                 style={{
                   fontSize: 'clamp(1.2rem, 3vw, 1.5rem)',
                   color: 'var(--text-primary)',
@@ -75,7 +80,7 @@ export default function Philosophy() {
                   borderBottom: '2px solid black',
                   paddingBottom: '4px'
                 }}>
-                hello@watcharapon.dev
+                watcharapon.thod@gmail.com
               </a>
             </div>
           </div>
