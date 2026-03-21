@@ -11,7 +11,7 @@ export const CREATOR_IDENTITY = {
     email: "watcharapon.thod@gmail.com",
     phone: "094-453-2072",
     github: "github.com/watcharapon",
-    portfolio: "profiledevai.vercel.app",
+    portfolio: "portfolio-6kgh9qejh-workabode.vercel.app",
     education: "B.Sc. Computer Science (Co-op Program), Kasetsart University Chalermphrakiat, GPA 2.97 (2022–present)",
     philosophy: "Building production-grade systems, not just interfaces. Clarity over cleverness. Every technical decision must serve a clear user need.",
     specialties: [
