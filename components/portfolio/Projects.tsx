@@ -1,5 +1,6 @@
 import GlitchText from '../visuals/GlitchText';
 import SectionHeader from './SectionHeader';
+import { TbExternalLink } from 'react-icons/tb';
 
 export default function Projects() {
   const projects = [
@@ -8,42 +9,56 @@ export default function Projects() {
       role: "FULL-STACK AI ENGINEER",
       desc: "Built a 100% On-Premises corporate knowledge management system at Sycapt Co., Ltd. Ingests PDF/DOCX/PPTX, converts to vectors via bge-m3, and enables natural language querying with Agentic RAG Pipeline featuring Hybrid Search (Vector + Full-Text) and Re-ranking. Deployed on Kubernetes.",
       stack: ["Next.js", "NestJS", "Python", "LangGraph", "LlamaIndex", "pgvector", "Kubernetes"],
-      metrics: "100% ON-PREMISES · HYBRID SEARCH + RE-RANKING"
+      metrics: "100% ON-PREMISES · HYBRID SEARCH + RE-RANKING",
+      link: null
     },
     {
       title: "EDC Geo Map Dashboard",
       role: "DATA VIZ ENGINEER",
       desc: "Interactive web application visualizing 15,423 Bangkok Bank EDC machines across Thailand on a real-time map. Supports filtering by province, region, machine type, and status. Features CSV export and live Chart.js analytics.",
       stack: ["FastAPI", "SQLAlchemy", "Leaflet.js", "Chart.js", "PostgreSQL"],
-      metrics: "15,423 MACHINES · NATIONWIDE COVERAGE"
+      metrics: "15,423 MACHINES · NATIONWIDE COVERAGE",
+      link: null
     },
     {
       title: "GPU VRAM Model Swapping",
       role: "SYSTEMS ENGINEER",
       desc: "Engineered a solution to run 4 different LLMs on a server with only 16GB VRAM. Designed a Model Swapping system that cycles models in/out of GPU memory, using 120GB RAM as a buffer pool — enabling multi-model inference without hardware upgrades.",
       stack: ["Python", "CUDA", "LangChain", "RAM Buffer Management"],
-      metrics: "4 LLMs ON 16GB VRAM · ZERO HARDWARE UPGRADE"
+      metrics: "4 LLMs ON 16GB VRAM · ZERO HARDWARE UPGRADE",
+      link: null
     },
     {
       title: "VHQ SOM Kafka Connector",
       role: "MICROSERVICE ENGINEER",
       desc: "Developed an Event-Driven microservice connecting Apache Kafka message queues to VHQ API in a 3-phase flow: receive job → send batch → return result. Integrated ELK Stack for centralized logging and observability.",
       stack: ["Java 21", "Spring Boot", "Apache Kafka", "PostgreSQL", "Docker", "ELK Stack"],
-      metrics: "EVENT-DRIVEN · 3-PHASE PIPELINE"
+      metrics: "EVENT-DRIVEN · 3-PHASE PIPELINE",
+      link: null
     },
     {
       title: "React Native AI Workshop App",
       role: "MOBILE DEVELOPER + LECTURER",
       desc: "Built a cross-platform mobile app connecting to Gemini API for AI features on iOS/Android, developed as hands-on educational material for a university workshop. Delivered React Native + Gemini API lecture (7,500 THB) and Git/GitHub workshop (5,000 THB) at Kasetsart University.",
       stack: ["React Native", "Gemini API", "JavaScript"],
-      metrics: "INVITED LECTURER · KU CHALERMPHRAKIAT 2025"
+      metrics: "INVITED LECTURER · KU CHALERMPHRAKIAT 2025",
+      link: null
     },
     {
       title: "Donlaya Makeup Portfolio",
       role: "FREELANCE DEVELOPER",
       desc: "Freelance project via Fastwork: built a fully responsive portfolio website for a professional makeup artist. Delivered on-time with complete Responsive Design support across all devices, within a 3,000 THB budget.",
       stack: ["Next.js", "React", "TypeScript", "Tailwind CSS"],
-      metrics: "DELIVERED ON-TIME · WITHIN BUDGET"
+      metrics: "DELIVERED ON-TIME · WITHIN BUDGET",
+      link: null
+    },
+    {
+      title: "ELIC Application",
+      role: "SENIOR PROJECT (โปรเจ็คจบ)",
+      desc: "Graduation senior project developed as part of the B.Sc. Computer Science Co-op Program at Kasetsart University Chalermphrakiat. A full-stack application built and presented as the final capstone project, demonstrating end-to-end system design and implementation skills.",
+      stack: ["React", "TypeScript", "Full-Stack", "Kasetsart University"],
+      metrics: "SENIOR PROJECT · KU CHALERMPHRAKIAT 2025",
+      link: "https://sites.google.com/view/elicapplication/%E0%B8%AB%E0%B8%99%E0%B9%89%E0%B8%B2%E0%B9%81%E0%B8%A3%E0%B8%81"
     }
   ];
 
@@ -110,14 +125,41 @@ export default function Projects() {
                   </div>
                 </div>
 
-                {/* Footer: Metrics */}
-                <div style={{ paddingTop: '1.5rem', borderTop: '1px solid var(--border-light)' }}>
-                  <div className="mono" style={{ fontSize: '0.7rem', color: 'var(--accent-primary)', marginBottom: '0.25rem' }}>
-                    IMPACT METRIC
+                {/* Footer: Metrics + Link */}
+                <div style={{ paddingTop: '1.5rem', borderTop: '1px solid var(--border-light)', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end' }}>
+                  <div>
+                    <div className="mono" style={{ fontSize: '0.7rem', color: 'var(--accent-primary)', marginBottom: '0.25rem' }}>
+                      IMPACT METRIC
+                    </div>
+                    <div className="mono" style={{ fontSize: '1.1rem', fontWeight: 700 }}>
+                      {p.metrics}
+                    </div>
                   </div>
-                  <div className="mono" style={{ fontSize: '1.1rem', fontWeight: 700 }}>
-                    {p.metrics}
-                  </div>
+                  {p.link && (
+                    <a
+                      href={p.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="mono"
+                      style={{
+                        display: 'flex', alignItems: 'center', gap: '0.4rem',
+                        fontSize: '0.75rem', color: 'var(--text-primary)',
+                        textDecoration: 'none', padding: '0.4rem 0.8rem',
+                        border: '1px solid black', fontWeight: 700,
+                        transition: 'all 0.2s ease'
+                      }}
+                      onMouseEnter={e => {
+                        (e.currentTarget as HTMLElement).style.background = 'black';
+                        (e.currentTarget as HTMLElement).style.color = 'white';
+                      }}
+                      onMouseLeave={e => {
+                        (e.currentTarget as HTMLElement).style.background = 'transparent';
+                        (e.currentTarget as HTMLElement).style.color = 'var(--text-primary)';
+                      }}
+                    >
+                      VIEW PROJECT <TbExternalLink size={14} />
+                    </a>
+                  )}
                 </div>
               </div>
 

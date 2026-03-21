@@ -21,36 +21,36 @@ export default function SystemBrain() {
       id: 'frontend', x: 400, y: 70,
       label: 'CLIENT_ENGINE',
       icon: <TbBrandReact size={24} />,
-      details: 'High-performance React 19 interface with sub-16ms frame budgeting. Optimized for V8 to ensure seamless transitions.',
-      tech: ['React 19', 'Framer Motion', 'TypeScript']
+      details: 'Next.js + React frontend for Sycapt AI Enterprise. Document upload interface (PDF/DOCX/PPTX), chat UI with streaming responses, and EDC Geo Map dashboard with Leaflet.js real-time visualization.',
+      tech: ['Next.js', 'React', 'TypeScript', 'Leaflet.js', 'Chart.js']
     },
     {
       id: 'api', x: 400, y: 280,
       label: 'GATEWAY_ORCHESTRATOR',
       icon: <TbCloudComputing size={24} />,
-      details: 'Intelligent request routing with distributed rate limiting and JWT validation for secure multi-tenant access.',
-      tech: ['Next.js', 'Redis Cache', 'JWT Auth']
+      details: 'NestJS API Gateway handling all request routing, JWT auth, file processing pipelines, and Kafka event publishing. Deployed on Kubernetes with GitLab CI/CD auto-rollback.',
+      tech: ['NestJS', 'FastAPI', 'JWT Auth', 'Kubernetes', 'GitLab CI/CD']
     },
     {
       id: 'ai', x: 700, y: 280,
       label: 'NEURAL_CORE',
       icon: <TbCpu size={24} />,
-      details: 'Real-time Multimodal LLM integration using Gemini 1.5 Flash. Handles voice, text, and visual data streams.',
-      tech: ['Gemini API', 'LangChain', 'Realtime Protocol']
+      details: 'Agentic RAG Pipeline using LangGraph state machine + LlamaIndex. bge-m3 for embeddings, Hybrid Search (vector + BM25 full-text) with Re-ranking. GPU VRAM constraint solved by Model Swapping (4 LLMs / 16GB).',
+      tech: ['LangGraph', 'LlamaIndex', 'LangChain', 'bge-m3', 'Gemini API']
     },
     {
       id: 'db', x: 100, y: 280,
       label: 'KNOWLEDGE_VAULT',
       icon: <TbDatabase size={24} />,
-      details: 'Hybrid search architecture combining relational integrity with vector similarity for RAG-enhanced context.',
-      tech: ['PostgreSQL', 'pgvector', 'RAG logic']
+      details: 'PostgreSQL + pgvector for hybrid vector & relational storage. MongoDB for document metadata. Redis for session caching. Qdrant for high-throughput vector similarity search.',
+      tech: ['PostgreSQL', 'pgvector', 'MongoDB', 'Redis', 'Qdrant']
     },
     {
       id: 'worker', x: 400, y: 490,
       label: 'ASYNC_SUBSYSTEMS',
       icon: <TbSettingsAutomation size={24} />,
-      details: 'Distributed background workers managing long-running computational tasks and state synchronization.',
-      tech: ['Node.js', 'In-memory Queue', 'Docker']
+      details: 'Apache Kafka event-driven microservices (VHQ SOM Connector — 3-phase pipeline). ELK Stack for centralized logging. Prometheus + Grafana for system observability and alerting.',
+      tech: ['Apache Kafka', 'Java 21', 'Spring Boot', 'ELK Stack', 'Docker']
     },
   ];
 
@@ -65,7 +65,8 @@ export default function SystemBrain() {
     <div className="section container" style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
       <SectionHeader
         subtitle="03 / SYSTEM ARCHITECTURE"
-        titleLines={["Interactive", "System Map."]}
+        titleLines={["Sycapt AI Enterprise", "Architecture Map."]}
+        description="Hover over each node to explore the real-world architecture built during co-op at Sycapt Co., Ltd. — from the Next.js frontend to the GPU VRAM-constrained LLM core."
       />
 
       {/* Desktop Diagram Container */}
