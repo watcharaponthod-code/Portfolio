@@ -78,50 +78,100 @@ function App() {
 
           {/* Global Bottom CTA */}
           <footer style={{
-            padding: '10rem 0',
+            padding: '8rem 0 4rem',
             background: 'black',
             color: 'white',
-            borderTop: '1px solid #333',
-            textAlign: 'center',
+            borderTop: '1px solid #222',
             position: 'relative',
             zIndex: 10,
             overflow: 'hidden'
           }}>
-            <MatrixRain opacity={0.8} isDark={true} />
+            <MatrixRain opacity={0.6} isDark={true} />
             <div
               style={{
                 position: 'absolute', top: 0, left: 0, right: 0, bottom: 0,
-                background: 'radial-gradient(circle at center, transparent 0%, black 90%)',
+                background: 'radial-gradient(circle at center, transparent 0%, rgba(0,0,0,0.95) 85%)',
                 zIndex: 1,
               }}
             />
 
             <div className="container" style={{ position: 'relative', zIndex: 2 }}>
-              <div className="mono" style={{ fontSize: '0.8rem', color: 'rgba(255,255,255,0.4)', marginBottom: '1.5rem', textTransform: 'uppercase', letterSpacing: '0.2em' }}>
-                End of Page
+              {/* Main CTA */}
+              <div style={{ textAlign: 'center', marginBottom: '6rem' }}>
+                <div className="mono" style={{ fontSize: '0.75rem', color: 'rgba(255,255,255,0.35)', marginBottom: '1.5rem', textTransform: 'uppercase', letterSpacing: '0.25em' }}>
+                  — END TRANSMISSION —
+                </div>
+                <h1 style={{ marginBottom: '1.5rem', fontSize: 'clamp(2.5rem, 6vw, 5rem)', color: 'white', lineHeight: 1 }}>
+                  <GlitchText text="Let's Work Together" />
+                </h1>
+                <p style={{ margin: '0 auto 3rem', maxWidth: '500px', color: 'rgba(255,255,255,0.6)', fontSize: '1rem', lineHeight: '1.7' }}>
+                  Open for full-time roles and freelance projects in AI engineering, full-stack development, and system architecture.
+                </p>
+                <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
+                  <button
+                    onClick={() => setShowAi(true)}
+                    style={{
+                      background: 'white',
+                      color: 'black',
+                      padding: '1rem 2.5rem',
+                      fontSize: '0.85rem',
+                      fontFamily: 'var(--font-mono)',
+                      fontWeight: 700,
+                      textTransform: 'uppercase',
+                      letterSpacing: '0.12em',
+                      border: 'none',
+                      cursor: 'pointer',
+                      transition: 'opacity 0.2s',
+                    }}
+                    onMouseEnter={e => (e.currentTarget as HTMLElement).style.opacity = '0.85'}
+                    onMouseLeave={e => (e.currentTarget as HTMLElement).style.opacity = '1'}
+                  >
+                    Chat With My AI
+                  </button>
+                  <a
+                    href="mailto:watcharapon.thod@gmail.com"
+                    style={{
+                      background: 'transparent',
+                      color: 'white',
+                      padding: '1rem 2.5rem',
+                      fontSize: '0.85rem',
+                      fontFamily: 'var(--font-mono)',
+                      fontWeight: 700,
+                      textTransform: 'uppercase',
+                      letterSpacing: '0.12em',
+                      border: '1px solid rgba(255,255,255,0.3)',
+                      textDecoration: 'none',
+                      transition: 'border-color 0.2s',
+                    }}
+                    onMouseEnter={e => (e.currentTarget as HTMLElement).style.borderColor = 'rgba(255,255,255,0.8)'}
+                    onMouseLeave={e => (e.currentTarget as HTMLElement).style.borderColor = 'rgba(255,255,255,0.3)'}
+                  >
+                    Email Me
+                  </a>
+                </div>
               </div>
-              <h1 style={{ marginBottom: '1rem', fontSize: 'clamp(2.5rem, 6vw, 5rem)', color: 'white' }}>
-                <GlitchText text="Talk with My AI" />
-              </h1>
-              <p style={{ margin: '0 auto 3rem', maxWidth: '600px', color: 'rgba(255,255,255,0.7)' }}>
-                Have specific questions about my experience or technical choices?
-                My AI twin is trained on my entire career history and project data.
-              </p>
 
-              <button
-                onClick={() => setShowAi(true)}
-                className="btn-glass-primary"
-                style={{
-                  padding: '1.5rem 4rem',
-                  fontSize: '1.2rem',
-                  borderRadius: '0',
-                  textTransform: 'uppercase',
-                  letterSpacing: '0.2em',
-                  cursor: 'pointer'
-                }}
-              >
-                Start Live Conversation
-              </button>
+              {/* Bottom footer row */}
+              <div style={{ borderTop: '1px solid rgba(255,255,255,0.1)', paddingTop: '2rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1rem' }}>
+                <div className="mono" style={{ fontSize: '0.85rem', fontWeight: 800, color: 'white', letterSpacing: '-0.02em' }}>
+                  WATCHARAPON<span style={{ opacity: 0.3 }}>.DEV</span>
+                </div>
+                <div style={{ display: 'flex', gap: '2rem' }}>
+                  <a href="mailto:watcharapon.thod@gmail.com" className="mono" style={{ fontSize: '0.72rem', color: 'rgba(255,255,255,0.4)', textDecoration: 'none', letterSpacing: '0.05em', transition: 'color 0.2s' }}
+                    onMouseEnter={e => (e.currentTarget as HTMLElement).style.color = 'white'}
+                    onMouseLeave={e => (e.currentTarget as HTMLElement).style.color = 'rgba(255,255,255,0.4)'}>
+                    watcharapon.thod@gmail.com
+                  </a>
+                  <a href="https://github.com/watcharapon" target="_blank" rel="noopener noreferrer" className="mono" style={{ fontSize: '0.72rem', color: 'rgba(255,255,255,0.4)', textDecoration: 'none', letterSpacing: '0.05em', transition: 'color 0.2s' }}
+                    onMouseEnter={e => (e.currentTarget as HTMLElement).style.color = 'white'}
+                    onMouseLeave={e => (e.currentTarget as HTMLElement).style.color = 'rgba(255,255,255,0.4)'}>
+                    github.com/watcharapon
+                  </a>
+                </div>
+                <div className="mono" style={{ fontSize: '0.7rem', color: 'rgba(255,255,255,0.25)', letterSpacing: '0.05em' }}>
+                  © 2025 — Bangkok, Thailand
+                </div>
+              </div>
             </div>
           </footer>
         </main>
