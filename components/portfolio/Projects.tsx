@@ -4,25 +4,46 @@ import SectionHeader from './SectionHeader';
 export default function Projects() {
   const projects = [
     {
-      title: "Enterprise RAG Platform",
-      role: "SYSTEM ARCHITECT",
-      desc: "Architected a retrieval-augmented generation system for high-stakes legal discovery. Engineered a custom vector processing pipeline that achieved a 94% reduction in document retrieval time.",
-      stack: ["Python", "LangChain", "Pinecone", "Next.js"],
-      metrics: "500K+ DOCUMENTS PROCESSED"
+      title: "Sycapt AI Enterprise",
+      role: "FULL-STACK AI ENGINEER",
+      desc: "Built a 100% On-Premises corporate knowledge management system at Sycapt Co., Ltd. Ingests PDF/DOCX/PPTX, converts to vectors via bge-m3, and enables natural language querying with Agentic RAG Pipeline featuring Hybrid Search (Vector + Full-Text) and Re-ranking. Deployed on Kubernetes.",
+      stack: ["Next.js", "NestJS", "Python", "LangGraph", "LlamaIndex", "pgvector", "Kubernetes"],
+      metrics: "100% ON-PREMISES · HYBRID SEARCH + RE-RANKING"
     },
     {
-      title: "High-Latency Trading UI",
-      role: "SENIOR UI ENGINEER",
-      desc: "Optimized a high-frequency trading interface. Leveraged WebSocket subroutines and custom V8-optimized rendering to maintain sub-50ms data visualization latency.",
-      stack: ["React", "D3.js", "WebSockets", "Rust"],
-      metrics: "< 40MS REFRESH FREQUENCY"
+      title: "EDC Geo Map Dashboard",
+      role: "DATA VIZ ENGINEER",
+      desc: "Interactive web application visualizing 15,423 Bangkok Bank EDC machines across Thailand on a real-time map. Supports filtering by province, region, machine type, and status. Features CSV export and live Chart.js analytics.",
+      stack: ["FastAPI", "SQLAlchemy", "Leaflet.js", "Chart.js", "PostgreSQL"],
+      metrics: "15,423 MACHINES · NATIONWIDE COVERAGE"
     },
     {
-      title: "AI Agent Orchestrator",
-      role: "FULL STACK ENGINEER",
-      desc: "Developed a distributed framework for autonomous multi-agent task collaboration. Implemented complex state-machine logic for self-healing agent routines.",
-      stack: ["TypeScript", "Docker", "Gemini API", "PostgreSQL"],
-      metrics: "60% INCREASE IN QA VELOCITY"
+      title: "GPU VRAM Model Swapping",
+      role: "SYSTEMS ENGINEER",
+      desc: "Engineered a solution to run 4 different LLMs on a server with only 16GB VRAM. Designed a Model Swapping system that cycles models in/out of GPU memory, using 120GB RAM as a buffer pool — enabling multi-model inference without hardware upgrades.",
+      stack: ["Python", "CUDA", "LangChain", "RAM Buffer Management"],
+      metrics: "4 LLMs ON 16GB VRAM · ZERO HARDWARE UPGRADE"
+    },
+    {
+      title: "VHQ SOM Kafka Connector",
+      role: "MICROSERVICE ENGINEER",
+      desc: "Developed an Event-Driven microservice connecting Apache Kafka message queues to VHQ API in a 3-phase flow: receive job → send batch → return result. Integrated ELK Stack for centralized logging and observability.",
+      stack: ["Java 21", "Spring Boot", "Apache Kafka", "PostgreSQL", "Docker", "ELK Stack"],
+      metrics: "EVENT-DRIVEN · 3-PHASE PIPELINE"
+    },
+    {
+      title: "React Native AI Workshop App",
+      role: "MOBILE DEVELOPER + LECTURER",
+      desc: "Built a cross-platform mobile app connecting to Gemini API for AI features on iOS/Android, developed as hands-on educational material for a university workshop. Delivered React Native + Gemini API lecture (7,500 THB) and Git/GitHub workshop (5,000 THB) at Kasetsart University.",
+      stack: ["React Native", "Gemini API", "JavaScript"],
+      metrics: "INVITED LECTURER · KU CHALERMPHRAKIAT 2025"
+    },
+    {
+      title: "Donlaya Makeup Portfolio",
+      role: "FREELANCE DEVELOPER",
+      desc: "Freelance project via Fastwork: built a fully responsive portfolio website for a professional makeup artist. Delivered on-time with complete Responsive Design support across all devices, within a 3,000 THB budget.",
+      stack: ["Next.js", "React", "TypeScript", "Tailwind CSS"],
+      metrics: "DELIVERED ON-TIME · WITHIN BUDGET"
     }
   ];
 

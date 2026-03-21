@@ -2,21 +2,23 @@
 import {
   SiReact,
   SiTypescript,
-  SiThreedotjs,
+  SiNextdotjs,
   SiNodedotjs,
-  SiGo,
+  SiPython,
   SiDocker,
   SiRedis,
   SiPostgresql,
   SiApachekafka,
-  SiOpenai,
-  SiGooglecloud,
+  SiSpringboot,
+  SiFigma,
+  SiGit,
 } from 'react-icons/si';
 import {
-  TbPuzzle,
-  TbActivity,
+  TbBrandReactNative,
   TbApi,
-  TbServer
+  TbServer,
+  TbBrain,
+  TbShieldLock,
 } from 'react-icons/tb';
 import { FaDatabase, FaProjectDiagram } from 'react-icons/fa';
 import { VscSettings } from 'react-icons/vsc';
@@ -27,42 +29,43 @@ import SectionHeader from './SectionHeader';
 export default function SkillArchitecture() {
   const domains = [
     {
-      title: "Frontend Architecture",
+      title: "Frontend & Mobile",
       skills: [
-        { name: "React 19 / Meta-frameworks", icon: <SiReact /> },
-        { name: "TypeScript / Strong Typing", icon: <SiTypescript /> },
-        { name: "Micro-frontends & Module Federation", icon: <TbPuzzle /> },
-        { name: "Performance Profiling & V8 Opt", icon: <TbActivity /> },
-        { name: "WebGL / Three.js Visualization", icon: <SiThreedotjs /> }
+        { name: "React / Next.js / TypeScript", icon: <SiReact /> },
+        { name: "React Native (iOS & Android)", icon: <TbBrandReactNative /> },
+        { name: "Tailwind CSS / Figma / UX/UI", icon: <SiFigma /> },
+        { name: "Next.js App Router / SSR", icon: <SiNextdotjs /> },
+        { name: "TypeScript / Strong Typing", icon: <SiTypescript /> }
       ]
     },
     {
-      title: "Backend Infrastructure",
+      title: "Backend & Infrastructure",
       skills: [
-        { name: "Distributed Node.js / Bun Runtime", icon: <SiNodedotjs /> },
-        { name: "Go / High Performance Services", icon: <SiGo /> },
-        { name: "Container Orchestration (K8s)", icon: <SiDocker /> },
-        { name: "Redis Distributed Caching", icon: <SiRedis /> },
-        { name: "gRPC & Protocol Buffers", icon: <TbApi /> }
+        { name: "NestJS / FastAPI / Node.js", icon: <SiNodedotjs /> },
+        { name: "Java 21 / Spring Boot", icon: <SiSpringboot /> },
+        { name: "Docker / Kubernetes (K8s)", icon: <SiDocker /> },
+        { name: "GitLab CI/CD + Auto Rollback", icon: <SiGit /> },
+        { name: "Apache Kafka / ELK Stack", icon: <SiApachekafka /> }
       ]
     },
     {
-      title: "AI & ML Integration",
+      title: "AI & RAG Engineering",
       skills: [
-        { name: "Enterprise RAG Pipelines", icon: <FaDatabase /> },
-        { name: "Vector Search (Pinecone/Weaviate)", icon: <BsLayersHalf /> },
-        { name: "LLM Orchestration & Prompt Eng", icon: <SiOpenai /> },
-        { name: "Parameter-Efficient Fine-Tuning", icon: <VscSettings /> },
-        { name: "Reasoning & Agentic Workflows", icon: <FaProjectDiagram /> }
+        { name: "LangChain / LangGraph / LlamaIndex", icon: <TbBrain /> },
+        { name: "Hybrid Search + Re-ranking (pgvector)", icon: <BsLayersHalf /> },
+        { name: "Gemini API / Hugging Face / n8n", icon: <FaProjectDiagram /> },
+        { name: "GPU VRAM Optimization & Model Swap", icon: <VscSettings /> },
+        { name: "Prompt Engineering & Agentic RAG", icon: <FaDatabase /> }
       ]
     },
     {
-      title: "Data Engineering",
+      title: "Database & Security",
       skills: [
-        { name: "PostgreSQL High Availability", icon: <SiPostgresql /> },
-        { name: "Event Sourcing via Kafka", icon: <SiApachekafka /> },
-        { name: "Scalable ETL Pipelines", icon: <TbServer /> },
-        { name: "Cloud Data Warehouse Solutions", icon: <SiGooglecloud /> }
+        { name: "PostgreSQL / MySQL / MongoDB", icon: <SiPostgresql /> },
+        { name: "Firebase / Redis / Qdrant", icon: <SiRedis /> },
+        { name: "Python / PHP / SQL Backend", icon: <SiPython /> },
+        { name: "Penetration Testing & Vuln Analysis", icon: <TbShieldLock /> },
+        { name: "Power BI / Geospatial Dashboards", icon: <TbServer /> }
       ]
     }
   ];
