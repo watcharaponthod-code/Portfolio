@@ -59,11 +59,11 @@ function HackerPreloader({ onDone }: { onDone: () => void }) {
       style={{
         position: 'fixed', inset: 0, zIndex: 99999, background: '#000',
         display: 'flex', flexDirection: 'column', justifyContent: 'center',
-        padding: '5rem', overflow: 'hidden'
+        padding: 'clamp(1.5rem, 8vw, 5rem)', overflow: 'hidden'
       }}
     >
       <div style={{ position: 'relative', zIndex: 1, maxWidth: '800px' }}>
-        <div style={{ fontSize: 'clamp(2rem, 5vw, 6rem)', fontWeight: 950, color: '#fff', marginBottom: '3rem', letterSpacing: '-0.04em' }}>
+        <div style={{ fontSize: 'clamp(2rem, 8vw, 6rem)', fontWeight: 950, color: '#fff', marginBottom: 'clamp(1.5rem, 4vw, 3rem)', letterSpacing: '-0.04em' }}>
           BOOT_SEQUENCER
         </div>
         <div className="mono" style={{ fontSize: '1rem', lineHeight: '2.5', color: 'rgba(255,255,255,0.3)' }}>
@@ -138,10 +138,11 @@ function HeroSection() {
           </div>
 
           {/* Stage 2: Buttons */}
-          <motion.div style={{
-            display: 'flex', gap: '2rem', justifyContent: 'center', marginTop: '4rem',
+          <motion.div className="hero-buttons" style={{
+            display: 'flex', gap: '1.5rem', justifyContent: 'center', marginTop: 'clamp(2.5rem, 6vw, 4rem)',
             opacity: stage >= 2 ? 1 : 0,
             y: stage >= 2 ? 0 : 30,
+            flexWrap: 'wrap'
           }} transition={{ duration: 1 }}>
             <a href={resumePdf} download className="btn-monochrome-primary">Download_CV</a>
             <a href="mailto:watcharapon.thod@gmail.com" className="btn-monochrome-outline">Contact_Me</a>
@@ -190,13 +191,31 @@ function HeroSection() {
         .futuristic-scroll-hint {
           position: absolute;
           bottom: 3rem;
-          right: 5rem;
+          right: clamp(1.5rem, 5vw, 5rem);
           display: flex;
           align-items: flex-end;
           gap: 1.5rem;
           z-index: 10;
         }
 
+        @media (max-width: 640px) {
+          .futuristic-scroll-hint {
+            display: none;
+          }
+           .btn-monochrome-primary, .btn-monochrome-outline {
+            padding: 1rem 2rem !important;
+            width: 100%;
+            text-align: center;
+          }
+          .hero-buttons {
+            flex-direction: column;
+            width: 100%;
+            max-width: 320px;
+            margin-left: auto;
+            margin-right: auto;
+          }
+        }
+        
         .scroll-scanner-line {
           width: 2px;
           height: 120px;
@@ -257,15 +276,15 @@ function HeroSection() {
 
         .btn-monochrome-primary {
           background: #fff; color: #000; padding: 1.25rem 3.5rem; text-decoration: none;
-          font-family: var(--font-mono); font-weight: 900; font-size: 0.9rem;
-          text-transform: uppercase; letter-spacing: 0.3em; transition: all 0.4s;
+          font-family: var(--font-mono); font-weight: 900; font-size: 0.85rem;
+          text-transform: uppercase; letter-spacing: 0.25rem; transition: all 0.4s;
           border: 1px solid #fff;
         }
         .btn-monochrome-primary:hover { background: #000; color: #fff; transform: translateY(-5px); }
         .btn-monochrome-outline {
           border: 1px solid rgba(255,255,255,0.2); color: #fff; padding: 1.25rem 3.5rem;
           text-decoration: none; font-family: var(--font-mono); font-weight: 900;
-          font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.3em; transition: all 0.4s;
+          font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.25rem; transition: all 0.4s;
         }
         .btn-monochrome-outline:hover { border-color: #fff; box-shadow: 0 0 30px rgba(255,255,255,0.1); transform: translateY(-5px); }
       `}</style>

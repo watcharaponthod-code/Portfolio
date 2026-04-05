@@ -10,9 +10,9 @@ interface SectionHeaderProps {
 export default function SectionHeader({ subtitle, titleLines, description, isDark = true }: SectionHeaderProps) {
     return (
         <header className="section-header" style={{
-            marginBottom: '5rem',
+            marginBottom: '4rem',
             borderLeft: '4px solid #ffffff',
-            paddingLeft: '2.5rem',
+            paddingLeft: '2rem',
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'center',
@@ -58,8 +58,8 @@ export default function SectionHeader({ subtitle, titleLines, description, isDar
             <style>{`
         @media (max-width: 768px) {
           .section-header {
-            padding-left: 1.5rem !important;
-            margin-bottom: 3rem !important;
+            padding-left: 1.25rem !important;
+            margin-bottom: 2.5rem !important;
           }
         }
       `}</style>

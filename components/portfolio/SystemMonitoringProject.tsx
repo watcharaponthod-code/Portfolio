@@ -52,23 +52,23 @@ export default function SystemMonitoringProject() {
           </div>
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: '1.5fr 1fr', gap: '6rem', alignItems: 'start', paddingBottom: '6rem' }}>
+        <div className="project-detail-grid" style={{ display: 'grid', gridTemplateColumns: '1.5fr 1fr', gap: 'clamp(2rem, 5vw, 6rem)', alignItems: 'start', paddingBottom: '6rem' }}>
           <div>
-            <h2 className="mono" style={{ fontSize: '1.2rem', marginBottom: '2.5rem', borderLeft: '3px solid #fff', paddingLeft: '1.5rem' }}>SCALING_STRATEGY</h2>
-            <p style={{ marginBottom: '2rem', color: 'rgba(255,255,255,0.7)', lineHeight: 1.8, fontSize: '1.1rem' }}>
+            <h2 className="mono" style={{ fontSize: 'clamp(1rem, 3vw, 1.2rem)', marginBottom: '1.5rem', borderLeft: '3px solid #fff', paddingLeft: '1.5rem' }}>SCALING_STRATEGY</h2>
+            <p style={{ marginBottom: '1.5rem', color: 'rgba(255,255,255,0.7)', lineHeight: 1.7, fontSize: 'clamp(0.95rem, 2.5vw, 1.1rem)' }}>
               I implemented a comprehensive monitoring solution focused on VM scalability. By analyzing CPU usage patterns and identifying significant spike events (exceeding the 90% threshold), I developed automated rules to scale VM instances horizontally and vertically.
             </p>
-            <p style={{ marginBottom: '2rem', color: 'rgba(255,255,255,0.7)', lineHeight: 1.8, fontSize: '1.1rem' }}>
+            <p style={{ marginBottom: '1.5rem', color: 'rgba(255,255,255,0.7)', lineHeight: 1.7, fontSize: 'clamp(0.95rem, 2.5vw, 1.1rem)' }}>
               This system doesn't just alert; it reacts. When the "Main CPU Usage" hits critical levels across the cluster, the system triggers provision cycles for additional nodes, ensuring 99.99% uptime during peak load periods and optimizing costs by scaling down during idle times.
             </p>
-            <p style={{ color: 'rgba(255,255,255,0.7)', lineHeight: 1.8, fontSize: '1.1rem' }}>
+            <p style={{ color: 'rgba(255,255,255,0.7)', lineHeight: 1.7, fontSize: 'clamp(0.95rem, 2.5vw, 1.1rem)' }}>
                I am capable of designing, deploying, and maintaining high-availability cloud infrastructure, managing resource pools, and fine-tuning auto-scaling triggers to match specific business workload patterns.
             </p>
           </div>
 
-          <div style={{ background: 'rgba(255,255,255,0.03)', padding: '3.5rem', border: '1px solid rgba(255,255,255,0.1)' }}>
-            <h3 className="mono" style={{ fontSize: '0.8rem', marginBottom: '2rem', opacity: 0.5 }}>TECH_CAPABILITIES</h3>
-            <ul style={{ listStyle: 'none', padding: 0, display: 'flex', flexDirection: 'column', gap: '1.2rem' }} className="mono">
+          <div className="tech-capabilities-box" style={{ background: 'rgba(255,255,255,0.03)', padding: 'clamp(1.5rem, 4vw, 3.5rem)', border: '1px solid rgba(255,255,255,0.1)' }}>
+            <h3 className="mono" style={{ fontSize: '0.75rem', marginBottom: '1.5rem', opacity: 0.5 }}>TECH_CAPABILITIES</h3>
+            <ul style={{ listStyle: 'none', padding: 0, display: 'flex', flexDirection: 'column', gap: '1rem' }} className="mono">
               <li>{'>'} CLOUD_INFRA_MGMT</li>
               <li>{'>'} VM_AUTO_SCALING_RULES</li>
               <li>{'>'} SPIKE_ANOMALY_TRIGGER</li>
@@ -78,6 +78,19 @@ export default function SystemMonitoringProject() {
           </div>
         </div>
       </div>
+      <style>{`
+        @media (max-width: 900px) {
+          .project-detail-grid {
+            grid-template-columns: 1fr !important;
+            gap: 3rem !important;
+          }
+        }
+        @media (max-width: 640px) {
+          .tech-capabilities-box {
+            padding: 1.5rem !important;
+          }
+        }
+      `}</style>
     </div>
   );
 }

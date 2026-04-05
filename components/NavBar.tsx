@@ -59,7 +59,7 @@ export default function NavBar() {
         style={{
           position: 'fixed', top: 0, left: 0, right: 0, height: '64px',
           zIndex: 1000, display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-          padding: '0 3rem', background: scrolled ? 'rgba(0,0,0,0.95)' : 'transparent',
+          padding: '0 clamp(1rem, 5vw, 3rem)', background: scrolled ? 'rgba(0,0,0,0.95)' : 'transparent',
           backdropFilter: scrolled ? 'blur(15px)' : 'none',
           borderBottom: scrolled ? '1px solid rgba(255,255,255,0.1)' : 'none',
           transition: 'background 0.4s ease, border-color 0.4s ease',

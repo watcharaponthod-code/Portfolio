@@ -111,7 +111,7 @@ export default function Philosophy() {
             </div>
 
             {/* Contact Box (Merged) */}
-            <div id="contact" className="story-section stagger-item" style={{ marginTop: '2rem', padding: '2.5rem', background: '#fff', color: '#000' }}>
+            <div id="contact" className="story-section stagger-item contact-box" style={{ marginTop: '2rem', padding: '2.5rem', background: '#fff', color: '#000' }}>
               <div className="mono" style={{ fontSize: '0.7rem', fontWeight: 900, marginBottom: '1.5rem', letterSpacing: '0.2rem' }}>AVAILABLE_FOR_HIRE</div>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
                 <a href="mailto:watcharapon.thod@gmail.com" style={{ fontSize: 'clamp(1.2rem, 3vw, 2rem)', fontWeight: 950, color: '#000', textDecoration: 'none', borderBottom: '3px solid #000' }}>
@@ -151,7 +151,23 @@ export default function Philosophy() {
         .philosophy-block { display: flex; gap: 2rem; }
         .philosophy-block-num { font-size: 0.8rem; font-weight: 900; opacity: 0.3; }
         .philosophy-block-name { font-size: 1.1rem; font-weight: 800; display: block; margin-bottom: 0.5rem; }
-        @media (max-width: 1100px) { .story-grid { grid-template-columns: 1fr; gap: 4rem; } .story-left { max-width: 500px; margin: 0 auto; } }
+        
+        @media (max-width: 1200px) {
+          .story-grid { gap: 4rem; }
+        }
+
+        @media (max-width: 1100px) { 
+          .story-grid { grid-template-columns: 1fr; gap: 3rem; } 
+          .story-left { max-width: 500px; margin: 0 auto; width: 100%; } 
+          .story-right { gap: 3rem; }
+        }
+
+        @media (max-width: 640px) {
+          .philosophy-block { gap: 1rem; }
+          .story-stat { padding: 1rem; }
+          .story-stat-value { font-size: 1.5rem; }
+          .contact-box { padding: 1.5rem !important; }
+        }
       `}</style>
     </div>
   );

@@ -252,10 +252,19 @@ export default function SkillArchitecture() {
           }
         }
 
+        @media (max-width: 768px) {
+          .quadrant-min { padding: 2rem; }
+          .skills-dense-grid { grid-template-columns: repeat(4, 1fr); }
+        }
+
         @media (max-width: 600px) {
           .quadrant-min { padding: 1.5rem; }
           .skills-dense-grid { grid-template-columns: repeat(3, 1fr); }
           .quadrant-title { font-size: 0.9rem; }
+        }
+
+        @media (max-width: 400px) {
+           .skills-dense-grid { grid-template-columns: repeat(2, 1fr); }
         }
       `}</style>
     </div>
