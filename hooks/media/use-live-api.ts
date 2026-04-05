@@ -93,11 +93,17 @@ export function useLiveApi({
       }
     };
 
+    const onError = (error: ErrorEvent) => {
+      console.error('Live API error:', error);
+      setConnected(false);
+    };
+
     // Bind event listeners
     client.on('open', onOpen);
     client.on('close', onClose);
     client.on('interrupted', stopAudioStreamer);
     client.on('audio', onAudio);
+    client.on('error', onError);
 
     return () => {
       // Clean up event listeners
@@ -105,6 +111,7 @@ export function useLiveApi({
       client.off('close', onClose);
       client.off('interrupted', stopAudioStreamer);
       client.off('audio', onAudio);
+      client.off('error', onError);
     };
   }, [client]);
 
@@ -112,14 +119,24 @@ export function useLiveApi({
     if (!config) {
       throw new Error('config has not been set');
     }
-    client.disconnect();
-    await client.connect(config);
-  }, [client, setConnected, config]);
+    try {
+      await client.connect(config);
+      setConnected(true);
+    } catch (error) {
+      console.error('Failed to connect:', error);
+      setConnected(false);
+    }
+  }, [client, config]);
 
   const disconnect = useCallback(async () => {
-    client.disconnect();
-    setConnected(false);
-  }, [setConnected, client]);
+    try {
+      client.disconnect();
+    } catch (error) {
+      console.error('Failed to disconnect:', error);
+    } finally {
+      setConnected(false);
+    }
+  }, [client]);
 
   return {
     client,

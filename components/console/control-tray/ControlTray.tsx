@@ -36,15 +36,7 @@ function ControlTray({ children }: ControlTrayProps) {
   const [muted, setMuted] = useState(false);
   const connectButtonRef = useRef<HTMLButtonElement>(null);
 
-  const { showAgentEdit, showUserConfig } = useUI();
   const { client, connected, connect, disconnect } = useLiveAPIContext();
-
-  // Stop the current agent if the user is editing the agent or user config
-  useEffect(() => {
-    if (showAgentEdit || showUserConfig) {
-      if (connected) disconnect();
-    }
-  }, [showUserConfig, showAgentEdit, connected, disconnect]);
 
   useEffect(() => {
     if (!connected && connectButtonRef.current) {
@@ -92,11 +84,13 @@ function ControlTray({ children }: ControlTrayProps) {
         <button
           className={cn('action-button mic-button')}
           onClick={() => setMuted(!muted)}
+          aria-label={muted ? "Unmute microphone" : "Mute microphone"}
+          aria-pressed={muted}
         >
           {!muted ? (
-            <span className="material-symbols-outlined filled">mic</span>
+            <span className="material-symbols-outlined filled" aria-hidden="true">mic</span>
           ) : (
-            <span className="material-symbols-outlined filled">mic_off</span>
+            <span className="material-symbols-outlined filled" aria-hidden="true">mic_off</span>
           )}
         </button>
         {children}
@@ -108,8 +102,10 @@ function ControlTray({ children }: ControlTrayProps) {
             ref={connectButtonRef}
             className={cn('action-button connect-toggle', { connected })}
             onClick={connected ? disconnect : connect}
+            aria-label={connected ? "Disconnect AI" : "Connect AI"}
+            aria-pressed={connected}
           >
-            <span className="material-symbols-outlined filled">
+            <span className="material-symbols-outlined filled" aria-hidden="true">
               {connected ? 'pause' : 'play_arrow'}
             </span>
           </button>

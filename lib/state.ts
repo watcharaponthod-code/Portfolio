@@ -29,7 +29,7 @@ export const useUser = create<
 /**
  * Navigation View State
  */
-export type ViewType = 'landing' | 'system' | 'skills' | 'playground' | 'projects' | 'live-ai' | 'philosophy';
+export type ViewType = 'landing' | 'system' | 'skills' | 'playground' | 'projects' | 'live-ai' | 'philosophy' | 'project-sycapt' | 'project-kafka' | 'project-geomap' | 'project-monitoring';
 
 export const useUI = create<{
   currentView: ViewType;

@@ -1,138 +1,134 @@
-
-import { useUI, ViewType } from '@/lib/state';
-import classNames from 'classnames';
 import { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { TbMenu2, TbX } from 'react-icons/tb';
+import resumePdf from '@/components/project/Resume.pdf';
+
+const NAV_ITEMS = [
+  { id: 'hero',       label: 'Home' },
+  { id: 'philosophy', label: 'About' },
+  { id: 'projects',   label: 'Projects' },
+  { id: 'skills',     label: 'Skills' },
+  { id: 'contact',    label: 'Contact' },
+];
 
 export default function NavBar() {
-  const { currentView, setView, heroAnimationComplete } = useUI();
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isReady, setIsReady] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const [activeSection, setActiveSection] = useState('hero');
+  const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    const timer = setTimeout(() => setIsReady(true), 1500);
-    return () => clearTimeout(timer);
+    const handleScroll = () => {
+      const y = window.scrollY;
+      setScrolled(y > 60);
+      setVisible(y > window.innerHeight * 0.3);
+
+      const sectionIds = NAV_ITEMS.map(n => n.id);
+      let current = 'hero';
+      for (const id of sectionIds) {
+        const el = id === 'hero' ? null : document.getElementById(id);
+        if (!el) continue;
+        const rect = el.getBoundingClientRect();
+        if (rect.top <= 120) current = id;
+      }
+      setActiveSection(current);
+    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const navItems: { id: ViewType; label: string }[] = [
-    { id: 'landing', label: 'Home' },
-    { id: 'system', label: 'Brain' },
-    { id: 'skills', label: 'Stack' },
-    { id: 'playground', label: 'Sandbox' },
-    { id: 'projects', label: 'Works' },
-    { id: 'philosophy', label: 'Story' },
-  ];
+  useEffect(() => {
+    document.body.style.overflow = menuOpen ? 'hidden' : '';
+    return () => { document.body.style.overflow = ''; };
+  }, [menuOpen]);
 
-  const handleNav = (id: ViewType) => {
-    setView(id);
-    setIsMobileMenuOpen(false);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+  const scrollTo = (id: string) => {
+    setMenuOpen(false);
+    if (id === 'hero') { window.scrollTo({ top: 0, behavior: 'smooth' }); return; }
+    const el = document.getElementById(id);
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
 
   return (
     <>
-      <nav className={classNames('navbar', { 'visible': isReady || heroAnimationComplete || currentView !== 'landing' })}>
-        <div className="logo mono" style={{ fontWeight: 800, fontSize: '1.2rem', letterSpacing: '-0.05em' }}>
-          WATCHARAPON<span style={{ color: 'var(--accent-primary)', opacity: 0.5 }}>.DEV</span>
-        </div>
+      <motion.nav
+        initial={{ y: -80, opacity: 0 }}
+        animate={{ y: visible ? 0 : -80, opacity: visible ? 1 : 0 }}
+        transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+        style={{
+          position: 'fixed', top: 0, left: 0, right: 0, height: '64px',
+          zIndex: 1000, display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+          padding: '0 3rem', background: scrolled ? 'rgba(0,0,0,0.95)' : 'transparent',
+          backdropFilter: scrolled ? 'blur(15px)' : 'none',
+          borderBottom: scrolled ? '1px solid rgba(255,255,255,0.1)' : 'none',
+          transition: 'background 0.4s ease, border-color 0.4s ease',
+        }}
+      >
+        <button onClick={() => scrollTo('hero')} style={{
+          fontFamily: 'var(--font-mono)', fontWeight: 800, fontSize: '1.1rem',
+          letterSpacing: '-0.04em', color: '#fff', background: 'none', border: 'none', cursor: 'pointer'
+        }}>
+          watcharapon
+        </button>
 
-        {/* Desktop Links */}
-        <div className="nav-links">
-          {navItems.map((item) => (
-            <button
-              key={item.id}
-              onClick={() => handleNav(item.id)}
-              className={classNames('nav-item', { active: currentView === item.id })}
-            >
+        <div style={{ display: 'flex', alignItems: 'center', gap: '2rem' }} className="nav-desktop-links">
+          {NAV_ITEMS.map(item => (
+            <button key={item.id} onClick={() => scrollTo(item.id)} style={{
+              fontFamily: 'var(--font-mono)', fontSize: '0.75rem', fontWeight: 700,
+              letterSpacing: '0.1em', textTransform: 'uppercase',
+              color: activeSection === item.id ? '#fff' : 'rgba(255,255,255,0.4)',
+              background: 'none', border: 'none', cursor: 'pointer',
+              position: 'relative', transition: 'color 0.3s'
+            }}>
               {item.label}
+              {activeSection === item.id && (
+                <motion.div layoutId="nav-underline" style={{
+                  position: 'absolute', bottom: -5, left: 0, right: 0, height: '1px', background: '#fff'
+                }} />
+              )}
             </button>
           ))}
+          <a href={resumePdf} download className="nav-resume-btn">Resume</a>
         </div>
 
-        {/* Mobile Toggle */}
-        <button
-          className="mobile-toggle"
-          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          style={{ display: 'none', fontSize: '1.5rem', padding: '0.5rem' }}
-        >
-          {isMobileMenuOpen ? <TbX /> : <TbMenu2 />}
+        <button className="nav-burger" onClick={() => setMenuOpen(!menuOpen)} style={{
+          background: 'none', border: '1px solid rgba(255,255,255,0.2)', color: '#fff',
+          padding: '0.4rem 0.6rem', cursor: 'pointer', display: 'none'
+        }}>
+          {menuOpen ? <TbX size={22} /> : <TbMenu2 size={22} />}
         </button>
-      </nav>
+      </motion.nav>
 
-      {/* Modern Mobile Menu Overlay */}
-      <div className={classNames('mobile-menu-overlay', { active: isMobileMenuOpen })}>
-        <div className="mobile-menu-content">
-          <div className="label" style={{ marginBottom: '2rem', textAlign: 'center' }}>Navigation / Menu</div>
-          <div className="mobile-nav-list">
-            {navItems.map((item, i) => (
-              <button
-                key={item.id}
-                onClick={() => handleNav(item.id)}
-                className={classNames('mobile-nav-item mono', { active: currentView === item.id })}
-                style={{ transitionDelay: `${i * 0.1}s` }}
-              >
-                <span style={{ fontSize: '0.7rem', opacity: 0.3, marginRight: '1rem' }}>0{i + 1}</span>
-                {item.label.toUpperCase()}
-              </button>
+      <AnimatePresence>
+        {menuOpen && (
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} style={{
+            position: 'fixed', inset: 0, background: '#000', zIndex: 999,
+            display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'
+          }}>
+            {NAV_ITEMS.map((item, i) => (
+              <motion.button key={item.id} initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: i * 0.05 }}
+                onClick={() => scrollTo(item.id)} style={{
+                  fontSize: '2.5rem', fontWeight: 800, color: activeSection === item.id ? '#fff' : 'rgba(255,255,255,0.2)',
+                  background: 'none', border: 'none', marginBottom: '1.5rem', textTransform: 'uppercase'
+              }}>
+                {item.label}
+              </motion.button>
             ))}
-          </div>
-        </div>
-      </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       <style>{`
-        @media (max-width: 1024px) {
-          .mobile-toggle {
-            display: block !important;
-            z-index: 2001;
-          }
+        .nav-resume-btn {
+          font-family: var(--font-mono); font-size: 0.72rem; font-weight: 800;
+          color: #000; background: #fff; padding: 0.45rem 1.2rem; text-decoration: none;
+          transition: all 0.3s;
         }
-
-        .mobile-menu-overlay {
-          position: fixed;
-          inset: 0;
-          background: white;
-          z-index: 2000;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          padding: 2rem;
-          transform: translateY(-100%);
-          transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        .mobile-menu-overlay.active {
-          transform: translateY(0);
-        }
-
-        .mobile-nav-list {
-          display: flex;
-          flex-direction: column;
-          gap: 1.5rem;
-        }
-
-        .mobile-nav-item {
-          font-size: 2.5rem;
-          font-weight: 800;
-          text-align: left;
-          background: none;
-          border: none;
-          cursor: pointer;
-          opacity: 0;
-          transform: translateY(20px);
-          transition: all 0.5s ease;
-        }
-
-        .mobile-menu-overlay.active .mobile-nav-item {
-          opacity: 1;
-          transform: translateY(0);
-        }
-
-        .mobile-nav-item.active {
-          color: black;
-        }
-        
-        .mobile-nav-item:not(.active) {
-          color: #ccc;
+        .nav-resume-btn:hover { background: #ccc; }
+        @media (max-width: 900px) {
+          .nav-desktop-links { display: none !important; }
+          .nav-burger { display: block !important; }
         }
       `}</style>
     </>

@@ -1,23 +1,24 @@
 import mineImg from '@/imge/mine.jpg';
 import SectionHeader from './SectionHeader';
-import { TbMail, TbPhone, TbBrandGithub, TbAward, TbTrophy } from 'react-icons/tb';
+import { TbMail, TbPhone, TbBrandGithub } from 'react-icons/tb';
+import { Medal } from 'lucide-react';
 
 export default function Philosophy() {
   const stats = [
     { value: "4+", label: "Years Coding" },
     { value: "7+", label: "Real Projects" },
     { value: "3", label: "Hackathons" },
-    { value: "2.97", label: "GPA" },
+    { value: "100%", label: "Delivery Rate" },
   ];
 
   const awards = [
-    { icon: "🥈", title: "2nd Place Runner-Up", event: "KUSE AI Hackathon 2025" },
-    { icon: "🏆", title: "Participant", event: "UI Design-athon 2025" },
-    { icon: "🔐", title: "Open Level", event: "RERU Cyber Hackathon 2025" },
+    { icon: <Medal size={20} strokeWidth={1.5} />, title: "Winner", event: "UI Design-athon 2025" },
+    { icon: <Medal size={20} strokeWidth={1.5} />, title: "1st Runner-up", event: "KUSE AI Hackathon 2025" },
+    { icon: <Medal size={20} strokeWidth={1.5} />, title: "Participant", event: "RERU Cyber Hackathon 2025" },
   ];
 
   return (
-    <div className="section container" style={{ minHeight: '80vh', display: 'flex', alignItems: 'center', paddingTop: '5rem', paddingBottom: '5rem' }}>
+    <div className="section container" style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', paddingTop: '7rem', paddingBottom: '7rem', background: '#000', color: '#fff' }}>
       <div className="animate-enter story-root" style={{ width: '100%' }}>
 
         {/* Section Header */}
@@ -31,7 +32,6 @@ export default function Philosophy() {
 
           {/* Left: Photo + Stats */}
           <div className="story-left">
-            {/* Photo container */}
             <div className="photo-wrapper">
               <div className="photo-bg-accent" />
               <div className="photo-frame">
@@ -39,18 +39,18 @@ export default function Philosophy() {
                   src={mineImg}
                   alt="Watcharapon"
                   className="story-photo"
+                  style={{ filter: 'grayscale(1) brightness(0.9) contrast(1.1)' }}
                 />
               </div>
-              <div className="photo-badge mono">
+              <div className="photo-badge mono" style={{ background: '#000', border: '1px solid #fff', color: '#fff' }}>
                 <span>@Bangkok, Thailand</span>
               </div>
             </div>
 
-            {/* Stats grid */}
-            <div className="story-stats">
+            <div className="story-stats" style={{ borderColor: 'rgba(255,255,255,0.1)' }}>
               {stats.map((s, i) => (
-                <div key={i} className="story-stat">
-                  <div className="mono story-stat-value">{s.value}</div>
+                <div key={i} className="story-stat" style={{ borderColor: 'rgba(255,255,255,0.1)' }}>
+                  <div className="mono story-stat-value" style={{ color: '#fff' }}>{s.value}</div>
                   <div className="mono story-stat-label">{s.label}</div>
                 </div>
               ))}
@@ -59,76 +59,70 @@ export default function Philosophy() {
 
           {/* Right: Narrative */}
           <div className="story-right">
-            {/* Bio */}
-            <div className="story-section stagger-item">
-              <p className="story-bio">
-                I'm a <strong>Full-Stack Developer and AI Engineer</strong> from Thailand,
-                completing my B.Sc. in Computer Science (Co-op Program) at Kasetsart University
-                Chalermphrakiat. My co-op at <strong>Sycapt Co., Ltd.</strong> gave me real enterprise
-                experience — from building On-Premises RAG systems to solving hardware constraints creatively,
-                like running <strong>4 LLMs on just 16GB of VRAM</strong>.
+            {/* Education Profile */}
+            <div className="story-section stagger-item" style={{ marginBottom: '3rem', padding: '2rem', background: 'rgba(255,255,255,0.03)', borderLeft: '4px solid #fff' }}>
+              <h3 className="mono" style={{ fontSize: '0.8rem', color: 'rgba(255,255,255,0.4)', marginBottom: '0.5rem', letterSpacing: '0.2rem' }}>EDUCATION</h3>
+              <p style={{ margin: 0, fontSize: '1.2rem', fontWeight: 800, color: '#fff' }}>Kasetsart University</p>
+              <p style={{ margin: '0.25rem 0', color: 'rgba(255,255,255,0.5)', fontSize: '1rem' }}>B.Sc. in Computer Science (Co-op Program)</p>
+              <div style={{ display: 'flex', gap: '1.5rem', marginTop: '1rem' }}>
+                <span className="mono" style={{ fontSize: '0.8rem', fontWeight: 600 }}>GRADUATION: 2025</span>
+              </div>
+            </div>
+
+            <div className="story-section stagger-item" style={{ marginBottom: '3rem' }}>
+              <p className="story-bio" style={{ fontSize: '1.1rem', color: 'rgba(255,255,255,0.7)', lineHeight: 1.9, fontWeight: 400 }}>
+                I am a systems engineer with technical knowledge spanning across DevOps, AI Engineering, Full-Stack Development, Mobile Applications, and Data Science. My professional journey is focused on the practical implementation of these domains—from orchestrating scalable infrastructure to building autonomous AI systems—to solve complex production challenges with precision and reliability.
               </p>
             </div>
 
             {/* Philosophy blocks */}
             <div className="story-section stagger-item">
-              <h3 className="mono story-section-title">Core Philosophy</h3>
+              <h3 className="mono story-section-title" style={{ borderColor: 'rgba(255,255,255,0.1)' }}>Core Philosophy</h3>
               <div className="philosophy-blocks">
-                <div className="philosophy-block">
-                  <div className="philosophy-block-num mono">01</div>
-                  <div>
-                    <strong className="philosophy-block-name">Clarity over Cleverness</strong>
-                    <p className="philosophy-block-desc">Readable, maintainable code over obscure abstractions. A system is only as good as its weakest link — and that's often maintainability.</p>
-                  </div>
-                </div>
-                <div className="philosophy-block">
-                  <div className="philosophy-block-num mono">02</div>
-                  <div>
-                    <strong className="philosophy-block-name">Impact-Driven Engineering</strong>
-                    <p className="philosophy-block-desc">Every decision — database schema, infrastructure, AI model choice — must serve a clear user need and real business goals.</p>
-                  </div>
-                </div>
-                <div className="philosophy-block">
-                  <div className="philosophy-block-num mono">03</div>
-                  <div>
-                    <strong className="philosophy-block-name">Constraint-Driven Innovation</strong>
-                    <p className="philosophy-block-desc">My best solutions came from hard limits. When you only have 16GB VRAM but need 4 LLMs, you don't give up — you design a smarter system.</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Awards */}
-            <div className="story-section stagger-item">
-              <h3 className="mono story-section-title">Recognition</h3>
-              <div className="awards-list">
-                {awards.map((a, i) => (
-                  <div key={i} className="award-item">
-                    <span className="award-icon">{a.icon}</span>
+                {[
+                  { id: '01', name: 'Clarity over Cleverness', desc: 'Maintainability is the highest engineering virtue.' },
+                  { id: '02', name: 'Impact-Driven Engineering', desc: 'Every line of code serves a user need and a business goal.' },
+                  { id: '03', name: 'Constraint-Driven Innovation', desc: 'Hard limits foster the smartest, most creative solutions.' }
+                ].map(item => (
+                  <div key={item.id} className="philosophy-block">
+                    <div className="philosophy-block-num mono" style={{ color: '#fff' }}>{item.id}</div>
                     <div>
-                      <div className="mono award-title">{a.title}</div>
-                      <div className="mono award-event">{a.event}</div>
+                      <strong className="philosophy-block-name" style={{ color: '#fff' }}>{item.name}</strong>
+                      <p className="philosophy-block-desc" style={{ color: 'rgba(255,255,255,0.5)' }}>{item.desc}</p>
                     </div>
                   </div>
                 ))}
               </div>
             </div>
 
-            {/* Contact */}
-            <div className="story-section stagger-item">
-              <div className="mono story-availability">
-                Open to Full-Time &amp; Freelance opportunities
+            {/* Awards list (New) */}
+            <div className="story-section stagger-item" style={{ marginTop: '2rem' }}>
+              <h3 className="mono story-section-title" style={{ borderColor: 'rgba(255,255,255,0.1)' }}>Awards & Hackathons</h3>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.5rem' }}>
+                {awards.map((a, i) => (
+                  <div key={i} style={{ background: 'rgba(255,255,255,0.03)', padding: '1.5rem', borderLeft: '1px solid #fff' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.8rem', marginBottom: '0.5rem' }}>
+                      {a.icon} <span className="mono" style={{ fontWeight: 900, fontSize: '0.85rem' }}>{a.title}</span>
+                    </div>
+                    <div className="mono" style={{ fontSize: '0.7rem', opacity: 0.5 }}>{a.event}</div>
+                  </div>
+                ))}
               </div>
-              <div className="contact-links">
-                <a href="mailto:watcharapon.thod@gmail.com" className="contact-link-main">
+            </div>
+
+            {/* Contact Box (Merged) */}
+            <div id="contact" className="story-section stagger-item" style={{ marginTop: '2rem', padding: '2.5rem', background: '#fff', color: '#000' }}>
+              <div className="mono" style={{ fontSize: '0.7rem', fontWeight: 900, marginBottom: '1.5rem', letterSpacing: '0.2rem' }}>AVAILABLE_FOR_HIRE</div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+                <a href="mailto:watcharapon.thod@gmail.com" style={{ fontSize: 'clamp(1.2rem, 3vw, 2rem)', fontWeight: 950, color: '#000', textDecoration: 'none', borderBottom: '3px solid #000' }}>
                   watcharapon.thod@gmail.com
                 </a>
-                <div className="contact-secondary">
-                  <a href="tel:0944532072" className="contact-secondary-link mono">
-                    <TbPhone size={14} /> 094-453-2072
+                <div style={{ display: 'flex', gap: '2rem', flexWrap: 'wrap' }} className="mono">
+                  <a href="tel:0944532072" style={{ color: '#000', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.9rem', fontWeight: 700 }}>
+                    <TbPhone size={18} /> 094-453-2072
                   </a>
-                  <a href="https://github.com/watcharapon" target="_blank" rel="noopener noreferrer" className="contact-secondary-link mono">
-                    <TbBrandGithub size={14} /> github.com/watcharapon
+                  <a href="https://github.com/watcharaponthod-code" target="_blank" rel="noreferrer" style={{ color: '#000', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.9rem', fontWeight: 700 }}>
+                    <TbBrandGithub size={18} /> GITHUB_REPOSITORY
                   </a>
                 </div>
               </div>
@@ -136,313 +130,28 @@ export default function Philosophy() {
 
           </div>
         </div>
-
       </div>
 
       <style>{`
-        .story-root {
-          display: flex;
-          flex-direction: column;
-        }
-
-        .story-grid {
-          display: grid;
-          grid-template-columns: 380px 1fr;
-          gap: 5rem;
-          align-items: start;
-          margin-top: 0;
-        }
-
-        /* ---- LEFT COLUMN ---- */
-        .story-left {
-          display: flex;
-          flex-direction: column;
-          gap: 2rem;
-        }
-
-        .photo-wrapper {
-          position: relative;
-        }
-
-        .photo-bg-accent {
-          position: absolute;
-          top: 20px;
-          left: 20px;
-          right: -20px;
-          bottom: -20px;
-          border: 1px solid black;
-          opacity: 0.08;
-          z-index: 0;
-          pointer-events: none;
-        }
-
-        .photo-frame {
-          position: relative;
-          z-index: 1;
-          overflow: hidden;
-          border: 1px solid var(--border-strong);
-        }
-
-        .story-photo {
-          width: 100%;
-          height: auto;
-          display: block;
-          filter: grayscale(100%) contrast(1.05);
-          transition: filter 0.5s ease, transform 0.5s ease;
-        }
-
-        .photo-frame:hover .story-photo {
-          filter: grayscale(80%) contrast(1.1);
-          transform: scale(1.02);
-        }
-
-        .photo-badge {
-          position: absolute;
-          bottom: 20px;
-          left: 20px;
-          z-index: 2;
-          background: white;
-          border: 1px solid var(--border-strong);
-          padding: 0.4rem 0.8rem;
-          font-size: 0.7rem;
-          font-weight: 700;
-          color: var(--text-secondary);
-          letter-spacing: 0.05em;
-        }
-
-        .story-stats {
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          border: 1px solid var(--border-strong);
-          overflow: hidden;
-        }
-
-        .story-stat {
-          padding: 1.25rem;
-          border-right: 1px solid var(--border-strong);
-          border-bottom: 1px solid var(--border-strong);
-          text-align: center;
-          transition: background 0.2s;
-        }
-
-        .story-stat:hover {
-          background: var(--bg-secondary);
-        }
-
-        .story-stat:nth-child(even) {
-          border-right: none;
-        }
-
-        .story-stat:nth-child(3),
-        .story-stat:nth-child(4) {
-          border-bottom: none;
-        }
-
-        .story-stat-value {
-          font-size: 1.8rem;
-          font-weight: 800;
-          color: var(--text-primary);
-          line-height: 1;
-          margin-bottom: 0.3rem;
-        }
-
-        .story-stat-label {
-          font-size: 0.6rem;
-          font-weight: 700;
-          color: var(--text-tertiary);
-          letter-spacing: 0.1em;
-          text-transform: uppercase;
-        }
-
-        /* ---- RIGHT COLUMN ---- */
-        .story-right {
-          display: flex;
-          flex-direction: column;
-          gap: 2.5rem;
-        }
-
-        .story-section {
-          padding-bottom: 2.5rem;
-          border-bottom: 1px solid var(--border-light);
-        }
-
-        .story-section:last-child {
-          border-bottom: none;
-          padding-bottom: 0;
-        }
-
-        .story-bio {
-          font-size: 1.1rem;
-          line-height: 1.75;
-          color: var(--text-secondary);
-          max-width: 600px;
-        }
-
-        .story-bio strong {
-          color: var(--text-primary);
-          font-weight: 700;
-        }
-
-        .story-section-title {
-          font-size: 0.72rem;
-          font-weight: 700;
-          letter-spacing: 0.12em;
-          text-transform: uppercase;
-          color: var(--text-tertiary);
-          margin-bottom: 1.5rem;
-          padding-bottom: 0.5rem;
-          border-bottom: 1px solid var(--border-light);
-        }
-
-        .philosophy-blocks {
-          display: flex;
-          flex-direction: column;
-          gap: 1.5rem;
-        }
-
-        .philosophy-block {
-          display: flex;
-          gap: 1.5rem;
-          align-items: flex-start;
-        }
-
-        .philosophy-block-num {
-          font-size: 0.7rem;
-          font-weight: 700;
-          color: var(--text-tertiary);
-          opacity: 0.5;
-          margin-top: 0.2rem;
-          flex-shrink: 0;
-          width: 24px;
-        }
-
-        .philosophy-block-name {
-          display: block;
-          font-size: 0.95rem;
-          font-weight: 700;
-          color: var(--text-primary);
-          margin-bottom: 0.3rem;
-        }
-
-        .philosophy-block-desc {
-          font-size: 0.9rem;
-          line-height: 1.6;
-          color: var(--text-secondary);
-          margin: 0;
-          max-width: none;
-        }
-
-        .awards-list {
-          display: flex;
-          flex-direction: column;
-          gap: 1rem;
-        }
-
-        .award-item {
-          display: flex;
-          align-items: center;
-          gap: 1rem;
-          padding: 0.75rem 1rem;
-          background: var(--bg-secondary);
-          border-left: 3px solid black;
-          transition: transform 0.2s;
-        }
-
-        .award-item:hover {
-          transform: translateX(4px);
-        }
-
-        .award-icon {
-          font-size: 1.4rem;
-          flex-shrink: 0;
-        }
-
-        .award-title {
-          font-size: 0.85rem;
-          font-weight: 700;
-          color: var(--text-primary);
-          margin-bottom: 0.1rem;
-        }
-
-        .award-event {
-          font-size: 0.7rem;
-          color: var(--text-tertiary);
-          letter-spacing: 0.05em;
-        }
-
-        .story-availability {
-          font-size: 0.7rem;
-          font-weight: 700;
-          letter-spacing: 0.1em;
-          text-transform: uppercase;
-          color: var(--text-tertiary);
-          margin-bottom: 0.75rem;
-        }
-
-        .contact-link-main {
-          font-size: clamp(1rem, 2.5vw, 1.4rem);
-          color: var(--text-primary);
-          text-decoration: none;
-          font-weight: 800;
-          border-bottom: 2px solid black;
-          padding-bottom: 3px;
-          display: inline-block;
-          margin-bottom: 1rem;
-          transition: opacity 0.2s;
-        }
-
-        .contact-link-main:hover {
-          opacity: 0.7;
-        }
-
-        .contact-secondary {
-          display: flex;
-          gap: 2rem;
-          flex-wrap: wrap;
-        }
-
-        .contact-secondary-link {
-          display: flex;
-          align-items: center;
-          gap: 0.4rem;
-          font-size: 0.82rem;
-          color: var(--text-secondary);
-          text-decoration: none;
-          transition: color 0.2s;
-        }
-
-        .contact-secondary-link:hover {
-          color: var(--text-primary);
-        }
-
-        /* Responsive */
-        @media (max-width: 1024px) {
-          .story-grid {
-            grid-template-columns: 1fr;
-            gap: 3rem;
-          }
-
-          .photo-bg-accent {
-            display: none;
-          }
-
-          .story-left {
-            max-width: 480px;
-            margin: 0 auto;
-            width: 100%;
-          }
-        }
-
-        @media (max-width: 640px) {
-          .story-grid {
-            gap: 2rem;
-          }
-
-          .contact-secondary {
-            flex-direction: column;
-            gap: 0.75rem;
-          }
-        }
+        .story-grid { display: grid; grid-template-columns: 400px 1fr; gap: 6rem; align-items: start; }
+        .photo-wrapper { position: relative; }
+        .photo-frame { border: 1px solid rgba(255,255,255,0.1); overflow: hidden; background: #111; }
+        .story-photo { width: 100%; transition: transform 0.5s; }
+        .photo-frame:hover .story-photo { transform: scale(1.05); }
+        .photo-badge { position: absolute; bottom: 20px; left: 20px; padding: 0.5rem 1rem; font-size: 0.7rem; font-weight: 800; }
+        .story-stats { display: grid; grid-template-columns: 1fr 1fr; border: 1px solid rgba(255,255,255,0.1); margin-top: 2rem; }
+        .story-stat { padding: 1.5rem; border-right: 1px solid rgba(255,255,255,0.1); border-bottom: 1px solid rgba(255,255,255,0.1); text-align: center; }
+        .story-stat:nth-child(even) { border-right: none; }
+        .story-stat:nth-child(3), .story-stat:nth-child(4) { border-bottom: none; }
+        .story-stat-value { font-size: 2rem; font-weight: 900; }
+        .story-stat-label { font-size: 0.6rem; opacity: 0.4; letter-spacing: 0.1em; }
+        .story-right { display: flex; flex-direction: column; gap: 4rem; }
+        .story-section-title { font-size: 0.8rem; font-weight: 900; letter-spacing: 0.2rem; text-transform: uppercase; margin-bottom: 2rem; padding-bottom: 0.5rem; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .philosophy-blocks { display: flex; flexDirection: column; gap: 2rem; }
+        .philosophy-block { display: flex; gap: 2rem; }
+        .philosophy-block-num { font-size: 0.8rem; font-weight: 900; opacity: 0.3; }
+        .philosophy-block-name { font-size: 1.1rem; font-weight: 800; display: block; margin-bottom: 0.5rem; }
+        @media (max-width: 1100px) { .story-grid { grid-template-columns: 1fr; gap: 4rem; } .story-left { max-width: 500px; margin: 0 auto; } }
       `}</style>
     </div>
   );

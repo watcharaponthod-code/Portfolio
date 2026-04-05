@@ -2,7 +2,6 @@ import { useState, useRef, useEffect } from 'react';
 import { GoogleGenAI } from "@google/genai";
 import { TbMessageCircle, TbTerminal, TbCpu, TbSend, TbToggleRight, TbToggleLeft, TbBolt } from 'react-icons/tb';
 import { getRelevantContext } from '@/lib/knowledge';
-import GlitchText from '../visuals/GlitchText';
 
 export default function AIPlayground() {
   const [input, setInput] = useState('');
@@ -94,7 +93,7 @@ export default function AIPlayground() {
         <div>
           <div className="mono sandbox-subtitle-label">05 / AI SYSTEM SANDBOX</div>
           <h1 className="sandbox-title">
-            <GlitchText text="Live RAG Demo" />
+            Live RAG Demo
           </h1>
           <p className="mono sandbox-desc">
             Test the retrieval-augmented generation pipeline. Ask anything about Oat's background, skills, or projects.
@@ -125,10 +124,10 @@ export default function AIPlayground() {
               {!output && !isLoading && (
                 <div className="terminal-idle">
                   <div className="mono" style={{ color: 'rgba(16,185,129,0.5)', fontSize: '0.8rem' }}>
-                    $ system ready — RAG pipeline initialized
+                    System active — Ready for questions
                   </div>
                   <div className="mono" style={{ color: 'rgba(255,255,255,0.3)', fontSize: '0.75rem', marginTop: '0.5rem' }}>
-                    {`>`} Ask me anything about Watcharapon's background...
+                    {`>`} Please select a quick query or type your own...
                   </div>
                   {/* Suggestions */}
                   <div style={{ marginTop: '1.5rem', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
@@ -225,7 +224,7 @@ export default function AIPlayground() {
             <div className="metrics-grid">
               <div className="metric-item">
                 <div className="mono metric-label">
-                  <TbBolt size={11} style={{ marginRight: '0.3rem' }} />
+                  <span style={{ marginRight: '0.3rem', display: 'flex' }}><TbBolt size={11} /></span>
                   LATENCY
                 </div>
                 <div className="mono metric-value">{latency ? `${latency}ms` : '--'}</div>
