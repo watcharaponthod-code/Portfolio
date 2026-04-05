@@ -4,6 +4,7 @@
 */
 import { useLiveAPIContext } from '@/contexts/LiveAPIContext';
 import React, { useEffect, useState } from 'react';
+import { Unplug } from 'lucide-react';
 
 export interface ExtendedErrorType {
   code?: number;
@@ -48,10 +49,13 @@ export default function ErrorScreen() {
     <div className="error-screen">
       <div
         style={{
-          fontSize: 48,
+          display: 'flex',
+          justifyContent: 'center',
+          marginBottom: '1rem',
+          opacity: 0.8
         }}
       >
-        💔
+        <Unplug size={48} />
       </div>
       <div
         className="error-message-container"

@@ -1,391 +1,393 @@
-import { useEffect, useRef, useState } from 'react';
-import { useUI } from '@/lib/state';
-import { TbArrowDown, TbBrandGithub, TbMail } from 'react-icons/tb';
-
-// Sections
+import { useEffect, useRef, useState, useCallback } from 'react';
+import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
+import PresentationMode from './PresentationMode';
 import Philosophy from './Philosophy';
 import SkillArchitecture from './SkillArchitecture';
-import SystemBrain from './SystemBrain';
 import Projects from './Projects';
+import ScrambleText from '../visuals/ScrambleText';
 import MatrixRain from '../visuals/MatrixRain';
+import { TbArrowDown } from 'react-icons/tb';
+import resumePdf from '@/components/project/Resume.pdf';
 
-export default function Landing() {
-  const { setHeroAnimationComplete, setView } = useUI();
-  const [showAi, setShowAi] = useState(false);
+interface LandingProps {
+  onPresentationComplete?: () => void;
+}
 
-  // Typewriter State
-  const [nameText, setNameText] = useState('');
-  const [roleText, setRoleText] = useState('');
-  const [stage, setStage] = useState(0); // 0: start, 1: name done, 2: role done
+// ── Hacker Preloader (Monochrome) ──────────────────────────────
+function HackerPreloader({ onDone }: { onDone: () => void }) {
+  const [visible, setVisible] = useState(true);
+  const [lines, setLines] = useState<string[]>([]);
+  const [exiting, setExiting] = useState(false);
+
+  const bootLines = [
+    '[XBIOS] LOADING CORE KERNEL... DONE',
+    '[NETWORK] CRYPTO_SYNC... OK',
+    '[AUTH] DECRYPTING IDENTITY: WATCHARAPON_THOD',
+    '[SYS] MOUNTING KNOWLEDGE VAULT [v4.0]...',
+    '[PKG] RENDERING SYSTEMS_INIT SUCCESSFUL',
+  ];
 
   useEffect(() => {
-    if (stage === 2) {
-      setHeroAnimationComplete(true);
-    }
-  }, [stage, setHeroAnimationComplete]);
-
-  const fullName = "Watcharapon";
-  const fullRole = "Full Stack Systems Engineer";
-
-  // Typewriter Effect
-  useEffect(() => {
-    let nameIndex = 0;
-    let roleIndex = 0;
-    let nameTimer: NodeJS.Timeout;
-    let roleTimer: NodeJS.Timeout;
-
-    const startTyping = setTimeout(() => {
-      nameTimer = setInterval(() => {
-        setNameText(fullName.slice(0, nameIndex + 1));
-        nameIndex++;
-        if (nameIndex === fullName.length) {
-          clearInterval(nameTimer);
-          setStage(1);
+    document.body.style.overflow = 'hidden';
+    let idx = 0;
+    const addLine = () => {
+      if (idx < bootLines.length) {
+        setLines(prev => [...prev, bootLines[idx]]);
+        idx++;
+        setTimeout(addLine, 150 + Math.random() * 100);
+      } else {
+        setTimeout(() => {
+          setExiting(true);
           setTimeout(() => {
-            roleTimer = setInterval(() => {
-              setRoleText(fullRole.slice(0, roleIndex + 1));
-              roleIndex++;
-              if (roleIndex === fullRole.length) {
-                clearInterval(roleTimer);
-                setStage(2);
-              }
-            }, 30);
-          }, 200);
-        }
-      }, 70);
-    }, 300);
-
-    return () => {
-      clearTimeout(startTyping);
-      clearInterval(nameTimer);
-      clearInterval(roleTimer);
-    };
-  }, []);
-
-  // Glitch State
-  const [isHeroDark, setIsHeroDark] = useState(true);
-  const [glitchName, setGlitchName] = useState(fullName);
-  const glitchChars = "!@#$%^&*()_+{}[]:;<>?";
-
-  // Auto-switch Hero Theme (Every 3s)
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setIsHeroDark(prev => !prev);
-    }, 3000);
-    return () => clearInterval(interval);
-  }, []);
-
-  // Scramble/Glitch Animation every 2s
-  useEffect(() => {
-    if (stage === 0 && nameText.length < fullName.length) return;
-
-    const interval = setInterval(() => {
-      const nameArray = fullName.split('');
-      const glitchCount = Math.random() > 0.2 ? 2 : 1;
-
-      const indices: number[] = [];
-      while (indices.length < glitchCount) {
-        const r = Math.floor(Math.random() * fullName.length);
-        if (!indices.includes(r)) indices.push(r);
+            setVisible(false);
+            onDone();
+          }, 800);
+        }, 500);
       }
-
-      indices.forEach(idx => {
-        nameArray[idx] = glitchChars[Math.floor(Math.random() * glitchChars.length)];
-      });
-
-      setGlitchName(nameArray.join(''));
-      setTimeout(() => setGlitchName(fullName), 300);
-    }, 2000);
-
-    return () => clearInterval(interval);
-  }, [stage, nameText]);
-
-  // Scroll Reveal Observer
-  useEffect(() => {
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-        }
-      });
-    }, { threshold: 0.1 });
-
-    document.querySelectorAll('.scroll-reveal').forEach((el) => observer.observe(el));
-
-    const handleToggle = () => {
-      setShowAi(true);
-      setTimeout(() => {
-        window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
-      }, 100);
     };
-    window.addEventListener('toggle-ai-assistant', handleToggle);
-
-    return () => {
-      observer.disconnect();
-      window.removeEventListener('toggle-ai-assistant', handleToggle);
-    };
+    addLine();
+    return () => { document.body.style.overflow = ''; };
   }, []);
+
+  if (!visible) return null;
+
+  return (
+    <motion.div
+      initial={{ y: 0 }}
+      animate={{ y: exiting ? '-100%' : 0 }}
+      transition={{ duration: 1, ease: [0.76, 0, 0.24, 1] }}
+      style={{
+        position: 'fixed', inset: 0, zIndex: 99999, background: '#000',
+        display: 'flex', flexDirection: 'column', justifyContent: 'center',
+        padding: '5rem', overflow: 'hidden'
+      }}
+    >
+      <div style={{ position: 'relative', zIndex: 1, maxWidth: '800px' }}>
+        <div style={{ fontSize: 'clamp(2rem, 5vw, 6rem)', fontWeight: 950, color: '#fff', marginBottom: '3rem', letterSpacing: '-0.04em' }}>
+          BOOT_SEQUENCER
+        </div>
+        <div className="mono" style={{ fontSize: '1rem', lineHeight: '2.5', color: 'rgba(255,255,255,0.3)' }}>
+          {lines.map((line, i) => (
+            <motion.div key={i} initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }}>
+              <span style={{ color: '#fff', marginRight: '1.5rem', opacity: 0.5 }}>#</span>{line}
+            </motion.div>
+          ))}
+          <span className="cursor-blink" style={{ color: '#fff' }}>█</span>
+        </div>
+      </div>
+    </motion.div>
+  );
+}
+
+// ── Hero Section (Restoring Stage 0/1/2) ────────────────────────
+function HeroSection() {
+  const [stage, setStage] = useState(0);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ['start start', 'end end'],
+  });
+
+  const scale = useTransform(scrollYProgress, [0, 0.5], [1, 0.5]);
+  const opacity = useTransform(scrollYProgress, [0, 0.2], [1, 0]);
+  const yParallax = useTransform(scrollYProgress, [0, 1], [0, -100]);
+
+  useEffect(() => {
+    // Stage logic
+    const t1 = setTimeout(() => setStage(1), 500);
+    const t2 = setTimeout(() => setStage(2), 2500);
+    return () => { clearTimeout(t1); clearTimeout(t2); };
+  }, []);
+
+  return (
+    <section ref={containerRef} id="hero" style={{ position: 'relative', height: '240vh', background: '#000' }}>
+      <motion.div className="hero-sticky-wrap">
+        <div style={{ position: 'absolute', inset: 0, opacity: 0.25, zIndex: 0 }}>
+          <MatrixRain opacity={1} isDark />
+        </div>
+
+        <motion.div className="container" style={{
+          position: 'relative', zIndex: 2, textAlign: 'center', scale: scale, y: yParallax
+        }}>
+          {/* Stage 1: Location */}
+          <div className="mono" style={{
+            fontSize: '0.9rem', color: 'rgba(255,255,255,0.4)', marginBottom: '2rem',
+            opacity: stage >= 1 ? 1 : 0, transition: 'opacity 0.8s', letterSpacing: '0.4em'
+          }}>
+            <ScrambleText text="BANGKOK // THAILAND" delay={200} duration={1000} />
+          </div>
+
+          {/* Stage 1: Name */}
+          <h1 style={{
+            fontSize: 'clamp(4rem, 14vw, 11rem)', fontWeight: 950, color: '#fff',
+            lineHeight: 0.85, letterSpacing: '-0.06em', marginBottom: '1.5rem',
+            opacity: stage >= 1 ? 1 : 0, transition: 'opacity 1.2s'
+          }}>
+            {stage >= 1 && <ScrambleText text="Watcharapon" delay={100} duration={1500} />}
+          </h1>
+
+          {/* Stage 1: Role */}
+          <div style={{
+            fontSize: 'clamp(1rem, 2.5vw, 1.5rem)', color: 'rgba(255,255,255,0.6)',
+            fontFamily: 'var(--font-mono)', opacity: stage >= 1 ? 1 : 0,
+            transition: 'opacity 1s delay 0.3s', fontWeight: 700, letterSpacing: '0.1em'
+          }}>
+            <ScrambleText text="Full Stack Systems Engineer" delay={800} duration={1200} chars="01" />
+            <span className="cursor-blink" style={{ color: '#fff' }}>_</span>
+          </div>
+
+          {/* Stage 2: Buttons */}
+          <motion.div style={{
+            display: 'flex', gap: '2rem', justifyContent: 'center', marginTop: '4rem',
+            opacity: stage >= 2 ? 1 : 0,
+            y: stage >= 2 ? 0 : 30,
+          }} transition={{ duration: 1 }}>
+            <a href={resumePdf} download className="btn-monochrome-primary">Download_CV</a>
+            <a href="mailto:watcharapon.thod@gmail.com" className="btn-monochrome-outline">Contact_Me</a>
+          </motion.div>
+        </motion.div>
+
+        {/* 2026 Futuristic Scroll Architecture */}
+        <motion.div 
+          className="futuristic-scroll-hint"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 3, duration: 1.5 }}
+        >
+          <div className="scroll-scanner-line">
+            <motion.div 
+              className="scanner-beam"
+              animate={{ top: ['0%', '100%', '0%'] }}
+              transition={{ repeat: Infinity, duration: 4, ease: "linear" }}
+            />
+          </div>
+          
+          <div className="scroll-meta mono">
+            <div className="meta-row">
+              <span className="meta-label">DEPTH:</span>
+              <motion.span 
+                className="meta-value"
+                animate={{ opacity: [0.3, 1, 0.3] }}
+                transition={{ repeat: Infinity, duration: 1.5 }}
+              >
+                00.00%
+              </motion.span>
+            </div>
+            <div className="meta-row pulse-row">
+              <span className="meta-label">STATUS:</span>
+              <span className="meta-value status-glow">ACTIVE_SCAN</span>
+            </div>
+          </div>
+          
+          <div className="scroll-text-vertical mono">
+            SCROLL_TO_INITIATE_SYSTEM_DIVE
+          </div>
+        </motion.div>
+      </motion.div>
+
+      <style>{`
+        .futuristic-scroll-hint {
+          position: absolute;
+          bottom: 3rem;
+          right: 5rem;
+          display: flex;
+          align-items: flex-end;
+          gap: 1.5rem;
+          z-index: 10;
+        }
+
+        .scroll-scanner-line {
+          width: 2px;
+          height: 120px;
+          background: rgba(255, 255, 255, 0.05);
+          position: relative;
+          overflow: hidden;
+        }
+
+        .scanner-beam {
+          position: absolute;
+          left: 0; right: 0;
+          height: 30px;
+          background: linear-gradient(to bottom, transparent, #fff, transparent);
+          box-shadow: 0 0 15px rgba(255,255,255,0.5);
+        }
+
+        .scroll-meta {
+          display: flex;
+          flex-direction: column;
+          gap: 0.5rem;
+          text-align: left;
+        }
+
+        .meta-row {
+          display: flex;
+          gap: 0.8rem;
+          font-size: 0.6rem;
+          letter-spacing: 0.1em;
+        }
+
+        .meta-label { color: rgba(255, 255, 255, 0.3); font-weight: 950; }
+        .meta-value { color: #fff; font-weight: 950; }
+
+        .status-glow {
+          color: #fff;
+          text-shadow: 0 0 8px rgba(255,255,255,0.5);
+          animation: status-pulse 2s infinite;
+        }
+
+        @keyframes status-pulse {
+          0%, 100% { opacity: 1; transform: scale(1); }
+          50% { opacity: 0.6; transform: scale(0.98); }
+        }
+
+        .scroll-text-vertical {
+          writing-mode: vertical-rl;
+          text-orientation: mixed;
+          font-size: 0.65rem;
+          font-weight: 950;
+          letter-spacing: 0.4em;
+          color: rgba(255, 255, 255, 0.2);
+          text-transform: uppercase;
+          height: 120px;
+          text-align: center;
+          border-left: 1px solid rgba(255,255,255,0.1);
+          padding-left: 0.8rem;
+        }
+
+        .btn-monochrome-primary {
+          background: #fff; color: #000; padding: 1.25rem 3.5rem; text-decoration: none;
+          font-family: var(--font-mono); font-weight: 900; font-size: 0.9rem;
+          text-transform: uppercase; letter-spacing: 0.3em; transition: all 0.4s;
+          border: 1px solid #fff;
+        }
+        .btn-monochrome-primary:hover { background: #000; color: #fff; transform: translateY(-5px); }
+        .btn-monochrome-outline {
+          border: 1px solid rgba(255,255,255,0.2); color: #fff; padding: 1.25rem 3.5rem;
+          text-decoration: none; font-family: var(--font-mono); font-weight: 900;
+          font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.3em; transition: all 0.4s;
+        }
+        .btn-monochrome-outline:hover { border-color: #fff; box-shadow: 0 0 30px rgba(255,255,255,0.1); transform: translateY(-5px); }
+      `}</style>
+    </section>
+  );
+}
+
+// ── Main Component ───────────────────────────────────────────────
+export default function Landing({ onPresentationComplete }: LandingProps) {
+  const [preloaderDone, setPreloaderDone] = useState(false);
+  const [presentationDone, setPresentationDone] = useState(false);
+  const [showPresentation, setShowPresentation] = useState(false);
+  
+  // Idle System Refs
+  const lastActivityTime = useRef(Date.now());
+  const autoPlayPhase = useRef<number>(0); // 0: none, 1: philo, 2: projects, 3: hero
+  const autoPlayTimeout = useRef<any>(null);
+
+  const resetIdleTimer = useCallback(() => {
+    lastActivityTime.current = Date.now();
+    // If we were auto-playing, stop it and wait 1 minute
+    if (autoPlayTimeout.current) {
+      clearTimeout(autoPlayTimeout.current);
+      autoPlayTimeout.current = null;
+    }
+  }, []);
+
+  useEffect(() => {
+    const events = ['scroll', 'mousemove', 'keydown', 'mousedown', 'wheel', 'touchstart'];
+    events.forEach(e => window.addEventListener(e, resetIdleTimer, { passive: true }));
+    return () => events.forEach(e => window.removeEventListener(e, resetIdleTimer));
+  }, [resetIdleTimer]);
 
   const scrollToSection = (id: string) => {
     const el = document.getElementById(id);
-    if (el) el.scrollIntoView({ behavior: 'smooth' });
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth' });
+    }
   };
 
-  const heroStats = [
-    { value: "B.Sc. CS", label: "KU CO-OP" },
-    { value: "5+", label: "Enterprise Proj" },
-    { value: "3", label: "Hackathons" },
-    { value: "Available", label: "For Hire" },
-  ];
+  const handleAutoPlay = useCallback(() => {
+    if (!presentationDone) return;
+
+    const idleTime = (Date.now() - lastActivityTime.current) / 1000;
+    
+    // Check if we reached the idle threshold
+    // If moved, wait 60s. If first time after pres, wait 5s.
+    const threshold = autoPlayPhase.current > 0 ? 60 : 5;
+
+    if (idleTime >= threshold) {
+      // Logic for scrolling phases
+      if (autoPlayPhase.current === 0) {
+        // Start: Philosophy
+        scrollToSection('philosophy');
+        autoPlayPhase.current = 1;
+        autoPlayTimeout.current = setTimeout(handleAutoPlay, 5000);
+      } else if (autoPlayPhase.current === 1) {
+        // Step: Projects
+        scrollToSection('projects');
+        autoPlayPhase.current = 2;
+        autoPlayTimeout.current = setTimeout(handleAutoPlay, 8000); // Give 8s for projects
+      } else if (autoPlayPhase.current === 2) {
+        // Loop back: Hero
+        scrollToSection('hero');
+        autoPlayPhase.current = 0; // Reset
+        autoPlayTimeout.current = setTimeout(handleAutoPlay, 10000); // Long wait at hero
+      }
+    } else {
+      // Re-check every second
+      autoPlayTimeout.current = setTimeout(handleAutoPlay, 1000);
+    }
+  }, [presentationDone]);
+
+  useEffect(() => {
+    if (presentationDone) {
+      handleAutoPlay();
+    }
+    return () => { if (autoPlayTimeout.current) clearTimeout(autoPlayTimeout.current); };
+  }, [presentationDone, handleAutoPlay]);
+
+  const handleComplete = useCallback(() => {
+    setPresentationDone(true);
+    setShowPresentation(false);
+    window.scrollTo({ top: 0, behavior: 'instant' });
+    document.body.style.overflow = '';
+    if (onPresentationComplete) onPresentationComplete();
+  }, [onPresentationComplete]);
 
   return (
-    <div className="landing-page" style={{ background: 'var(--bg-primary)', color: 'var(--text-primary)' }}>
-      {/* Hero Section */}
-      <div
-        className="hero-section"
-        style={{
-          minHeight: '100vh',
-          position: 'relative',
-          background: isHeroDark ? 'black' : 'white',
-          color: isHeroDark ? 'white' : 'black',
-          transition: 'background 0.5s ease, color 0.5s ease'
-        }}
-      >
-        <MatrixRain isDark={isHeroDark} opacity={isHeroDark ? 0.7 : 0.4} />
-        <div
-          className="hero-overlay"
-          style={{
-            position: 'absolute', top: 0, left: 0, right: 0, bottom: 0,
-            background: isHeroDark
-              ? 'radial-gradient(circle at center, transparent 0%, black 80%)'
-              : 'radial-gradient(circle at center, transparent 0%, white 80%)',
-            zIndex: 1,
-            transition: 'background 0.5s ease'
-          }}
-        />
+    <div className="landing-page">
+      {!preloaderDone && <HackerPreloader onDone={() => { setPreloaderDone(true); setShowPresentation(true); }} />}
 
-        <div className="container hero-content" style={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
-          textAlign: 'center',
-          height: '100vh',
-          paddingTop: 0,
-          position: 'relative',
-          zIndex: 2
-        }}>
-          {/* Location badge */}
-          <div className="hero-location-badge mono" style={{
-            marginBottom: '2rem',
-            opacity: stage >= 1 ? 1 : 0,
-            transition: 'opacity 0.5s ease',
-            color: 'inherit',
-          }}>
-            <span style={{ opacity: 0.5, marginRight: '0.5rem' }}>●</span>
-            Bangkok, Thailand
-          </div>
+      {showPresentation && !presentationDone && (
+        <PresentationMode onComplete={handleComplete} />
+      )}
 
-          {/* Name */}
-          <h1 className="hero-name-container" style={{ marginBottom: '0.5rem', width: '100%', minHeight: 'auto' }}>
-            <div className="mono hero-name" style={{
-              fontSize: 'clamp(2.5rem, 12vw, 8rem)',
-              fontWeight: 800,
-              letterSpacing: '-0.05em',
-              lineHeight: '0.9',
-              color: 'inherit',
-              wordWrap: 'break-word'
-            }}>
-              {stage < 1 ? nameText : glitchName}
-              {stage === 0 && <span className="cursor-blink">_</span>}
-            </div>
-          </h1>
+      {/* Main Content Sections */}
+      <HeroSection />
 
-          {/* Role subtitle */}
-          <div className="hero-subtitle" style={{
-            fontSize: 'clamp(0.875rem, 2.5vw, 1.5rem)',
-            fontWeight: 400,
-            color: 'inherit',
-            opacity: 0.8,
-            fontFamily: 'var(--font-mono)',
-            marginTop: '0.75rem',
-            letterSpacing: '0.05em',
-            textTransform: 'uppercase',
-            minHeight: '1.5rem'
-          }}>
-            {stage >= 1 && (
-              <>
-                <span className="hero-prompt-char" style={{ opacity: 0.9, marginRight: '8px' }}>&gt;</span>
-                {roleText}
-                <span className="cursor-blink">_</span>
-              </>
-            )}
-          </div>
+      {/* 01 / Philosophy (Building the Future) */}
+      <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}>
+        <div id="philosophy"><Philosophy /></div>
+      </motion.div>
 
-          {/* CTA buttons */}
-          {stage >= 2 && (
-            <div className="hero-ctas" style={{
-              display: 'flex',
-              gap: '1rem',
-              marginTop: '3rem',
-              opacity: 1,
-              animation: 'fadeInUp 0.6s ease forwards',
-            }}>
-              <button
-                onClick={() => scrollToSection('projects')}
-                className="hero-cta-primary mono"
-                style={{
-                  background: isHeroDark ? 'white' : 'black',
-                  color: isHeroDark ? 'black' : 'white',
-                  border: 'none',
-                  padding: '0.85rem 2rem',
-                  fontSize: '0.8rem',
-                  fontWeight: 700,
-                  letterSpacing: '0.1em',
-                  textTransform: 'uppercase',
-                  cursor: 'pointer',
-                  transition: 'opacity 0.2s',
-                }}
-              >
-                VIEW WORKS
-              </button>
-              <button
-                onClick={() => scrollToSection('philosophy')}
-                className="hero-cta-secondary mono"
-                style={{
-                  background: 'transparent',
-                  color: 'inherit',
-                  border: `1px solid ${isHeroDark ? 'rgba(255,255,255,0.4)' : 'rgba(0,0,0,0.4)'}`,
-                  padding: '0.85rem 2rem',
-                  fontSize: '0.8rem',
-                  fontWeight: 700,
-                  letterSpacing: '0.1em',
-                  textTransform: 'uppercase',
-                  cursor: 'pointer',
-                  transition: 'all 0.2s',
-                }}
-              >
-                MY STORY
-              </button>
-            </div>
-          )}
+      {/* 02 / Projects */}
+      <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}>
+        <div id="projects"><Projects /></div>
+      </motion.div>
 
-          {/* Quick stats row */}
-          {stage >= 2 && (
-            <div className="hero-stats-row" style={{
-              position: 'absolute',
-              bottom: '6rem',
-              left: 0,
-              right: 0,
-              display: 'flex',
-              justifyContent: 'center',
-              gap: '0',
-              padding: '0 4rem',
-              animation: 'fadeInUp 0.8s 0.3s ease forwards',
-              opacity: 0,
-            }}>
-              {heroStats.map((s, i) => (
-                <div key={i} className="hero-stat-item" style={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'center',
-                  padding: '1rem 2rem',
-                  borderRight: i < heroStats.length - 1 ? `1px solid ${isHeroDark ? 'rgba(255,255,255,0.15)' : 'rgba(0,0,0,0.1)'}` : 'none',
-                }}>
-                  <span className="mono" style={{ fontSize: '1.2rem', fontWeight: 800, color: 'inherit' }}>{s.value}</span>
-                  <span className="mono" style={{ fontSize: '0.6rem', color: 'inherit', opacity: 0.5, letterSpacing: '0.1em', textTransform: 'uppercase', marginTop: '0.2rem' }}>{s.label}</span>
-                </div>
-              ))}
-            </div>
-          )}
-
-          {/* Scroll indicator */}
-          {stage >= 2 && (
-            <div
-              onClick={() => scrollToSection('philosophy')}
-              style={{
-                position: 'absolute',
-                bottom: '2.5rem',
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                gap: '0.5rem',
-                cursor: 'pointer',
-                animation: 'fadeInUp 1s 0.5s ease forwards',
-                opacity: 0,
-                color: 'inherit',
-              }}
-            >
-              <span className="mono" style={{ fontSize: '0.6rem', opacity: 0.4, letterSpacing: '0.15em', textTransform: 'uppercase' }}>scroll</span>
-              <TbArrowDown size={16} style={{ opacity: 0.4, animation: 'bounce 2s infinite' }} />
-            </div>
-          )}
-        </div>
-      </div>
+      {/* 03 / Skills Architecture */}
+      <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}>
+        <div id="skills"><SkillArchitecture /></div>
+      </motion.div>
 
       <style>{`
-        @keyframes bounce {
-          0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
-          40% { transform: translateY(-6px); }
-          60% { transform: translateY(-3px); }
+        .hero-sticky-wrap {
+          position: sticky; top: 0; height: 100vh;
+          display: flex; flex-direction: column; align-items: center; justify-content: center;
+          overflow: hidden;
         }
-
-        .hero-cta-primary:hover {
-          opacity: 0.85 !important;
-        }
-
-        .hero-cta-secondary:hover {
-          border-opacity: 0.8 !important;
-          background: rgba(255,255,255,0.05) !important;
-        }
-
-        @media (max-width: 768px) {
-          .hero-name {
-            font-size: clamp(2.5rem, 10vw, 4rem) !important;
-            letter-spacing: -0.01em !important;
-          }
-          .hero-name-container {
-            min-height: 5rem !important;
-          }
-          .hero-subtitle {
-            font-size: 0.9rem !important;
-            letter-spacing: 0.05em !important;
-          }
-          .hero-prompt-char {
-            display: none;
-          }
-          .hero-stats-row {
-            padding: 0 1rem !important;
-            gap: 0 !important;
-          }
-          .hero-stat-item {
-            padding: 0.75rem 1rem !important;
-          }
-          .hero-ctas {
-            flex-direction: column;
-            align-items: center;
-          }
-        }
+        .landing-page { scroll-behavior: smooth; }
       `}</style>
-
-      {/* --- STORY SECTIONS --- */}
-      <div id="philosophy" className="scroll-reveal reveal-left" style={{ position: 'relative', zIndex: 10, background: 'var(--bg-primary)', borderTop: '1px solid #e5e7eb' }}>
-        <Philosophy />
-      </div>
-
-      <div id="skills" className="scroll-reveal reveal-right" style={{ position: 'relative', zIndex: 10, background: 'var(--bg-secondary)' }}>
-        <SkillArchitecture />
-      </div>
-
-      <div id="system" className="scroll-reveal reveal-left" style={{ position: 'relative', zIndex: 10, background: 'var(--bg-primary)' }}>
-        <div className="container section">
-          <SystemBrain />
-        </div>
-      </div>
-
-      <div id="projects" className="scroll-reveal reveal-right" style={{ position: 'relative', zIndex: 10, background: 'var(--bg-secondary)' }}>
-        <Projects />
-      </div>
     </div>
   );
 }

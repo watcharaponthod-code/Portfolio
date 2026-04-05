@@ -8,11 +8,13 @@ import ControlTray from '@/components/console/control-tray/ControlTray';
 import BasicFace from '@/components/demo/basic-face/BasicFace';
 
 export default function LiveAIDemo() {
-  const { client, connected, setConfig } = useLiveAPIContext();
+  const { client, connected, setConfig, connect } = useLiveAPIContext();
   const user = useUser();
   const { current } = useAgent();
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [lang, setLang] = useState<'th' | 'en'>('th');
+  const configuredRef = useRef(false);
+  const connectAttemptRef = useRef(false);
 
   useEffect(() => {
     const baseInstructions = createSystemInstructions(current, user);
@@ -20,21 +22,23 @@ export default function LiveAIDemo() {
     const thaiInstruction = `
     IMPORTANT OVERRIDE:
     1. You MUST speak in Thai Language (ภาษาไทย) only.
-    2. Adopt a "Thai Teenager / Tech Bro" persona (วัยรุ่นสายเทค).
-    3. Use slang words like: "คับผม", "สุดยอด", "เจ๋งเป้ง", "ตึงๆ", "เอาเรื่อง", "อาจารย์", "เทพซ่า".
-    4. When explaining tech, use "Thailish" (Thai mixed with English technical terms).
-    5. Be energetic, friendly, and act like a cool junior developer friend.
-    6. Refer to Watcharapon as "พี่โอ๊ต" (P'Oat).
-    7. ใช้เสียงแบบโทนต่ำดูเหนื่อย คำพูด toxic นิดๆ
+    2. Adopt a professional, polite, and helpful assistant persona (ผู้ช่วย AI แบบทางการและสุภาพ).
+    3. Provide accurate and factual information without exaggerating or boasting (ให้ข้อมูลตามจริง ไม่อวย).
+    4. Use formal language with appropriate polite particles (ครับ/ค่ะ).
+    5. Refer to Watcharapon as "คุณวัชรพล" (Khun Watcharapon).
+    6. Maintain a calm, professional, and clear tone of voice.
+    7. Avoid slang or overly informal language.
     `;
 
     const englishInstruction = `
     IMPORTANT OVERRIDE:
     1. You MUST speak in English only.
-    2. Adopt a "Cool Tech Bro" persona.
-    3. Be energetic, friendly, and act like a cool junior developer friend.
-    4. Refer to Watcharapon as "Oat".
-    5. Use slightly tired but cool tone.
+    2. Adopt a professional, polite, and helpful assistant persona.
+    3. Provide accurate and factual information without exaggerating or boasting.
+    4. Use clear, formal, and professional language.
+    5. Refer to Watcharapon as "Watcharapon".
+    6. Maintain a calm and professional tone of voice.
+    7. Avoid slang or informal expressions.
     `;
 
     const memoryContext = getMemoryString();
@@ -49,15 +53,14 @@ export default function LiveAIDemo() {
           prebuiltVoiceConfig: { voiceName: current.voice },
         },
       },
-      // VAD config: make end-of-speech detection more sensitive
-      // so the AI responds after the user finishes speaking
+      // VAD config: optimize silence but keep known valid Enums
       realtimeInputConfig: {
         automaticActivityDetection: {
           disabled: false,
           startOfSpeechSensitivity: 'START_SENSITIVITY_HIGH' as any,
           endOfSpeechSensitivity: 'END_SENSITIVITY_HIGH' as any,
           prefixPaddingMs: 20,
-          silenceDurationMs: 500,
+          silenceDurationMs: 250,  // balance speed & stability
         },
       } as any,
       systemInstruction: {
@@ -74,8 +77,9 @@ export default function LiveAIDemo() {
     const beginSession = async () => {
       if (!connected) return;
       const msg = lang === 'th'
-        ? 'กล่าวทักทายแบบวัยรุ่นไทยเท่ๆ แนะนำตัวว่าเป็น AI ของพี่โอ๊ต แล้วถามว่าอยากรู้อะไรเกี่ยวกับความเทพของพี่เขาบ้าง'
-        : 'Say hello in a cool way, introduce yourself as Oat\'s AI assistant, and ask what they want to know about his skills.';
+        ? 'กล่าวทักทายอย่างสุภาพและเป็นทางการ แนะนำตัวว่าเป็นผู้ช่วย AI ของคุณวัชรพล และสอบถามว่ามีข้อมูลด้านใดที่ต้องการทราบเกี่ยวกับการทำงานหรือทักษะของคุณวัชรพลบ้าง'
+        : 'Say hello politely and formally, introduce yourself as Watcharapon\'s AI assistant, and ask what professional information they would like to know about his skills or experiences.';
+      // Send greeting and mark turn as complete
       client.send({ text: msg }, true);
     };
     beginSession();

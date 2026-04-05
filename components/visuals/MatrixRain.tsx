@@ -45,11 +45,11 @@ export default function MatrixRain({ isDark = true, opacity = 0.4 }: MatrixRainP
             for (let i = 0; i < drops.length; i++) {
                 const text = binary.charAt(Math.floor(Math.random() * binary.length));
 
-                // High contrast base color
-                ctx.fillStyle = isDark ? 'rgba(255, 255, 255, 0.35)' : 'rgba(0, 0, 0, 0.35)';
+                // High contrast base color (Increased visibility)
+                ctx.fillStyle = isDark ? 'rgba(255, 255, 255, 0.55)' : 'rgba(0, 0, 0, 0.55)';
 
-                // Highlight 25% of the characters for 'clearly visible' effect
-                if (Math.random() > 0.75) {
+                // Highlight 35% of the characters for extra clarity
+                if (Math.random() > 0.65) {
                     ctx.fillStyle = isDark ? '#ffffff' : '#000000';
                 }
 

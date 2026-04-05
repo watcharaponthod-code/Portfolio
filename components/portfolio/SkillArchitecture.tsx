@@ -1,368 +1,261 @@
-
 import {
-  SiReact,
-  SiTypescript,
-  SiNextdotjs,
-  SiNodedotjs,
-  SiPython,
-  SiDocker,
-  SiRedis,
-  SiPostgresql,
-  SiApachekafka,
-  SiSpringboot,
-  SiFigma,
-  SiGit,
+  SiReact, SiTypescript, SiNextdotjs, SiNodedotjs, SiPython, SiDocker, SiPostgresql,
+  SiApachekafka, SiSpringboot, SiFigma, SiGitlab, SiMongodb, SiLinux,
+  SiPhp, SiCplusplus, SiTailwindcss, SiJavascript, SiGo, SiRust, SiExpress, SiFlask,
+  SiDjango, SiFastapi, SiRedux, SiRedis, SiMysql, SiFirebase, SiKubernetes, SiNginx,
+  SiTerraform, SiAmazonwebservices, SiPrometheus, SiGrafana, SiTableau, SiPostman,
+  SiPytorch, SiTensorflow, SiPandas, SiGithubactions, SiVite, SiAntdesign, SiSqlite,
+  SiInsomnia, SiIntellijidea, SiCanva, SiNestjs,
 } from 'react-icons/si';
 import {
-  TbBrandReactNative,
-  TbApi,
-  TbServer,
-  TbBrain,
-  TbShieldLock,
-  TbChartBar,
+  TbBrandReactNative, TbBrain, TbShieldLock, TbChartBar, TbDatabase,
+  TbSettingsAutomation, TbBrandFramerMotion, TbBinary, TbCloudDataConnection,
+  TbTerminal2, TbBrandVscode,
 } from 'react-icons/tb';
-import { FaDatabase, FaProjectDiagram } from 'react-icons/fa';
-import { VscSettings } from 'react-icons/vsc';
-import { BsLayersHalf } from 'react-icons/bs';
+import { BsTerminalSplit } from 'react-icons/bs';
 import SectionHeader from './SectionHeader';
+import { motion } from 'framer-motion';
 
 export default function SkillArchitecture() {
-  const domains = [
+  const categories = [
     {
-      title: "Frontend & Mobile",
-      subtitle: "UI systems, SPAs, native apps",
-      color: "#000",
+      title: "LANGUAGES & SYSTEMS",
+      id: "01",
       skills: [
-        { name: "React / Next.js / TypeScript", icon: <SiReact />, level: 95 },
-        { name: "React Native (iOS & Android)", icon: <TbBrandReactNative />, level: 85 },
-        { name: "Tailwind CSS / Figma / UX/UI", icon: <SiFigma />, level: 80 },
-        { name: "Next.js App Router / SSR", icon: <SiNextdotjs />, level: 90 },
-        { name: "TypeScript / Strong Typing", icon: <SiTypescript />, level: 88 }
+        { name: "Java", icon: <SiSpringboot /> },
+        { name: "Python", icon: <SiPython /> },
+        { name: "TypeScript", icon: <SiTypescript /> },
+        { name: "JavaScript", icon: <SiJavascript /> },
+        { name: "C++", icon: <SiCplusplus /> },
+        { name: "PHP", icon: <SiPhp /> },
+        { name: "Golang", icon: <SiGo /> },
+        { name: "Rust", icon: <SiRust /> },
+        { name: "SQL", icon: <TbDatabase /> },
+        { name: "Bash", icon: <BsTerminalSplit /> }
       ]
     },
     {
-      title: "Backend & Infrastructure",
-      subtitle: "APIs, microservices, DevOps",
-      color: "#111",
+      title: "FRAMEWORKS & APPS",
+      id: "02",
       skills: [
-        { name: "NestJS / FastAPI / Node.js", icon: <SiNodedotjs />, level: 90 },
-        { name: "Java 21 / Spring Boot", icon: <SiSpringboot />, level: 80 },
-        { name: "Docker / Kubernetes (K8s)", icon: <SiDocker />, level: 85 },
-        { name: "GitLab CI/CD + Auto Rollback", icon: <SiGit />, level: 80 },
-        { name: "Apache Kafka / ELK Stack", icon: <SiApachekafka />, level: 75 }
+        { name: "Next.js", icon: <SiNextdotjs /> },
+        { name: "React", icon: <SiReact /> },
+        { name: "NestJS", icon: <SiNestjs /> },
+        { name: "Spring Boot", icon: <SiSpringboot /> },
+        { name: "FastAPI", icon: <SiFastapi /> },
+        { name: "React Native", icon: <TbBrandReactNative /> },
+        { name: "Flask", icon: <SiFlask /> },
+        { name: "Django", icon: <SiDjango /> },
+        { name: "Express", icon: <SiExpress /> },
+        { name: "Tailwind", icon: <SiTailwindcss /> },
+        { name: "Ant Design", icon: <SiAntdesign /> },
+        { name: "Vite", icon: <SiVite /> }
       ]
     },
     {
-      title: "AI & RAG Engineering",
-      subtitle: "LLMs, pipelines, vector search",
-      color: "#0a0a0a",
+      title: "AI & DATA ARCHITECTURE",
+      id: "03",
       skills: [
-        { name: "LangChain / LangGraph / LlamaIndex", icon: <TbBrain />, level: 90 },
-        { name: "Hybrid Search + Re-ranking", icon: <BsLayersHalf />, level: 85 },
-        { name: "Gemini API / Hugging Face / n8n", icon: <FaProjectDiagram />, level: 82 },
-        { name: "GPU VRAM Optimization & Model Swap", icon: <VscSettings />, level: 80 },
-        { name: "Prompt Engineering & Agentic RAG", icon: <FaDatabase />, level: 88 }
+        { name: "LangChain", icon: <TbBrain /> },
+        { name: "LangGraph", icon: <TbBrain /> },
+        { name: "LlamaIndex", icon: <TbCloudDataConnection /> },
+        { name: "PyTorch", icon: <SiPytorch /> },
+        { name: "TensorFlow", icon: <SiTensorflow /> },
+        { name: "pgvector", icon: <SiPostgresql /> },
+        { name: "Pandas", icon: <SiPandas /> },
+        { name: "Power BI", icon: <TbChartBar /> },
+        { name: "Tableau", icon: <SiTableau /> }
       ]
     },
     {
-      title: "Database & Security",
-      subtitle: "Storage, performance, pentesting",
-      color: "#0d0d0d",
+      title: "INFRA & PROD OPS",
+      id: "04",
       skills: [
-        { name: "PostgreSQL / MySQL / MongoDB", icon: <SiPostgresql />, level: 88 },
-        { name: "Firebase / Redis / Qdrant", icon: <SiRedis />, level: 82 },
-        { name: "Python / PHP / SQL Backend", icon: <SiPython />, level: 90 },
-        { name: "Penetration Testing & Vuln Analysis", icon: <TbShieldLock />, level: 72 },
-        { name: "Power BI / Geospatial Dashboards", icon: <TbChartBar />, level: 78 }
+        { name: "Docker", icon: <SiDocker /> },
+        { name: "Kubernetes", icon: <SiKubernetes /> },
+        { name: "Kafka", icon: <SiApachekafka /> },
+        { name: "GitLab CI", icon: <SiGitlab /> },
+        { name: "GH Actions", icon: <SiGithubactions /> },
+        { name: "Terraform", icon: <SiTerraform /> },
+        { name: "AWS", icon: <SiAmazonwebservices /> },
+        { name: "Nginx", icon: <SiNginx /> },
+        { name: "Prometheus", icon: <SiPrometheus /> },
+        { name: "Grafana", icon: <SiGrafana /> },
+        { name: "n8n", icon: <TbSettingsAutomation /> },
+        { name: "Linux", icon: <SiLinux /> }
       ]
     }
   ];
 
   return (
-    <div className="section container" style={{ minHeight: '90vh', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+    <div className="section container" style={{ minHeight: '90vh', display: 'flex', flexDirection: 'column', padding: '5rem 0' }}>
       <div className="animate-enter">
         <SectionHeader
-          subtitle="02 / ENGINEERING COMPETENCY"
-          titleLines={["Architecture &", "Technical Stack."]}
-          description="Industrial-grade implementation strategies for scalable systems and complex data processing."
+          subtitle="03 / REPOSITORY ECOSYSTEM"
+          titleLines={["Technical Stack", "Overview."]}
+          description="A dense mapping of my specialized skills across four core domains. Designed for efficient architectural scanning."
         />
 
-        <div className="skills-domains-grid">
-          {domains.map((domain, i) => (
-            <div key={i} className="domain-card stagger-item">
-              {/* Header */}
-              <div className="domain-header">
-                <div className="domain-header-left">
-                  <span className="domain-num mono">0{i + 1}</span>
-                  <div>
-                    <h3 className="domain-title mono">{domain.title}</h3>
-                    <p className="domain-subtitle mono">{domain.subtitle}</p>
-                  </div>
-                </div>
-                <div className="domain-count mono">{domain.skills.length} skills</div>
+        <div className="skills-compact-quadrants">
+          {categories.map((cat, idx) => (
+            <motion.div 
+              key={cat.id} 
+              className="quadrant-min"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: idx * 0.1, duration: 0.8, ease: "circOut" }}
+            >
+              {/* Animated Border Reveal Effect */}
+              <motion.div 
+                className="animated-border-accent"
+                initial={{ width: 0 }}
+                whileInView={{ width: '100%' }}
+                viewport={{ once: true }}
+                transition={{ delay: (idx * 0.1) + 0.5, duration: 1 }}
+              />
+
+              <div className="quadrant-min-header">
+                <span className="mono quadrant-id">[{cat.id}]</span>
+                <h3 className="mono quadrant-title">{cat.title}</h3>
               </div>
 
-              {/* Skills */}
-              <div className="domain-skills">
-                {domain.skills.map((skill, j) => (
-                  <div key={j} className="skill-row">
-                    <div className="skill-row-left">
-                      <span className="skill-icon">{skill.icon}</span>
-                      <span className="skill-name mono">{skill.name}</span>
-                    </div>
-                    <div className="skill-bar-wrap">
-                      <div
-                        className="skill-bar-fill"
-                        style={{ width: `${skill.level}%` }}
-                      />
-                    </div>
-                  </div>
+              <div className="skills-dense-grid">
+                {cat.skills.map((skill, j) => (
+                  <motion.div 
+                    key={j} 
+                    className="skill-mini-card"
+                    whileHover={{ scale: 1.05, y: -2 }}
+                    transition={{ type: "spring", stiffness: 400, damping: 10 }}
+                  >
+                    <span className="mini-icon">{skill.icon}</span>
+                    <span className="mini-label mono">{skill.name}</span>
+                  </motion.div>
                 ))}
               </div>
-            </div>
+            </motion.div>
           ))}
-        </div>
-
-        {/* Footer row */}
-        <div className="skills-footer-row">
-          <div className="skills-footer-stat">
-            <span className="mono footer-stat-num">20+</span>
-            <span className="mono footer-stat-label">Technologies</span>
-          </div>
-          <div className="skills-footer-stat">
-            <span className="mono footer-stat-num">4</span>
-            <span className="mono footer-stat-label">Domains</span>
-          </div>
-          <div className="skills-footer-stat">
-            <span className="mono footer-stat-num">3+</span>
-            <span className="mono footer-stat-label">Years XP</span>
-          </div>
-          <div className="skills-footer-divider" />
-          <div className="mono skills-footer-note">
-            SYSTEM VALIDATION: PASS — UPTIME: 99.99%
-          </div>
         </div>
       </div>
 
       <style>{`
-        .skills-domains-grid {
+        .skills-compact-quadrants {
           display: grid;
           grid-template-columns: repeat(2, 1fr);
           gap: 1.5rem;
-          margin-bottom: 3rem;
+          margin-top: 3.5rem;
         }
-
-        .domain-card {
-          background: white;
-          border: 1px solid var(--border-light);
+        
+        .quadrant-min {
+          background: #fff;
+          border: 1px solid #111;
           padding: 2.5rem;
-          position: relative;
-          transition: all 0.3s ease;
-          overflow: hidden;
-        }
-
-        .domain-card::before {
-          content: '';
-          position: absolute;
-          left: 0;
-          top: 0;
-          bottom: 0;
-          width: 3px;
-          background: black;
-          transform: scaleY(0);
-          transform-origin: bottom;
-          transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
-        }
-
-        .domain-card:hover::before {
-          transform: scaleY(1);
-        }
-
-        .domain-card:hover {
-          border-color: black;
-          box-shadow: 0 12px 40px rgba(0,0,0,0.08);
-        }
-
-        .domain-header {
-          display: flex;
-          justify-content: space-between;
-          align-items: flex-start;
-          margin-bottom: 2rem;
-          padding-bottom: 1.25rem;
-          border-bottom: 1px solid var(--border-light);
-        }
-
-        .domain-header-left {
-          display: flex;
-          align-items: flex-start;
-          gap: 1rem;
-        }
-
-        .domain-num {
-          font-size: 2.5rem;
-          font-weight: 800;
-          color: var(--text-primary);
-          opacity: 0.06;
-          line-height: 1;
-          flex-shrink: 0;
-          margin-top: -4px;
-          transition: opacity 0.3s;
-        }
-
-        .domain-card:hover .domain-num {
-          opacity: 0.12;
-        }
-
-        .domain-title {
-          font-size: 1rem;
-          font-weight: 700;
-          text-transform: uppercase;
-          letter-spacing: 0.05em;
-          color: var(--text-primary);
-          margin: 0 0 0.2rem;
-        }
-
-        .domain-subtitle {
-          font-size: 0.7rem;
-          color: var(--text-tertiary);
-          margin: 0;
-          max-width: none;
-        }
-
-        .domain-count {
-          font-size: 0.65rem;
-          font-weight: 700;
-          color: var(--text-tertiary);
-          letter-spacing: 0.1em;
-          border: 1px solid var(--border-strong);
-          padding: 0.2rem 0.5rem;
-          flex-shrink: 0;
-        }
-
-        .domain-skills {
           display: flex;
           flex-direction: column;
-          gap: 1.1rem;
+          gap: 1.5rem;
+          position: relative;
+          overflow: hidden;
+          transition: border-color 0.4s;
         }
 
-        .skill-row {
+        .quadrant-min:hover {
+          border-color: #000;
+          box-shadow: 0 40px 100px rgba(0,0,0,0.05);
+        }
+
+        .animated-border-accent {
+          position: absolute;
+          top: 0; left: 0;
+          height: 4px;
+          background: #000;
+        }
+
+        .quadrant-min-header {
           display: flex;
           align-items: center;
           gap: 1rem;
+          border-bottom: 3px solid #000;
+          padding-bottom: 1.2rem;
+          margin-bottom: 0.5rem;
         }
 
-        .skill-row-left {
-          display: flex;
-          align-items: center;
-          gap: 0.75rem;
-          flex: 1;
-          min-width: 0;
+        .quadrant-id {
+          font-size: 0.9rem;
+          font-weight: 950;
+          color: #000;
+          opacity: 0.1;
         }
 
-        .skill-icon {
+        .quadrant-title {
+          font-size: 1.1rem;
+          font-weight: 950;
+          letter-spacing: 0.15rem;
+          text-transform: uppercase;
+          color: #000; /* Set to Black */
+        }
+
+        .skills-dense-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+          gap: 0.8rem;
+        }
+
+        .skill-mini-card {
           display: flex;
+          flex-direction: column;
           align-items: center;
           justify-content: center;
-          width: 28px;
-          height: 28px;
-          background: var(--bg-secondary);
-          color: black;
-          border-radius: 4px;
-          font-size: 1rem;
-          flex-shrink: 0;
-          transition: background 0.2s;
+          background: #fff;
+          border: 1.5px solid #eee;
+          padding: 1rem 0.4rem;
+          gap: 0.8rem;
+          text-align: center;
+          transition: all 0.3s;
+          aspect-ratio: 1/1;
+          position: relative;
+          cursor: default;
         }
 
-        .domain-card:hover .skill-icon {
-          background: #f0f0f0;
+        .skill-mini-card:hover {
+          border-color: #000;
+          background: #000;
+          color: #fff;
+          z-index: 10;
         }
 
-        .skill-name {
-          font-size: 0.82rem;
-          color: var(--text-secondary);
-          white-space: nowrap;
-          overflow: hidden;
-          text-overflow: ellipsis;
-          transition: color 0.2s;
+        .mini-icon {
+          font-size: 1.8rem;
+          color: #000;
+          transition: all 0.3s;
         }
 
-        .domain-card:hover .skill-name {
-          color: var(--text-primary);
+        .skill-mini-card:hover .mini-icon {
+          color: #fff;
+          transform: scale(1.1);
         }
 
-        .skill-bar-wrap {
-          width: 60px;
-          height: 3px;
-          background: var(--border-light);
-          flex-shrink: 0;
-          overflow: hidden;
-          border-radius: 2px;
-        }
-
-        .skill-bar-fill {
-          height: 100%;
-          background: black;
-          border-radius: 2px;
-          transition: width 1s cubic-bezier(0.22, 1, 0.36, 1);
-        }
-
-        /* Footer */
-        .skills-footer-row {
-          display: flex;
-          align-items: center;
-          gap: 2rem;
-          padding: 1.5rem 0;
-          border-top: 1px solid var(--border-light);
-        }
-
-        .skills-footer-stat {
-          display: flex;
-          flex-direction: column;
-          gap: 0.1rem;
-        }
-
-        .footer-stat-num {
-          font-size: 1.4rem;
-          font-weight: 800;
-          color: var(--text-primary);
-          line-height: 1;
-        }
-
-        .footer-stat-label {
-          font-size: 0.6rem;
-          font-weight: 700;
-          color: var(--text-tertiary);
-          text-transform: uppercase;
-          letter-spacing: 0.1em;
-        }
-
-        .skills-footer-divider {
-          width: 1px;
-          height: 40px;
-          background: var(--border-strong);
-          margin: 0 0.5rem;
-        }
-
-        .skills-footer-note {
+        .mini-label {
           font-size: 0.65rem;
-          color: var(--text-tertiary);
-          letter-spacing: 0.08em;
-          margin-left: auto;
+          font-weight: 950;
+          color: #000;
+          text-transform: uppercase;
+          line-height: 1.2;
         }
 
-        @media (max-width: 900px) {
-          .skills-domains-grid {
+        .skill-mini-card:hover .mini-label {
+          color: #fff;
+        }
+
+        @media (max-width: 1200px) {
+          .skills-compact-quadrants {
             grid-template-columns: 1fr;
           }
-          .domain-card {
-            padding: 2rem 1.5rem;
-          }
-          .skill-bar-wrap {
-            width: 40px;
-          }
-          .skills-footer-note {
-            display: none;
-          }
+        }
+
+        @media (max-width: 600px) {
+          .quadrant-min { padding: 1.5rem; }
+          .skills-dense-grid { grid-template-columns: repeat(3, 1fr); }
+          .quadrant-title { font-size: 0.9rem; }
         }
       `}</style>
     </div>

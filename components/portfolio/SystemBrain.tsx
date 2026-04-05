@@ -21,15 +21,15 @@ export default function SystemBrain() {
       id: 'frontend', x: 400, y: 70,
       label: 'CLIENT_ENGINE',
       icon: <TbBrandReact size={24} />,
-      details: 'Next.js + React frontend for Sycapt AI Enterprise. Document upload interface (PDF/DOCX/PPTX), chat UI with streaming responses, and EDC Geo Map dashboard with Leaflet.js real-time visualization.',
+      details: 'Next.js + React frontend for AI Enterprise. Document upload interface (PDF/DOCX/PPTX), chat UI with streaming responses, and EDC Geo Map dashboard with Leaflet.js real-time visualization.',
       tech: ['Next.js', 'React', 'TypeScript', 'Leaflet.js', 'Chart.js']
     },
     {
       id: 'api', x: 400, y: 280,
       label: 'GATEWAY_ORCHESTRATOR',
       icon: <TbCloudComputing size={24} />,
-      details: 'NestJS API Gateway handling all request routing, JWT auth, file processing pipelines, and Kafka event publishing. Deployed on Kubernetes with GitLab CI/CD auto-rollback.',
-      tech: ['NestJS', 'FastAPI', 'JWT Auth', 'Kubernetes', 'GitLab CI/CD']
+      details: 'NestJS API Gateway handling all request routing, JWT auth, file processing pipelines, and Kafka event publishing. Deployed on Kubernetes with automated CI/CD pipelines.',
+      tech: ['NestJS', 'FastAPI', 'JWT Auth', 'Kubernetes', 'CI/CD']
     },
     {
       id: 'ai', x: 700, y: 280,
@@ -64,10 +64,25 @@ export default function SystemBrain() {
   return (
     <div className="section container" style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
       <SectionHeader
-        subtitle="03 / SYSTEM ARCHITECTURE"
-        titleLines={["Sycapt AI Enterprise", "Architecture Map."]}
-        description="Hover over each node to explore the real-world architecture built during co-op at Sycapt Co., Ltd. — from the Next.js frontend to the GPU VRAM-constrained LLM core."
+        subtitle="02 / WORK EXPERIENCE"
+        titleLines={["Co-op Full-Stack &", "AI Engineer."]}
+        description="Sycapt Co., Ltd. (Dec 2024 - Mar 2025)"
       />
+
+      {/* HR-Friendly Experience Description */}
+      <div className="experience-details" style={{ marginBottom: '3rem', padding: '2rem', border: '1px solid var(--border-light)', background: 'white' }}>
+        <h3 className="mono" style={{ fontSize: '1.2rem', marginBottom: '1rem' }}>Key Achievements & Responsibilities</h3>
+        <ul style={{ listStyleType: 'square', paddingLeft: '1.5rem', lineHeight: '1.8', color: '#444' }}>
+          <li>Designed and implemented an <strong>On-Premises Agentic RAG Pipeline</strong> using LangGraph and LlamaIndex for enterprise knowledge management.</li>
+          <li>Engineered a <strong>Model Swapping system</strong> to run 4 large language models sequentially on a server with only 16GB VRAM, avoiding hardware upgrades.</li>
+          <li>Developed a robust <strong>NestJS API Gateway</strong> handling JWT auth, file processing pipelines, and Kafka event publishing, deployed on Kubernetes.</li>
+          <li>Built interactive Next.js dashboards and tools, including a real-time EDC device mapping system supporting over 15,000 devices natively.</li>
+        </ul>
+      </div>
+
+      <div style={{ marginBottom: '2rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <h3 className="mono" style={{ fontSize: '0.85rem', color: 'rgba(0,0,0,0.5)', letterSpacing: '0.1em' }}>OPTIONAL: VIEW TECHNICAL ARCHITECTURE</h3>
+      </div>
 
       {/* Desktop Diagram Container */}
       <div className="desktop-diagram" style={{
@@ -82,41 +97,12 @@ export default function SystemBrain() {
         <div className="grid-overlay" style={{
           position: 'absolute',
           inset: 0,
-          backgroundImage: 'linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px)',
-          backgroundSize: '40px 40px',
-          opacity: 0.5
-        }} />
-
-        {/* Scan line effect */}
-        <div className="scanline" style={{
-          position: 'absolute',
-          width: '100%',
-          height: '2px',
-          background: 'rgba(255,255,255,0.05)',
-          top: 0,
-          left: 0,
-          zIndex: 0,
-          animation: 'scan 8s linear infinite'
+          backgroundImage: 'radial-gradient(circle at 50% 50%, rgba(255,255,255,0.02) 1px, transparent 1px)',
+          backgroundSize: '24px 24px',
+          opacity: 0.8
         }} />
 
         <svg width="100%" height="100%" viewBox="0 0 800 600" style={{ overflow: 'visible', position: 'relative', zIndex: 1, padding: '40px' }}>
-          <defs>
-            <filter id="glow">
-              <feGaussianBlur stdDeviation="3" result="coloredBlur" />
-              <feMerge>
-                <feMergeNode in="coloredBlur" />
-                <feMergeNode in="SourceGraphic" />
-              </feMerge>
-            </filter>
-
-            {/* Pulsing Gradient for Paths */}
-            <linearGradient id="lineGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor="rgba(255,255,255,0.1)" />
-              <stop offset="50%" stopColor="rgba(255,255,255,0.8)" />
-              <stop offset="100%" stopColor="rgba(255,255,255,0.1)" />
-            </linearGradient>
-          </defs>
-
           {/* Connection Lines with Animated Flow */}
           {connections.map((conn, i) => {
             const start = nodes.find(n => n.id === conn.from)!;
@@ -127,12 +113,12 @@ export default function SystemBrain() {
               <g key={i}>
                 <line
                   x1={start.x} y1={start.y} x2={end.x} y2={end.y}
-                  stroke={isActive ? 'rgba(255,255,255,0.6)' : 'rgba(255,255,255,0.15)'}
+                  stroke={isActive ? 'rgba(255,255,255,0.4)' : 'rgba(255,255,255,0.1)'}
                   strokeWidth={isActive ? '2' : '1'}
+                  strokeDasharray={isActive ? "none" : "4 4"}
                   style={{ transition: 'all 0.4s ease' }}
                 />
-                <circle r="3" fill="white" style={{
-                  filter: 'url(#glow)',
+                <circle r="3" fill="rgba(255,255,255,0.6)" style={{
                   animation: `flowMove ${2 + i}s linear infinite`
                 }}>
                   <animateMotion
