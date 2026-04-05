@@ -162,6 +162,35 @@ export default function Projects() {
           grid-template-columns: repeat(auto-fill, minmax(420px, 1fr));
           gap: 2.5rem;
         }
+
+        @media (max-width: 1200px) {
+          .projects-grid { gap: 1.5rem; }
+        }
+
+        @media (max-width: 900px) {
+          .projects-grid {
+            grid-template-columns: 1fr;
+          }
+           .project-thumb-box {
+            height: 200px;
+          }
+        }
+
+        @media (max-width: 640px) {
+          .project-content-wrap {
+            padding: 1.5rem;
+          }
+          .project-number {
+             font-size: 2rem;
+          }
+          .project-title {
+            font-size: 1.2rem;
+          }
+          .project-detail-btn {
+            padding: 0.6rem 1.2rem;
+            font-size: 0.65rem;
+          }
+        }
         .project-card {
           background: #fff;
           border: 1px solid #111;

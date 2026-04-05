@@ -51,29 +51,29 @@ export default function SycaptAIProject() {
           <span>AI SYSTEMS ENGINEER</span><span>//</span><span>AGENTIC RAG</span><span>//</span><span>SECURE ON-PREM</span>
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '2rem', marginBottom: '6rem' }}>
-          <div style={{ background: 'rgba(255,255,255,0.03)', padding: '2.5rem', border: '1px solid rgba(255,255,255,0.1)' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.5rem', marginBottom: '4rem' }}>
+          <div style={{ background: 'rgba(255,255,255,0.03)', padding: 'clamp(1.5rem, 3vw, 2.5rem)', border: '1px solid rgba(255,255,255,0.1)' }}>
             <h3 className="mono" style={{ fontSize: '0.8rem', opacity: 0.4, marginBottom: '1.5rem' }}>MISSION_PROFILE</h3>
-            <p style={{ lineHeight: 1.6, color: 'rgba(255,255,255,0.8)' }}>
+            <p style={{ lineHeight: 1.6, color: 'rgba(255,255,255,0.8)', fontSize: '0.95rem' }}>
               Developed a 100% On-Premises corporate intelligence system for high-security enterprise environments. Orchestrated deep document ingestion with sub-second vector search.
             </p>
           </div>
-          <div style={{ background: 'rgba(255,255,255,0.03)', padding: '2.5rem', border: '1px solid rgba(255,255,255,0.1)' }}>
+          <div style={{ background: 'rgba(255,255,255,0.03)', padding: 'clamp(1.5rem, 3vw, 2.5rem)', border: '1px solid rgba(255,255,255,0.1)' }}>
             <h3 className="mono" style={{ fontSize: '0.8rem', opacity: 0.4, marginBottom: '1.5rem' }}>CORE_ARCHITECTURE</h3>
-            <p style={{ lineHeight: 1.6, color: 'rgba(255,255,255,0.8)' }}>
+            <p style={{ lineHeight: 1.6, color: 'rgba(255,255,255,0.8)', fontSize: '0.95rem' }}>
               Agentic RAG pipeline featuring complex LangGraph logic, pgvector storage, and hybrid retrieval strategies for maximum recall.
             </p>
           </div>
-          <div style={{ background: 'rgba(255,255,255,0.03)', padding: '2.5rem', border: '1px solid rgba(255,255,255,0.1)' }}>
+          <div style={{ background: 'rgba(255,255,255,0.03)', padding: 'clamp(1.5rem, 3vw, 2.5rem)', border: '1px solid rgba(255,255,255,0.1)' }}>
             <h3 className="mono" style={{ fontSize: '0.8rem', opacity: 0.4, marginBottom: '1.5rem' }}>IMPACT_DELIVERY</h3>
-            <p style={{ lineHeight: 1.6, color: 'rgba(255,255,255,0.8)' }}>
+            <p style={{ lineHeight: 1.6, color: 'rgba(255,255,255,0.8)', fontSize: '0.95rem' }}>
               Enabled secure internal querying for 10,000+ sensitive corporate documents without ever leaving the organization's firewall.
             </p>
           </div>
         </div>
 
         {/* High-End Image Showcase */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '5rem' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 'clamp(2.5rem, 6vw, 5rem)', paddingBottom: '5rem' }}>
           {[
             { img: pic1, label: 'KNOWLEDGE UNIFICATION' },
             { img: pic2, label: 'SYSTEM DASHBOARD' },
@@ -83,7 +83,7 @@ export default function SycaptAIProject() {
             { img: pic8, label: 'PRODUCTION INTERFACE' }
           ].map((item, i) => (
             <div key={i} className="img-container-premium" style={{ position: 'relative' }}>
-              <div className="mono" style={{ position: 'absolute', top: '-1rem', left: '1rem', fontSize: '0.65rem', color: '#fff', opacity: 0.3, letterSpacing: '0.4em' }}>
+              <div className="mono visual-label-project" style={{ position: 'absolute', top: '-1rem', left: '1rem', fontSize: '0.6rem', color: '#fff', opacity: 0.3, letterSpacing: '0.4em' }}>
                 {item.label} // v4.0
               </div>
               <img 
@@ -93,7 +93,7 @@ export default function SycaptAIProject() {
                 style={{ 
                   borderRadius: '0px', 
                   border: '1px solid rgba(255,255,255,0.1)',
-                  filter: 'none', // Restored original colors
+                  filter: 'none', 
                 }} 
               />
             </div>
@@ -108,6 +108,11 @@ export default function SycaptAIProject() {
         .img-container-premium:hover {
           transform: scale(1.01);
           filter: brightness(1.1);
+        }
+        @media (max-width: 640px) {
+           .visual-label-project {
+             display: none;
+           }
         }
       `}</style>
     </div>

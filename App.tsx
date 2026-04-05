@@ -199,9 +199,36 @@ function App() {
         
         @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
 
+        @media (max-width: 900px) {
+          .project-detail-overlay {
+            padding: 0 !important;
+          }
+          .project-detail-window {
+            border: none;
+          }
+           .project-detail-header-float {
+            top: 1rem;
+            right: 1.25rem;
+          }
+          .project-close-btn {
+            padding: 0.6rem 1.2rem;
+            font-size: 0.65rem;
+          }
+        }
+
         @media (max-width: 600px) {
-          .ai-mini-window { width: calc(100vw - 2rem); height: 80vh; right: -1rem; }
+          .ai-mini-window { 
+            width: calc(100vw - 2rem); 
+            height: clamp(500px, 80vh, 700px); 
+            right: 0rem;
+            max-height: calc(100% - 100px);
+          }
           .ai-widget-root { bottom: 1rem; right: 1rem; }
+          .ai-hint-box { width: calc(100vw - 2rem); }
+          .floating-ai-toggle {
+            width: 56px;
+            height: 56px;
+          }
         }
       `}</style>
     </div>
