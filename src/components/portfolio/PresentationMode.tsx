@@ -21,9 +21,12 @@ const MEDIA = {
   SUBWAY_ML:    `${B}/subway-kids/main/docs/ml-dataflow.svg`,
   TRADING:      `${B}/trading/main/public/dashboard.png`,
   ELIC_ARCH:    `${B}/elic/main/architecture-diagram.svg`,
+  ELIC_USECASE: 'https://drive.google.com/thumbnail?id=1hshxbkNELN3joAWRhHG7Bq4lDJqs5isC&sz=w1600',
   ELIC_APP1:    `${B}/elic/main/assets/elic2.jpg`,
   ELIC_APP2:    `${B}/elic/main/assets/elic3.png`,
-  ELIC_APP3:    `${B}/elic/main/assets/elic.png`,
+  TRADING_ARCH: `${B}/trading/main/public/architecture.svg`,
+  TRADING_FLOW: `${B}/trading/main/public/strategy-flow.svg`,
+  TRADING_DB:   `${B}/trading/main/public/database-schema.svg`,
 };
 
 // Framed image — border wraps the actual image size (no black bars)
@@ -275,13 +278,18 @@ export default function PresentationMode({ onComplete }: Props) {
 
             {/* ── 05 ALGOTRADE ── */}
             <div style={{ borderBottom:'1px solid rgba(255,255,255,0.06)' }}>
-              <Hdr index="05" label="FULL-STACK" title="ALGOTRADE DASHBOARD" subtitle="NEXT.JS 16 · TYPESCRIPT · WEBSOCKET · REAL-TIME CHARTS" />
-              <FramedImg src={MEDIA.TRADING} caption="ALGOTRADE // REAL-TIME PRICE FEEDS · STRATEGY MONITORING · BACKTESTING VIEWS" />
+              <Hdr index="05" label="AI AUTOMATION · FULL-STACK" title="ALGOTRADE — AI TRADING ENGINE" subtitle="THAILLM (PATHUMMA QWEN3-8B) · ALPACA MARKETS · NEXT.JS 16 · VERCEL CRON" />
+              <div style={{ display:'flex', flexDirection:'column', gap:'1.5rem', paddingBottom:'0.5rem' }}>
+                <FramedImg src={MEDIA.TRADING} caption="ALGOTRADE // REAL-TIME PORTFOLIO DASHBOARD — EQUITY · POSITIONS · P&L" />
+                <FramedImg src={MEDIA.TRADING_ARCH} caption="ALGOTRADE_ARCHITECTURE // VERCEL CRON → THAILLM ANALYSIS → ALPACA BRACKET ORDER EXECUTION" />
+                <FramedImg src={MEDIA.TRADING_FLOW} caption="ALGOTRADE_STRATEGY_FLOW // MARKET DATA → INDICATORS (RSI/EMA/VWAP) → LLM DECISION → BUY/SELL" />
+                <FramedImg src={MEDIA.TRADING_DB} caption="ALGOTRADE_DATABASE // TRADE SIGNALS · EXECUTED TRADES · STRATEGIES · SNAPSHOTS" />
+              </div>
               <Desc paras={[
                 'Full-stack algorithmic trading dashboard built on Next.js 16 + TypeScript. Live WebSocket price feeds, interactive performance charts, strategy P&L breakdowns, and backtesting result views.',
                 'Designed for real-time monitoring of multiple trading strategies simultaneously. Chart components use canvas-based rendering for smooth 60 FPS updates even with high-frequency tick data.',
               ]}
-                specs={['NEXT.JS 16','TYPESCRIPT','WEBSOCKET','REAL-TIME','TAILWIND CSS']}
+                specs={['THAILLM QWEN3-8B','ALPACA MARKETS API','VERCEL CRON','BRACKET ORDERS','TELEGRAM ALERTS']}
                 links={[{ label:'ALGOTRADE REPO', url:'https://github.com/watcharaponthod-code/trading' }]}
               />
             </div>
@@ -327,10 +335,10 @@ export default function PresentationMode({ onComplete }: Props) {
             <div style={{ borderBottom:'1px solid rgba(255,255,255,0.06)' }}>
               <Hdr index="09" label="AI · CAPSTONE PROJECT" title="ELIC — AI ENGLISH TUTOR" subtitle="REACT NATIVE · EXPO · GOOGLE GEMINI · REAL-TIME GRAMMAR CORRECTION" />
               <div style={{ display:'flex', flexDirection:'column', gap:'1.5rem', paddingBottom:'0.5rem' }}>
+                <FramedImg src={MEDIA.ELIC_USECASE} caption="ELIC_USE_CASE // UML USE CASE DIAGRAM — AUTH · AI CHAT · GAME MODULE · GAMIFICATION · TTS" />
                 <FramedImg src={MEDIA.ELIC_ARCH} caption="ELIC_ARCHITECTURE // 3-LAYER: REACT NATIVE CLIENT → FIREBASE BACKEND → GOOGLE GEMINI AI" />
                 <FramedImg src={MEDIA.ELIC_APP1} caption="ELIC_APP // CONVERSATION SCREEN — SCENARIO-BASED ROLE SELECTION" />
                 <FramedImg src={MEDIA.ELIC_APP2} caption="ELIC_APP // STRUCTURED RESPONSE: CHAT REPLY + VOCABULARY TABLE + GRAMMAR CORRECTION" />
-                <FramedImg src={MEDIA.ELIC_APP3} caption="ELIC_APP // GAMIFIED EXERCISES — WORD GAME · TRANSLATION GAME · MATCH" />
               </div>
               <Desc paras={[
                 'Conversational AI English tutor built for Thai learners as a Kasetsart University senior capstone project. Provides real-time grammar correction with context, multi-turn session memory, and streaming responses via LangChain.',
