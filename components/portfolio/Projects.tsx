@@ -1,16 +1,16 @@
 import { useState, useRef, useEffect } from 'react';
 import SectionHeader from './SectionHeader';
-import { TbBrandGithub, TbArrowRight } from 'react-icons/tb';
+import { TbArrowRight } from 'react-icons/tb';
 import { useUI } from '../../lib/state';
 
 // Local thumbnails
-import picSycapt from '../project/ai_RAG/Picture3.png';
 import picGeo from '../project/geomap/LINE_20260324_213523.jpg';
 import picKafka from '../project/kafka/kafka1.png';
 import picMonitor from '../project/cpu/download.png';
 
-const RAG_CHAT_DIAGRAM = 'https://raw.githubusercontent.com/watcharaponthod-code/rag-chat/main/diagram/diagram.png';
-const TRADING_DASH = 'https://raw.githubusercontent.com/watcharaponthod-code/trading/main/public/dashboard.png';
+const EMB_RAG_DIAGRAM = 'https://raw.githubusercontent.com/watcharaponthod-code/embedding_rag/main/diagram/diagram.png';
+const BITCOIN_ARCH    = 'https://raw.githubusercontent.com/watcharaponthod-code/bitcoin-ml-prediction/main/architecture_diagram.png';
+const TRADING_DASH    = 'https://raw.githubusercontent.com/watcharaponthod-code/trading/main/public/dashboard.png';
 
 function useInView(threshold = 0.1) {
   const ref = useRef<HTMLDivElement>(null);
@@ -41,14 +41,25 @@ interface Project {
 
 const ALL_PROJECTS: Project[] = [
   {
-    title: 'AI Enterprise',
+    title: 'Enterprise RAG Ecosystem',
     role: 'FULL-STACK AI ENGINEER',
-    desc: '100% on-premises corporate knowledge management. Ingests PDF/DOCX/PPTX, embeds via bge-m3, and enables natural language querying with Agentic RAG, Hybrid Search, and Cross-Encoder Re-ranking.',
-    stack: ['LangGraph', 'LlamaIndex', 'pgvector', 'Kubernetes', 'Ollama'],
+    desc: 'Two complementary RAG systems for enterprises that cannot send data to external APIs. Vector Docs handles document ingestion and hybrid retrieval. WebClient AI Workspace adds agentic LangGraph orchestration, live Mantis bug-tracker SQL, and multi-user chat.',
+    stack: ['LangGraph', 'BGE-M3', 'pgvector', 'Ollama', 'Kubernetes'],
     metrics: '100% ON-PREMISES',
     category: 'AI & RAG',
-    internalLink: 'project-sycapt',
-    image: picSycapt,
+    internalLink: 'project-rag-ecosystem',
+    image: EMB_RAG_DIAGRAM,
+    featured: true,
+  },
+  {
+    title: 'Vector Docs (embedding_rag)',
+    role: 'ENTERPRISE RAG SYSTEM',
+    desc: '100% on-premises document knowledge base. Three ingestion pipelines (manual, email, external), BGE-M3 1024D embeddings, vision-enhanced image indexing, and hybrid RRF retrieval with cross-encoder re-ranking.',
+    stack: ['Python', 'BGE-M3', 'pgvector', 'RRF', 'Ollama'],
+    metrics: 'HYBRID + RRF',
+    category: 'AI & RAG',
+    internalLink: 'project-embedding-rag',
+    image: EMB_RAG_DIAGRAM,
     featured: true,
   },
   {
@@ -63,14 +74,14 @@ const ALL_PROJECTS: Project[] = [
     featured: true,
   },
   {
-    title: 'WebClient AI Workspace',
-    role: 'OPEN SOURCE · AGENTIC RAG',
-    desc: 'Full agentic RAG chat platform: intent analysis → hybrid retrieval (vector + FTS + SQL) → semantic re-ranking. Runs entirely on Ollama — no cloud AI dependency.',
-    stack: ['LangGraph', 'LangChain', 'Ollama', 'pgvector', 'React'],
-    metrics: 'FULLY LOCAL',
+    title: 'Bitcoin ML Prediction',
+    role: 'MACHINE LEARNING ENGINEER',
+    desc: 'Multi-model ensemble for Bitcoin price prediction using LSTM, XGBoost, and Random Forest. LSTM achieves 87.81% accuracy trained on 12 years of BTC-USD data with 18 engineered technical indicators.',
+    stack: ['Python', 'TensorFlow', 'XGBoost', 'scikit-learn'],
+    metrics: '87.81% ACCURACY',
     category: 'AI & RAG',
-    internalLink: 'project-ragchat',
-    image: RAG_CHAT_DIAGRAM,
+    internalLink: 'project-bitcoin',
+    image: BITCOIN_ARCH,
     featured: true,
   },
   {
