@@ -7,6 +7,7 @@ export interface ProjectSection {
   body: string;
   image?: string;
   imageCaption?: string;
+  fullWidth?: boolean;
 }
 
 export interface ProjectDetailData {
