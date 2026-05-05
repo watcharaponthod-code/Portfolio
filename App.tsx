@@ -1,19 +1,20 @@
 import { LiveAPIProvider } from './contexts/LiveAPIContext';
 import NavBar from './components/NavBar';
 import Landing from './components/portfolio/Landing';
-import { useState, useEffect, useMemo, useCallback } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { TbX, TbMessageChatbot, TbVolume } from 'react-icons/tb';
 import LiveAIDemo from './components/portfolio/LiveAIDemo';
 import { useUI } from './lib/state';
-import SycaptAIProject from './components/portfolio/SycaptAIProject';
 import GeoMapProject from './components/portfolio/GeoMapProject';
 import KafkaConnectorProject from './components/portfolio/KafkaConnectorProject';
 import SystemMonitoringProject from './components/portfolio/SystemMonitoringProject';
-import RagChatProject from './components/portfolio/RagChatProject';
 import TradingProject from './components/portfolio/TradingProject';
 import NinjaFruitProject from './components/portfolio/NinjaFruitProject';
 import SubwayKidsProject from './components/portfolio/SubwayKidsProject';
 import ElicProject from './components/portfolio/ElicProject';
+import EmbeddingRagProject from './components/portfolio/EmbeddingRagProject';
+import BitcoinMLProject from './components/portfolio/BitcoinMLProject';
+import RAGEcosystemProject from './components/portfolio/RAGEcosystemProject';
 import { AnimatePresence, motion } from 'framer-motion';
 
 const API_KEY = process.env.GEMINI_API_KEY as string;
@@ -30,9 +31,7 @@ function App() {
   useEffect(() => {
     const handlePresComplete = () => {
       setIsPresenting(false);
-      // Give a small delay before showing hint
       setTimeout(() => setShowAiHint(true), 2000);
-      // Hide hint after 10 seconds
       setTimeout(() => setShowAiHint(false), 12000);
     };
     window.addEventListener('presentation-complete', handlePresComplete);
@@ -42,11 +41,12 @@ function App() {
   // Project Detail Mapper
   const projectOverlay = useMemo(() => {
     switch (currentView) {
-      case 'project-sycapt': return <SycaptAIProject />;
+      case 'project-rag-ecosystem': return <RAGEcosystemProject />;
+      case 'project-embedding-rag': return <EmbeddingRagProject />;
+      case 'project-bitcoin': return <BitcoinMLProject />;
       case 'project-geomap': return <GeoMapProject />;
       case 'project-kafka': return <KafkaConnectorProject />;
       case 'project-monitoring': return <SystemMonitoringProject />;
-      case 'project-ragchat': return <RagChatProject />;
       case 'project-trading': return <TradingProject />;
       case 'project-ninja': return <NinjaFruitProject />;
       case 'project-subway': return <SubwayKidsProject />;
@@ -195,20 +195,8 @@ function App() {
         @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
 
         @media (max-width: 900px) {
-          .project-detail-overlay {
-            padding: 0 !important;
-          }
-          .project-detail-window {
-            border: none;
-          }
-           .project-detail-header-float {
-            top: 1rem;
-            right: 1.25rem;
-          }
-          .project-close-btn {
-            padding: 0.6rem 1.2rem;
-            font-size: 0.65rem;
-          }
+          .project-detail-overlay { padding: 0 !important; }
+          .project-detail-window { border: none; }
         }
 
         @media (max-width: 600px) {
@@ -220,10 +208,7 @@ function App() {
           }
           .ai-widget-root { bottom: 1rem; right: 1rem; }
           .ai-hint-box { width: calc(100vw - 2rem); }
-          .floating-ai-toggle {
-            width: 56px;
-            height: 56px;
-          }
+          .floating-ai-toggle { width: 56px; height: 56px; }
         }
       `}</style>
     </div>
