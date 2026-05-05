@@ -7,7 +7,6 @@ export interface ProjectSection {
   body: string;
   image?: string;
   imageCaption?: string;
-  fullWidth?: boolean;
 }
 
 export interface ProjectDetailData {
@@ -18,6 +17,7 @@ export interface ProjectDetailData {
   tagline: string;
   overview: string;
   keyFeatures?: string[];
+  mediaGallery?: { src: string; caption?: string }[];
   sections: ProjectSection[];
   stack: string[];
   metrics: { label: string; value: string }[];
@@ -79,8 +79,6 @@ export default function ProjectDetail({ data }: Props) {
           <div className="mono" style={{ fontSize: '0.6rem', color: '#e63f6a', fontWeight: 900, letterSpacing: '0.3em', marginBottom: '1.2rem' }}>{data.role.toUpperCase()}</div>
           <h1 style={{ fontSize: 'clamp(2.5rem, 7vw, 5rem)', fontWeight: 950, letterSpacing: '-0.05em', textTransform: 'uppercase', lineHeight: 0.95, marginBottom: '1.5rem' }}>{data.title}</h1>
           <p style={{ fontSize: 'clamp(1rem, 3vw, 1.3rem)', color: 'rgba(255,255,255,0.55)', fontWeight: 300, lineHeight: 1.6, maxWidth: '640px', marginBottom: '3rem' }}>{data.tagline}</p>
-
-          {/* Metrics row */}
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '2.5rem', borderTop: '1px solid rgba(255,255,255,0.07)', paddingTop: '2rem' }}>
             {data.metrics.map(m => (
               <div key={m.label}>
@@ -91,13 +89,30 @@ export default function ProjectDetail({ data }: Props) {
           </div>
         </div>
 
+        {/* ── Media Gallery (full-width, before any text) ── */}
+        {data.mediaGallery && data.mediaGallery.length > 0 && (
+          <div style={{ marginBottom: 'clamp(3rem, 7vw, 5rem)' }}>
+            <div className="mono" style={{ fontSize: '0.6rem', color: '#e63f6a', fontWeight: 900, letterSpacing: '0.3em', marginBottom: '1.8rem' }}>LIVE_DEMO // MEDIA_GALLERY</div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+              {data.mediaGallery.map((item, i) => (
+                <div key={i} style={{ border: '1px solid rgba(255,255,255,0.08)', overflow: 'hidden', background: 'rgba(255,255,255,0.01)' }}>
+                  <img src={item.src} alt={item.caption || `media-${i}`} style={{ width: '100%', display: 'block' }} loading="lazy" />
+                  {item.caption && (
+                    <div className="mono" style={{ padding: '0.7rem 1.2rem', fontSize: '0.58rem', color: 'rgba(255,255,255,0.25)', borderTop: '1px solid rgba(255,255,255,0.06)', letterSpacing: '0.18em' }}>{item.caption}</div>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
         {/* ── Overview ── */}
         <div style={{ marginBottom: 'clamp(3rem, 7vw, 5rem)' }}>
           <div className="mono" style={{ fontSize: '0.6rem', color: 'rgba(255,255,255,0.3)', letterSpacing: '0.25em', marginBottom: '1.2rem' }}>01 // OVERVIEW</div>
           <p style={{ fontSize: 'clamp(1rem, 2.5vw, 1.15rem)', color: 'rgba(255,255,255,0.75)', lineHeight: 1.8, fontWeight: 300, maxWidth: '760px' }}>{data.overview}</p>
         </div>
 
-        {/* ── Key Features (if any) ── */}
+        {/* ── Key Features ── */}
         {data.keyFeatures && data.keyFeatures.length > 0 && (
           <div style={{ marginBottom: 'clamp(3rem, 7vw, 5rem)' }}>
             <div className="mono" style={{ fontSize: '0.6rem', color: 'rgba(255,255,255,0.3)', letterSpacing: '0.25em', marginBottom: '1.5rem' }}>02 // KEY FEATURES</div>
@@ -112,33 +127,26 @@ export default function ProjectDetail({ data }: Props) {
           </div>
         )}
 
-        {/* ── Content Sections ── */}
+        {/* ── Content Sections — image FIRST (full-width), then text ── */}
         {data.sections.map((sec, i) => (
-          <div key={i} style={{ marginBottom: 'clamp(3.5rem, 8vw, 6rem)' }}>
+          <div key={i} style={{ marginBottom: 'clamp(4rem, 9vw, 7rem)' }}>
             <div className="mono" style={{ fontSize: '0.6rem', color: 'rgba(255,255,255,0.3)', letterSpacing: '0.25em', marginBottom: '1.2rem' }}>
               {String(i + (data.keyFeatures ? 3 : 2)).padStart(2, '0')} // {sec.title.toUpperCase()}
             </div>
-            <h3 style={{ fontSize: 'clamp(1.3rem, 4vw, 2rem)', fontWeight: 950, letterSpacing: '-0.03em', textTransform: 'uppercase', marginBottom: '1.5rem' }}>{sec.title}</h3>
+            <h3 style={{ fontSize: 'clamp(1.3rem, 4vw, 2rem)', fontWeight: 950, letterSpacing: '-0.03em', textTransform: 'uppercase', marginBottom: '2rem' }}>{sec.title}</h3>
 
-            {sec.fullWidth || !sec.image ? (
-              <>
-                <p style={{ fontSize: 'clamp(0.9rem, 2.2vw, 1.05rem)', color: 'rgba(255,255,255,0.65)', lineHeight: 1.8, fontWeight: 300, maxWidth: '760px', marginBottom: sec.image ? '2.5rem' : 0 }}>{sec.body}</p>
-                {sec.image && (
-                  <div style={{ border: '1px solid rgba(255,255,255,0.08)', overflow: 'hidden', background: 'rgba(255,255,255,0.02)' }}>
-                    <img src={sec.image} alt={sec.title} style={{ width: '100%', display: 'block', maxHeight: '560px', objectFit: 'contain' }} loading="lazy" />
-                    {sec.imageCaption && <div className="mono" style={{ padding: '0.8rem 1.2rem', fontSize: '0.6rem', color: 'rgba(255,255,255,0.3)', borderTop: '1px solid rgba(255,255,255,0.06)', letterSpacing: '0.15em' }}>{sec.imageCaption}</div>}
-                  </div>
+            {/* Image shown FULL WIDTH first */}
+            {sec.image && (
+              <div style={{ border: '1px solid rgba(255,255,255,0.08)', overflow: 'hidden', background: 'rgba(255,255,255,0.01)', marginBottom: '2.5rem' }}>
+                <img src={sec.image} alt={sec.title} style={{ width: '100%', display: 'block' }} loading="lazy" />
+                {sec.imageCaption && (
+                  <div className="mono" style={{ padding: '0.8rem 1.2rem', fontSize: '0.6rem', color: 'rgba(255,255,255,0.3)', borderTop: '1px solid rgba(255,255,255,0.06)', letterSpacing: '0.15em' }}>{sec.imageCaption}</div>
                 )}
-              </>
-            ) : (
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '3rem', alignItems: 'start' }}>
-                <p style={{ fontSize: 'clamp(0.9rem, 2.2vw, 1.05rem)', color: 'rgba(255,255,255,0.65)', lineHeight: 1.8, fontWeight: 300 }}>{sec.body}</p>
-                <div style={{ border: '1px solid rgba(255,255,255,0.08)', overflow: 'hidden', background: 'rgba(255,255,255,0.02)' }}>
-                  <img src={sec.image} alt={sec.title} style={{ width: '100%', display: 'block', objectFit: 'cover', maxHeight: '320px' }} loading="lazy" />
-                  {sec.imageCaption && <div className="mono" style={{ padding: '0.7rem 1rem', fontSize: '0.6rem', color: 'rgba(255,255,255,0.3)', borderTop: '1px solid rgba(255,255,255,0.06)', letterSpacing: '0.15em' }}>{sec.imageCaption}</div>}
-                </div>
               </div>
             )}
+
+            {/* Text description below */}
+            <p style={{ fontSize: 'clamp(0.9rem, 2.2vw, 1.05rem)', color: 'rgba(255,255,255,0.65)', lineHeight: 1.8, fontWeight: 300, maxWidth: '760px' }}>{sec.body}</p>
           </div>
         ))}
 
@@ -177,12 +185,6 @@ export default function ProjectDetail({ data }: Props) {
           </div>
         </div>
       </div>
-
-      <style>{`
-        @media (max-width: 768px) {
-          .detail-grid-2 { grid-template-columns: 1fr !important; }
-        }
-      `}</style>
     </div>
   );
 }
