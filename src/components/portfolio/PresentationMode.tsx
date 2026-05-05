@@ -26,7 +26,7 @@ const MEDIA = {
 function FramedImg({ src, caption }: { src: string; caption: string }) {
   return (
     <div style={{ display: 'flex', justifyContent: 'center', padding: '0 2.5rem' }}>
-      <div style={{ display: 'inline-block', border: '1px solid rgba(255,255,255,0.18)', overflow: 'hidden', maxWidth: '100%' }}>
+      <div style={{ width: 'fit-content', maxWidth: 'calc(100vw - 5rem)', border: '1px solid rgba(255,255,255,0.18)', overflow: 'hidden' }}>
         <img
           src={src}
           alt={caption}
