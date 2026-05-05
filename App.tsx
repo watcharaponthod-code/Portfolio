@@ -9,6 +9,11 @@ import SycaptAIProject from './components/portfolio/SycaptAIProject';
 import GeoMapProject from './components/portfolio/GeoMapProject';
 import KafkaConnectorProject from './components/portfolio/KafkaConnectorProject';
 import SystemMonitoringProject from './components/portfolio/SystemMonitoringProject';
+import RagChatProject from './components/portfolio/RagChatProject';
+import TradingProject from './components/portfolio/TradingProject';
+import NinjaFruitProject from './components/portfolio/NinjaFruitProject';
+import SubwayKidsProject from './components/portfolio/SubwayKidsProject';
+import ElicProject from './components/portfolio/ElicProject';
 import { AnimatePresence, motion } from 'framer-motion';
 
 const API_KEY = process.env.GEMINI_API_KEY as string;
@@ -41,6 +46,11 @@ function App() {
       case 'project-geomap': return <GeoMapProject />;
       case 'project-kafka': return <KafkaConnectorProject />;
       case 'project-monitoring': return <SystemMonitoringProject />;
+      case 'project-ragchat': return <RagChatProject />;
+      case 'project-trading': return <TradingProject />;
+      case 'project-ninja': return <NinjaFruitProject />;
+      case 'project-subway': return <SubwayKidsProject />;
+      case 'project-elic': return <ElicProject />;
       default: return null;
     }
   }, [currentView]);
@@ -69,14 +79,6 @@ function App() {
         {projectOverlay && (
           <div className="project-detail-overlay">
             <div className="project-detail-window">
-              <div className="project-detail-header-float">
-                <button 
-                  onClick={() => setView('landing')}
-                  className="project-close-btn"
-                >
-                  <TbX size={20} /> CLOSE
-                </button>
-              </div>
               <div className="project-detail-inner-content">
                 {projectOverlay}
               </div>
@@ -139,20 +141,13 @@ function App() {
       <style>{`
         .project-detail-overlay {
           position: fixed; inset: 0; z-index: 5000;
-          background: rgba(0,0,0,0.95); backdrop-filter: blur(20px);
-          overflow: hidden; display: flex; justify-content: center; padding: 2rem;
+          background: #0f0f0f;
+          overflow: hidden; display: flex; justify-content: center;
         }
         .project-detail-window {
-          background: #000; border: 1px solid rgba(255,255,255,0.1);
-          width: 100%; max-width: 1400px; height: 100%;
-          position: relative; display: flex; flexDirection: column;
-        }
-        .project-detail-header-float { position: absolute; top: 1.5rem; right: 2rem; z-index: 10; }
-        .project-close-btn {
-          background: #fff; color: #000; border: none; padding: 0.8rem 1.5rem;
-          font-family: var(--font-mono); font-weight: 800; font-size: 0.75rem;
-          cursor: pointer; display: flex; align-items: center; gap: 0.5rem;
-          letter-spacing: 0.1em; transition: all 0.3s;
+          background: #0f0f0f;
+          width: 100%; height: 100%;
+          position: relative; display: flex; flex-direction: column;
         }
         .project-detail-inner-content { flex: 1; overflow-y: auto; }
 
