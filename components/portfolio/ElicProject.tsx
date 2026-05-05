@@ -12,10 +12,7 @@ export default function ElicProject() {
       tagline: 'An AI-powered mobile English learning app for Thai university students — scenario-based conversation with real-time grammar correction, vocabulary breakdowns, and gamified exercises.',
       overview: 'ELIC (English Language Improvement Chatbot) places Thai learners inside realistic conversational scenarios — a hotel check-in, a job interview, a medical consultation — and guides them with a role-aware AI tutor powered by Google Gemini. Every AI response is structured into three components: a conversational reply, a vocabulary table (English/Thai/example), and real-time spelling and grammar corrections with alternative phrasings. Three gamified exercises reinforce skills outside the chat context. Scores are persisted to Firebase with a live leaderboard. Developed as Watcharapon\'s Kasetsart University capstone project — his first LLM-powered production app, which directly shaped his understanding of response latency, cost-per-request, and prompt engineering trade-offs.',
       mediaGallery: [
-        { src: `${B}/architecture-diagram.svg`, caption: 'ELIC_ARCHITECTURE // 3-LAYER: REACT NATIVE CLIENT → FIREBASE BACKEND → GOOGLE GEMINI AI' },
-        { src: `${B}/assets/elic2.jpg`, caption: 'ELIC_APP // CONVERSATION SCREEN — SCENARIO-BASED ROLE SELECTION' },
-        { src: `${B}/assets/elic3.png`, caption: 'ELIC_APP // STRUCTURED RESPONSE: CHAT REPLY + VOCABULARY TABLE + GRAMMAR CORRECTION' },
-        { src: `${B}/assets/elic.png`, caption: 'ELIC_APP // GAMIFIED EXERCISES — WORD GAME · TRANSLATION GAME · MATCH' },
+        { src: 'https://drive.google.com/thumbnail?id=1hshxbkNELN3joAWRhHG7Bq4lDJqs5isC&sz=w1600', caption: 'ELIC_USE_CASE // UML USE CASE DIAGRAM — AUTH · AI CHAT · GAME MODULE · GAMIFICATION · TTS' },
       ],
       keyFeatures: [
         'Six conversation roles (hotel, restaurant, job interview, medical, social, taxi) — each injects a tailored system prompt into Gemini, ensuring domain-appropriate tutoring throughout the session.',
