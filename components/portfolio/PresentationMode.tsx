@@ -1,404 +1,242 @@
-import { useState, useEffect, useCallback, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { TbBrandGithub } from 'react-icons/tb';
+import { TbX, TbArrowDown, TbBrandGithub } from 'react-icons/tb';
 
-// Imported Media
 import minePhoto from '../../imge/mine.jpg';
 import aiRAG from '../project/ai_RAG/Picture3.png';
 import geomap from '../project/geomap/LINE_20260324_213523.jpg';
 import kafka from '../project/kafka/kafka1.png';
 import cpuMonitor from '../project/cpu/download.png';
 
-interface Section {
-  id: string;
-  index: string;
-  title: string;
-  subtitle: string;
-  description: string[];
-  specs: string[];
-  accentChar: string;
-  image?: string;
-  visualLabel?: string;
-  isIdentity?: boolean;
-}
+interface Props { onComplete: () => void; }
 
-const SECTIONS: Section[] = [
+const SECTIONS = [
   {
-    id: 'hero',
     index: '00',
     title: 'WATCHARAPON',
     subtitle: 'THE MODERN ARCHITECT',
-    description: [
-      'Systems engineer with knowledge in DevOps, AI Engineering, Full-Stack, Mobile Apps, and Data Science.',
+    body: [
+      'Systems engineer with a breadth of knowledge in DevOps, AI Engineering, Full-Stack, Mobile Apps, and Data Science.',
       'Focused on the practical application of technology to solve complex production challenges.',
-      'Contact: watcharapon.thod@gmail.com | 094-453-2072'
+      'Contact: watcharapon.thod@gmail.com · 094-453-2072',
     ],
-    specs: ['IDENTITY: FULL-STACK AI ENGINEER', 'LOCATION: BKK', 'AVAILABILITY: IMMEDIATE'],
-    accentChar: 'W',
+    specs: ['FULL-STACK AI ENGINEER', 'LOCATION: BANGKOK', 'AVAILABILITY: IMMEDIATE'],
     image: minePhoto,
-    visualLabel: 'PROFILE_IDENTITY',
-    isIdentity: true
+    isHero: true,
   },
   {
-    id: 'ai',
     index: '01',
     title: 'AI SPECIALIST',
     subtitle: 'AGENTIC INTELLIGENCE',
-    description: [
+    body: [
       'Orchestrating autonomous pipelines. Mastering Agentic RAG and Hybrid Retrieval.',
-      'Deploying secure 100% on-premises solutions behind corporate firewalls.',
-      'Specialized in LangGraph, LlamaIndex, and high-performance vector DB optimization.'
+      'Deploying secure 100% on-premises solutions behind corporate firewalls — no data leaves the building.',
+      'Specialized in LangGraph, LlamaIndex, and high-performance vector DB optimization with pgvector.',
     ],
     specs: ['RAG ARCHITECTURE', 'KNOWLEDGE MGMT', 'VECTOR EMBEDDING'],
-    accentChar: 'A',
     image: aiRAG,
-    visualLabel: 'ARCHITECTURE_OVERVIEW'
   },
   {
-    id: 'fullstack',
     index: '02',
     title: 'VISUALIZER',
     subtitle: 'DYNAMIC DATA INTERACTION',
-    description: [
+    body: [
       'Real-time visualization of massive datasets with zero latency.',
       'Crafting hyper-responsive UIs for critical operational monitoring systems.',
-      'Merging aesthetic excellence with production-grade data engineering.'
+      'Merging aesthetic precision with production-grade data engineering.',
     ],
-    specs: ['REAL-TIME MAPS', 'D3 / LEAFLET / GL', 'UI PERFORMANCE'],
-    accentChar: 'V',
+    specs: ['REAL-TIME MAPS', 'D3 / LEAFLET', 'UI PERFORMANCE'],
     image: geomap,
-    visualLabel: 'SYSTEM_DASHBOARD'
   },
   {
-    id: 'infra',
     index: '03',
     title: 'ARCHITECT',
     subtitle: 'SCALABLE FOUNDATION',
-    description: [
-      'Building robust data bridges with Kafka and microservice orchestration (Java 21/Spring).',
+    body: [
+      'Building robust data bridges with Kafka and microservice orchestration (Java 21 / Spring Boot).',
       'Scaling services to handle high-concurrency event streams with 100% reliability.',
-      'Managing infrastructure through Kubernetes, Docker, and Automated Pipelines.'
+      'Managing infrastructure through Kubernetes, Docker, and automated CI/CD pipelines.',
     ],
     specs: ['JAVA-KAFKA ENGINE', 'EVENT-DRIVEN ARCH', 'DOCKER / K8S'],
-    accentChar: 'R',
     image: kafka,
-    visualLabel: 'INFRA_DIAGRAM'
   },
   {
-    id: 'infrastructure_scaling',
     index: '04',
     title: 'INFRASTRUCTURE',
     subtitle: 'VM AUTO-SCALING ENGINE',
-    description: [
+    body: [
       'Orchestrating high-availability clusters with pro-active scaling rules.',
-      'Analyzing real-time CPU spikes (90%+) to trigger instance provision cycles.',
-      'Capable of managing enterprise resource pools and optimizing cloud costs.'
+      'Analyzing real-time CPU spikes (90%+) to trigger automated instance provision cycles.',
+      'Managing enterprise resource pools and continuously optimizing cloud cost efficiency.',
     ],
-    specs: ['VM_SCALING_RULES', 'INFRA_OPTIMIZATION', 'STABILITY_MGMT'],
-    accentChar: 'I',
+    specs: ['VM SCALING', 'INFRA OPTIMIZATION', 'STABILITY MGMT'],
     image: cpuMonitor,
-    visualLabel: 'CPU_SCALING_LOGIC'
-  }
+  },
 ];
 
-function GlitchTitle({ text, trigger }: { text: string; trigger: boolean }) {
-  const [glitchText, setGlitchText] = useState(text);
-  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*';
-
-  useEffect(() => {
-    if (!trigger) { setGlitchText(text); return; }
-    let frame = 0;
-    const interval = setInterval(() => {
-      setGlitchText(text.split('').map((char, i) => {
-        if (char === ' ') return ' ';
-        return Math.random() > 0.08 ? char : chars[Math.floor(Math.random() * chars.length)];
-      }).join(''));
-      if (frame++ > 15) { clearInterval(interval); setGlitchText(text); }
-    }, 40);
-    return () => clearInterval(interval);
-  }, [trigger, text]);
-
-  return <>{glitchText}</>;
-}
-
-interface Props {
-  onComplete: () => void;
-}
-
 export default function PresentationMode({ onComplete }: Props) {
-  const [currentIdx, setCurrentIdx] = useState(0);
-  const [isExiting, setIsExiting] = useState(false);
-  const [glitch, setGlitch] = useState(false);
-  const isLast = currentIdx === SECTIONS.length - 1;
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const [progress, setProgress] = useState(0);
+  const [reachedEnd, setReachedEnd] = useState(false);
+  const [visible, setVisible] = useState(false);
 
   useEffect(() => {
     document.body.style.overflow = 'hidden';
-    window.scrollTo({ top: 0 });
-    return () => { document.body.style.overflow = ''; };
+    const t = setTimeout(() => setVisible(true), 80);
+    return () => { document.body.style.overflow = ''; clearTimeout(t); };
   }, []);
 
-  const advance = useCallback(() => {
-    if (isExiting) return;
-    setGlitch(true);
-    setTimeout(() => {
-      setGlitch(false);
-      if (isLast) {
-        setIsExiting(true);
-        setTimeout(onComplete, 1200);
-      } else {
-        setCurrentIdx(prev => prev + 1);
-      }
-    }, 350);
-  }, [isExiting, isLast, onComplete]);
+  const handleScroll = () => {
+    const el = scrollRef.current;
+    if (!el) return;
+    const p = el.scrollTop / (el.scrollHeight - el.clientHeight);
+    setProgress(Math.min(p, 1));
+    setReachedEnd(p > 0.88);
+  };
 
-  // Keyboard navigation
-  useEffect(() => {
-    const handleKey = (e: KeyboardEvent) => {
-      if (['Space', 'ArrowRight', 'ArrowDown', 'Enter'].includes(e.code)) {
-        e.preventDefault(); advance();
-      }
-    };
-    window.addEventListener('keydown', handleKey);
-    return () => window.removeEventListener('keydown', handleKey);
-  }, [advance]);
-
-  const current = SECTIONS[currentIdx];
+  const handleClose = () => {
+    setVisible(false);
+    setTimeout(onComplete, 700);
+  };
 
   return (
     <AnimatePresence>
-      {!isExiting && (
+      {visible && (
         <motion.div
+          key="pres-modal"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          exit={{ opacity: 0, scale: 1.1, filter: 'blur(30px)' }}
-          transition={{ duration: 1.2, ease: [0.76, 0, 0.24, 1] }}
-          style={{
-            position: 'fixed', inset: 0, zIndex: 9000,
-            background: '#000', display: 'flex', flexDirection: 'column',
-            overflow: 'hidden',
-          }}
+          exit={{ opacity: 0, transition: { duration: 0.6 } }}
+          style={{ position: 'fixed', inset: 0, zIndex: 9000, background: 'rgba(0,0,0,0.6)', display: 'flex', alignItems: 'flex-start', justifyContent: 'center', padding: '0', overflowY: 'hidden' }}
         >
-          {/* Header */}
-          <div className="presentation-header" style={{
-            position: 'absolute', top: 0, left: 0, right: 0,
-            padding: '1.5rem clamp(1rem, 5vw, 4rem)', display: 'flex', justifyContent: 'space-between',
-            alignItems: 'center', zIndex: 100, borderBottom: '1px solid rgba(255,255,255,0.05)'
-          }}>
-            <div className="mono presentation-header-title" style={{ fontSize: 'clamp(0.6rem, 2.5vw, 0.8rem)', fontWeight: 950, color: '#fff', letterSpacing: '0.15rem', textAlign: 'center' }}>
-              WATCHARAPON_THOD<span style={{ opacity: 0.3 }} className="hide-mobile"> // INITIAL_SEQUENCE</span>
-            </div>
-            <div className="presentation-nav" style={{ display: 'flex', alignItems: 'center', gap: 'clamp(1rem, 5vw, 3.5rem)' }}>
-              <div style={{ display: 'flex', gap: 'clamp(5px, 2vw, 15px)' }}>
-                {SECTIONS.map((_, i) => (
-                  <motion.div key={i}
-                    animate={{ width: i === currentIdx ? 'clamp(20px, 5vw, 40px)' : '6px', background: i <= currentIdx ? '#fff' : 'rgba(255,255,255,0.1)' }}
-                    style={{ height: '2px' }}
-                  />
-                ))}
+          {/* Paper / Document modal */}
+          <motion.div
+            initial={{ y: '-4%', opacity: 0, scale: 0.98 }}
+            animate={{ y: 0, opacity: 1, scale: 1 }}
+            exit={{ y: '-4%', opacity: 0, scale: 0.98 }}
+            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+            style={{ width: '100%', maxWidth: '960px', height: '100vh', background: '#0f0f0f', display: 'flex', flexDirection: 'column', position: 'relative', boxShadow: '0 40px 120px rgba(0,0,0,0.8)' }}
+          >
+            {/* ── Fixed Header ── */}
+            <div style={{ position: 'sticky', top: 0, zIndex: 10, background: '#0f0f0f', borderBottom: '1px solid rgba(255,255,255,0.07)', padding: '1.2rem 2.5rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexShrink: 0 }}>
+              <div className="mono" style={{ fontSize: '0.65rem', fontWeight: 900, color: 'rgba(255,255,255,0.5)', letterSpacing: '0.25em' }}>
+                WATCHARAPON_THOD <span style={{ opacity: 0.3 }}>// PROFILE_v4.0</span>
               </div>
-              <span className="mono" style={{ fontSize: '0.75rem', fontWeight: 900 }}>
-                {String(currentIdx + 1).padStart(2, '0')} / {String(SECTIONS.length).padStart(2, '0')}
-              </span>
-            </div>
-          </div>
-
-          {/* Main Stage */}
-          <div className="presentation-body" style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '1.5rem clamp(1rem, 5vw, 8rem)', position: 'relative', zIndex: 10, overflowY: 'auto' }}>
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={currentIdx}
-                initial={{ opacity: 0, x: 100, filter: 'blur(20px)' }}
-                animate={{ opacity: 1, x: 0, filter: 'blur(0px)' }}
-                exit={{ opacity: 0, x: -100, filter: 'blur(20px)' }}
-                transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-                style={{ width: '100%', maxWidth: '1400px', padding: '6rem 0' }}
+              <button
+                onClick={handleClose}
+                style={{ background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.15)', color: '#fff', padding: '0.5rem 1.2rem', fontFamily: 'var(--font-mono)', fontSize: '0.65rem', fontWeight: 900, letterSpacing: '0.15em', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.5rem', transition: 'all 0.25s' }}
+                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = '#fff'; (e.currentTarget as HTMLElement).style.color = '#000'; }}
+                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = 'rgba(255,255,255,0.08)'; (e.currentTarget as HTMLElement).style.color = '#fff'; }}
               >
-                <div className="presentation-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 'clamp(2rem, 8vw, 12rem)', alignItems: 'center' }}>
-                  
-                  {/* Left Column: Info */}
-                  <div style={{ textAlign: 'left' }}>
-                    <div className="mono presentation-index" style={{ 
-                        fontSize: 'clamp(4rem, 15vw, 9rem)', fontWeight: 950, lineHeight: 0.8, 
-                        marginBottom: 'clamp(1rem, 3vw, 2.5rem)', color: '#fff', 
-                        opacity: 1, letterSpacing: '-0.1em'
-                      }}>
-                       {current.index}
-                    </div>
-                    
-                    <h2 className="presentation-title" style={{ fontSize: 'clamp(2rem, 10vw, 6rem)', fontWeight: 950, color: '#fff', letterSpacing: '-0.04em', lineHeight: 1, textTransform: 'uppercase', marginBottom: '1.5rem' }}>
-                      <GlitchTitle text={current.title} trigger={glitch} />
-                    </h2>
-                    <div className="mono presentation-subtitle" style={{ fontSize: 'clamp(0.65rem, 2vw, 0.9rem)', color: '#fff', fontWeight: 800, letterSpacing: '0.3em', opacity: 0.6, borderLeft: '3px solid #fff', paddingLeft: '1.2rem' }}>
-                      {current.subtitle}
-                    </div>
+                <TbX size={12} /> SKIP
+              </button>
+            </div>
 
-                    <div className="presentation-desc-group" style={{ marginTop: 'clamp(1.5rem, 4vw, 3rem)', display: 'flex', flexDirection: 'column', gap: 'clamp(1rem, 2vw, 2rem)' }}>
-                      {current.description.map((line, i) => (
-                        <motion.p key={i} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 0.8, y: 0 }} transition={{ delay: 0.5 + i * 0.1 }}
-                          style={{ fontSize: 'clamp(0.95rem, 3vw, 1.3rem)', color: '#fff', fontWeight: 300, lineHeight: 1.5 }}>
-                          {line}
-                        </motion.p>
-                      ))}
-                    </div>
+            {/* ── Scrollable Body ── */}
+            <div ref={scrollRef} onScroll={handleScroll} style={{ flex: 1, overflowY: 'auto', scrollBehavior: 'smooth' }}>
 
-                    {/* GitHub Button (Identity Section only) */}
-                    {current.isIdentity && (
-                      <motion.a
-                        href="https://github.com/watcharaponthod-code"
-                        target="_blank"
-                        rel="noreferrer"
-                        initial={{ opacity: 0, y: 10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.8 }}
-                        className="presentation-github-btn"
-                        style={{
-                          display: 'inline-flex', alignItems: 'center', gap: '1rem',
-                          marginTop: '2.5rem', padding: '0.8rem 2rem', 
-                          border: '1px solid rgba(255,255,255,0.3)', color: '#fff',
-                          textDecoration: 'none', fontFamily: 'var(--font-mono)',
-                          fontSize: '0.8rem', fontWeight: 900, textTransform: 'uppercase',
-                          letterSpacing: '0.2rem', transition: 'all 0.4s'
-                        }}
-                        onMouseEnter={e => { (e.currentTarget as any).style.background = '#fff'; (e.currentTarget as any).style.color = '#000'; }}
-                        onMouseLeave={e => { (e.currentTarget as any).style.background = 'transparent'; (e.currentTarget as any).style.color = '#fff'; }}
-                      >
-                        <TbBrandGithub size={20} /> VIEW_GITHUB
-                      </motion.a>
-                    )}
+              {SECTIONS.map((sec, idx) => (
+                <div key={sec.index} style={{ borderBottom: '1px solid rgba(255,255,255,0.06)', padding: 'clamp(3rem, 7vw, 5rem) clamp(1.5rem, 5vw, 2.5rem)' }}>
+                  {/* Section number + subtitle */}
+                  <div style={{ display: 'flex', alignItems: 'baseline', gap: '1.5rem', marginBottom: '2.5rem' }}>
+                    <span className="mono" style={{ fontSize: 'clamp(3.5rem, 10vw, 6rem)', fontWeight: 950, color: 'rgba(255,255,255,0.06)', lineHeight: 1, letterSpacing: '-0.05em' }}>{sec.index}</span>
+                    <div>
+                      <div className="mono" style={{ fontSize: '0.6rem', color: '#e63f6a', fontWeight: 900, letterSpacing: '0.25em', marginBottom: '0.4rem' }}>{sec.subtitle}</div>
+                      <h2 style={{ fontSize: 'clamp(1.8rem, 6vw, 3.2rem)', fontWeight: 950, color: '#fff', letterSpacing: '-0.04em', textTransform: 'uppercase', lineHeight: 1 }}>{sec.title}</h2>
+                    </div>
                   </div>
 
-                  {/* Right Column: Visuals */}
-                    <div className="presentation-visuals" style={{ position: 'relative', display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%' }}>
-                      <div style={{ position: 'relative', width: 'clamp(85%, 90%, 100%)' }}>
-                        <div className="mono visual-label-top" style={{ position: 'absolute', top: '-1.5rem', left: '0', fontSize: '0.6rem', color: '#fff', opacity: 0.3, letterSpacing: '0.45em' }}>
-                          {current.visualLabel} // CORE_ENG
-                        </div>
-                      
-                      {current.image ? (
-                        <motion.div
-                          initial={{ scale: 1.1, opacity: 0 }}
-                          animate={{ scale: 1, opacity: 1 }}
-                          transition={{ delay: 0.4, duration: 1 }}
-                          style={{
-                            width: '100%', aspectRatio: '1.2/1', background: 'rgba(255,255,255,0.02)',
-                            border: '1px solid rgba(255,255,255,0.1)', overflow: 'hidden', padding: '1.5rem',
-                            display: 'flex', alignItems: 'center', justifyContent: 'center'
-                          }}
+                  {/* Image + text grid */}
+                  <div style={{ display: 'grid', gridTemplateColumns: sec.image ? '1fr 1fr' : '1fr', gap: 'clamp(2rem, 5vw, 4rem)', alignItems: 'start' }}>
+                    {/* Body text */}
+                    <div>
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '1.2rem', marginBottom: '2.5rem' }}>
+                        {sec.body.map((line, i) => (
+                          <p key={i} style={{ fontSize: 'clamp(0.9rem, 2.5vw, 1.05rem)', color: 'rgba(255,255,255,0.7)', lineHeight: 1.7, fontWeight: 300 }}>
+                            {line}
+                          </p>
+                        ))}
+                      </div>
+                      {/* Specs */}
+                      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.6rem' }}>
+                        {sec.specs.map(s => (
+                          <span key={s} className="mono" style={{ fontSize: '0.6rem', fontWeight: 900, border: '1px solid rgba(255,255,255,0.15)', padding: '0.3rem 0.8rem', color: 'rgba(255,255,255,0.5)', letterSpacing: '0.1em' }}>{s}</span>
+                        ))}
+                      </div>
+                      {sec.isHero && (
+                        <a
+                          href="https://github.com/watcharaponthod-code"
+                          target="_blank" rel="noreferrer"
+                          className="mono"
+                          style={{ display: 'inline-flex', alignItems: 'center', gap: '0.7rem', marginTop: '2rem', padding: '0.8rem 2rem', background: '#fff', color: '#000', textDecoration: 'none', fontSize: '0.75rem', fontWeight: 900, letterSpacing: '0.2em', transition: 'all 0.3s' }}
+                          onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = 'transparent'; (e.currentTarget as HTMLElement).style.color = '#fff'; (e.currentTarget as HTMLElement).style.border = '1px solid #fff'; }}
+                          onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = '#fff'; (e.currentTarget as HTMLElement).style.color = '#000'; (e.currentTarget as HTMLElement).style.border = '1px solid transparent'; }}
                         >
-                          <img
-                            src={current.image}
-                            alt={current.title}
-                            style={{
-                              width: '100%', height: '100%', objectFit: 'contain',
-                              filter: 'grayscale(0) brightness(1) contrast(1)', // Preserve color for technical graph
-                            }}
-                          />
-                        </motion.div>
-                      ) : (
-                        <div style={{
-                          width: '100%', aspectRatio: '1.2/1', background: 'rgba(255,255,255,0.01)',
-                          border: '1px solid rgba(255,255,255,0.05)', display: 'flex', alignItems: 'center', justifyContent: 'center',
-                          padding: '3rem', flexFlow: 'column'
-                        }}>
-                          <motion.div
-                            animate={{ opacity: [0.1, 0.4, 0.1] }}
-                            transition={{ repeat: Infinity, duration: 3 }}
-                            className="mono" style={{ fontSize: '0.65rem', textAlign: 'center', lineHeight: 2, letterSpacing: '0.3em' }}
-                          >
-                            [SYSTEM PERFORMANCE LOG]<br/>
-                            VRAM_MGMT: OPTIMIZED<br/>
-                            LATENCY: 12ms<br/>
-                            LOAD: 2.1%<br/>
-                            CORE_READY: ENABLED
-                          </motion.div>
-                        </div>
+                          <TbBrandGithub size={16} /> VIEW GITHUB
+                        </a>
                       )}
                     </div>
 
-                      <div className="presentation-specs" style={{ marginTop: 'clamp(2rem, 5vw, 5rem)', width: '100%', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: '1.5rem', borderTop: '1px solid rgba(255,255,255,0.1)', paddingTop: '2.5rem' }}>
-                        {current.specs.map((spec, i) => (
-                          <div key={i} className="mono" style={{ fontSize: '0.7rem', borderLeft: '2px solid #fff', paddingLeft: '1.2rem', letterSpacing: '0.15rem', fontWeight: 800, opacity: 0.3 }}>
-                            {spec}
-                          </div>
-                        ))}
+                    {/* Image */}
+                    {sec.image && (
+                      <div style={{ border: '1px solid rgba(255,255,255,0.08)', overflow: 'hidden', background: 'rgba(255,255,255,0.02)' }}>
+                        <img src={sec.image} alt={sec.title} style={{ width: '100%', display: 'block', objectFit: 'cover', maxHeight: '320px', filter: idx === 0 ? 'none' : 'brightness(0.9) contrast(1.05)' }} />
                       </div>
-                    </div>
-
+                    )}
+                  </div>
                 </div>
-              </motion.div>
-            </AnimatePresence>
-          </div>
+              ))}
 
-          {/* Footer Bar */}
-          <div className="presentation-footer" style={{ position: 'absolute', bottom: 0, left: 0, right: 0, padding: '1.5rem clamp(1rem, 5vw, 4rem)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', zIndex: 100, borderTop: '1px solid rgba(255,255,255,0.05)', background: 'black' }}>
-            <div className="mono presentation-footer-meta" style={{ fontSize: '0.65rem', color: 'rgba(255,255,255,0.2)', letterSpacing: '0.2rem' }}>
-              WATCHARAPON.THOD :: ARCHITECTURE_v4.0
+              {/* ── End / Enter CTA ── */}
+              <div style={{ padding: 'clamp(4rem, 10vw, 7rem) clamp(1.5rem, 5vw, 2.5rem)', textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '2rem' }}>
+                <div className="mono" style={{ fontSize: '0.6rem', color: 'rgba(255,255,255,0.25)', letterSpacing: '0.3em' }}>END_OF_PROFILE // EXPLORE_WORKS</div>
+                <h3 style={{ fontSize: 'clamp(2rem, 7vw, 4rem)', fontWeight: 950, color: '#fff', letterSpacing: '-0.04em', textTransform: 'uppercase', lineHeight: 1 }}>
+                  Ready to explore<br />the work?
+                </h3>
+                <motion.button
+                  onClick={handleClose}
+                  animate={reachedEnd ? { scale: [1, 1.04, 1] } : {}}
+                  transition={{ repeat: reachedEnd ? Infinity : 0, duration: 1.8 }}
+                  style={{
+                    background: '#fff', color: '#000', border: 'none',
+                    padding: '1.2rem 3.5rem', fontFamily: 'var(--font-mono)',
+                    fontSize: '0.9rem', fontWeight: 950, letterSpacing: '0.25em',
+                    textTransform: 'uppercase', cursor: 'pointer',
+                    transition: 'all 0.3s',
+                    opacity: reachedEnd ? 1 : 0.5,
+                  }}
+                  onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = '#e63f6a'; (e.currentTarget as HTMLElement).style.color = '#fff'; }}
+                  onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = '#fff'; (e.currentTarget as HTMLElement).style.color = '#000'; }}
+                >
+                  ENTER SITE →
+                </motion.button>
+                <p className="mono" style={{ fontSize: '0.6rem', color: 'rgba(255,255,255,0.2)', letterSpacing: '0.15em' }}>
+                  {reachedEnd ? 'SCROLL COMPLETE' : 'SCROLL TO UNLOCK'}
+                </p>
+              </div>
             </div>
-            <motion.button
-              whileHover={{ scale: 1.05, background: '#fff', color: '#000' }} whileTap={{ scale: 0.95 }} onClick={advance}
-              className="presentation-next-btn"
-              style={{
-                fontFamily: 'var(--font-mono)', fontSize: '0.8rem', fontWeight: 950, color: '#fff', border: '1px solid #fff',
-                background: 'transparent', padding: '1rem 3rem', cursor: 'pointer', letterSpacing: '0.3rem', textTransform: 'uppercase',
-                transition: 'all 0.4s'
-              }}
-            >
-              {isLast ? 'INITIALIZE SITE' : 'NEXT MODULE'}
-            </motion.button>
-          </div>
 
-          <style>{`
-            @media (max-width: 1024px) {
-              .presentation-grid {
-                grid-template-columns: 1fr !important;
-                gap: 4rem !important;
-              }
-              .presentation-body {
-                padding-top: 6rem !important;
-                padding-bottom: 7rem !important;
-              }
-            }
-            @media (max-width: 640px) {
-              .presentation-header {
-                 padding: 1.2rem !important;
-                 background: rgba(0,0,0,0.8);
-                 backdrop-filter: blur(10px);
-              }
-              .hide-mobile { display: none; }
-              .presentation-nav {
-                 width: 100%;
-                 justify-content: center;
-                 gap: 1rem !important;
-              }
-              .presentation-footer {
-                 padding: 1.2rem !important;
-                 background: #000 !important;
-              }
-              .presentation-footer-meta {
-                display: none;
-              }
-              .presentation-next-btn {
-                width: 100%;
-                padding: 1rem !important;
-                font-size: 0.75rem !important;
-                letter-spacing: 0.2rem !important;
-              }
-              .presentation-index {
-                display: none;
-              }
-              .presentation-grid {
-                gap: 2.5rem !important;
-                padding-bottom: 2rem;
-              }
-              .presentation-visuals {
-                width: 100% !important;
-              }
-              .presentation-specs {
-                grid-template-columns: 1fr !important;
-                gap: 1rem !important;
-              }
-            }
-          `}</style>
+            {/* ── Scroll arrow hint (visible at top) ── */}
+            {progress < 0.05 && (
+              <motion.div
+                initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+                style={{ position: 'absolute', bottom: '3.5rem', left: '50%', transform: 'translateX(-50%)', zIndex: 20, pointerEvents: 'none' }}
+              >
+                <motion.div animate={{ y: [0, 6, 0] }} transition={{ repeat: Infinity, duration: 1.5 }}>
+                  <TbArrowDown size={20} color="rgba(255,255,255,0.4)" />
+                </motion.div>
+              </motion.div>
+            )}
+
+            {/* ── Fixed progress bar ── */}
+            <div style={{ position: 'sticky', bottom: 0, left: 0, right: 0, height: '3px', background: 'rgba(255,255,255,0.07)', flexShrink: 0 }}>
+              <motion.div
+                style={{ height: '100%', background: '#e63f6a', transformOrigin: 'left' }}
+                animate={{ scaleX: progress }}
+                transition={{ ease: 'linear', duration: 0.05 }}
+              />
+            </div>
+          </motion.div>
         </motion.div>
       )}
     </AnimatePresence>
