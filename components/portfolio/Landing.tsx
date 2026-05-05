@@ -101,7 +101,7 @@ function HeroSection() {
   }, []);
 
   return (
-    <section ref={containerRef} id="hero" style={{ position: 'relative', height: '240vh', background: '#000' }}>
+    <section ref={containerRef} id="hero" style={{ position: 'relative', height: '130vh', background: '#000' }}>
       <motion.div className="hero-sticky-wrap">
         <div style={{ position: 'absolute', inset: 0, opacity: 0.25, zIndex: 0 }}>
           <MatrixRain opacity={1} isDark />
