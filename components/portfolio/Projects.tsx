@@ -13,6 +13,7 @@ const TRADING_DASH  = 'https://raw.githubusercontent.com/watcharaponthod-code/tr
 const NINJA_GIF     = 'https://raw.githubusercontent.com/watcharaponthod-code/Ninja_fruit/main/demo/demo-gameplay.gif';
 const SUBWAY_GIF    = 'https://raw.githubusercontent.com/watcharaponthod-code/subway-kids/main/demo/demo-gameplay.gif';
 const RAG_CHAT_DIAG = 'https://raw.githubusercontent.com/watcharaponthod-code/rag-chat/main/diagram/diagram.png';
+const ELIC_ARCH     = 'https://raw.githubusercontent.com/watcharaponthod-code/elic/main/architecture-diagram.svg';
 
 function useInView(threshold = 0.1) {
   const ref = useRef<HTMLDivElement>(null);
@@ -145,12 +146,14 @@ const ALL_PROJECTS: Project[] = [
   },
   {
     title: 'ELIC — AI English Tutor',
-    role: 'SENIOR PROJECT · KU',
-    desc: 'Conversational AI English tutor for Thai learners. Real-time grammar correction, multi-turn session memory, and streaming responses via LangChain. Capstone 2025.',
-    stack: ['React Native', 'Expo', 'LangChain', 'TypeScript'],
+    role: 'SENIOR PROJECT · KU CHALERMPHRAKIAT',
+    desc: 'AI-powered mobile English learning app for Thai learners. Scenario-based conversation (hotel, interview, medical), real-time grammar correction, structured vocabulary tables, 3 gamified exercises, TTS playback via Gemini Voice API. Capstone 2025.',
+    stack: ['React Native', 'Expo', 'Google Gemini', 'Firebase', 'FastAPI'],
     metrics: 'CAPSTONE 2025',
     category: 'AI & RAG',
     internalLink: 'project-elic',
+    image: ELIC_ARCH,
+    featured: true,
   },
 ];
 
