@@ -30,7 +30,7 @@ function FramedImg({ src, caption }: { src: string; caption: string }) {
         <img
           src={src}
           alt={caption}
-          style={{ display: 'block', maxWidth: 'min(900px, calc(100vw - 5rem))', maxHeight: '78vh', objectFit: 'contain' }}
+          style={{ display: 'block', maxWidth: 'min(900px, calc(100vw - 5rem))', height: 'auto' }}
           loading="lazy"
         />
         <div className="mono" style={{ padding: '0.55rem 1.2rem', fontSize: '0.52rem', color: 'rgba(255,255,255,0.22)', borderTop: '1px solid rgba(255,255,255,0.08)', letterSpacing: '0.18em', textAlign: 'center', background: 'rgba(0,0,0,0.4)' }}>
