@@ -38,7 +38,7 @@ export default function NinjaFruitProject() {
           title: 'Multiplayer Architecture',
           image: GIF2,
           imageCaption: 'MULTIPLAYER_DEMO // 3-PLAYER SIMULTANEOUS TRACKING',
-          body: 'YOLO's built-in object tracker (ByteTrack) assigns persistent IDs to each detected person across frames. The Player Assigner sorts active track IDs by their bounding box centre x-coordinate and assigns them to slots 1/2/3. This means players can move around and the game automatically reassigns slots — no manual calibration. The GameManager maintains separate score dictionaries and hand-history buffers for each slot.',
+          body: "YOLO's built-in object tracker (ByteTrack) assigns persistent IDs to each detected person across frames. The Player Assigner sorts active track IDs by their bounding box centre x-coordinate and assigns them to slots 1/2/3. This means players can move around and the game automatically reassigns slots — no manual calibration. The GameManager maintains separate score dictionaries and hand-history buffers for each slot.",
         },
         {
           title: 'Slash Detection & Collision',
