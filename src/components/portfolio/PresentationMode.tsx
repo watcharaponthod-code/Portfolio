@@ -21,9 +21,9 @@ const MEDIA = {
   SUBWAY_ML:    `${B}/subway-kids/main/docs/ml-dataflow.svg`,
   TRADING:      `${B}/trading/main/public/dashboard.png`,
   ELIC_ARCH:    `${B}/elic/main/architecture-diagram.svg`,
-  ELIC_USECASE: 'https://drive.google.com/uc?export=view&id=1hshxbkNELN3joAWRhHG7Bq4lDJqs5isC',
   ELIC_APP1:    `${B}/elic/main/assets/elic2.jpg`,
   ELIC_APP2:    `${B}/elic/main/assets/elic3.png`,
+  ELIC_APP3:    `${B}/elic/main/assets/elic.png`,
 };
 
 // Framed image — border wraps the actual image size (no black bars)
@@ -328,9 +328,9 @@ export default function PresentationMode({ onComplete }: Props) {
               <Hdr index="09" label="AI · CAPSTONE PROJECT" title="ELIC — AI ENGLISH TUTOR" subtitle="REACT NATIVE · EXPO · GOOGLE GEMINI · REAL-TIME GRAMMAR CORRECTION" />
               <div style={{ display:'flex', flexDirection:'column', gap:'1.5rem', paddingBottom:'0.5rem' }}>
                 <FramedImg src={MEDIA.ELIC_ARCH} caption="ELIC_ARCHITECTURE // 3-LAYER: REACT NATIVE CLIENT → FIREBASE BACKEND → GOOGLE GEMINI AI" />
-                <FramedImg src={MEDIA.ELIC_USECASE} caption="ELIC_USE_CASE // UML USE CASE DIAGRAM — AUTH · AI CHAT · GAME MODULE · TTS" />
-                <FramedImg src={MEDIA.ELIC_APP1} caption="ELIC_APP // SCENARIO-BASED AI TUTOR — HOTEL · INTERVIEW · MEDICAL · TAXI ROLES" />
+                <FramedImg src={MEDIA.ELIC_APP1} caption="ELIC_APP // CONVERSATION SCREEN — SCENARIO-BASED ROLE SELECTION" />
                 <FramedImg src={MEDIA.ELIC_APP2} caption="ELIC_APP // STRUCTURED RESPONSE: CHAT REPLY + VOCABULARY TABLE + GRAMMAR CORRECTION" />
+                <FramedImg src={MEDIA.ELIC_APP3} caption="ELIC_APP // GAMIFIED EXERCISES — WORD GAME · TRANSLATION GAME · MATCH" />
               </div>
               <Desc paras={[
                 'Conversational AI English tutor built for Thai learners as a Kasetsart University senior capstone project. Provides real-time grammar correction with context, multi-turn session memory, and streaming responses via LangChain.',
