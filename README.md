@@ -1,9 +1,6 @@
 # 🤖 AI-Powered Interactive Portfolio
 
 <div align="center">
-  <p align="center">
-    <img src="https://raw.githubusercontent.com/google-gemini/gemini-python/main/docs/images/gemini-logo.png" width="100" alt="Gemini Logo">
-  </p>
   <h3>Next-Generation Portfolio Experience</h3>
   <p><i>Powered by Google Gemini Multimodal Live API</i></p>
 
