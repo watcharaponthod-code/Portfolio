@@ -19,29 +19,33 @@ const MEDIA = {
   TRADING:      `${B}/trading/main/public/dashboard.png`,
 };
 
-// Framed image component — border + caption
+// Framed image component — like project detail cards
 function FramedImage({ src, caption, contain = false }: { src: string; caption: string; contain?: boolean }) {
   return (
-    <div style={{ border: '1px solid rgba(255,255,255,0.15)', overflow: 'hidden', background: '#000' }}>
-      <img
-        src={src}
-        alt={caption}
-        style={{
-          width: '100%',
-          display: 'block',
-          maxHeight: contain ? '90vh' : '88vh',
-          objectFit: contain ? 'contain' : 'contain',
-        }}
-        loading="lazy"
-      />
-      <div className="mono" style={{ padding: '0.55rem 1.2rem', fontSize: '0.52rem', color: 'rgba(255,255,255,0.22)', borderTop: '1px solid rgba(255,255,255,0.08)', letterSpacing: '0.18em' }}>
-        {caption}
+    <div style={{ padding: '0 2.5rem' }}>
+      <div style={{ border: '1px solid rgba(255,255,255,0.15)', overflow: 'hidden', background: 'rgba(255,255,255,0.02)' }}>
+        <div style={{ background: '#111', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+          <img
+            src={src}
+            alt={caption}
+            style={{
+              display: 'block',
+              maxWidth: '100%',
+              maxHeight: '75vh',
+              objectFit: 'contain',
+            }}
+            loading="lazy"
+          />
+        </div>
+        <div className="mono" style={{ padding: '0.6rem 1.2rem', fontSize: '0.52rem', color: 'rgba(255,255,255,0.22)', borderTop: '1px solid rgba(255,255,255,0.08)', letterSpacing: '0.18em', textAlign: 'center' }}>
+          {caption}
+        </div>
       </div>
     </div>
   );
 }
 
-// Text block below an image
+// Text block below an image — centred
 function Caption({ title, paras, specs, links }: {
   title?: string;
   paras: string[];
@@ -49,24 +53,24 @@ function Caption({ title, paras, specs, links }: {
   links?: { label: string; url: string }[];
 }) {
   return (
-    <div style={{ padding: '2rem 2.5rem 2.5rem', maxWidth: '860px' }}>
+    <div style={{ padding: '2rem 2.5rem 3rem', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
       {title && (
         <div className="mono" style={{ fontSize: '0.6rem', color: '#e63f6a', fontWeight: 900, letterSpacing: '0.25em', marginBottom: '1rem' }}>{title}</div>
       )}
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem', marginBottom: specs || links ? '1.8rem' : 0 }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem', marginBottom: specs || links ? '1.8rem' : 0, maxWidth: '720px' }}>
         {paras.map((p, i) => (
-          <p key={i} style={{ fontSize: 'clamp(0.87rem, 1.9vw, 0.98rem)', color: 'rgba(255,255,255,0.65)', lineHeight: 1.8, fontWeight: 300, margin: 0 }}>{p}</p>
+          <p key={i} style={{ fontSize: 'clamp(0.87rem, 1.9vw, 0.97rem)', color: 'rgba(255,255,255,0.62)', lineHeight: 1.85, fontWeight: 300, margin: 0 }}>{p}</p>
         ))}
       </div>
       {specs && (
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.45rem', marginBottom: links ? '1.4rem' : 0 }}>
+        <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '0.45rem', marginBottom: links ? '1.4rem' : 0 }}>
           {specs.map(s => (
             <span key={s} className="mono" style={{ fontSize: '0.53rem', fontWeight: 900, border: '1px solid rgba(255,255,255,0.15)', padding: '0.2rem 0.65rem', color: 'rgba(255,255,255,0.38)', letterSpacing: '0.1em' }}>{s}</span>
           ))}
         </div>
       )}
       {links && (
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.6rem' }}>
+        <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '0.6rem' }}>
           {links.map(g => (
             <a key={g.url} href={g.url} target="_blank" rel="noreferrer" className="mono"
               style={{ display: 'inline-flex', alignItems: 'center', gap: '0.45rem', padding: '0.5rem 1.1rem', background: '#fff', color: '#000', textDecoration: 'none', fontSize: '0.6rem', fontWeight: 900, letterSpacing: '0.13em', transition: 'all 0.2s' }}
@@ -82,18 +86,14 @@ function Caption({ title, paras, specs, links }: {
   );
 }
 
-// Section header
+// Section header — centred
 function SectionHeader({ index, label, title, subtitle }: { index: string; label: string; title: string; subtitle: string }) {
   return (
-    <div style={{ padding: '3rem 2.5rem 2rem' }}>
-      <div style={{ display: 'flex', alignItems: 'baseline', gap: '1.5rem' }}>
-        <span className="mono" style={{ fontSize: 'clamp(2.5rem, 7vw, 4.5rem)', fontWeight: 950, color: 'rgba(255,255,255,0.04)', lineHeight: 1, letterSpacing: '-0.06em', flexShrink: 0 }}>{index}</span>
-        <div>
-          <div className="mono" style={{ fontSize: '0.54rem', color: '#e63f6a', fontWeight: 900, letterSpacing: '0.28em', marginBottom: '0.4rem' }}>{label}</div>
-          <h2 style={{ fontSize: 'clamp(1.7rem, 4.5vw, 2.8rem)', fontWeight: 950, color: '#fff', letterSpacing: '-0.04em', textTransform: 'uppercase', lineHeight: 1, marginBottom: '0.4rem' }}>{title}</h2>
-          <div className="mono" style={{ fontSize: '0.57rem', color: 'rgba(255,255,255,0.28)', fontWeight: 700, letterSpacing: '0.16em' }}>{subtitle}</div>
-        </div>
-      </div>
+    <div style={{ padding: '3rem 2.5rem 2rem', textAlign: 'center' }}>
+      <span className="mono" style={{ fontSize: 'clamp(3rem, 9vw, 6rem)', fontWeight: 950, color: 'rgba(255,255,255,0.04)', lineHeight: 1, letterSpacing: '-0.06em', display: 'block', marginBottom: '0.5rem' }}>{index}</span>
+      <div className="mono" style={{ fontSize: '0.54rem', color: '#e63f6a', fontWeight: 900, letterSpacing: '0.28em', marginBottom: '0.6rem' }}>{label}</div>
+      <h2 style={{ fontSize: 'clamp(1.7rem, 4.5vw, 2.8rem)', fontWeight: 950, color: '#fff', letterSpacing: '-0.04em', textTransform: 'uppercase', lineHeight: 1, marginBottom: '0.5rem' }}>{title}</h2>
+      <div className="mono" style={{ fontSize: '0.57rem', color: 'rgba(255,255,255,0.28)', fontWeight: 700, letterSpacing: '0.16em' }}>{subtitle}</div>
     </div>
   );
 }
@@ -204,7 +204,7 @@ export default function PresentationMode({ onComplete }: Props) {
               <SectionHeader index="01" label="FEATURED · AI & RAG" title="ENTERPRISE RAG ECOSYSTEM" subtitle="VECTOR DOCS (embedding_rag) + WEBCLIENT AI WORKSPACE (rag-chat)" />
 
               {/* Diagram 1 — Vector Docs */}
-              <div style={{ padding: '0 2.5rem 0' }}>
+              <div style={{ padding: '0 2.5rem 0', textAlign: 'center' }}>
                 <div className="mono" style={{ fontSize: '0.54rem', color: 'rgba(255,255,255,0.3)', letterSpacing: '0.22em', marginBottom: '1rem' }}>SYSTEM_01 // VECTOR DOCS — embedding_rag</div>
               </div>
               <FramedImage src={MEDIA.EMB_DIAGRAM} caption="VECTOR_DOCS // THREE INGESTION PIPELINES → BGE-M3 EMBEDDINGS → HYBRID RRF RETRIEVAL → CROSS-ENCODER RERANKING" />
@@ -220,7 +220,7 @@ export default function PresentationMode({ onComplete }: Props) {
               />
 
               {/* Diagram 2 — RAG Chat */}
-              <div style={{ padding: '1rem 2.5rem 0', borderTop: '1px solid rgba(255,255,255,0.04)' }}>
+              <div style={{ padding: '1rem 2.5rem 0', borderTop: '1px solid rgba(255,255,255,0.04)', textAlign: 'center' }}>
                 <div className="mono" style={{ fontSize: '0.54rem', color: 'rgba(255,255,255,0.3)', letterSpacing: '0.22em', marginBottom: '1rem' }}>SYSTEM_02 // WEBCLIENT AI WORKSPACE — rag-chat</div>
               </div>
               <FramedImage src={MEDIA.RAG_DIAGRAM} caption="RAG_CHAT // LANGGRAPH INTENT ROUTING → DOCUMENT SEARCH · IMAGE SEARCH · LIVE SQL → OLLAMA LLM ANSWER" />
