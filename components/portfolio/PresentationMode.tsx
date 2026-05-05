@@ -151,42 +151,38 @@ export default function PresentationMode({ onComplete }: Props) {
             <div style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
               <SectionHeader index="00" label="IDENTITY" title="WATCHARAPON THOD" subtitle="FULL-STACK AI ENGINEER · COMPUTER SCIENCE · KASETSART UNIVERSITY" />
 
-              {/* Circular avatar + contact */}
-              <div style={{ padding: '0 2.5rem 2.5rem', display: 'flex', alignItems: 'flex-start', gap: '2.5rem', flexWrap: 'wrap' }}>
-                <div style={{ flexShrink: 0 }}>
-                  <div style={{ width: '180px', height: '180px', borderRadius: '50%', overflow: 'hidden', border: '2px solid rgba(255,255,255,0.2)' }}>
-                    <img src={minePhoto} alt="Watcharapon" style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top' }} />
-                  </div>
+              {/* Circular avatar + contact — centred */}
+              <div style={{ padding: '0 2.5rem 2.5rem', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', gap: '1.5rem' }}>
+                <div style={{ width: '200px', height: '200px', borderRadius: '50%', overflow: 'hidden', border: '2px solid rgba(255,255,255,0.2)', flexShrink: 0 }}>
+                  <img src={minePhoto} alt="Watcharapon" style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top' }} />
                 </div>
-                <div style={{ flex: 1, minWidth: '260px' }}>
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '0.55rem', marginBottom: '1.5rem' }}>
-                    {[
-                      { icon: <TbMail size={13} />, text: 'watcharapon.thod@gmail.com' },
-                      { icon: <TbPhone size={13} />, text: '094-453-2072' },
-                      { icon: <TbMapPin size={13} />, text: 'Bangkok, Thailand' },
-                    ].map(({ icon, text }) => (
-                      <div key={text} style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', color: 'rgba(255,255,255,0.45)', fontSize: '0.85rem', fontWeight: 300 }}>
-                        <span style={{ color: 'rgba(255,255,255,0.25)' }}>{icon}</span>{text}
-                      </div>
-                    ))}
-                  </div>
-                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.45rem', marginBottom: '1.5rem' }}>
-                    {['IMMEDIATE AVAILABILITY', 'B.SC. COMPUTER SCIENCE', 'KASETSART UNIVERSITY', '2025'].map(s => (
-                      <span key={s} className="mono" style={{ fontSize: '0.53rem', fontWeight: 900, border: '1px solid rgba(255,255,255,0.15)', padding: '0.2rem 0.65rem', color: 'rgba(255,255,255,0.38)', letterSpacing: '0.1em' }}>{s}</span>
-                    ))}
-                  </div>
-                  <a href="https://github.com/watcharaponthod-code" target="_blank" rel="noreferrer" className="mono"
-                    style={{ display: 'inline-flex', alignItems: 'center', gap: '0.45rem', padding: '0.5rem 1.1rem', background: '#fff', color: '#000', textDecoration: 'none', fontSize: '0.6rem', fontWeight: 900, letterSpacing: '0.13em', transition: 'all 0.2s' }}
-                    onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = '#e63f6a'; (e.currentTarget as HTMLElement).style.color = '#fff'; }}
-                    onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = '#fff'; (e.currentTarget as HTMLElement).style.color = '#000'; }}
-                  >
-                    <TbBrandGithub size={12} /> VIEW GITHUB
-                  </a>
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.5rem' }}>
+                  {[
+                    { icon: <TbMail size={13} />, text: 'watcharapon.thod@gmail.com' },
+                    { icon: <TbPhone size={13} />, text: '094-453-2072' },
+                    { icon: <TbMapPin size={13} />, text: 'Bangkok, Thailand' },
+                  ].map(({ icon, text }) => (
+                    <div key={text} style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', color: 'rgba(255,255,255,0.45)', fontSize: '0.85rem', fontWeight: 300 }}>
+                      <span style={{ color: 'rgba(255,255,255,0.25)' }}>{icon}</span>{text}
+                    </div>
+                  ))}
                 </div>
+                <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '0.45rem' }}>
+                  {['IMMEDIATE AVAILABILITY', 'B.SC. COMPUTER SCIENCE', 'KASETSART UNIVERSITY', '2025'].map(s => (
+                    <span key={s} className="mono" style={{ fontSize: '0.53rem', fontWeight: 900, border: '1px solid rgba(255,255,255,0.15)', padding: '0.2rem 0.65rem', color: 'rgba(255,255,255,0.38)', letterSpacing: '0.1em' }}>{s}</span>
+                  ))}
+                </div>
+                <a href="https://github.com/watcharaponthod-code" target="_blank" rel="noreferrer" className="mono"
+                  style={{ display: 'inline-flex', alignItems: 'center', gap: '0.45rem', padding: '0.5rem 1.1rem', background: '#fff', color: '#000', textDecoration: 'none', fontSize: '0.6rem', fontWeight: 900, letterSpacing: '0.13em', transition: 'all 0.2s' }}
+                  onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = '#e63f6a'; (e.currentTarget as HTMLElement).style.color = '#fff'; }}
+                  onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = '#fff'; (e.currentTarget as HTMLElement).style.color = '#000'; }}
+                >
+                  <TbBrandGithub size={12} /> VIEW GITHUB
+                </a>
               </div>
 
               {/* Bio */}
-              <div style={{ padding: '0 2.5rem 3.5rem', maxWidth: '860px' }}>
+              <div style={{ padding: '0 2.5rem 3.5rem', maxWidth: '860px', margin: '0 auto', textAlign: 'center' }}>
                 <div className="mono" style={{ fontSize: '0.6rem', color: '#e63f6a', fontWeight: 900, letterSpacing: '0.25em', marginBottom: '1.2rem' }}>ABOUT_ME</div>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
                   {[
