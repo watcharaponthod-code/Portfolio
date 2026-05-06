@@ -17,6 +17,7 @@ const MEDIA = {
   SUBWAY2:      `${B}/subway-kids/main/demo/demo-gameplay-2.gif`,
   SUBWAY_ML:    `${B}/subway-kids/main/docs/ml-dataflow.svg`,
   TRADING:      `${B}/trading/main/public/dashboard.png`,
+  ELIC_DIAGRAM: `${B}/elic/main/architecture-diagram.svg`,
 };
 
 // Framed image component — like project detail cards
@@ -305,7 +306,11 @@ export default function PresentationMode({ onComplete }: Props) {
               />
             </div>
 
-            {/* ── CTA ────────────────────────────────────────────── */}
+            {/* ── 06 ELIC ───────────────────────────────── */}
+            <div style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+              <SectionHeader index="06" label="FEATURED · AI CHATBOT" title="ELIC" subtitle="English Learning App · React Native · Expo · Langchain" />
+              <FramedImage src={MEDIA.ELIC_DIAGRAM} caption="ELIC ARCHITECTURE DIAGRAM" />
+            </div>
             <div style={{ padding: '5rem 2.5rem', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '2rem', textAlign: 'center' }}>
               <div className="mono" style={{ fontSize: '0.55rem', color: 'rgba(255,255,255,0.18)', letterSpacing: '0.3em' }}>END_OF_PROFILE // EXPLORE_CASE_STUDIES</div>
               <h3 style={{ fontSize: 'clamp(2rem, 6vw, 4rem)', fontWeight: 950, color: '#fff', letterSpacing: '-0.04em', textTransform: 'uppercase', lineHeight: 1, margin: 0 }}>
