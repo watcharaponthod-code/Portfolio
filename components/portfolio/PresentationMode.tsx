@@ -145,7 +145,8 @@ export default function PresentationMode({ onComplete }: Props) {
           </div>
 
           {/* Scrollable body */}
-          <div ref={scrollRef} onScroll={handleScroll} style={{ flex: 1, overflowY: 'auto' }}>
+          <div ref={scrollRef} onScroll={handleScroll} style={{ flex: 1, overflowY: 'auto', background: '#080808' }}>
+          <div style={{ maxWidth: '900px', margin: '0 auto', width: '100%', background: '#0f0f0f', boxShadow: '0 0 60px rgba(0,0,0,0.8)' }}>
 
             {/* ── 00 IDENTITY ──────────────────────────────────── */}
             <div style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
@@ -327,6 +328,7 @@ export default function PresentationMode({ onComplete }: Props) {
             </div>
 
           </div>
+          </div>{/* end paper wrapper */}
 
           {/* Scroll hint */}
           {progress < 0.02 && (
