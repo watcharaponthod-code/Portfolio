@@ -56,7 +56,9 @@ function ControlTray({ children }: ControlTrayProps) {
       }
     };
     client.on('log', onLog);
-    return () => client.off('log', onLog);
+    return () => {
+      client.off('log', onLog);
+    };
   }, [client]);
 
   useEffect(() => {

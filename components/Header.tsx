@@ -24,7 +24,12 @@ export default function Header() {
 
   function changeAgent(agent: Agent | string) {
     disconnect();
-    setCurrent(agent);
+    if (typeof agent === 'string') {
+      const found = [...availablePresets, ...availablePersonal].find(a => a.id === agent);
+      if (found) setCurrent(found);
+    } else {
+      setCurrent(agent);
+    }
   }
 
   function addNewChatterBot() {

@@ -24,7 +24,7 @@ export default function EditAgent() {
   }
 
   function updateCurrentAgent(adjustments: Partial<Agent>) {
-    updateAgent(agent.id, adjustments);
+    updateAgent({ ...agent, ...adjustments });
   }
 
   return (
