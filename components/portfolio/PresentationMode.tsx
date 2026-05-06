@@ -308,11 +308,11 @@ export default function PresentationMode({ onComplete }: Props) {
 
             {/* ── 06 ELIC ───────────────────────────────── */}
             <div style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
-              <SectionHeader index="06" label="FEATURED · AI CHATBOT" title="ELIC" subtitle="English Learning App · On-Device LLM · React Native · Expo · Langchain" />
+              <SectionHeader index="06" label="FEATURED · AI CHATBOT" title="ELIC" subtitle="English Learning App · Google Gemini API · React Native · Expo" />
               <FramedImage src={MEDIA.ELIC_DIAGRAM} caption="ELIC USE CASE DIAGRAM" />
               <Caption
-                paras={["AI-powered English learning chatbot mobile app. Runs LLM directly on mobile device for low-latency, offline English learning experience. Built with React Native, Expo, Langchain."]}
-                specs={['REACT NATIVE', 'EXPO', 'LANGCHAIN', 'ON-DEVICE LLM']}
+                paras={["AI-powered English learning chatbot mobile app using Google Gemini (gemini-2.0-flash). Runs entirely in the cloud via Gemini API — structured AI responses include conversation reply, vocabulary table, and spelling/grammar correction.", "Supports 6 real-world conversation roles (Hotel, Restaurant, Interview, Doctor, Taxi, New Friend). Includes 3 gamified learning games with Firebase Realtime Database leaderboard, TTS playback, and offline session via AsyncStorage."]}
+                specs={['REACT NATIVE', 'EXPO', 'GOOGLE GEMINI', 'FIREBASE', 'ON-DEVICE TTS']}
                 links={[{ label: 'ELIC REPO', url: 'https://github.com/watcharaponthod-code/elic' }]}
               />
             </div>
