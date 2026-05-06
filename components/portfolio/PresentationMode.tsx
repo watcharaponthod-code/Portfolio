@@ -17,7 +17,7 @@ const MEDIA = {
   SUBWAY2:      `${B}/subway-kids/main/demo/demo-gameplay-2.gif`,
   SUBWAY_ML:    `${B}/subway-kids/main/docs/ml-dataflow.svg`,
   TRADING:      `${B}/trading/main/public/dashboard.png`,
-  ELIC_DIAGRAM: `${B}/elic/main/architecture-diagram.svg`,
+  ELIC_DIAGRAM: 'https://drive.google.com/uc?export=view&id=1hshxbkNELN3joAWRhHG7Bq4lDJqs5isC',
 };
 
 // Framed image component — like project detail cards
@@ -308,8 +308,13 @@ export default function PresentationMode({ onComplete }: Props) {
 
             {/* ── 06 ELIC ───────────────────────────────── */}
             <div style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
-              <SectionHeader index="06" label="FEATURED · AI CHATBOT" title="ELIC" subtitle="English Learning App · React Native · Expo · Langchain" />
-              <FramedImage src={MEDIA.ELIC_DIAGRAM} caption="ELIC ARCHITECTURE DIAGRAM" />
+              <SectionHeader index="06" label="FEATURED · AI CHATBOT" title="ELIC" subtitle="English Learning App · On-Device LLM · React Native · Expo · Langchain" />
+              <FramedImage src={MEDIA.ELIC_DIAGRAM} caption="ELIC USE CASE DIAGRAM" />
+              <Caption
+                paras={["AI-powered English learning chatbot mobile app. Runs LLM directly on mobile device for low-latency, offline English learning experience. Built with React Native, Expo, Langchain."]}
+                specs={['REACT NATIVE', 'EXPO', 'LANGCHAIN', 'ON-DEVICE LLM']}
+                links={[{ label: 'ELIC REPO', url: 'https://github.com/watcharaponthod-code/elic' }]}
+              />
             </div>
             <div style={{ padding: '5rem 2.5rem', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '2rem', textAlign: 'center' }}>
               <div className="mono" style={{ fontSize: '0.55rem', color: 'rgba(255,255,255,0.18)', letterSpacing: '0.3em' }}>END_OF_PROFILE // EXPLORE_CASE_STUDIES</div>
