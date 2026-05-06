@@ -29,7 +29,11 @@ export const useUser = create<
 /**
  * Navigation View State
  */
-export type ViewType = 'landing' | 'system' | 'skills' | 'playground' | 'projects' | 'live-ai' | 'philosophy' | 'project-sycapt' | 'project-kafka' | 'project-geomap' | 'project-monitoring';
+export type ViewType = 
+  | 'landing' | 'system' | 'skills' | 'playground' | 'projects' | 'live-ai' | 'philosophy' 
+  | 'project-sycapt' | 'project-kafka' | 'project-geomap' | 'project-monitoring'
+  | 'project-rag-ecosystem' | 'project-embedding-rag' | 'project-bitcoin' 
+  | 'project-trading' | 'project-ninja' | 'project-subway' | 'project-elic';
 
 export const useUI = create<{
   currentView: ViewType;
@@ -58,7 +62,18 @@ export const useUI = create<{
 export const useAgent = create<{
   current: Agent;
   setCurrent: (agent: Agent) => void;
+  availablePresets: Agent[];
+  availablePersonal: Agent[];
+  addAgent: (agent: Agent) => void;
+  update: (agent: Agent) => void;
 }>(set => ({
   current: ProfessionalAgent,
+  availablePresets: [ProfessionalAgent],
+  availablePersonal: [],
   setCurrent: (agent: Agent) => set({ current: agent }),
+  addAgent: (agent: Agent) => set(state => ({ availablePersonal: [...state.availablePersonal, agent] })),
+  update: (agent: Agent) => set(state => ({ 
+    current: agent,
+    availablePersonal: state.availablePersonal.map(a => a === state.current ? agent : a)
+  })),
 }));
