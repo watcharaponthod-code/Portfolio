@@ -17,7 +17,7 @@ const MEDIA = {
   SUBWAY2:      `${B}/subway-kids/main/demo/demo-gameplay-2.gif`,
   SUBWAY_ML:    `${B}/subway-kids/main/docs/ml-dataflow.svg`,
   TRADING:      `${B}/trading/main/public/dashboard.png`,
-  ELIC_DIAGRAM: 'https://drive.google.com/uc?export=view&id=1hshxbkNELN3joAWRhHG7Bq4lDJqs5isC',
+  ELIC_DIAGRAM: `${B}/Portfolio/main/public/elic-usecase.png`,
 };
 
 // Framed image component — like project detail cards
