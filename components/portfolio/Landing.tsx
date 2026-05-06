@@ -131,7 +131,7 @@ function HeroSection() {
           <div style={{
             fontSize: 'clamp(1rem, 2.5vw, 1.5rem)', color: 'rgba(255,255,255,0.6)',
             fontFamily: 'var(--font-mono)', opacity: stage >= 1 ? 1 : 0,
-            transition: 'opacity 1s delay 0.3s', fontWeight: 700, letterSpacing: '0.1em'
+            transition: 'opacity 1s 0.3s', fontWeight: 700, letterSpacing: '0.1em'
           }}>
             <ScrambleText text="Full Stack Systems Engineer" delay={800} duration={1200} chars="01" />
             <span className="cursor-blink" style={{ color: '#fff' }}>_</span>

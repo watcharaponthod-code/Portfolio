@@ -48,7 +48,7 @@ const ALL_PROJECTS: Project[] = [
   {
     title: 'Enterprise RAG Ecosystem',
     role: 'FULL-STACK AI ENGINEER',
-    desc: 'Two production-grade RAG systems built for enterprises that cannot send data to external cloud APIs. Vector Docs handles document ingestion + hybrid RRF retrieval. WebClient AI adds LangGraph agentic orchestration + live Mantis bug-tracker SQL.',
+    desc: 'Dual production-grade RAG systems designed for secure on-premises environments. Vector Docs manages document ingestion with hybrid RRF retrieval, while WebClient AI integrates LangGraph for agentic orchestration and live SQL querying of the Mantis bug tracker.',
     stack: ['LangGraph', 'BGE-M3', 'pgvector', 'Ollama', 'Kubernetes'],
     metrics: '100% ON-PREMISES',
     category: 'AI & RAG',

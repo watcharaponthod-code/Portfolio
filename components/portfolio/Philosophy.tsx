@@ -80,9 +80,9 @@ export default function Philosophy() {
               <h3 className="mono story-section-title" style={{ borderColor: 'rgba(255,255,255,0.1)' }}>Core Philosophy</h3>
               <div className="philosophy-blocks">
                 {[
-                  { id: '01', name: 'Clarity over Cleverness', desc: 'Maintainability is the highest engineering virtue.' },
-                  { id: '02', name: 'Impact-Driven Engineering', desc: 'Every line of code serves a user need and a business goal.' },
-                  { id: '03', name: 'Constraint-Driven Innovation', desc: 'Hard limits foster the smartest, most creative solutions.' }
+                  { id: '01', name: 'Clarity over Cleverness', desc: 'Prioritizing maintainability as the highest engineering virtue.' },
+                  { id: '02', name: 'Impact-Driven Engineering', desc: 'Ensuring every line of code serves both user needs and business objectives.' },
+                  { id: '03', name: 'Constraint-Driven Innovation', desc: 'Leveraging technical limitations to foster creative and robust solutions.' }
                 ].map(item => (
                   <div key={item.id} className="philosophy-block">
                     <div className="philosophy-block-num mono" style={{ color: '#fff' }}>{item.id}</div>

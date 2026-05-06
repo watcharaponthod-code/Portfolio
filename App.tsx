@@ -102,7 +102,7 @@ function App() {
                   <div className="hint-header">
                     <TbVolume size={18} /> <span>SYSTEM_BROADCAST</span>
                   </div>
-                  <p>Try my AI Voice Assistant! Ask about my skills or projects.</p>
+                  <p>Try my AI Voice Assistant! Ask about my skills, projects, or professional background.</p>
                   <div className="hint-action">CLICK TO INITIALIZE</div>
                 </motion.div>
               )}
