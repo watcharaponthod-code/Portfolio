@@ -5,10 +5,13 @@ import Philosophy from './Philosophy';
 import SkillArchitecture from './SkillArchitecture';
 import Projects from './Projects';
 import MatrixRain from '../visuals/MatrixRain';
+import ScrambleText from '../visuals/ScrambleText';
 
 interface LandingProps {
   onPresentationComplete?: () => void;
 }
+
+const RESUME_DOWNLOAD_URL = 'https://drive.google.com/uc?export=download&id=1s46ejC-br7Ykct-bP4PO1dYdWCkItDXq';
 
 // ── Hacker Preloader (Monochrome) ──────────────────────────────
 function HackerPreloader({ onDone }: { onDone: () => void }) {
@@ -106,13 +109,40 @@ function HeroSection({ onAboutMe }: { onAboutMe: () => void }) {
         <motion.div className="container" style={{
           position: 'relative', zIndex: 2, textAlign: 'center', scale: scale, y: yParallax
         }}>
-          {/* Stage 2: About CTA */}
+          <h1 style={{
+            fontSize: 'clamp(4rem, 14vw, 11rem)',
+            fontWeight: 950,
+            color: '#fff',
+            lineHeight: 0.85,
+            letterSpacing: '-0.06em',
+            marginBottom: '1.2rem',
+            opacity: stage >= 1 ? 1 : 0,
+            transition: 'opacity 1.2s'
+          }}>
+            {stage >= 1 && <ScrambleText text="Watcharapon" delay={100} duration={1500} />}
+          </h1>
+
+          <div style={{
+            fontSize: 'clamp(1rem, 2.5vw, 1.45rem)',
+            color: 'rgba(255,255,255,0.58)',
+            fontFamily: 'var(--font-mono)',
+            opacity: stage >= 1 ? 1 : 0,
+            transition: 'opacity 1s 0.2s',
+            fontWeight: 700,
+            letterSpacing: '0.1em',
+            marginBottom: '0.6rem'
+          }}>
+            <ScrambleText text="Full Stack Systems Engineer" delay={700} duration={1200} chars="01" />
+            <span className="cursor-blink" style={{ color: '#fff' }}>_</span>
+          </div>
+
           <motion.div className="hero-buttons" style={{
             display: 'flex', gap: '1.5rem', justifyContent: 'center', marginTop: 'clamp(2.5rem, 6vw, 4rem)',
             opacity: stage >= 2 ? 1 : 0,
             y: stage >= 2 ? 0 : 30,
             flexWrap: 'wrap'
           }} transition={{ duration: 1 }}>
+            <a href={RESUME_DOWNLOAD_URL} className="btn-monochrome-primary">Resume</a>
             <button type="button" onClick={onAboutMe} className="btn-monochrome-outline">About_Me</button>
           </motion.div>
         </motion.div>
@@ -120,6 +150,7 @@ function HeroSection({ onAboutMe }: { onAboutMe: () => void }) {
 
       <style>{`
         @media (max-width: 640px) {
+          .btn-monochrome-primary,
           .btn-monochrome-outline {
             padding: 1rem 2rem !important;
             width: 100%;
@@ -132,6 +163,24 @@ function HeroSection({ onAboutMe }: { onAboutMe: () => void }) {
             margin-left: auto;
             margin-right: auto;
           }
+        }
+        .btn-monochrome-primary {
+          background: #fff;
+          color: #000;
+          padding: 1.25rem 3.5rem;
+          text-decoration: none;
+          font-family: var(--font-mono);
+          font-weight: 900;
+          font-size: 0.85rem;
+          text-transform: uppercase;
+          letter-spacing: 0.25rem;
+          transition: all 0.4s;
+          border: 1px solid #fff;
+        }
+        .btn-monochrome-primary:hover {
+          background: #000;
+          color: #fff;
+          transform: translateY(-5px);
         }
         .btn-monochrome-outline {
           border: 1px solid rgba(255,255,255,0.24);
