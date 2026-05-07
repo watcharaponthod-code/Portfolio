@@ -132,7 +132,7 @@ function HeroSection({ onAboutMe }: { onAboutMe: () => void }) {
             letterSpacing: '0.1em',
             marginBottom: '0.6rem'
           }}>
-            <ScrambleText text="Full Stack Systems Engineer" delay={700} duration={1200} chars="01" />
+            <ScrambleText text="AI Engineer" delay={700} duration={1200} chars="01" />
             <span className="cursor-blink" style={{ color: '#fff' }}>_</span>
           </div>
 
