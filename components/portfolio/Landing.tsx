@@ -1,13 +1,10 @@
 import { useEffect, useRef, useState, useCallback } from 'react';
-import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import PresentationMode from './PresentationMode';
 import Philosophy from './Philosophy';
 import SkillArchitecture from './SkillArchitecture';
 import Projects from './Projects';
-import ScrambleText from '../visuals/ScrambleText';
 import MatrixRain from '../visuals/MatrixRain';
-import { TbArrowDown } from 'react-icons/tb';
-import resumePdf from '@/components/project/Resume.pdf';
 
 interface LandingProps {
   onPresentationComplete?: () => void;
@@ -80,7 +77,7 @@ function HackerPreloader({ onDone }: { onDone: () => void }) {
 }
 
 // ── Hero Section (Restoring Stage 0/1/2) ────────────────────────
-function HeroSection() {
+function HeroSection({ onAboutMe }: { onAboutMe: () => void }) {
   const [stage, setStage] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -90,7 +87,6 @@ function HeroSection() {
   });
 
   const scale = useTransform(scrollYProgress, [0, 0.5], [1, 0.5]);
-  const opacity = useTransform(scrollYProgress, [0, 0.2], [1, 0]);
   const yParallax = useTransform(scrollYProgress, [0, 1], [0, -100]);
 
   useEffect(() => {
@@ -110,99 +106,21 @@ function HeroSection() {
         <motion.div className="container" style={{
           position: 'relative', zIndex: 2, textAlign: 'center', scale: scale, y: yParallax
         }}>
-          {/* Stage 1: Location */}
-          <div className="mono" style={{
-            fontSize: '0.9rem', color: 'rgba(255,255,255,0.4)', marginBottom: '2rem',
-            opacity: stage >= 1 ? 1 : 0, transition: 'opacity 0.8s', letterSpacing: '0.4em'
-          }}>
-            <ScrambleText text="BANGKOK // THAILAND" delay={200} duration={1000} />
-          </div>
-
-          {/* Stage 1: Name */}
-          <h1 style={{
-            fontSize: 'clamp(4rem, 14vw, 11rem)', fontWeight: 950, color: '#fff',
-            lineHeight: 0.85, letterSpacing: '-0.06em', marginBottom: '1.5rem',
-            opacity: stage >= 1 ? 1 : 0, transition: 'opacity 1.2s'
-          }}>
-            {stage >= 1 && <ScrambleText text="Watcharapon" delay={100} duration={1500} />}
-          </h1>
-
-          {/* Stage 1: Role */}
-          <div style={{
-            fontSize: 'clamp(1rem, 2.5vw, 1.5rem)', color: 'rgba(255,255,255,0.6)',
-            fontFamily: 'var(--font-mono)', opacity: stage >= 1 ? 1 : 0,
-            transition: 'opacity 1s 0.3s', fontWeight: 700, letterSpacing: '0.1em'
-          }}>
-            <ScrambleText text="Full Stack Systems Engineer" delay={800} duration={1200} chars="01" />
-            <span className="cursor-blink" style={{ color: '#fff' }}>_</span>
-          </div>
-
-          {/* Stage 2: Buttons */}
+          {/* Stage 2: About CTA */}
           <motion.div className="hero-buttons" style={{
             display: 'flex', gap: '1.5rem', justifyContent: 'center', marginTop: 'clamp(2.5rem, 6vw, 4rem)',
             opacity: stage >= 2 ? 1 : 0,
             y: stage >= 2 ? 0 : 30,
             flexWrap: 'wrap'
           }} transition={{ duration: 1 }}>
-            <a href={resumePdf} download className="btn-monochrome-primary">Download_CV</a>
-            <a href="mailto:watcharapon.thod@gmail.com" className="btn-monochrome-outline">Contact_Me</a>
+            <button type="button" onClick={onAboutMe} className="btn-monochrome-outline">About_Me</button>
           </motion.div>
-        </motion.div>
-
-        {/* 2026 Futuristic Scroll Architecture */}
-        <motion.div 
-          className="futuristic-scroll-hint"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 3, duration: 1.5 }}
-        >
-          <div className="scroll-scanner-line">
-            <motion.div 
-              className="scanner-beam"
-              animate={{ top: ['0%', '100%', '0%'] }}
-              transition={{ repeat: Infinity, duration: 4, ease: "linear" }}
-            />
-          </div>
-          
-          <div className="scroll-meta mono">
-            <div className="meta-row">
-              <span className="meta-label">DEPTH:</span>
-              <motion.span 
-                className="meta-value"
-                animate={{ opacity: [0.3, 1, 0.3] }}
-                transition={{ repeat: Infinity, duration: 1.5 }}
-              >
-                00.00%
-              </motion.span>
-            </div>
-            <div className="meta-row pulse-row">
-              <span className="meta-label">STATUS:</span>
-              <span className="meta-value status-glow">ACTIVE_SCAN</span>
-            </div>
-          </div>
-          
-          <div className="scroll-text-vertical mono">
-            SCROLL_TO_INITIATE_SYSTEM_DIVE
-          </div>
         </motion.div>
       </motion.div>
 
       <style>{`
-        .futuristic-scroll-hint {
-          position: absolute;
-          bottom: 3rem;
-          right: clamp(1.5rem, 5vw, 5rem);
-          display: flex;
-          align-items: flex-end;
-          gap: 1.5rem;
-          z-index: 10;
-        }
-
         @media (max-width: 640px) {
-          .futuristic-scroll-hint {
-            display: none;
-          }
-           .btn-monochrome-primary, .btn-monochrome-outline {
+          .btn-monochrome-outline {
             padding: 1rem 2rem !important;
             width: 100%;
             text-align: center;
@@ -215,78 +133,22 @@ function HeroSection() {
             margin-right: auto;
           }
         }
-        
-        .scroll-scanner-line {
-          width: 2px;
-          height: 120px;
-          background: rgba(255, 255, 255, 0.05);
-          position: relative;
-          overflow: hidden;
-        }
-
-        .scanner-beam {
-          position: absolute;
-          left: 0; right: 0;
-          height: 30px;
-          background: linear-gradient(to bottom, transparent, #fff, transparent);
-          box-shadow: 0 0 15px rgba(255,255,255,0.5);
-        }
-
-        .scroll-meta {
-          display: flex;
-          flex-direction: column;
-          gap: 0.5rem;
-          text-align: left;
-        }
-
-        .meta-row {
-          display: flex;
-          gap: 0.8rem;
-          font-size: 0.6rem;
-          letter-spacing: 0.1em;
-        }
-
-        .meta-label { color: rgba(255, 255, 255, 0.3); font-weight: 950; }
-        .meta-value { color: #fff; font-weight: 950; }
-
-        .status-glow {
-          color: #fff;
-          text-shadow: 0 0 8px rgba(255,255,255,0.5);
-          animation: status-pulse 2s infinite;
-        }
-
-        @keyframes status-pulse {
-          0%, 100% { opacity: 1; transform: scale(1); }
-          50% { opacity: 0.6; transform: scale(0.98); }
-        }
-
-        .scroll-text-vertical {
-          writing-mode: vertical-rl;
-          text-orientation: mixed;
-          font-size: 0.65rem;
-          font-weight: 950;
-          letter-spacing: 0.4em;
-          color: rgba(255, 255, 255, 0.2);
-          text-transform: uppercase;
-          height: 120px;
-          text-align: center;
-          border-left: 1px solid rgba(255,255,255,0.1);
-          padding-left: 0.8rem;
-        }
-
-        .btn-monochrome-primary {
-          background: #fff; color: #000; padding: 1.25rem 3.5rem; text-decoration: none;
-          font-family: var(--font-mono); font-weight: 900; font-size: 0.85rem;
-          text-transform: uppercase; letter-spacing: 0.25rem; transition: all 0.4s;
-          border: 1px solid #fff;
-        }
-        .btn-monochrome-primary:hover { background: #000; color: #fff; transform: translateY(-5px); }
         .btn-monochrome-outline {
-          border: 1px solid rgba(255,255,255,0.2); color: #fff; padding: 1.25rem 3.5rem;
-          text-decoration: none; font-family: var(--font-mono); font-weight: 900;
+          border: 1px solid rgba(255,255,255,0.24);
+          background: rgba(255,255,255,0.04);
+          color: #fff;
+          padding: 1.25rem 3.5rem;
+          font-family: var(--font-mono); font-weight: 900;
           font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.25rem; transition: all 0.4s;
+          cursor: pointer;
+          backdrop-filter: blur(12px);
         }
-        .btn-monochrome-outline:hover { border-color: #fff; box-shadow: 0 0 30px rgba(255,255,255,0.1); transform: translateY(-5px); }
+        .btn-monochrome-outline:hover {
+          border-color: #fff;
+          box-shadow: 0 0 30px rgba(255,255,255,0.1);
+          transform: translateY(-5px);
+          background: rgba(255,255,255,0.1);
+        }
       `}</style>
     </section>
   );
@@ -382,7 +244,7 @@ export default function Landing({ onPresentationComplete }: LandingProps) {
       )}
 
       {/* Main Content Sections */}
-      <HeroSection />
+      <HeroSection onAboutMe={() => scrollToSection('introduction')} />
 
       {/* 01 / Philosophy (Building the Future) */}
       <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}>

@@ -18,7 +18,7 @@ export default function Philosophy() {
   ];
 
   return (
-    <div className="section container" style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', paddingTop: '7rem', paddingBottom: '7rem', background: '#000', color: '#fff' }}>
+    <div id="introduction" className="section container" style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', paddingTop: '7rem', paddingBottom: '7rem', background: '#000', color: '#fff', scrollMarginTop: '2rem' }}>
       <div className="animate-enter story-root" style={{ width: '100%' }}>
 
         {/* Section Header */}

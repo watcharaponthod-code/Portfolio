@@ -291,17 +291,18 @@ export default function PresentationMode({ onComplete }: Props) {
               />
             </div>
 
-            {/* ── 05 ALGOTRADE + INFRA ─────────────────────────── */}
+            {/* ── 05 ALGOTRADE ─────────────────────────────────── */}
             <div style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
-              <SectionHeader index="05" label="FULL-STACK · SYSTEMS" title="ALGOTRADE + INFRASTRUCTURE" subtitle="NEXT.JS 16 · KAFKA · PROMETHEUS · KUBERNETES · LEAFLET.JS" />
-              <FramedImage src={MEDIA.TRADING} caption="ALGOTRADE_DASHBOARD // REAL-TIME WEBSOCKET PRICE FEEDS · STRATEGY MONITORING · BACKTESTING VIEWS" />
+              <SectionHeader index="05" label="AI AUTOMATION · TRADING" title="ALGOTRADE" subtitle="AUTOMATED TRADING ENGINE · VERCEL CRON · REAL-TIME DASHBOARD · TELEGRAM ALERTS" />
+              <FramedImage src={MEDIA.TRADING} caption="ALGOTRADE_DASHBOARD // AUTO-TRADER · EQUITY CURVE · OPEN POSITIONS · P&L HISTORY" />
               <Caption
                 paras={[
-                  'AlgoTrade is a full-stack algorithmic trading dashboard built on Next.js 16 + TypeScript. It consumes live WebSocket price feeds, renders interactive performance charts, and displays backtesting results and strategy P&L breakdowns in real time.',
-                  "Bank's EDC Ecosystem Visualizer: A Leaflet.js interactive map of every EDC terminal across Thailand. Real-time filters by province, region, type, and status, backed by a FastAPI + PostgreSQL API. Built for internal bank operations teams to monitor terminal health at a glance.",
-                  'Kafka-to-API Connector: A Java 21 + Spring Boot microservice that synchronises events from Apache Kafka to a downstream REST API with at-least-once delivery guarantees, a Dead-Letter Queue, and a full audit trail. VM Auto-Scaler: Prometheus-triggered provisioning that spins up new VM nodes before CPU or RAM saturation, achieving sub-3-minute provision time.',
+                  'AlgoTrade is an automated trading system that runs its strategy engine every minute through Vercel Cron Jobs, so it does not need a separate always-on server.',
+                  'It supports four strategies: Momentum, Mean Reversion, Stat-Arb, and Pairs Trading, with 24/7 crypto trading across BTC, ETH, SOL, AVAX, and DOGE.',
+                  'Risk management is built into the execution flow with portfolio heat limits, daily P&L cutoffs, and stale order cleanup to control exposure during fast market moves.',
+                  'The real-time dashboard shows portfolio equity, P&L history, and open positions, while Telegram alerts notify every signal and trade execution.',
                 ]}
-                specs={['NEXT.JS 16 · TS', 'JAVA 21 · KAFKA', 'PROMETHEUS · GRAFANA', 'KUBERNETES', 'LEAFLET.JS']}
+                specs={['VERCEL CRON', '4 STRATEGIES', 'CRYPTO 24/7', 'RISK MANAGEMENT', 'TELEGRAM ALERTS']}
                 links={[{ label: 'ALGOTRADE REPO', url: 'https://github.com/watcharaponthod-code/trading' }]}
               />
             </div>

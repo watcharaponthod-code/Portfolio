@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { TbMenu2, TbX } from 'react-icons/tb';
-import resumePdf from '@/components/project/Resume.pdf';
+
+const RESUME_DOWNLOAD_URL = 'https://drive.google.com/uc?export=download&id=1s46ejC-br7Ykct-bP4PO1dYdWCkItDXq';
 
 const NAV_ITEMS = [
   { id: 'hero',       label: 'Home' },
@@ -89,7 +90,7 @@ export default function NavBar() {
               )}
             </button>
           ))}
-          <a href={resumePdf} download className="nav-resume-btn">Resume</a>
+          <a href={RESUME_DOWNLOAD_URL} className="nav-resume-btn">Resume</a>
         </div>
 
         <button className="nav-burger" onClick={() => setMenuOpen(!menuOpen)} style={{
@@ -115,6 +116,16 @@ export default function NavBar() {
                 {item.label}
               </motion.button>
             ))}
+            <motion.a
+              initial={{ y: 20, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ delay: NAV_ITEMS.length * 0.05 }}
+              href={RESUME_DOWNLOAD_URL}
+              className="nav-mobile-resume-btn"
+              onClick={() => setMenuOpen(false)}
+            >
+              Resume
+            </motion.a>
           </motion.div>
         )}
       </AnimatePresence>
@@ -126,6 +137,23 @@ export default function NavBar() {
           transition: all 0.3s;
         }
         .nav-resume-btn:hover { background: #ccc; }
+        .nav-mobile-resume-btn {
+          margin-top: 1rem;
+          padding: 0.85rem 1.6rem;
+          border: 1px solid rgba(255,255,255,0.22);
+          color: #fff;
+          text-decoration: none;
+          font-family: var(--font-mono);
+          font-size: 0.78rem;
+          font-weight: 800;
+          letter-spacing: 0.14em;
+          text-transform: uppercase;
+          transition: all 0.3s ease;
+        }
+        .nav-mobile-resume-btn:hover {
+          border-color: #fff;
+          background: rgba(255,255,255,0.08);
+        }
         @media (max-width: 900px) {
           .nav-desktop-links { display: none !important; }
           .nav-burger { display: block !important; }
