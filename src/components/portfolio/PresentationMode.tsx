@@ -275,18 +275,20 @@ export default function PresentationMode({ onComplete }: Props) {
 
             {/* ── 05 ALGOTRADE ── */}
             <div style={{ borderBottom:'1px solid rgba(255,255,255,0.06)' }}>
-              <Hdr index="05" label="AI AUTOMATION · FULL-STACK" title="ALGOTRADE — AI TRADING ENGINE" subtitle="THAILLM (PATHUMMA QWEN3-8B) · ALPACA MARKETS · NEXT.JS 16 · VERCEL CRON" />
+              <Hdr index="05" label="AI AUTOMATION · TRADING" title="ALGOTRADE" subtitle="AUTOMATED TRADING ENGINE · VERCEL CRON · REAL-TIME DASHBOARD · TELEGRAM ALERTS" />
               <div style={{ display:'flex', flexDirection:'column', gap:'1.5rem', paddingBottom:'0.5rem' }}>
-                <FramedImg src={MEDIA.TRADING} caption="ALGOTRADE // REAL-TIME PORTFOLIO DASHBOARD — EQUITY · POSITIONS · P&L" />
+                <FramedImg src={MEDIA.TRADING} caption="ALGOTRADE_DASHBOARD // AUTO-TRADER · EQUITY CURVE · OPEN POSITIONS · P&L HISTORY" />
                 <FramedImg src={MEDIA.TRADING_ARCH} caption="ALGOTRADE_ARCHITECTURE // VERCEL CRON → THAILLM ANALYSIS → ALPACA BRACKET ORDER EXECUTION" />
                 <FramedImg src={MEDIA.TRADING_FLOW} caption="ALGOTRADE_STRATEGY_FLOW // MARKET DATA → INDICATORS (RSI/EMA/VWAP) → LLM DECISION → BUY/SELL" />
                 <FramedImg src={MEDIA.TRADING_DB} caption="ALGOTRADE_DATABASE // TRADE SIGNALS · EXECUTED TRADES · STRATEGIES · SNAPSHOTS" />
               </div>
               <Desc paras={[
-                'Full-stack algorithmic trading dashboard built on Next.js 16 + TypeScript. Live WebSocket price feeds, interactive performance charts, strategy P&L breakdowns, and backtesting result views.',
-                'Designed for real-time monitoring of multiple trading strategies simultaneously. Chart components use canvas-based rendering for smooth 60 FPS updates even with high-frequency tick data.',
+                'AlgoTrade is an automated trading system that runs its strategy engine every minute through Vercel Cron Jobs, so it does not need a separate always-on server.',
+                'It supports four strategies: Momentum, Mean Reversion, Stat-Arb, and Pairs Trading, with 24/7 crypto trading across BTC, ETH, SOL, AVAX, and DOGE.',
+                'Risk management is built into the execution flow with portfolio heat limits, daily P&L cutoffs, and stale order cleanup to control exposure during fast market moves.',
+                'The real-time dashboard shows portfolio equity, P&L history, and open positions, while Telegram alerts notify every signal and trade execution.',
               ]}
-                specs={['THAILLM QWEN3-8B','ALPACA MARKETS API','VERCEL CRON','BRACKET ORDERS','TELEGRAM ALERTS']}
+                specs={['VERCEL CRON','4 STRATEGIES','CRYPTO 24/7','RISK MANAGEMENT','TELEGRAM ALERTS']}
                 links={[{ label:'ALGOTRADE REPO', url:'https://github.com/watcharaponthod-code/trading' }]}
               />
             </div>

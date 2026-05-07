@@ -14,6 +14,7 @@ const NINJA_GIF     = 'https://raw.githubusercontent.com/watcharaponthod-code/Ni
 const SUBWAY_GIF    = 'https://raw.githubusercontent.com/watcharaponthod-code/subway-kids/main/demo/demo-gameplay.gif';
 const RAG_CHAT_DIAG = 'https://raw.githubusercontent.com/watcharaponthod-code/rag-chat/main/diagram/diagram.png';
 const ELIC_ARCH     = 'https://raw.githubusercontent.com/watcharaponthod-code/elic/main/architecture-diagram.svg';
+const DONLAYA_WORK  = 'https://lh3.googleusercontent.com/d/1LlQNx6MpBvUXJ9VEZEzTk_YvhFnBLEA4=w1600';
 
 function useInView(threshold = 0.1) {
   const ref = useRef<HTMLDivElement>(null);
@@ -28,7 +29,7 @@ function useInView(threshold = 0.1) {
   return { ref, inView };
 }
 
-type Category = 'ALL' | 'AI & RAG' | 'FULL-STACK' | 'SYSTEMS' | 'COMPUTER VISION';
+type Category = 'ALL' | 'AI & RAG' | 'FULL-STACK' | 'SYSTEMS' | 'COMPUTER VISION' | 'DATA & GROWTH';
 
 interface Project {
   title: string;
@@ -39,8 +40,11 @@ interface Project {
   category: Category;
   image?: string;
   isGif?: boolean;
-  internalLink: string;
+  internalLink?: string;
+  externalUrl?: string;
+  actionLabel?: string;
   featured?: boolean;
+  freelance?: boolean;
 }
 
 const ALL_PROJECTS: Project[] = [
@@ -155,19 +159,51 @@ const ALL_PROJECTS: Project[] = [
     image: ELIC_ARCH,
     featured: true,
   },
+  {
+    title: 'Donlaya Makeup',
+    role: 'FREELANCE · WEB DESIGN & DEPLOYMENT',
+    desc: 'Designed and deployed a production marketing website for a Singapore makeup artist, covering landing-page structure, service presentation, social proof, responsive layout, and launch-ready deployment.',
+    stack: ['Web Design', 'Responsive UI', 'Deployment', 'SEO', 'Production Launch'],
+    metrics: 'LIVE IN PRODUCTION',
+    category: 'FULL-STACK',
+    image: DONLAYA_WORK,
+    externalUrl: 'https://donlayamakeup.sg',
+    actionLabel: 'VISIT SITE',
+    freelance: true,
+  },
+  {
+    title: 'Google Ads Strategy & Audience Modeling',
+    role: 'FREELANCE · DATA & GROWTH',
+    desc: 'Built campaign planning around Google Ads with data visualization, audience analysis, and model-driven targeting. The work covered segment discovery, ad planning, performance reporting, and execution support for ad operations.',
+    stack: ['Google Ads', 'Data Visualization', 'Data Science', 'Audience Modeling', 'Campaign Planning'],
+    metrics: 'TARGETING STRATEGY',
+    category: 'DATA & GROWTH',
+    externalUrl: 'https://docs.google.com/document/d/1pLVNmHrFgDCAimQ1L4ZG4IQxuQO4cYX7c-A0bYTeQIg/edit?usp=sharing',
+    actionLabel: 'VIEW PLAN',
+    freelance: true,
+  },
 ];
 
-const CATEGORIES: Category[] = ['ALL', 'AI & RAG', 'FULL-STACK', 'SYSTEMS', 'COMPUTER VISION'];
+const CATEGORIES: Category[] = ['ALL', 'AI & RAG', 'FULL-STACK', 'SYSTEMS', 'COMPUTER VISION', 'DATA & GROWTH'];
 
 function ProjectCard({ p, index }: { p: Project; index: number }) {
   const { setView } = useUI();
   const { ref, inView } = useInView(0.06);
+  const handleOpen = () => {
+    if (p.externalUrl) {
+      window.open(p.externalUrl, '_blank', 'noopener,noreferrer');
+      return;
+    }
+    if (p.internalLink) {
+      setView(p.internalLink as any);
+    }
+  };
 
   return (
     <div
       ref={ref}
       className="project-card"
-      onClick={() => setView(p.internalLink as any)}
+      onClick={handleOpen}
       style={{
         opacity: inView ? 1 : 0,
         transform: inView ? 'translateY(0)' : 'translateY(40px)',
@@ -215,8 +251,8 @@ function ProjectCard({ p, index }: { p: Project; index: number }) {
             <div className="project-metric-label mono">IMPACT</div>
             <div className="project-metric-value mono">{p.metrics}</div>
           </div>
-          <button className="project-detail-btn mono">
-            CASE STUDY <TbArrowRight size={13} />
+          <button type="button" className="project-detail-btn mono">
+            {p.actionLabel || 'CASE STUDY'} <TbArrowRight size={13} />
           </button>
         </div>
       </div>
@@ -229,7 +265,8 @@ export default function Projects() {
   const { ref: hRef, inView: hInView } = useInView(0.12);
   const filtered = ALL_PROJECTS.filter(p => active === 'ALL' || p.category === active);
   const featured = filtered.filter(p => p.featured);
-  const others = filtered.filter(p => !p.featured);
+  const freelance = filtered.filter(p => p.freelance);
+  const others = filtered.filter(p => !p.featured && !p.freelance);
 
   return (
     <div className="section container" style={{ minHeight: '100vh', paddingTop: '6rem', paddingBottom: '8rem' }}>
@@ -237,7 +274,7 @@ export default function Projects() {
         <SectionHeader
           subtitle="02 / SELECTED WORKS"
           titleLines={['Deep Dives &', 'Case Studies.']}
-          description="Production systems, research projects, and open-source work. Filter by discipline — click any card for the full case study."
+          description="Production systems, research projects, and freelance delivery work. Filter by discipline — click any card to open the case study, live site, or planning document."
         />
       </div>
 
@@ -263,6 +300,17 @@ export default function Projects() {
           </div>
           <div className="projects-grid">
             {others.map((p, i) => <ProjectCard key={p.title} p={p} index={i} />)}
+          </div>
+        </>
+      )}
+
+      {freelance.length > 0 && (
+        <>
+          <div className="subsection-label mono" style={{ marginTop: featured.length > 0 || others.length > 0 ? '5rem' : 0 }}>
+            FREELANCE WORK
+          </div>
+          <div className="projects-grid">
+            {freelance.map((p, i) => <ProjectCard key={p.title} p={p} index={i} />)}
           </div>
         </>
       )}
