@@ -50,7 +50,9 @@ export default async function handler(req: any, res: any) {
     const hits = state.hits || [];
 
     const { stream, model } = await streamText(ai, {
-      system: systemPrompt(lang, state.context || '', memory),
+      system: systemPrompt(lang, state.context || '', memory) + (messages.length > 2
+        ? `\n\nTHE CONVERSATION SO FAR (answer follow-ups in this context)\n${messages.slice(-4, -1).map(m => `${m.role === 'user' ? 'VISITOR' : 'YOU'}: ${m.content.slice(0, 400)}`).join('\n')}`
+        : ''),
       contents: messages.map(m => ({ role: m.role === 'user' ? 'user' : 'model', parts: [{ text: m.content }] })),
       maxOutputTokens: 1400,
     });

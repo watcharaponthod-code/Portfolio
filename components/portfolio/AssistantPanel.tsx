@@ -24,8 +24,8 @@ const SUGGESTIONS: Record<Lang, string[]> = {
 };
 
 const GREETING: Record<Lang, string> = {
-  th: 'สวัสดีครับ ผมเป็นผู้ช่วย AI ของคุณวัชรพล ถามเรื่องงาน โปรเจกต์ ตัวเลขผลลัพธ์ หรือทักษะได้เลยครับ ถ้าอยากคุยด้วยเสียง กดโหมด VOICE ด้านบน',
-  en: 'Hi, I am Watcharapon\'s assistant. Ask about his projects, results, stack or background. For a voice conversation, switch to VOICE above.',
+  th: 'สวัสดีครับ ผมเป็นผู้ช่วย AI ของคุณวัชรพล ถามเรื่องงาน โปรเจกต์ ตัวเลขผลลัพธ์ หรือทักษะได้เลยครับ',
+  en: 'Hi, I am Watcharapon\'s assistant. Ask about his projects, results, stack or background.',
 };
 
 const MEM_KEY = 'asst-memory-v2'; // bumped: v1 could hold a project name as the visitor

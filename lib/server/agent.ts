@@ -71,9 +71,14 @@ export function buildGraph(ai: GoogleGenAI | null) {
     // searches, and answering it from one is how answers end up incomplete.
     .addNode('makePlan', async (s: AgentState) => {
       // a short follow-up inherits the question before it
+      // "which company?" only makes sense next to what was just said, so a
+      // short follow-up is planned and searched with the previous question
+      // AND the previous answer, not the question alone.
       const prevUser = [...s.history].reverse().find((m, i) => i > 0 && m.role === 'user');
-      const base = s.question.trim().length <= 40 && prevUser
-        ? `${prevUser.content} ${s.question}`
+      const prevAnswer = [...s.history].reverse().find(m => m.role === 'assistant');
+      const short = s.question.trim().length <= 40;
+      const base = short && prevUser
+        ? `${prevUser.content} ${s.question}` + (prevAnswer ? ` (about: ${prevAnswer.content.slice(0, 240)})` : '')
         : s.question;
       try {
         const { text } = await generateText(ai, {
@@ -91,14 +96,18 @@ export function buildGraph(ai: GoogleGenAI | null) {
     // Run every query, merge the results, keep the best of each chunk.
     .addNode('search', async (s: AgentState) => {
       const runs = await Promise.all(s.plan.map(q => search(q, 5)));
-      const best = new Map<string, Hit>();
-      for (const run of runs) {
-        for (const h of run) {
-          const prev = best.get(h.chunk.id);
-          if (!prev || h.score > prev.score) best.set(h.chunk.id, h);
-        }
+      // Every sub-query keeps its two best hits no matter what, so "did the
+      // mill do RAG?" still surfaces the RAG work even when the mill chunks
+      // outscore it. The rest of the budget is filled by score.
+      const keep = new Map<string, Hit>();
+      for (const run of runs) for (const h of run.slice(0, 2)) if (!keep.has(h.chunk.id)) keep.set(h.chunk.id, h);
+      const rest = new Map<string, Hit>();
+      for (const run of runs) for (const h of run) {
+        if (keep.has(h.chunk.id)) continue;
+        const prev = rest.get(h.chunk.id);
+        if (!prev || h.score > prev.score) rest.set(h.chunk.id, h);
       }
-      const hits = [...best.values()].sort((a, b) => b.score - a.score).slice(0, 12);
+      const hits = [...keep.values(), ...[...rest.values()].sort((a, b) => b.score - a.score)].slice(0, 12);
       return { hits, context: formatContext(hits), coverage: hits.length };
     })
     // Retrieval is recall; this is precision. The model reads the candidates
@@ -114,7 +123,10 @@ export function buildGraph(ai: GoogleGenAI | null) {
           maxOutputTokens: 40,
           temperature: 0,
         });
-        const picked = Array.from(new Set((text.match(/\d+/g) || []).map(Number))).filter(i => i >= 0 && i < s.hits.length).slice(0, 6);
+        const picked = Array.from(new Set((text.match(/\d+/g) || []).map(Number))).filter(i => i >= 0 && i < s.hits.length).slice(0, 7);
+        // keep the planner's guaranteed hits (the first two per sub-query) even if the reranker skipped them
+        const guaranteed = Math.min(s.hits.length, (s.plan.length || 1) * 2);
+        for (let i = 0; i < guaranteed; i++) if (!picked.includes(i)) picked.push(i);
         if (picked.length < 2) return {};
         const hits = picked.map(i => s.hits[i]);
         return { hits, context: formatContext(hits), coverage: hits.length };
@@ -155,6 +167,7 @@ STYLE
 - Short: 1 to 3 sentences for a simple question. Plain text, no markdown, no headers.
 - Quote numbers exactly as they appear in the context (F1 0.883, 95.7%, 3.34M views). Never invent numbers or projects.
 - If the context does not cover it, say so in one sentence and offer the closest fact. Do not guess.
+- If asked whether something was done in one place and the context shows it was done somewhere else (for example RAG at Sycapt, not at the mill), say where it was actually done and when.
 - Do not mention "the context" or "the knowledge base"; just answer.
 ${mem.length ? `\nWHAT YOU ALREADY KNOW ABOUT THIS VISITOR\n${mem.join('\n')}\nUse it to stay on their thread. Do not repeat it back to them unprompted.` : ''}
 ${context ? `\nCONTEXT (retrieved for this question)\n${context}` : ''}`;
