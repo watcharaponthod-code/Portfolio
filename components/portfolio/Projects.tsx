@@ -106,7 +106,7 @@ const ALL_PROJECTS: Project[] = [
   },
   // ── Sugarcane CV: one card per detector (all open the same case study at their section)
   {
-    title: 'Sugarcane CV 1/9: Burnt vs Fresh Cane',
+    title: 'Burnt vs Fresh Cane Grading',
     tech: 'DL · COMPUTER VISION',
     role: 'TRAINED CLASSIFIER · CCTV',
     desc: 'Is the load on the truck burnt or fresh? Burnt cane is paid less, so every truck is graded. A trained image classifier on 8,612 real CCTV frames from the weighbridge camera. Works, but it is bound to that camera: move the lens and it needs retraining.',
@@ -118,7 +118,7 @@ const ALL_PROJECTS: Project[] = [
     featured: true,
   },
   {
-    title: 'Sugarcane CV 2/9: Burnt Cane Mixed into a Load',
+    title: 'Mixed Burnt Load Estimator',
     tech: 'RULE-BASED · COMPUTER VISION',
     role: 'COLOUR RULE · NO MODEL',
     desc: 'How much of a mixed load is burnt? No model: the detector counts dark burnt pixels against fresh green on the visible top surface. Tested on simulated mixes (30% scattered, 50% layered). The rule is found; the cut-off that flips the grade is not set yet.',
@@ -130,7 +130,7 @@ const ALL_PROJECTS: Project[] = [
     featured: true,
   },
   {
-    title: 'Sugarcane CV 3/9: Dirt, Tops and Leaf Trash',
+    title: 'Soil and Trash Share',
     tech: 'DL · COMPUTER VISION',
     role: 'TRAINED SEGMENTATION',
     desc: 'What share of the load is soil, cane tops and leaf trash instead of millable cane. A trained segmentation model on 65 real labelled images. Too little data to conclude anything: reported as inconclusive rather than dressed up.',
@@ -141,7 +141,7 @@ const ALL_PROJECTS: Project[] = [
     image: 'https://raw.githubusercontent.com/watcharaponthod-code/sugarcane-cv/main/figures/dirty_area_labels.jpg',
   },
   {
-    title: 'Sugarcane CV 4/9: Is There Cane on the Truck',
+    title: 'Loaded or Empty Truck Check',
     tech: 'RULE-BASED · COMPUTER VISION',
     role: 'EDGE RULE · DEPLOYED',
     desc: 'Before anything else, the side camera decides whether the incoming truck is loaded or empty and triggers the front camera. No model for the decision: classical edge and texture cues, 3.9 ms per frame, running on site at the mill.',
@@ -152,7 +152,7 @@ const ALL_PROJECTS: Project[] = [
     image: 'https://raw.githubusercontent.com/watcharaponthod-code/sugarcane-cv/main/figures/canegate_live.png',
   },
   {
-    title: 'Sugarcane CV 5/9: Dust Opacity While Tipping',
+    title: 'Tipping Dust Opacity',
     tech: 'DL + RULE · COMPUTER VISION',
     role: 'SEGMENTATION + RULE',
     desc: 'How thick is the dust cloud as a truck tips, per bay, to trigger water spray and feed environmental reporting. LR-ASPP segmentation plus a hand-written veto rule. Recall is measured on a synthetic test set only; real dust has not been scored yet.',
@@ -164,7 +164,7 @@ const ALL_PROJECTS: Project[] = [
     isGif: true,
   },
   {
-    title: 'Sugarcane CV 6/9: Sand, Rock and Metal by Sound',
+    title: 'Contaminant Detection by Sound',
     tech: 'DL · AUDIO',
     role: 'AUDIO CNN · MICROPHONE',
     desc: 'A camera cannot see inside the pile, but a microphone hears sand or a rock hit the conveyor. Sound goes to log-mel spectrograms and a small CNN, trained on real recordings from the tipping bay. Sand is solved; rock and metal impacts are not claimed yet (recall 0.47–0.59).',
@@ -174,7 +174,7 @@ const ALL_PROJECTS: Project[] = [
     internalLink: 'project-scv-6',
   },
   {
-    title: 'Sugarcane CV 7/9: Cane Flow on the Conveyor',
+    title: 'Conveyor Cane Flow',
     tech: 'DL · COMPUTER VISION',
     role: 'SELF-TRAINING · 70 FPS',
     desc: 'Share of leaf on the moving sheet of cane, a continuous quality signal instead of one still per truck. A self-training segmentation model: labels start from a small hand-made set and the model grows them on real mill video. Runs at 70 fps.',
@@ -186,7 +186,7 @@ const ALL_PROJECTS: Project[] = [
     isGif: true,
   },
   {
-    title: 'Sugarcane CV 8/9: Thai Licence Plate OCR',
+    title: 'Thai Truck Plate OCR',
     tech: 'DL + RULE · OCR',
     role: 'TWO READERS · ZERO WRONG',
     desc: 'Bind every load to the right farmer by reading the plate at the weighbridge. Two independent readers: ONNX + cross-frame voting for accuracy, and a pure-CV reader with no model at all. Strict mode on a 60-image hard set: it abstains rather than guess, 0 wrong reads.',
@@ -196,7 +196,7 @@ const ALL_PROJECTS: Project[] = [
     internalLink: 'project-scv-8',
   },
   {
-    title: 'Sugarcane CV 9/9: Stalk Segmentation',
+    title: 'Cane Stalk Segmentation',
     tech: 'DL · COMPUTER VISION',
     role: 'SUPPORTING · DINOv2',
     desc: 'Outlines each individual cane stalk. No business value on its own; it exists so leaf share, stalk length and stacking orientation can be measured on real stalks. 31 hand-labelled images, DINOv2 features.',
