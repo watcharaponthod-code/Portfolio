@@ -119,9 +119,9 @@ const ALL_PROJECTS: Project[] = [
     desc: 'How much of a mixed load is burnt? No model: the detector counts dark burnt pixels against fresh green on the visible top surface. Tested on simulated mixes (30% scattered, 50% layered). The rule is found; the cut-off that flips the grade is not set yet.',
     stack: ['OpenCV', 'NumPy'],
     metrics: 'RULE FOUND · THRESHOLD OPEN',
+    image: 'https://raw.githubusercontent.com/watcharaponthod-code/sugarcane-cv/main/figures/stalk_seg_dino.jpg',
     category: 'COMPUTER VISION',
     internalLink: 'project-scv-2',
-    image: '/media/burn-mix.jpg',
     featured: true,
   },
   {
@@ -133,7 +133,6 @@ const ALL_PROJECTS: Project[] = [
     metrics: '65 IMAGES · INCONCLUSIVE',
     category: 'COMPUTER VISION',
     internalLink: 'project-scv-3',
-    image: 'https://raw.githubusercontent.com/watcharaponthod-code/sugarcane-cv/main/figures/dirty_area_labels.jpg',
   },
   {
     title: 'Loaded or Empty Truck Check',
@@ -201,7 +200,6 @@ const ALL_PROJECTS: Project[] = [
     metrics: '31 HAND LABELS',
     category: 'COMPUTER VISION',
     internalLink: 'project-scv-9',
-    image: 'https://raw.githubusercontent.com/watcharaponthod-code/sugarcane-cv/main/figures/stalk_seg_dino.jpg',
   },
   {
     title: 'CaneGate: Truck Inspection',
