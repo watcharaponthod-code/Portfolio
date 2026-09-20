@@ -12,8 +12,8 @@ export default function CropScanProject() {
       mediaGallery: [
         { src: '/agri/cropscan-sheet.jpg', caption: 'TWENTY FIELDS, SEASON 68 // true colour next to the two-colour cut mask for each field, with the computed cut percent and the pixel count it came from' },
         { src: '/agri/cut-demo-fields.png', caption: 'PER-FIELD CUT PERCENT // 10 m pixels, red = cut, green = standing: 77.8% (91 of 117 px), 11.4% (25 of 220 px), 36.2% (42 of 116 px)' },
-        { src: '/agri/harvest-sar-map.png', caption: 'RADAR THROUGH CLOUD // per-field VH drop against the pre-season baseline, 20 x 20 km, Dec 2025 to Mar 2026. Agreement with the harvest tickets 82%, 77%, 91% on 497 / 387 / 387 fields' },
-        { src: '/agri/sar-map-region.png', caption: 'WHOLE REGION // the same comparison across 4,648 fields: 66% agreement in December, 74% in February, 89% in March' },
+        { src: '/agri/harvest-sar-map.png', caption: 'RADAR CHANNEL, ZOOMED // the same radar-only comparison at 20 x 20 km: 82%, 77% and 91% agreement with the tickets on 497 / 387 / 387 fields. Cut threshold VH drop >= 1.5 dB' },
+        { src: '/agri/sar-map-region.png', caption: 'RADAR CHANNEL ALONE // Sentinel-1 VH drop judged against the harvest tickets on 4,648 fields, with no optical input at all: 66% agreement in December, 74% in February, 89% in March. In production this channel runs behind the Sentinel-2 rule and only answers when cloud hides the ground' },
         { src: '/agri/cropscan-confusion.png', caption: 'SCORED AGAINST TICKETS // 8,924 fields, season 68: TP 7,961, FN 918, FP 1,199, TN 7,684, F1 0.883' },
       ],
       keyFeatures: [

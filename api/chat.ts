@@ -4,8 +4,8 @@
 // key. Response is a plain text stream; the chunk ids used are returned in
 // the X-Sources header so the UI can show them.
 import { GoogleGenAI } from '@google/genai';
-import { retrieve, formatContext } from '../lib/server/rag.js';
-import { streamText } from '../lib/server/generate.js';
+import { retrieve, formatContext, hasThai } from '../lib/server/rag.js';
+import { streamText, generateText } from '../lib/server/generate.js';
 import { actionsFor, ACTION_MARKER } from '../lib/server/actions.js';
 
 export const config = { runtime: 'nodejs' };
@@ -36,8 +36,10 @@ export default async function handler(req: any, res: any) {
     res.setHeader('Allow', 'POST');
     return res.status(405).json({ error: 'POST only' });
   }
-  const apiKey = process.env['GEMINI_API_KEY']; // bracket form so vite's define cannot replace it in dev
-  if (!apiKey) return res.status(500).json({ error: 'GEMINI_API_KEY is not set on the server' });
+  // Either provider is enough: Groq answers, Gemini embeds. With only one of
+  // them set the other half degrades (keyword retrieval, or no answer at all).
+  const apiKey = process.env['GEMINI_API_KEY'] || ''; // bracket form so vite's define cannot replace it in dev
+  if (!apiKey && !process.env['GROQ_API_KEY']) return res.status(500).json({ error: 'no model provider is configured on the server' });
 
   const body = typeof req.body === 'string' ? safeJson(req.body) : req.body || {};
   const lang: 'th' | 'en' = body.lang === 'en' ? 'en' : 'th';
@@ -51,8 +53,21 @@ export default async function handler(req: any, res: any) {
 
   const t0 = Date.now();
   try {
-    const ai = new GoogleGenAI({ apiKey });
-    const hits = await retrieve(ai, last.content, 5);
+    const ai = apiKey ? new GoogleGenAI({ apiKey }) : null;
+    let hits = await retrieve(ai, last.content, 5);
+    // A Thai question against an English knowledge base can miss entirely.
+    // When it does, translate the question once and retrieve again.
+    if (hasThai(last.content) && (hits[0]?.method === 'keyword') && (hits[0]?.score ?? 0) < 2) {
+      try {
+        const { text: en } = await generateText(ai, {
+          system: 'Translate the user question into short English search keywords. Output only the keywords.',
+          contents: [{ role: 'user', parts: [{ text: last.content }] }],
+          maxOutputTokens: 40,
+          temperature: 0,
+        });
+        if (en) hits = await retrieve(ai, `${last.content} ${en}`, 5);
+      } catch { /* keep the first result */ }
+    }
     const tRetrieve = Date.now() - t0;
 
     const { stream, model } = await streamText(ai, {

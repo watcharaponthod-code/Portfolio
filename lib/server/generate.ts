@@ -1,14 +1,21 @@
-// Picks the first model that actually answers. Newer ids are tried first; if the
-// deployment's API version does not know one, the next is used. The chosen id is
-// remembered for the life of the function instance so only the first call pays.
+// One place that turns a prompt into text, whichever provider is configured.
+//
+// Groq is used when GROQ_API_KEY is set: it is fast and its free tier is far
+// more generous than Gemini's, which is what knocked the assistant offline.
+// Gemini remains the fallback, and within Gemini the first model id that
+// answers is remembered for the life of the function instance.
 import { GoogleGenAI } from '@google/genai';
 
-const CANDIDATES = ['gemini-2.5-flash-lite', 'gemini-2.5-flash'];
+const GROQ_URL = 'https://api.groq.com/openai/v1/chat/completions';
+const GROQ_MODELS = ['qwen/qwen3.8-27b', 'openai/gpt-oss-120b'];
+const GEMINI_MODELS = ['gemini-2.5-flash-lite', 'gemini-2.5-flash'];
 // Gemini 2.5 thinks by default and those tokens come out of maxOutputTokens,
 // which truncates short answers. Ask for no thinking; if a model rejects the
 // field, retry without it.
 const THINK_OFF = { thinkingConfig: { thinkingBudget: 0 } } as const;
-let chosen: string | null = null;
+
+let chosenGemini: string | null = null;
+let chosenGroq: string | null = null;
 
 export interface GenOpts {
   system: string;
@@ -17,27 +24,71 @@ export interface GenOpts {
   temperature?: number;
 }
 
-export async function generateText(ai: GoogleGenAI, o: GenOpts): Promise<{ text: string; model: string }> {
-  const order = chosen ? [chosen, ...CANDIDATES.filter(m => m !== chosen)] : CANDIDATES;
+const groqKey = () => process.env['GROQ_API_KEY'];
+
+/** Gemini-shaped contents -> OpenAI-shaped messages. */
+function toMessages(o: GenOpts) {
+  const msgs: { role: string; content: string }[] = [{ role: 'system', content: o.system }];
+  for (const c of o.contents) {
+    const text = (c.parts || []).map((p: any) => p.text || '').join('');
+    msgs.push({ role: c.role === 'model' ? 'assistant' : 'user', content: text });
+  }
+  return msgs;
+}
+
+async function groqCall(o: GenOpts, stream: boolean) {
+  const order = chosenGroq ? [chosenGroq, ...GROQ_MODELS.filter(m => m !== chosenGroq)] : GROQ_MODELS;
   let lastErr: any;
   for (const model of order) {
     try {
-      let r;
-      try {
-        r = await ai.models.generateContent({
+      const r = await fetch(GROQ_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${groqKey()}` },
+        body: JSON.stringify({
           model,
-          contents: o.contents,
+          messages: toMessages(o),
+          temperature: o.temperature ?? 0.3,
+          max_tokens: o.maxOutputTokens,
+          stream,
+        }),
+      });
+      if (!r.ok) throw new Error(`groq ${model} ${r.status}: ${(await r.text()).slice(0, 200)}`);
+      chosenGroq = model;
+      return { r, model };
+    } catch (e: any) {
+      lastErr = e;
+      console.error('[gen]', e?.message || e);
+    }
+  }
+  throw lastErr;
+}
+
+export async function generateText(ai: GoogleGenAI | null, o: GenOpts): Promise<{ text: string; model: string }> {
+  if (groqKey()) {
+    const { r, model } = await groqCall(o, false);
+    const data = await r.json();
+    const msg = data?.choices?.[0]?.message || {};
+    return { text: String(msg.content || msg.reasoning || '').trim(), model };
+  }
+  if (!ai) throw new Error('no model provider configured');
+  const order = chosenGemini ? [chosenGemini, ...GEMINI_MODELS.filter(m => m !== chosenGemini)] : GEMINI_MODELS;
+  let lastErr: any;
+  for (const model of order) {
+    try {
+      let res;
+      try {
+        res = await ai.models.generateContent({
+          model, contents: o.contents,
           config: { systemInstruction: o.system, temperature: o.temperature ?? 0.3, maxOutputTokens: o.maxOutputTokens, ...THINK_OFF },
         });
       } catch {
-        r = await ai.models.generateContent({
-          model,
-          contents: o.contents,
+        res = await ai.models.generateContent({
+          model, contents: o.contents,
           config: { systemInstruction: o.system, temperature: o.temperature ?? 0.3, maxOutputTokens: o.maxOutputTokens },
         });
       }
-      chosen = model;
-      return { text: (r.text || '').trim(), model };
+      chosenGemini = model;
+      return { text: (res.text || '').trim(), model };
     } catch (e: any) {
       lastErr = e;
       console.error(`[gen] ${model} failed:`, e?.message || e);
@@ -46,26 +97,55 @@ export async function generateText(ai: GoogleGenAI, o: GenOpts): Promise<{ text:
   throw lastErr;
 }
 
-export async function streamText(ai: GoogleGenAI, o: GenOpts) {
-  const order = chosen ? [chosen, ...CANDIDATES.filter(m => m !== chosen)] : CANDIDATES;
+/** Yields text pieces as they arrive, from whichever provider is configured. */
+export async function streamText(ai: GoogleGenAI | null, o: GenOpts): Promise<{ stream: AsyncIterable<{ text?: string }>; model: string }> {
+  if (groqKey()) {
+    const { r, model } = await groqCall(o, true);
+    async function* pieces() {
+      const reader = (r.body as any)?.getReader?.();
+      if (!reader) return;
+      const dec = new TextDecoder();
+      let buf = '';
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        buf += dec.decode(value, { stream: true });
+        const lines = buf.split('\n');
+        buf = lines.pop() || '';
+        for (const line of lines) {
+          const t = line.trim();
+          if (!t.startsWith('data:')) continue;
+          const payload = t.slice(5).trim();
+          if (!payload || payload === '[DONE]') continue;
+          try {
+            const j = JSON.parse(payload);
+            const piece = j?.choices?.[0]?.delta?.content;
+            if (piece) yield { text: piece as string };
+          } catch { /* partial frame */ }
+        }
+      }
+    }
+    return { stream: pieces(), model };
+  }
+
+  if (!ai) throw new Error('no model provider configured');
+  const order = chosenGemini ? [chosenGemini, ...GEMINI_MODELS.filter(m => m !== chosenGemini)] : GEMINI_MODELS;
   let lastErr: any;
   for (const model of order) {
     try {
       let stream;
       try {
         stream = await ai.models.generateContentStream({
-          model,
-          contents: o.contents,
+          model, contents: o.contents,
           config: { systemInstruction: o.system, temperature: o.temperature ?? 0.3, maxOutputTokens: o.maxOutputTokens, ...THINK_OFF },
         });
       } catch {
         stream = await ai.models.generateContentStream({
-          model,
-          contents: o.contents,
+          model, contents: o.contents,
           config: { systemInstruction: o.system, temperature: o.temperature ?? 0.3, maxOutputTokens: o.maxOutputTokens },
         });
       }
-      chosen = model;
+      chosenGemini = model;
       return { stream, model };
     } catch (e: any) {
       lastErr = e;

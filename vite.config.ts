@@ -45,10 +45,11 @@ export default defineConfig(({ mode }) => {
     const env = loadEnv(mode, '.', '');
     // Make .env.local visible to the api/ handlers in dev (same variable Vercel injects).
     if (env.GEMINI_API_KEY && !process.env.GEMINI_API_KEY) process.env.GEMINI_API_KEY = env.GEMINI_API_KEY;
-    const hasKey = Boolean(process.env.GEMINI_API_KEY);
+    if (env.GROQ_API_KEY && !process.env.GROQ_API_KEY) process.env.GROQ_API_KEY = env.GROQ_API_KEY;
+    const hasKey = Boolean(process.env.GEMINI_API_KEY || process.env.GROQ_API_KEY);
     // API_PROXY_TARGET in .env.local points the proxy at a preview deployment instead of production.
     const proxyTarget = env.API_PROXY_TARGET || PROD_ORIGIN;
-    if (!hasKey) console.log(`[vite] no GEMINI_API_KEY in .env.local: /api/* will be proxied to ${proxyTarget}`);
+    if (!hasKey) console.log(`[vite] no model key in .env.local: /api/* will be proxied to ${proxyTarget}`);
     return {
       server: {
         port: 3000,

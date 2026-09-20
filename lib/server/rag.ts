@@ -84,7 +84,8 @@ function dot(a: Float32Array, b: Float32Array): number {
   return s;
 }
 
-export function getIndex(ai: GoogleGenAI): Promise<Indexed[]> {
+export function getIndex(ai: GoogleGenAI | null): Promise<Indexed[]> {
+  if (!ai) return Promise.resolve(buildChunks().map(c => ({ ...c, vec: null })));
   if (!indexPromise) {
     const chunks = buildChunks();
     indexPromise = embedAll(ai, chunks.map(c => `${c.title}\n${c.text}`), 'RETRIEVAL_DOCUMENT')
@@ -98,22 +99,74 @@ export function getIndex(ai: GoogleGenAI): Promise<Indexed[]> {
   return indexPromise;
 }
 
+
+// The knowledge base is written in English while visitors often ask in Thai.
+// Without embeddings (Gemini key absent or out of quota) retrieval is keyword
+// based, so Thai queries would match nothing. Map the domain terms both ways.
+const TH_EN: Array<[RegExp, string]> = [
+  [/โรงงานน้ำตาล|โรงงาน|หีบอ้อย/, 'sugar mill weighbridge'],
+  [/อ้อย/, 'sugarcane cane'],
+  [/ดาวเทียม|เรดาร์/, 'satellite radar sentinel'],
+  [/ตัด|เก็บเกี่ยว|เกี่ยว/, 'cut harvest'],
+  [/ผลผลิต|ตัน|ไร่/, 'yield tonnes rai'],
+  [/สุขภาพ|ทรุด|แล้ง/, 'health drought decline'],
+  [/เมฆ|ฝน|หน้าฝน/, 'cloud rain wet season gapfill'],
+  [/ไฟไหม้|เผา/, 'burnt cane'],
+  [/ฝุ่น/, 'dust opacity'],
+  [/เสียง|ไมโครโฟน|หิน|ทราย/, 'audio sound sand rock microphone'],
+  [/ทะเบียน|ป้าย/, 'licence plate ocr'],
+  [/สายพาน/, 'conveyor cane flow'],
+  [/แม่น|ความแม่น|วัด|ประเมิน/, 'accuracy precision recall evidence measured'],
+  [/เทรน|ฝึก|โมเดล/, 'trained model training'],
+  [/ติดต่อ|อีเมล|เบอร์|โทร|จ้าง/, 'contact email phone hire'],
+  [/ประสบการณ์|ทำงาน|ฝึกงาน/, 'experience work internship'],
+  [/การศึกษา|เรียน|มหาวิทยาลัย/, 'education university'],
+  [/รางวัล|แข่ง/, 'award hackathon'],
+  [/เกม/, 'game pose'],
+  [/แอป|มือถือ/, 'mobile app'],
+  [/ภาษาอังกฤษ|เรียนภาษา/, 'english learning tutor'],
+  [/ยูทูบ|คลิป|วิดีโอ/, 'youtube shorts video'],
+  [/เอกสาร|ค้นหา|ถามตอบ/, 'document retrieval rag search'],
+  [/หุ้น|เทรด|บิตคอยน์/, 'trading bitcoin'],
+  [/ทักษะ|เครื่องมือ|ใช้อะไร/, 'skills stack tools'],
+];
+
+export function hasThai(q: string): boolean {
+  for (let i = 0; i < q.length; i++) {
+    const c = q.charCodeAt(i);
+    if (c >= 0x0e00 && c <= 0x0e7f) return true;
+  }
+  return false;
+}
+
+/** Adds English domain terms for a Thai question so keyword retrieval can work. */
+export function expandQuery(q: string): string {
+  if (!hasThai(q)) return q;
+  const extra = TH_EN.filter(([re]) => re.test(q)).map(([, en]) => en);
+  return extra.length ? `${q} ${extra.join(' ')}` : q;
+}
+
 function keywordScore(q: string, c: Chunk): number {
   const ql = q.toLowerCase();
   let s = 0;
-  for (const k of c.keywords) if (ql.includes(k.toLowerCase())) s += 1;
-  if (ql.includes(c.title.toLowerCase().slice(0, 12))) s += 1;
+  for (const k of c.keywords) if (ql.includes(k.toLowerCase())) s += 2;
+  if (ql.includes(c.title.toLowerCase().slice(0, 12))) s += 2;
+  // Also match the body, so an expanded Thai question finds the English text.
+  const body = `${c.title} ${c.text}`.toLowerCase();
+  for (const tok of ql.split(/[^a-z0-9+#-]+/)) {
+    if (tok.length >= 4 && body.includes(tok)) s += 1;
+  }
   return s;
 }
 
 export interface Hit { chunk: Chunk; score: number; method: 'vector' | 'keyword' }
 
-export async function retrieve(ai: GoogleGenAI, query: string, k = 5): Promise<Hit[]> {
+export async function retrieve(ai: GoogleGenAI | null, query: string, k = 5): Promise<Hit[]> {
   const index = await getIndex(ai);
-  const usable = index.filter(c => c.vec);
-  if (usable.length) {
+  const usable = ai ? index.filter(c => c.vec) : [];
+  if (usable.length && ai) {
     try {
-      const [qv] = await embedAll(ai, [query], 'RETRIEVAL_QUERY');
+      const [qv] = await embedAll(ai!, [query], 'RETRIEVAL_QUERY');
       const scored = usable.map(c => ({ chunk: c, score: dot(qv, c.vec!), method: 'vector' as const }));
       scored.sort((a, b) => b.score - a.score);
       // always keep identity within reach for who/contact style questions
@@ -127,7 +180,8 @@ export async function retrieve(ai: GoogleGenAI, query: string, k = 5): Promise<H
       console.error('[rag] query embedding failed, using keyword retrieval:', e?.message || e);
     }
   }
-  const scored = index.map(c => ({ chunk: c, score: keywordScore(query, c), method: 'keyword' as const }));
+  const expanded = expandQuery(query);
+  const scored = index.map(c => ({ chunk: c, score: keywordScore(expanded, c), method: 'keyword' as const }));
   scored.sort((a, b) => b.score - a.score);
   const top = scored.filter(h => h.score > 0).slice(0, k);
   return top.length ? top : scored.slice(0, 2);

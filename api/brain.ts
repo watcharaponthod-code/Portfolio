@@ -31,8 +31,10 @@ export default async function handler(req: any, res: any) {
     res.setHeader('Allow', 'POST');
     return res.status(405).json({ error: 'POST only' });
   }
-  const apiKey = process.env['GEMINI_API_KEY']; // bracket form so vite's define cannot replace it in dev
-  if (!apiKey) return res.status(500).json({ error: 'GEMINI_API_KEY is not set on the server' });
+  // Either provider is enough: Groq answers, Gemini embeds. With only one of
+  // them set the other half degrades (keyword retrieval, or no answer at all).
+  const apiKey = process.env['GEMINI_API_KEY'] || ''; // bracket form so vite's define cannot replace it in dev
+  if (!apiKey && !process.env['GROQ_API_KEY']) return res.status(500).json({ error: 'no model provider is configured on the server' });
 
   const body = typeof req.body === 'string' ? safeJson(req.body) : req.body || {};
   const question = String(body.question || '').slice(0, MAX_QUESTION_CHARS).trim();
@@ -41,7 +43,7 @@ export default async function handler(req: any, res: any) {
 
   const t0 = Date.now();
   try {
-    const ai = new GoogleGenAI({ apiKey });
+    const ai = apiKey ? new GoogleGenAI({ apiKey }) : null;
     const hits = await retrieve(ai, question, 4);
     const { text, model } = await generateText(ai, {
       system: systemPrompt(lang, formatContext(hits)),

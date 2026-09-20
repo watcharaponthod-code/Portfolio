@@ -30,8 +30,10 @@ export default async function handler(req: any, res: any) {
     res.setHeader('Allow', 'POST');
     return res.status(405).json({ error: 'POST only' });
   }
-  const apiKey = process.env['GEMINI_API_KEY']; // bracket form so vite's define cannot replace it in dev
-  if (!apiKey) return res.status(500).json({ error: 'GEMINI_API_KEY is not set on the server' });
+  // Either provider is enough: Groq answers, Gemini embeds. With only one of
+  // them set the other half degrades (keyword retrieval, or no answer at all).
+  const apiKey = process.env['GEMINI_API_KEY'] || ''; // bracket form so vite's define cannot replace it in dev
+  if (!apiKey && !process.env['GROQ_API_KEY']) return res.status(500).json({ error: 'no model provider is configured on the server' });
 
   const body = typeof req.body === 'string' ? safeJson(req.body) : req.body || {};
   const items: string[] = Array.isArray(body.texts) ? body.texts.filter((t: any) => typeof t === 'string') : [];
@@ -45,7 +47,7 @@ export default async function handler(req: any, res: any) {
     const total = todo.reduce((n, x) => n + x.t.length, 0);
     if (total > MAX_CHARS) return res.status(400).json({ error: 'batch too large' });
     try {
-      const ai = new GoogleGenAI({ apiKey });
+      const ai = apiKey ? new GoogleGenAI({ apiKey }) : null;
       const payload = JSON.stringify(todo.map(x => x.t));
       const { text } = await generateText(ai, {
         system: RULES + '\n\nINPUT is a JSON array of strings. OUTPUT ONLY a JSON array of the same length, same order, translated. No code fence, no commentary.',
