@@ -211,6 +211,15 @@ function HeroSection({ onAboutMe }: { onAboutMe: () => void }) {
           .hero-buttons { justify-content: center; }
           .hero-portrait { max-height: 46vh; }
         }
+        /* On a phone the portrait pushes the name and the opening line below
+           the fold, so the first thing a visitor sees is a photo instead of
+           what the work is. Drop it and let the words start at the top. */
+        @media (max-width: 760px) {
+          .hero-portrait-wrap { display: none; }
+          .hero-grid { gap: 0; text-align: left; }
+          .hero-blurb { margin-left: 0; margin-right: 0; }
+          .hero-buttons { justify-content: flex-start; }
+        }
         @media (max-width: 640px) {
           .btn-monochrome-primary,
           .btn-monochrome-outline {
@@ -225,7 +234,6 @@ function HeroSection({ onAboutMe }: { onAboutMe: () => void }) {
             margin-left: auto;
             margin-right: auto;
           }
-          .hero-portrait { max-height: 38vh; }
         }
         .btn-monochrome-primary {
           background: #000;
