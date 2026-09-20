@@ -9,15 +9,15 @@ export default function EmbeddingRagProject() {
       title: 'Vector Docs',
       role: 'ENTERPRISE RAG SYSTEM',
       year: '2024–2025',
-      tagline: 'Comprehensive document management and intelligent knowledge retrieval system. Ask your company\'s internal documents anything — in natural language, with citations. 100% on-premises.',
-      overview: 'Vector Docs solves the enterprise document search problem: thousands of PDFs, PPTX, and DOCX files that are invisible to keyword search. The system ingests them through three pipelines (manual upload, automated email, external services), embeds them using BGE-M3, and stores everything in a hybrid PostgreSQL + pgvector database. Users query in natural language and receive precise, cited answers — without any data leaving the company\'s infrastructure.',
+      tagline: 'Comprehensive document management and intelligent knowledge retrieval system. Ask your company\'s internal documents anything: in natural language, with citations. 100% on-premises.',
+      overview: 'Vector Docs solves the enterprise document search problem: thousands of PDFs, PPTX, and DOCX files that are invisible to keyword search. The system ingests them through three pipelines (manual upload, automated email, external services), embeds them using BGE-M3, and stores everything in a hybrid PostgreSQL + pgvector database. Users query in natural language and receive precise, cited answers: without any data leaving the company\'s infrastructure.',
       keyFeatures: [
         'Three ingestion pipelines: manual file upload (PDF/PPTX/DOCX), automated email capture via n8n webhooks, and external processed data from the Mantis Embedding & Conversion service.',
-        'BGE-M3 embedding model — multilingual, 1024-dimension vectors with strong cross-lingual support for Thai and English content.',
-        'Vision-enhanced RAG: images within documents are extracted, described by a vision model, and independently embedded — enabling image-aware retrieval.',
+        'BGE-M3 embedding model: multilingual, 1024-dimension vectors with strong cross-lingual support for Thai and English content.',
+        'Vision-enhanced RAG: images within documents are extracted, described by a vision model, and independently embedded: enabling image-aware retrieval.',
         'Hybrid retrieval with Reciprocal Rank Fusion (RRF) merges vector cosine similarity and PostgreSQL full-text search results before re-ranking.',
         'BGE-Reranker-v2-m3 cross-encoder re-scores top-k results to surface the highest-precision context for answer generation.',
-        'Multi-tenant isolation via project and client filtering — each department\'s documents remain scoped to authorised users only.',
+        'Multi-tenant isolation via project and client filtering: each department\'s documents remain scoped to authorised users only.',
         'Llama3 and Qwen LLMs served via self-hosted Ollama. No external AI API calls at any stage.',
       ],
       sections: [
@@ -30,7 +30,7 @@ export default function EmbeddingRagProject() {
         },
         {
           title: 'Database Schema: Dual-Layer Design',
-          body: 'The schema has two layers. The Relational/Vector Layer handles document chunks (text + embedding + FTS), extracted images (image_data BLOB + description + embedding), and user/session management. The Graph Layer (content_nodes + content_relationships) provides a unified node system across email, file, and image content types — enabling cross-source relationship queries that the flat document model cannot support.',
+          body: 'The schema has two layers. The Relational/Vector Layer handles document chunks (text + embedding + FTS), extracted images (image_data BLOB + description + embedding), and user/session management. The Graph Layer (content_nodes + content_relationships) provides a unified node system across email, file, and image content types: enabling cross-source relationship queries that the flat document model cannot support.',
         },
         {
           title: 'Hybrid Retrieval with RRF',

@@ -20,7 +20,7 @@ const MEDIA = {
   ELIC_DIAGRAM: `${B}/Portfolio/main/public/elic-usecase.png`,
 };
 
-// Framed image component — like project detail cards
+// Framed image component: like project detail cards
 function FramedImage({ src, caption, contain = false }: { src: string; caption: string; contain?: boolean }) {
   return (
     <div style={{ padding: '0 2.5rem' }}>
@@ -46,7 +46,7 @@ function FramedImage({ src, caption, contain = false }: { src: string; caption: 
   );
 }
 
-// Text block below an image — centred
+// Text block below an image: centred
 function Caption({ title, paras, specs, links }: {
   title?: string;
   paras: string[];
@@ -87,7 +87,7 @@ function Caption({ title, paras, specs, links }: {
   );
 }
 
-// Section header — centred
+// Section header: centred
 function SectionHeader({ index, label, title, subtitle }: { index: string; label: string; title: string; subtitle: string }) {
   return (
     <div style={{ padding: '3rem 2.5rem 2rem', textAlign: 'center' }}>
@@ -153,7 +153,7 @@ export default function PresentationMode({ onComplete }: Props) {
             <div style={{ borderBottom: '1px solid rgba(0,0,0,0.06)' }}>
               <SectionHeader index="00" label="IDENTITY" title="WATCHARAPON THOD" subtitle="FULL-STACK AI ENGINEER · COMPUTER SCIENCE · KASETSART UNIVERSITY" />
 
-              {/* Circular avatar + contact — centred */}
+              {/* Circular avatar + contact: centred */}
               <div style={{ padding: '0 2.5rem 2.5rem', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', gap: '1.5rem' }}>
                 <div style={{ width: '200px', height: '200px', borderRadius: '50%', overflow: 'hidden', border: '2px solid rgba(0,0,0,0.2)', flexShrink: 0 }}>
                   <img src={minePhoto} alt="Watcharapon" style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top' }} />
@@ -188,12 +188,12 @@ export default function PresentationMode({ onComplete }: Props) {
                 <div className="mono" style={{ fontSize: '0.6rem', color: '#e63f6a', fontWeight: 900, letterSpacing: '0.25em', marginBottom: '1.2rem' }}>ABOUT_ME</div>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
                   {[
-                    'I graduated in Computer Science from Kasetsart University and developed a strong interest in AI and Large Language Models from my second year — studying model fundamentals, research papers, and real-world deployment patterns continuously since.',
-                    'In my final year I built an AI-powered English learning application using LLM APIs. That project was a turning point: it forced me to think beyond model accuracy and consider response time, cost per request, and user-perceived quality — shifting my view of AI from a research problem to a systems design problem.',
-                    'I extended into DevOps and infrastructure to understand production environments more deeply: building a distributed data synchronisation system for high-throughput workloads, and taking ownership of system reliability — logging, metrics, and alerting — giving me end-to-end visibility from the application layer to the operational layer.',
+                    'I graduated in Computer Science from Kasetsart University and developed a strong interest in AI and Large Language Models from my second year: studying model fundamentals, research papers, and real-world deployment patterns continuously since.',
+                    'In my final year I built an AI-powered English learning application using LLM APIs. That project was a turning point: it forced me to think beyond model accuracy and consider response time, cost per request, and user-perceived quality: shifting my view of AI from a research problem to a systems design problem.',
+                    'I extended into DevOps and infrastructure to understand production environments more deeply: building a distributed data synchronisation system for high-throughput workloads, and taking ownership of system reliability: logging, metrics, and alerting, giving me end-to-end visibility from the application layer to the operational layer.',
                     'During my internship I worked across both DevOps and AI systems, specialising in Retrieval-Augmented Generation (RAG) and Context-Augmented Generation (CAG). I designed pipelines connecting the data layer to the model layer and learned to manage real production trade-offs between latency, retrieval quality, and infrastructure cost.',
-                    'Today I can develop and deploy AI systems both API-based and via local inference — using Ollama for on-premise deployments — while designing monitoring and cost-control layers that allow teams to operate sustainably at scale. I am also focused on using AI to improve internal workflows: document processing, automation, and internal tooling that solves real team pain points.',
-                    'For me, moving from DevOps into AI is not a career change — it is the convergence of infrastructure knowledge, scalability thinking, and AI application design. I build systems that can be genuinely deployed, scaled, and maintained within the real constraints of a team and a business.',
+                    'Today I can develop and deploy AI systems both API-based and via local inference: using Ollama for on-premise deployments, while designing monitoring and cost-control layers that allow teams to operate sustainably at scale. I am also focused on using AI to improve internal workflows: document processing, automation, and internal tooling that solves real team pain points.',
+                    'For me, moving from DevOps into AI is not a career change: it is the convergence of infrastructure knowledge, scalability thinking, and AI application design. I build systems that can be genuinely deployed, scaled, and maintained within the real constraints of a team and a business.',
                   ].map((para, i) => (
                     <p key={i} style={{ fontSize: 'clamp(0.87rem, 1.9vw, 0.97rem)', color: 'rgba(0,0,0,0.62)', lineHeight: 1.85, fontWeight: 300, margin: 0 }}>{para}</p>
                   ))}
@@ -205,32 +205,32 @@ export default function PresentationMode({ onComplete }: Props) {
             <div style={{ borderBottom: '1px solid rgba(0,0,0,0.06)' }}>
               <SectionHeader index="01" label="FEATURED · AI & RAG" title="ENTERPRISE RAG ECOSYSTEM" subtitle="VECTOR DOCS (embedding_rag) + WEBCLIENT AI WORKSPACE (rag-chat)" />
 
-              {/* Diagram 1 — Vector Docs */}
+              {/* Diagram 1: Vector Docs */}
               <div style={{ padding: '0 2.5rem 0', textAlign: 'center' }}>
-                <div className="mono" style={{ fontSize: '0.54rem', color: 'rgba(0,0,0,0.3)', letterSpacing: '0.22em', marginBottom: '1rem' }}>SYSTEM_01 // VECTOR DOCS — embedding_rag</div>
+                <div className="mono" style={{ fontSize: '0.54rem', color: 'rgba(0,0,0,0.3)', letterSpacing: '0.22em', marginBottom: '1rem' }}>SYSTEM_01 // VECTOR DOCS: embedding_rag</div>
               </div>
               <FramedImage src={MEDIA.EMB_DIAGRAM} caption="VECTOR_DOCS // THREE INGESTION PIPELINES → BGE-M3 EMBEDDINGS → HYBRID RRF RETRIEVAL → CROSS-ENCODER RERANKING" />
               <Caption
-                title="VECTOR DOCS — WHAT IT DOES"
+                title="VECTOR DOCS, WHAT IT DOES"
                 paras={[
                   'Vector Docs is a 100% on-premises corporate knowledge base. Documents (PDF, PPTX, DOCX) enter through three separate ingestion pipelines: manual file upload, automated email capture via n8n webhooks, and pre-processed data from an external embedding service.',
-                  'Each document is parsed for both text and embedded images. Text chunks are embedded using BGE-M3 (1024-dimensional, cross-lingual Thai/English). Images are described by a vision model and embedded separately — enabling image-aware retrieval even when surrounding text does not mention the image content.',
+                  'Each document is parsed for both text and embedded images. Text chunks are embedded using BGE-M3 (1024-dimensional, cross-lingual Thai/English). Images are described by a vision model and embedded separately: enabling image-aware retrieval even when surrounding text does not mention the image content.',
                   'At query time, the system runs vector cosine similarity (pgvector) and PostgreSQL full-text search in parallel, then merges the ranked lists using Reciprocal Rank Fusion (RRF). The top results are re-scored by a BGE-Reranker-v2-m3 cross-encoder before the final answer is generated by a self-hosted Llama3 / Qwen LLM via Ollama. Zero external API calls at any stage.',
                 ]}
                 specs={['BGE-M3 1024D', 'HYBRID RRF', 'CROSS-ENCODER', 'VISION-ENHANCED', 'OLLAMA · 100% ON-PREM']}
                 links={[{ label: 'VECTOR DOCS REPO', url: 'https://github.com/watcharaponthod-code/embedding_rag' }]}
               />
 
-              {/* Diagram 2 — RAG Chat */}
+              {/* Diagram 2: RAG Chat */}
               <div style={{ padding: '1rem 2.5rem 0', borderTop: '1px solid rgba(0,0,0,0.04)', textAlign: 'center' }}>
-                <div className="mono" style={{ fontSize: '0.54rem', color: 'rgba(0,0,0,0.3)', letterSpacing: '0.22em', marginBottom: '1rem' }}>SYSTEM_02 // WEBCLIENT AI WORKSPACE — rag-chat</div>
+                <div className="mono" style={{ fontSize: '0.54rem', color: 'rgba(0,0,0,0.3)', letterSpacing: '0.22em', marginBottom: '1rem' }}>SYSTEM_02 // WEBCLIENT AI WORKSPACE: rag-chat</div>
               </div>
               <FramedImage src={MEDIA.RAG_DIAGRAM} caption="RAG_CHAT // LANGGRAPH INTENT ROUTING → DOCUMENT SEARCH · IMAGE SEARCH · LIVE SQL → OLLAMA LLM ANSWER" />
               <Caption
-                title="WEBCLIENT AI WORKSPACE — WHAT IT DOES"
+                title="WEBCLIENT AI WORKSPACE, WHAT IT DOES"
                 paras={[
-                  'WebClient AI Workspace layers a LangGraph state-machine on top of the same retrieval stack. Rather than routing every query to document search, the agent first classifies intent — is this a document question, an image question, or a structured data question about the live Mantis Bug Tracker?',
-                  'Document and image queries go through HyDE (Hypothetical Document Embeddings) query expansion and multi-query rewriting to improve recall on ambiguous inputs. Bug tracker queries are converted to SQL and executed against a live MySQL instance in real time — so the answer reflects current ticket status, not stale indexed data.',
+                  'WebClient AI Workspace layers a LangGraph state-machine on top of the same retrieval stack. Rather than routing every query to document search, the agent first classifies intent, is this a document question, an image question, or a structured data question about the live Mantis Bug Tracker?',
+                  'Document and image queries go through HyDE (Hypothetical Document Embeddings) query expansion and multi-query rewriting to improve recall on ambiguous inputs. Bug tracker queries are converted to SQL and executed against a live MySQL instance in real time: so the answer reflects current ticket status, not stale indexed data.',
                   'Every reasoning step streams to the client via Server-Sent Events, giving users full visibility into how the answer was assembled. Multi-user session management with per-department document scoping ensures teams only access data they are authorised for.',
                 ]}
                 specs={['LANGRAPH AGENTS', 'HYDE QUERY EXPANSION', 'LIVE SQL · MANTIS', 'SSE STREAMING', 'MULTI-TENANT']}
@@ -257,13 +257,13 @@ export default function PresentationMode({ onComplete }: Props) {
             <div style={{ borderBottom: '1px solid rgba(0,0,0,0.06)' }}>
               <SectionHeader index="03" label="FEATURED · COMPUTER VISION" title="NINJA FRUIT" subtitle="YOLOV8 POSE DETECTION · 30+ FPS · 3-PLAYER SIMULTANEOUS" />
               <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
-                <FramedImage src={MEDIA.NINJA1} caption="DEMO_01 // SINGLE PLAYER — WRIST SLASH DETECTION AT 30+ FPS" />
-                <FramedImage src={MEDIA.NINJA2} caption="DEMO_02 // MULTIPLAYER — UP TO 3 SIMULTANEOUS PLAYERS VIA TRACK-ID ASSIGNMENT" />
-                <FramedImage src={MEDIA.NINJA3} caption="DEMO_03 // FRUIT SLICING + BOMB AVOIDANCE — COMBO SCORING SYSTEM" />
+                <FramedImage src={MEDIA.NINJA1} caption="DEMO_01 // SINGLE PLAYER: WRIST SLASH DETECTION AT 30+ FPS" />
+                <FramedImage src={MEDIA.NINJA2} caption="DEMO_02 // MULTIPLAYER, UP TO 3 SIMULTANEOUS PLAYERS VIA TRACK-ID ASSIGNMENT" />
+                <FramedImage src={MEDIA.NINJA3} caption="DEMO_03 // FRUIT SLICING + BOMB AVOIDANCE, COMBO SCORING SYSTEM" />
               </div>
               <Caption
                 paras={[
-                  'Fruit Ninja-style game controlled entirely by your body — webcam only, no controllers or keyboard required. YOLOv8 Pose (yolov8n-pose.pt) detects and tracks up to 3 players simultaneously, assigning each to a slot by horizontal position: left third = Player 1, centre = Player 2, right = Player 3.',
+                  'Fruit Ninja-style game controlled entirely by your body, webcam only, no controllers or keyboard required. YOLOv8 Pose (yolov8n-pose.pt) detects and tracks up to 3 players simultaneously, assigning each to a slot by horizontal position: left third = Player 1, centre = Player 2, right = Player 3.',
                   'A Hand History Buffer stores the last 6 frames of wrist keypoints (COCO landmarks 9 and 10) per player. When wrist displacement between the oldest and newest frame exceeds 15 pixels, a slash vector (p1 → p2) is emitted. The collision engine checks each slash against all active fruit/bomb hitboxes using a line-segment to circle distance formula.',
                   'Scoring: +1 per fruit cut, +combo bonus every 3 consecutive cuts, -5 for hitting a bomb. Juice particle effects render on every cut. The 60-second countdown and all sprites are composited over the live mirrored webcam feed at 30+ FPS via Pygame.',
                 ]}
@@ -276,15 +276,15 @@ export default function PresentationMode({ onComplete }: Props) {
             <div style={{ borderBottom: '1px solid rgba(0,0,0,0.06)' }}>
               <SectionHeader index="04" label="FEATURED · COMPUTER VISION" title="SUBWAY KIDS RUNNER" subtitle="MEDIAPIPE BLAZEPOSE · 60 FPS · LOCAL PYGAME + WEB FASTAPI MODE" />
               <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
-                <FramedImage src={MEDIA.SUBWAY1} caption="DEMO_01 // BODY-CONTROLLED LANE SWITCHING AT 60 FPS — WEBCAM ONLY" />
-                <FramedImage src={MEDIA.SUBWAY2} caption="DEMO_02 // JUMP GESTURE + OBSTACLE AVOIDANCE — MEDIAPIPE 33-LANDMARK TRACKING" />
+                <FramedImage src={MEDIA.SUBWAY1} caption="DEMO_01 // BODY-CONTROLLED LANE SWITCHING AT 60 FPS: WEBCAM ONLY" />
+                <FramedImage src={MEDIA.SUBWAY2} caption="DEMO_02 // JUMP GESTURE + OBSTACLE AVOIDANCE, MEDIAPIPE 33-LANDMARK TRACKING" />
                 <FramedImage src={MEDIA.SUBWAY_ML} caption="ML_PIPELINE // WEBCAM → MEDIAPIPE POSE → HIP-CENTRE LANE CLASSIFIER → GAME COMMAND" contain />
               </div>
               <Caption
                 paras={[
-                  'Subway Surfers-style endless runner controlled entirely by body gestures. MediaPipe Pose Lite (model_complexity=0) detects 33 full-body landmarks at 60 FPS with less than 10ms inference on CPU — no GPU required.',
+                  'Subway Surfers-style endless runner controlled entirely by body gestures. MediaPipe Pose Lite (model_complexity=0) detects 33 full-body landmarks at 60 FPS with less than 10ms inference on CPU, no GPU required.',
                   'Lane classification uses the horizontal centre of LEFT_HIP (landmark 23) and RIGHT_HIP (landmark 24), normalised to frame width: < 0.38 = Left lane, 0.38–0.62 = Centre, > 0.62 = Right lane. Jump is triggered when the nose landmark rises above y < 0.30. Debounce filtering (200ms) prevents false positives from micro-movements.',
-                  'Dual deployment mode: Local mode runs the full game as a Pygame application at 60 FPS — no server needed. Web mode streams browser camera frames over WebSocket to a FastAPI server, which runs pose estimation and returns lane/jump commands back to a Next.js browser game. Fully Dockerised with docker-compose orchestration.',
+                  'Dual deployment mode: Local mode runs the full game as a Pygame application at 60 FPS: no server needed. Web mode streams browser camera frames over WebSocket to a FastAPI server, which runs pose estimation and returns lane/jump commands back to a Next.js browser game. Fully Dockerised with docker-compose orchestration.',
                 ]}
                 specs={['60 FPS', '33 LANDMARKS', '<10ms CPU', 'LOCAL + WEB MODE', 'DOCKER + FASTAPI']}
                 links={[{ label: 'SUBWAY KIDS REPO', url: 'https://github.com/watcharaponthod-code/subway-kids' }]}
@@ -312,7 +312,7 @@ export default function PresentationMode({ onComplete }: Props) {
               <SectionHeader index="06" label="FEATURED · AI CHATBOT" title="ELIC" subtitle="English Learning App · Google Gemini API · React Native · Expo" />
               <FramedImage src={MEDIA.ELIC_DIAGRAM} caption="ELIC USE CASE DIAGRAM" />
               <Caption
-                paras={["AI-powered English learning chatbot mobile app using Google Gemini (gemini-2.0-flash). Runs entirely in the cloud via Gemini API — structured AI responses include conversation reply, vocabulary table, and spelling/grammar correction.", "Supports 6 real-world conversation roles (Hotel, Restaurant, Interview, Doctor, Taxi, New Friend). Includes 3 gamified learning games with Firebase Realtime Database leaderboard, TTS playback, and offline session via AsyncStorage."]}
+                paras={["AI-powered English learning chatbot mobile app using Google Gemini (gemini-2.0-flash). Runs entirely in the cloud via Gemini API: structured AI responses include conversation reply, vocabulary table, and spelling/grammar correction.", "Supports 6 real-world conversation roles (Hotel, Restaurant, Interview, Doctor, Taxi, New Friend). Includes 3 gamified learning games with Firebase Realtime Database leaderboard, TTS playback, and offline session via AsyncStorage."]}
                 specs={['REACT NATIVE', 'EXPO', 'GOOGLE GEMINI', 'FIREBASE', 'ON-DEVICE TTS']}
                 links={[{ label: 'ELIC REPO', url: 'https://github.com/watcharaponthod-code/elic' }]}
               />

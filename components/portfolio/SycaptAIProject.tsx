@@ -12,11 +12,11 @@ export default function SycaptAIProject() {
       title: 'AI Enterprise',
       role: 'FULL-STACK AI ENGINEER',
       year: '2024–2025',
-      tagline: 'A 100% on-premises corporate knowledge management system. Ingest PDF, DOCX, and PPTX — query in natural language. No data leaves the building.',
-      overview: 'Most enterprise AI deployments require sending confidential documents to external cloud APIs. This system was built to eliminate that tradeoff entirely. It runs on company infrastructure, uses a locally-hosted LLM via Ollama, and delivers Agentic RAG capabilities including Hybrid Search, query expansion, and semantic re-ranking — all within the corporate firewall.',
+      tagline: 'A 100% on-premises corporate knowledge management system. Ingest PDF, DOCX, and PPTX: query in natural language. No data leaves the building.',
+      overview: 'Most enterprise AI deployments require sending confidential documents to external cloud APIs. This system was built to eliminate that tradeoff entirely. It runs on company infrastructure, uses a locally-hosted LLM via Ollama, and delivers Agentic RAG capabilities including Hybrid Search, query expansion, and semantic re-ranking: all within the corporate firewall.',
       keyFeatures: [
         'Supports PDF, DOCX, and PPTX ingestion. Documents are chunked, embedded via bge-m3, and stored in a pgvector database.',
-        'Agentic RAG pipeline with intent classification — the system routes queries to document search, image retrieval, or SQL generation.',
+        'Agentic RAG pipeline with intent classification: the system routes queries to document search, image retrieval, or SQL generation.',
         'Hybrid retrieval combines pgvector cosine similarity and PostgreSQL full-text search for both semantic and lexical matching.',
         'Cross-encoder re-ranking re-scores retrieved chunks to surface the most contextually relevant content.',
         'Multi-user session management with per-user chat history, role-based access, and citation tracking.',
@@ -25,7 +25,7 @@ export default function SycaptAIProject() {
       sections: [
         {
           title: 'System Overview',
-          body: 'The platform is a modular system: React frontend → Node.js/Express API gateway → LangGraph orchestrator → Ollama LLM → pgvector storage. Each layer is independently deployable and testable. The LangGraph state machine manages the "Thought Process" — deciding whether to retrieve documents, query a database, or respond from context alone.',
+          body: 'The platform is a modular system: React frontend → Node.js/Express API gateway → LangGraph orchestrator → Ollama LLM → pgvector storage. Each layer is independently deployable and testable. The LangGraph state machine manages the "Thought Process": deciding whether to retrieve documents, query a database, or respond from context alone.',
           image: pic3,
           imageCaption: 'SYSTEM_OVERVIEW // AGENTIC RAG ARCHITECTURE',
         },
@@ -43,7 +43,7 @@ export default function SycaptAIProject() {
         },
         {
           title: 'Deployment Infrastructure',
-          body: 'The entire stack is containerized with optimized multi-stage Docker builds. Kubernetes handles orchestration, auto-scaling, and rolling updates. A fully automated GitLab CI/CD pipeline builds, tests, and deploys to staging on every merge request — production releases require a manual gate.',
+          body: 'The entire stack is containerized with optimized multi-stage Docker builds. Kubernetes handles orchestration, auto-scaling, and rolling updates. A fully automated GitLab CI/CD pipeline builds, tests, and deploys to staging on every merge request: production releases require a manual gate.',
           image: pic5,
           imageCaption: 'INFRA_DIAGRAM // KUBERNETES + GITLAB CI/CD',
         },

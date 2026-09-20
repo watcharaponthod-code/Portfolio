@@ -9,15 +9,15 @@ export default function RagChatProject() {
       title: 'WebClient AI Workspace',
       role: 'FULL-STACK AI ENGINEER',
       year: '2025',
-      tagline: 'Enterprise-grade agentic RAG chat platform for document retrieval and bug tracking. Runs 100% on-premises — no data ever leaves your infrastructure.',
-      overview: 'Most corporate RAG solutions require sending sensitive documents to external cloud APIs. WebClient AI Workspace solves this by building a complete, locally-hosted AI system. It combines an Agentic RAG pipeline with direct Mantis Bug Tracker integration, allowing engineers to query both documents and bug databases in natural language — all within the company firewall.',
+      tagline: 'Enterprise-grade agentic RAG chat platform for document retrieval and bug tracking. Runs 100% on-premises: no data ever leaves your infrastructure.',
+      overview: 'Most corporate RAG solutions require sending sensitive documents to external cloud APIs. WebClient AI Workspace solves this by building a complete, locally-hosted AI system. It combines an Agentic RAG pipeline with direct Mantis Bug Tracker integration, allowing engineers to query both documents and bug databases in natural language: all within the company firewall.',
       keyFeatures: [
-        'Agentic intent analysis before retrieval — the system decides which tool to use based on the query type (document search, image retrieval, or SQL).',
+        'Agentic intent analysis before retrieval: the system decides which tool to use based on the query type (document search, image retrieval, or SQL).',
         'Hybrid retrieval combines pgvector cosine similarity search with PostgreSQL full-text search (FTS) for both precision and recall.',
-        'Dynamic SQL generation against Mantis Bug Tracker — ask "what are the open critical bugs in Project X?" and get an answer.',
+        'Dynamic SQL generation against Mantis Bug Tracker: ask "what are the open critical bugs in Project X?" and get an answer.',
         'Cross-encoder semantic re-ranking elevates the most relevant results before synthesis.',
         'Dynamic GPU model swapping runs 4 different LLMs on 16GB VRAM without OOM errors.',
-        'Real-time thought-process streaming via SSE — users see reasoning steps as they happen.',
+        'Real-time thought-process streaming via SSE: users see reasoning steps as they happen.',
       ],
       sections: [
         {

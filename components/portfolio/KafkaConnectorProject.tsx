@@ -21,7 +21,7 @@ export default function KafkaConnectorProject() {
       sections: [
         {
           title: 'Architecture Overview',
-          body: 'The service is structured around a Spring Kafka listener container factory, with each topic mapped to a dedicated listener bean. Message transformation is handled by a pluggable transformer chain — each transformer is a Spring component that can be enabled or disabled per topic via configuration, without code changes.',
+          body: 'The service is structured around a Spring Kafka listener container factory, with each topic mapped to a dedicated listener bean. Message transformation is handled by a pluggable transformer chain: each transformer is a Spring component that can be enabled or disabled per topic via configuration, without code changes.',
           image: kafkaImg,
           imageCaption: 'SERVICE_ARCHITECTURE // KAFKA → TRANSFORM → API',
           fullWidth: true,
@@ -32,7 +32,7 @@ export default function KafkaConnectorProject() {
         },
         {
           title: 'Observability',
-          body: 'Every processing attempt is logged to a PostgreSQL audit table: message key, topic, transformation result, delivery HTTP status, and elapsed time. Grafana dashboards query this table to surface consumer lag trends, error rates per partner, and P95 delivery latency — giving operations teams actionable insight without access to raw logs.',
+          body: 'Every processing attempt is logged to a PostgreSQL audit table: message key, topic, transformation result, delivery HTTP status, and elapsed time. Grafana dashboards query this table to surface consumer lag trends, error rates per partner, and P95 delivery latency: giving operations teams actionable insight without access to raw logs.',
         },
       ],
       stack: ['Java 21', 'Spring Boot', 'Spring Kafka', 'Apache Kafka', 'PostgreSQL', 'Docker', 'Kubernetes', 'Grafana'],

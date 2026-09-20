@@ -24,7 +24,7 @@ export default function Philosophy() {
         {/* Section Header */}
         <SectionHeader
           subtitle="01 / INTRODUCTION"
-          titleLines={["Building the Future,", "One system at a time."]}
+          titleLines={["Models that run", "on real cameras."]}
         />
 
         {/* Main Grid */}
@@ -71,7 +71,7 @@ export default function Philosophy() {
 
             <div className="story-section stagger-item" style={{ marginBottom: '3rem' }}>
               <p className="story-bio" style={{ fontSize: '1.1rem', color: 'rgba(0,0,0,0.7)', lineHeight: 1.9, fontWeight: 400 }}>
-                I am a systems engineer with technical knowledge spanning across DevOps, AI Engineering, Full-Stack Development, Mobile Applications, and Data Science. My professional journey is focused on the practical implementation of these domains—from orchestrating scalable infrastructure to building autonomous AI systems—to solve complex production challenges with precision and reliability.
+                I build computer vision and LLM systems and take them to production. Recent work: dust and material detection on live mill CCTV, face liveness for eKYC, and agentic retrieval running fully on local inference. I also build what goes around the model, the inference server, the mobile app, the dashboard and the deploy. What I care about most is evaluation you can trust. I measure out of sample, I report accuracy next to coverage, and I would rather a model abstain than guess.
               </p>
             </div>
 
@@ -80,9 +80,9 @@ export default function Philosophy() {
               <h3 className="mono story-section-title" style={{ borderColor: 'rgba(0,0,0,0.1)' }}>Core Philosophy</h3>
               <div className="philosophy-blocks">
                 {[
-                  { id: '01', name: 'Clarity over Cleverness', desc: 'Prioritizing maintainability as the highest engineering virtue.' },
-                  { id: '02', name: 'Impact-Driven Engineering', desc: 'Ensuring every line of code serves both user needs and business objectives.' },
-                  { id: '03', name: 'Constraint-Driven Innovation', desc: 'Leveraging technical limitations to foster creative and robust solutions.' }
+                  { id: '01', name: 'Clarity over cleverness', desc: 'The next person to read this is me in six months.' },
+                  { id: '02', name: 'Ship it or it does not count', desc: 'A model in a notebook has not solved anything yet.' },
+                  { id: '03', name: 'Constraints first', desc: 'The camera the site already owns is the target, not the compromise.' }
                 ].map(item => (
                   <div key={item.id} className="philosophy-block">
                     <div className="philosophy-block-num mono" style={{ color: '#000' }}>{item.id}</div>

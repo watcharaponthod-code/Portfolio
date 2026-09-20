@@ -9,13 +9,13 @@ export default function SystemMonitoringProject() {
       role: 'INFRASTRUCTURE ENGINEER',
       year: '2024',
       tagline: 'Proactive VM auto-scaling system that provisions additional nodes before CPU/RAM saturation causes service degradation. Designed for high-availability production environments.',
-      overview: 'Reactive scaling — adding resources only after a service is already degraded — causes unnecessary downtime. This system implements predictive, threshold-based scaling: it continuously monitors CPU and RAM usage across the VM cluster and triggers provisioning workflows when metrics approach danger thresholds, ensuring additional capacity is available before it\'s needed.',
+      overview: 'Reactive scaling: adding resources only after a service is already degraded, causes unnecessary downtime. This system implements predictive, threshold-based scaling: it continuously monitors CPU and RAM usage across the VM cluster and triggers provisioning workflows when metrics approach danger thresholds, ensuring additional capacity is available before it\'s needed.',
       keyFeatures: [
         'Prometheus metrics collection with 15-second scrape intervals across all VM instances.',
         'Multi-threshold scaling rules: advisory alerts at 70%, soft-scale trigger at 80%, hard-scale trigger at 90% CPU/RAM.',
         'Automated instance provisioning script provisions new VMs from pre-baked images in under 3 minutes.',
         'Grafana dashboards visualize real-time CPU, RAM, disk, and network utilization across the entire cluster.',
-        'Automatic scale-down after sustained low utilization — with a configurable cool-down period to prevent thrashing.',
+        'Automatic scale-down after sustained low utilization: with a configurable cool-down period to prevent thrashing.',
         'Alert routing sends Slack notifications to on-call engineers with context (which host, which metric, current value, triggered action).',
       ],
       sections: [

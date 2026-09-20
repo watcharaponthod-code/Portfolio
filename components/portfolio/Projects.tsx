@@ -52,7 +52,7 @@ const ALL_PROJECTS: Project[] = [
   {
     title: 'Enterprise RAG Ecosystem',
     role: 'FULL-STACK AI ENGINEER',
-    desc: 'Dual production-grade RAG systems designed for secure on-premises environments. Vector Docs manages document ingestion with hybrid RRF retrieval, while WebClient AI integrates LangGraph for agentic orchestration and live SQL querying of the Mantis bug tracker.',
+    desc: 'Two RAG systems built for networks with no outbound internet. Vector Docs manages document ingestion with hybrid RRF retrieval, while WebClient AI integrates LangGraph for agentic orchestration and live SQL querying of the Mantis bug tracker.',
     stack: ['LangGraph', 'BGE-M3', 'pgvector', 'Ollama', 'Kubernetes'],
     metrics: '100% ON-PREMISES',
     category: 'AI & RAG',
@@ -74,16 +74,16 @@ const ALL_PROJECTS: Project[] = [
   {
     title: 'Bitcoin ML Prediction',
     role: 'MACHINE LEARNING ENGINEER',
-    desc: 'Multi-model ensemble for Bitcoin price prediction: LSTM (87.81% accuracy), XGBoost, and Random Forest. Trained on 12 years of BTC-USD OHLCV data with 18 engineered technical indicators (RSI, MACD, Bollinger Bands, EMA).',
+    desc: 'Sequence and tree models over 12 years of BTC-USD OHLCV with 18 engineered indicators (RSI, MACD, Bollinger Bands, EMA). The LSTM reaches 12.19% MAPE on price regression. The directional classifiers land near chance, which the repo reports rather than hides.',
     stack: ['Python', 'TensorFlow', 'XGBoost', 'scikit-learn'],
-    metrics: '87.81% ACCURACY',
+    metrics: '12.19% MAPE',
     category: 'AI & RAG',
     internalLink: 'project-bitcoin',
     image: BITCOIN_ARCH,
     featured: true,
   },
   {
-    title: 'AlgoTrade — AI Trading Engine',
+    title: 'AlgoTrade: AI Trading Engine',
     role: 'AI AUTOMATION · FULL-STACK',
     desc: 'Thai LLM (Pathumma Qwen3-8B) analyzes RSI/EMA/VWAP every hour and executes real bracket orders on Alpaca Markets automatically. Four rule-based strategies (Momentum, Mean Reversion, Stat-Arb, Pairs) run in parallel with risk management and Telegram alerts.',
     stack: ['ThaiLLM Qwen3-8B', 'Alpaca Markets', 'Next.js 16', 'Vercel Cron'],
@@ -94,7 +94,7 @@ const ALL_PROJECTS: Project[] = [
     featured: true,
   },
   {
-    title: 'Ninja Fruit — Pose Game',
+    title: 'Ninja Fruit: Pose Game',
     role: 'COMPUTER VISION',
     desc: 'Fruit Ninja-style game controlled by real-time body movement via webcam only. YOLOv8 Pose Detection tracks 17 wrist keypoints per frame to detect slash trajectories at 30+ FPS. Supports up to 3 simultaneous players.',
     stack: ['Python', 'YOLOv8', 'OpenCV', 'Pygame'],
@@ -149,7 +149,7 @@ const ALL_PROJECTS: Project[] = [
     image: picMonitor,
   },
   {
-    title: 'ELIC — AI English Tutor',
+    title: 'ELIC: AI English Tutor',
     role: 'SENIOR PROJECT · KU CHALERMPHRAKIAT',
     desc: 'AI-powered mobile English learning app for Thai learners. Scenario-based conversation (hotel, interview, medical), real-time grammar correction, structured vocabulary tables, 3 gamified exercises, TTS playback via Gemini Voice API. Capstone 2025.',
     stack: ['React Native', 'Expo', 'Google Gemini', 'Firebase', 'FastAPI'],
@@ -162,7 +162,7 @@ const ALL_PROJECTS: Project[] = [
   {
     title: 'Donlaya Makeup',
     role: 'FREELANCE · WEB DESIGN & DEPLOYMENT',
-    desc: 'Designed and deployed a production marketing website for a Singapore makeup artist, covering landing-page structure, service presentation, social proof, responsive layout, and launch-ready deployment.',
+    desc: 'Marketing site for a Singapore makeup artist. Next.js, responsive, live.',
     stack: ['Web Design', 'Responsive UI', 'Deployment', 'SEO', 'Production Launch'],
     metrics: 'LIVE IN PRODUCTION',
     category: 'FULL-STACK',
@@ -274,7 +274,7 @@ export default function Projects() {
         <SectionHeader
           subtitle="02 / SELECTED WORKS"
           titleLines={['Deep Dives &', 'Case Studies.']}
-          description="Production systems, research projects, and freelance delivery work. Filter by discipline — click any card to open the case study, live site, or planning document."
+          description="Production systems, research projects, and freelance delivery work. Filter by discipline: click any card to open the case study, live site, or planning document."
         />
       </div>
 
@@ -359,7 +359,7 @@ export default function Projects() {
           border-color: #bbb;
         }
 
-        /* Thumbnail — NO greyscale, full colour */
+        /* Thumbnail, NO greyscale, full colour */
         .project-thumb-box {
           height: 220px; overflow: hidden;
           background: #fff; position: relative;

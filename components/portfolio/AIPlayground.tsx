@@ -124,7 +124,7 @@ export default function AIPlayground() {
               {!output && !isLoading && (
                 <div className="terminal-idle">
                   <div className="mono" style={{ color: 'rgba(16,185,129,0.5)', fontSize: '0.8rem' }}>
-                    System active — Ready for questions
+                    System active: Ready for questions
                   </div>
                   <div className="mono" style={{ color: 'rgba(0,0,0,0.3)', fontSize: '0.75rem', marginTop: '0.5rem' }}>
                     {`>`} Please select a quick query or type your own...
@@ -293,9 +293,9 @@ mode: direct`
 
         <div className="arch-notes">
           {[
-            { title: "// The Knowledge Base", body: "A structured local knowledge base indexed by semantic keywords covering every section of this portfolio — projects, philosophy, skills, and experience." },
+            { title: "// The Knowledge Base", body: "A structured local knowledge base indexed by semantic keywords covering every section of this portfolio: projects, philosophy, skills, and experience." },
             { title: "// Contextual Retrieval", body: "Multi-stage retrieval analyzes the user query, extracts intent, and fetches only the most relevant context blocks, reducing hallucinations and improving accuracy." },
-            { title: "// Decision Logic", body: "A deterministic keyword matrix maps intent to knowledge sections — if query contains 'projects', technical specs are pulled; if 'identity', philosophical context is retrieved." },
+            { title: "// Decision Logic", body: "A deterministic keyword matrix maps intent to knowledge sections, if query contains 'projects', technical specs are pulled; if 'identity', philosophical context is retrieved." },
           ].map((note, i) => (
             <div key={i} className="arch-note">
               <div className="mono arch-note-title">{note.title}</div>

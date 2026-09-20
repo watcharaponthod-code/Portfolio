@@ -9,12 +9,12 @@ export default function GeoMapProject() {
       role: 'DATA VISUALIZATION ENGINEER',
       year: '2024',
       tagline: 'Interactive real-time map visualizing bank EDC terminal installations across every province in Thailand. Built for internal operations teams.',
-      overview: 'Bank operations teams needed a way to monitor the status and distribution of thousands of EDC terminals (card payment machines) across Thailand in real-time. The existing solution was a spreadsheet. This application replaced it with an interactive map, live analytics dashboard, and filterable data views — reducing time-to-insight from minutes to seconds.',
+      overview: 'Bank operations teams needed a way to monitor the status and distribution of thousands of EDC terminals (card payment machines) across Thailand in real-time. The existing solution was a spreadsheet. This application replaced it with an interactive map, live analytics dashboard, and filterable data views: reducing time-to-insight from minutes to seconds.',
       keyFeatures: [
         'Live Leaflet.js map plots all EDC terminals across Thailand, color-coded by machine type and operational status.',
-        'Multi-dimensional filtering: province, region, machine type, and status — all filters combine and update the map and charts simultaneously.',
+        'Multi-dimensional filtering: province, region, machine type, and status: all filters combine and update the map and charts simultaneously.',
         'Chart.js analytics panel shows distribution breakdowns that update in real-time as filters change.',
-        'CSV export of filtered data sets with one click — the most-requested feature by operations staff.',
+        'CSV export of filtered data sets with one click: the most-requested feature by operations staff.',
         'FastAPI backend with SQLAlchemy ORM provides a typed, high-performance REST API layer over the PostgreSQL data source.',
       ],
       sections: [
@@ -31,7 +31,7 @@ export default function GeoMapProject() {
         },
         {
           title: 'Filter Architecture',
-          body: 'All filters are stored in a single URL-serializable state object. This means every filtered view has a shareable URL — operations staff can bookmark or share specific views (e.g., "all offline terminals in the North region") without re-applying filters manually.',
+          body: 'All filters are stored in a single URL-serializable state object. This means every filtered view has a shareable URL: operations staff can bookmark or share specific views (e.g., "all offline terminals in the North region") without re-applying filters manually.',
         },
       ],
       stack: ['FastAPI', 'SQLAlchemy', 'PostgreSQL', 'Leaflet.js', 'Chart.js', 'Python', 'JavaScript'],

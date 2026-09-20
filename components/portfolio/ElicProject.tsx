@@ -9,23 +9,23 @@ export default function ElicProject() {
       title: 'ELIC',
       role: 'SENIOR PROJECT · KU CHALERMPHRAKIAT',
       year: '2025',
-      tagline: 'An AI-powered mobile English learning app for Thai university students — scenario-based conversation with real-time grammar correction, vocabulary breakdowns, and gamified exercises.',
-      overview: 'ELIC (English Language Improvement Chatbot) places Thai learners inside realistic conversational scenarios — a hotel check-in, a job interview, a medical consultation — and guides them with a role-aware AI tutor powered by Google Gemini. Every AI response is structured into three components: a conversational reply, a vocabulary table (English/Thai/example), and real-time spelling and grammar corrections with alternative phrasings. Three gamified exercises reinforce skills outside the chat context. Scores are persisted to Firebase with a live leaderboard. Developed as Watcharapon\'s Kasetsart University capstone project — his first LLM-powered production app, which directly shaped his understanding of response latency, cost-per-request, and prompt engineering trade-offs.',
+      tagline: 'An AI-powered mobile English learning app for Thai university students: scenario-based conversation with real-time grammar correction, vocabulary breakdowns, and gamified exercises.',
+      overview: 'ELIC (English Language Improvement Chatbot) places Thai learners inside realistic conversational scenarios: a hotel check-in, a job interview, a medical consultation, and guides them with a role-aware AI tutor powered by Google Gemini. Every AI response is structured into three components: a conversational reply, a vocabulary table (English/Thai/example), and real-time spelling and grammar corrections with alternative phrasings. Three gamified exercises reinforce skills outside the chat context. Scores are persisted to Firebase with a live leaderboard. Developed as Watcharapon\'s Kasetsart University capstone project, his first LLM-powered production app, which directly shaped his understanding of response latency, cost-per-request, and prompt engineering trade-offs.',
       mediaGallery: [
-        { src: 'https://drive.google.com/thumbnail?id=1hshxbkNELN3joAWRhHG7Bq4lDJqs5isC&sz=w1600', caption: 'ELIC_USE_CASE // UML USE CASE DIAGRAM — AUTH · AI CHAT · GAME MODULE · GAMIFICATION · TTS' },
+        { src: 'https://drive.google.com/thumbnail?id=1hshxbkNELN3joAWRhHG7Bq4lDJqs5isC&sz=w1600', caption: 'ELIC_USE_CASE // UML USE CASE DIAGRAM: AUTH · AI CHAT · GAME MODULE · GAMIFICATION · TTS' },
       ],
       keyFeatures: [
-        'Six conversation roles (hotel, restaurant, job interview, medical, social, taxi) — each injects a tailored system prompt into Gemini, ensuring domain-appropriate tutoring throughout the session.',
-        'Structured AI response parsing: every Gemini response is decomposed into conversational reply, vocabulary table, and spelling/grammar correction — rendered as three separate UI components.',
+        'Six conversation roles (hotel, restaurant, job interview, medical, social, taxi): each injects a tailored system prompt into Gemini, ensuring domain-appropriate tutoring throughout the session.',
+        'Structured AI response parsing: every Gemini response is decomposed into conversational reply, vocabulary table, and spelling/grammar correction: rendered as three separate UI components.',
         'Text-to-speech via two pathways: expo-speech for immediate on-device playback, or a Python FastAPI server backed by Gemini\'s voice API for higher-quality audio output.',
         'Three gamified exercises: Word Game (Gemini validates English words from random letters), Translation Game (Gemini scores Thai-to-English translations), Match Game (vocabulary pairing).',
-        'Firebase Auth with AsyncStorage offline caching — session persists across app restarts without a network round-trip.',
+        'Firebase Auth with AsyncStorage offline caching: session persists across app restarts without a network round-trip.',
         'Live leaderboard with per-user rank tracking across all game scores in Firebase Realtime Database.',
       ],
       sections: [
         {
           title: 'Architecture Overview',
-          body: 'Three-layer design: Client (React Native 0.76.9 + Expo ~52.0, React Navigation 7), Backend (Firebase Auth, Cloud Firestore, Realtime Database, AsyncStorage), AI Services (Google Gemini API gemini-2.0-flash for conversation/scoring/validation, Python FastAPI TTS server for voice output). All AI calls go through the Gemini API — no self-hosted LLM required.',
+          body: 'Three-layer design: Client (React Native 0.76.9 + Expo ~52.0, React Navigation 7), Backend (Firebase Auth, Cloud Firestore, Realtime Database, AsyncStorage), AI Services (Google Gemini API gemini-2.0-flash for conversation/scoring/validation, Python FastAPI TTS server for voice output). All AI calls go through the Gemini API: no self-hosted LLM required.',
         },
         {
           title: 'LLM Workflow',
@@ -37,7 +37,7 @@ export default function ElicProject() {
         },
         {
           title: 'Thai Learner Focus',
-          body: 'Thai is an aspect-based language with no verb tenses, no articles, and subject-verb inversion patterns that differ from English. ELIC\'s system prompt and correction heuristics are tuned specifically for these interference patterns — common Thai-English errors (tense confusion, article omission, word order) receive targeted correction rather than generic grammar feedback.',
+          body: 'Thai is an aspect-based language with no verb tenses, no articles, and subject-verb inversion patterns that differ from English. ELIC\'s system prompt and correction heuristics are tuned specifically for these interference patterns: common Thai-English errors (tense confusion, article omission, word order) receive targeted correction rather than generic grammar feedback.',
         },
         {
           title: 'CI/CD & Build Pipeline',

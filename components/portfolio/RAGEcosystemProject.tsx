@@ -16,10 +16,10 @@ export default function RAGEcosystemProject() {
       role: 'FULL-STACK AI ENGINEER',
       year: '2024–2025',
       tagline: 'Two complementary RAG systems built for enterprises that cannot send internal data to external cloud APIs. Vector Docs handles document ingestion and hybrid retrieval. WebClient AI Workspace adds agentic orchestration, real-time bug tracker queries, and multi-user chat sessions on top.',
-      overview: 'The RAG Ecosystem consists of two layered systems. Vector Docs (embedding_rag) is the core retrieval engine: it ingests documents through three pipelines, embeds content using BGE-M3, and serves hybrid vector + full-text search with RRF fusion and cross-encoder re-ranking. WebClient AI Workspace (rag-chat) extends this with a LangGraph agentic layer that routes queries to the right tool — document search, image retrieval, or live SQL against Mantis Bug Tracker — before synthesising a cited answer via a locally-hosted Ollama LLM.',
+      overview: 'The RAG Ecosystem consists of two layered systems. Vector Docs (embedding_rag) is the core retrieval engine: it ingests documents through three pipelines, embeds content using BGE-M3, and serves hybrid vector + full-text search with RRF fusion and cross-encoder re-ranking. WebClient AI Workspace (rag-chat) extends this with a LangGraph agentic layer that routes queries to the right tool: document search, image retrieval, or live SQL against Mantis Bug Tracker, before synthesising a cited answer via a locally-hosted Ollama LLM.',
       keyFeatures: [
         'Vector Docs: Three ingestion pipelines (manual upload, automated email via n8n, external processed data). BGE-M3 1024-dimensional embeddings with cross-lingual Thai/English support.',
-        'Vector Docs: Vision-enhanced retrieval — images within documents are extracted, described by a vision model, and independently embedded.',
+        'Vector Docs: Vision-enhanced retrieval: images within documents are extracted, described by a vision model, and independently embedded.',
         'Vector Docs: Hybrid RRF retrieval merges pgvector cosine similarity + PostgreSQL full-text search before cross-encoder re-ranking (BGE-Reranker-v2-m3).',
         'WebClient AI: LangGraph state machine routes each query to the optimal tool: document search, image search, or dynamic SQL generation against Mantis Bug Tracker.',
         'WebClient AI: HyDE (Hypothetical Document Embeddings) query expansion and multi-query rewriting improve recall on ambiguous queries.',
@@ -27,14 +27,14 @@ export default function RAGEcosystemProject() {
       ],
       sections: [
         {
-          title: 'Vector Docs — System Architecture',
+          title: 'Vector Docs: System Architecture',
           body: 'Three data ingestion pathways feed into a unified PostgreSQL + pgvector store. The dual-layer database design separates a Relational/Vector Layer (document chunks, extracted images, user sessions) from a Graph Layer (content_nodes + content_relationships) that enables cross-source relationship queries across email, file, and image content.',
           image: EMB_DIAGRAM,
           imageCaption: 'VECTOR_DOCS // THREE INGESTION PIPELINES → HYBRID RETRIEVAL',
           fullWidth: true,
         },
         {
-          title: 'WebClient AI — Agentic Pipeline',
+          title: 'WebClient AI: Agentic Pipeline',
           body: 'WebClient AI adds a LangGraph orchestrator on top of the same retrieval stack. The agent first classifies query intent (document, image, or structured data), then selects and executes the appropriate tool. For bug tracker queries, it generates and runs SQL against a live Mantis MySQL instance. Thought-process steps stream to the client in real-time via SSE, giving users visibility into how the answer was assembled.',
           image: CHAT_DIAGRAM,
           imageCaption: 'RAG_CHAT // AGENTIC LANGRAPH PIPELINE',

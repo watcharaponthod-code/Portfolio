@@ -49,7 +49,7 @@ export default function SystemBrain() {
       id: 'worker', x: 400, y: 490,
       label: 'ASYNC_SUBSYSTEMS',
       icon: <TbSettingsAutomation size={24} />,
-      details: 'Apache Kafka event-driven microservices (VHQ SOM Connector — 3-phase pipeline). ELK Stack for centralized logging. Prometheus + Grafana for system observability and alerting.',
+      details: 'Apache Kafka event-driven microservices (VHQ SOM Connector: 3-phase pipeline). ELK Stack for centralized logging. Prometheus + Grafana for system observability and alerting.',
       tech: ['Apache Kafka', 'Java 21', 'Spring Boot', 'ELK Stack', 'Docker']
     },
   ];

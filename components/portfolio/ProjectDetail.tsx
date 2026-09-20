@@ -128,7 +128,7 @@ export default function ProjectDetail({ data }: Props) {
           </div>
         )}
 
-        {/* ── Content Sections — image FIRST (full-width), then text ── */}
+        {/* ── Content Sections: image FIRST (full-width), then text ── */}
         {data.sections.map((sec, i) => (
           <div key={i} style={{ marginBottom: 'clamp(4rem, 9vw, 7rem)' }}>
             <div className="mono" style={{ fontSize: '0.6rem', color: 'rgba(0,0,0,0.3)', letterSpacing: '0.25em', marginBottom: '1.2rem' }}>
