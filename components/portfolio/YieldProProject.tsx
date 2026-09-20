@@ -10,8 +10,10 @@ export default function YieldProProject() {
       tagline: 'Per-field health state, a cause label (drought, decline, recovery) and P10/P50/P90 tonnes per rai. The hard part is cloud, so a radar-to-NDVI model fills the optical gaps through the wet season.',
       overview: 'Yield Pro is the analysis side of the Agri-AI pipeline. For every field it keeps a health state from NDVI, NDWI and NDRE, labels why the state changed (drought, decline, recovery) using rain, ET0, soil and terrain, and forecasts tonnes per rai as a P10/P50/P90 band. None of that works if the optical series has holes, and in Thailand the rainy season removes weeks of Sentinel-2 at a time. The SAR→NDVI gapfill model predicts the optical index from Sentinel-1 radar for exactly those weeks, answers only when it is confident, and is scored on hundreds of thousands of held-out pixels. Yield is reported as deciles and ranking because the honest out-of-zone correlation does not support a tonne figure.',
       mediaGallery: [
-        { src: '/agri/sar-gapfill.png', caption: 'SAR→NDVI GAPFILL // predicted vs true NDVI on 448,986 out-of-block pixels, Round A vs B' },
-        { src: '/agri/yieldpro-backtest.png', caption: 'YIELD // back-test against weighbridge tonnes, in-sample vs out-of-zone GroupKFold' },
+        { src: '/agri/yieldpro-sheet.jpg', caption: 'FIELD HEALTH, SEASON 69 // twenty fields the system flagged as declining faster than their own cohort without drought explaining it. True colour, the latest NDVI scene, and NDVI at leaf-out' },
+        { src: '/agri/patch-fields.png', caption: 'PATCH DETECTION // the same three panels per field, with the degraded patch outlined and its area in rai where one was found' },
+        { src: '/agri/sar-gapfill.png', caption: 'SAR TO NDVI GAPFILL // predicted against true NDVI on the answered subset, 129,166 of 448,986 out-of-block pixels: 95.7% within ±0.10, MAE 0.034' },
+        { src: '/agri/yieldpro-backtest.png', caption: 'YIELD BACK-TEST // Spearman 0.72 in-sample against 0.25 to 0.31 out-of-zone, P10 to P90 covering about 80% of real weighbridge tonnes' },
       ],
       keyFeatures: [
         'SAR→NDVI gapfill: PyTorch model on Sentinel-1 VV/VH plus weather, trained on Kaggle GPU with block-wise splits. Out-of-block n = 448,986 pixels (Nov 2025 → Jun 2026, season 68 EXPANSION only).',

@@ -1,10 +1,11 @@
 import { useEffect, useRef, useState } from 'react';
-import { TbSend, TbMicrophone, TbMessage, TbSparkles, TbRefresh } from 'react-icons/tb';
-import LiveAIDemo from './LiveAIDemo';
+import { TbSend, TbSparkles, TbRefresh, TbArrowUpRight, TbExternalLink, TbCopy, TbCheck } from 'react-icons/tb';
 import { useLang, type Lang } from '../../lib/i18n';
+import { useUI } from '../../lib/state';
+import type { ChatAction } from '../../lib/server/actions';
+import { ACTION_MARKER } from '../../lib/server/actions';
 
-type Mode = 'chat' | 'voice';
-interface Msg { id: number; role: 'user' | 'assistant'; content: string; sources?: string[]; ms?: number; error?: boolean }
+interface Msg { id: number; role: 'user' | 'assistant'; content: string; sources?: string[]; ms?: number; error?: boolean; actions?: ChatAction[] }
 
 const SUGGESTIONS: Record<Lang, string[]> = {
   th: [
@@ -29,8 +30,9 @@ const GREETING: Record<Lang, string> = {
 let nextId = 1;
 
 export default function AssistantPanel() {
-  const [mode, setMode] = useState<Mode>('chat');
   const { lang, setLang } = useLang();
+  const { setView } = useUI();
+  const [copied, setCopied] = useState<string | null>(null);
   const [messages, setMessages] = useState<Msg[]>(() => [{ id: nextId++, role: 'assistant', content: GREETING[lang] }]);
   const [input, setInput] = useState('');
   const [busy, setBusy] = useState(false);
@@ -42,9 +44,7 @@ export default function AssistantPanel() {
     listRef.current?.scrollTo({ top: listRef.current.scrollHeight, behavior: 'smooth' });
   }, [messages, busy]);
 
-  useEffect(() => {
-    if (mode === 'chat') inputRef.current?.focus();
-  }, [mode]);
+  useEffect(() => { inputRef.current?.focus(); }, []);
 
   // The language is global (site-wide toggle in the NavBar and the TH/EN buttons here).
   // Whenever it changes, and the chat is still only the greeting, swap the greeting.
@@ -94,11 +94,18 @@ export default function AssistantPanel() {
         const { done, value } = await reader.read();
         if (done) break;
         acc += dec.decode(value, { stream: true });
-        const snapshot = acc;
+        const snapshot = acc.split(ACTION_MARKER)[0];
         setMessages(m => m.map(x => x.id === draftId ? { ...x, content: snapshot } : x));
       }
       const ms = Math.round(performance.now() - t0);
-      setMessages(m => m.map(x => x.id === draftId ? { ...x, content: acc.trim() || (lang === 'th' ? 'ไม่มีข้อมูลเรื่องนี้ครับ' : 'No information on that.'), sources, ms } : x));
+      let body = acc;
+      let actions: ChatAction[] | undefined;
+      const cut = acc.indexOf(ACTION_MARKER);
+      if (cut >= 0) {
+        body = acc.slice(0, cut);
+        try { actions = JSON.parse(acc.slice(cut + ACTION_MARKER.length)); } catch {}
+      }
+      setMessages(m => m.map(x => x.id === draftId ? { ...x, content: body.trim() || (lang === 'th' ? 'ไม่มีข้อมูลเรื่องนี้ครับ' : 'No information on that.'), sources, ms, actions } : x));
     } catch (e: any) {
       if (e?.name === 'AbortError') return;
       const msg = lang === 'th'
@@ -108,6 +115,17 @@ export default function AssistantPanel() {
     } finally {
       setBusy(false);
       abortRef.current = null;
+    }
+  };
+
+  const runAction = (a: ChatAction) => {
+    if (a.kind === 'view' && a.view) { setView(a.view as any); return; }
+    if (a.kind === 'link' && a.url) { window.open(a.url, a.url.startsWith('mailto:') ? '_self' : '_blank', 'noopener,noreferrer'); return; }
+    if (a.kind === 'copy' && a.value) {
+      navigator.clipboard?.writeText(a.value).then(() => {
+        setCopied(a.value!);
+        setTimeout(() => setCopied(null), 1800);
+      }).catch(() => {});
     }
   };
 
@@ -121,26 +139,13 @@ export default function AssistantPanel() {
     <div className="asst">
       {/* mode + language bar */}
       <div className="asst-bar">
-        <div className="asst-modes" role="tablist">
-          <button role="tab" aria-selected={mode === 'chat'} className={`asst-mode mono ${mode === 'chat' ? 'on' : ''}`} onClick={() => setMode('chat')}>
-            <TbMessage size={14} /> CHAT
-          </button>
-          <button role="tab" aria-selected={mode === 'voice'} className={`asst-mode mono ${mode === 'voice' ? 'on' : ''}`} onClick={() => setMode('voice')}>
-            <TbMicrophone size={14} /> VOICE
-          </button>
-        </div>
+        <div className="asst-title mono">{lang === 'th' ? 'ถามเรื่องงานของวัชรพล' : 'ASK ABOUT THE WORK'}</div>
         <div className="asst-langs">
           <button className={`asst-lang mono ${lang === 'th' ? 'on' : ''}`} onClick={() => switchLang('th')}>TH</button>
           <button className={`asst-lang mono ${lang === 'en' ? 'on' : ''}`} onClick={() => switchLang('en')}>EN</button>
         </div>
       </div>
 
-      {mode === 'voice' ? (
-        <div className="asst-voice">
-          <LiveAIDemo lang={lang} />
-        </div>
-      ) : (
-        <>
           <div className="asst-list" ref={listRef}>
             {messages.map(m => (
               <div key={m.id} className={`asst-row ${m.role}`}>
@@ -149,6 +154,18 @@ export default function AssistantPanel() {
                   {m.content
                     ? m.content.split('\n').map((line, i) => <p key={i}>{line || ' '}</p>)
                     : <span className="asst-dots"><i /><i /><i /></span>}
+                  {m.role === 'assistant' && m.actions && m.actions.length > 0 && (
+                    <div className="asst-actions">
+                      {m.actions.map((a, i) => (
+                        <button key={i} className="asst-action" onClick={() => runAction(a)}>
+                          <span>{a.label[lang]}</span>
+                          {a.kind === 'view' && <TbArrowUpRight size={13} />}
+                          {a.kind === 'link' && <TbExternalLink size={13} />}
+                          {a.kind === 'copy' && (copied === a.value ? <TbCheck size={13} /> : <TbCopy size={13} />)}
+                        </button>
+                      ))}
+                    </div>
+                  )}
                   {m.role === 'assistant' && m.ms !== undefined && (
                     <div className="asst-meta mono">
                       RAG · {m.sources?.length || 0} {lang === 'th' ? 'แหล่งข้อมูล' : 'sources'} · {m.ms} ms
@@ -184,11 +201,13 @@ export default function AssistantPanel() {
             <span>gemini-2.5-flash-lite · vector retrieval on server</span>
             <button className="asst-reset" onClick={reset} title={lang === 'th' ? 'เริ่มใหม่' : 'New chat'}><TbRefresh size={12} /> {lang === 'th' ? 'เริ่มใหม่' : 'NEW'}</button>
           </div>
-        </>
-      )}
 
       <style>{`
         .asst { position: absolute; inset: 0; display: flex; flex-direction: column; background: #fff; color: #000; }
+        .asst-title { font-size: 0.6rem; font-weight: 900; letter-spacing: 0.18em; color: #111; }
+        .asst-actions { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.6rem; }
+        .asst-action { display: inline-flex; align-items: center; gap: 0.35rem; background: #fff; border: 1px solid #111; color: #111; border-radius: 999px; padding: 0.35rem 0.7rem; font-size: 0.73rem; font-weight: 600; cursor: pointer; transition: background 0.18s, color 0.18s, transform 0.18s; }
+        .asst-action:hover { background: #111; color: #fff; transform: translateY(-1px); }
         .asst-bar { display: flex; justify-content: space-between; align-items: center; padding: 0.6rem 0.8rem; border-bottom: 1px solid #e6e6e6; background: #fafafa; }
         .asst-modes { display: flex; border: 1px solid #000; }
         .asst-mode { display: flex; align-items: center; gap: 0.4rem; padding: 0.4rem 0.8rem; background: #fff; color: #000; border: none; cursor: pointer; font-size: 0.6rem; font-weight: 900; letter-spacing: 0.18em; transition: background 0.2s, color 0.2s; }

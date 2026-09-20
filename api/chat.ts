@@ -6,6 +6,7 @@
 import { GoogleGenAI } from '@google/genai';
 import { retrieve, formatContext } from '../lib/server/rag.js';
 import { streamText } from '../lib/server/generate.js';
+import { actionsFor, ACTION_MARKER } from '../lib/server/actions.js';
 
 export const config = { runtime: 'nodejs' };
 
@@ -69,6 +70,9 @@ export default async function handler(req: any, res: any) {
     for await (const chunk of stream) {
       if (chunk.text) res.write(chunk.text);
     }
+    // Buttons the visitor can act on, derived from the chunks actually used.
+    const actions = actionsFor(last.content, hits.map(h => h.chunk.id));
+    if (actions.length) res.write(ACTION_MARKER + JSON.stringify(actions));
     res.end();
   } catch (e: any) {
     console.error('[chat]', e?.stack || e?.message || e);

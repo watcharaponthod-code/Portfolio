@@ -10,11 +10,11 @@ export default function CropScanProject() {
       tagline: 'Which sugarcane fields are cut, when, and how much of each field. Optical NDVI from Sentinel-2 does the counting; Sentinel-1 radar takes over when the rainy season hides the ground. Scored against the mill\'s own harvest tickets on 8,924 fields.',
       overview: 'The mill needs to know, field by field, whether harvest has started and how far it has gone, without sending anyone to look. CropScan answers that from satellites. Every new Sentinel-2 scene is compared with the field\'s own pre-harvest baseline: pixels whose NDVI dropped below 0.25 are counted as cut, and the field flips to "cut" when that share crosses 50%. Because clouds block optical imagery for weeks in the wet season, a second channel watches Sentinel-1 radar: a VH backscatter drop against the field\'s own baseline confirms harvest through cloud. Both channels are measured out-of-block against real weighbridge tickets, and the numbers below are those measurements, not in-sample fits.',
       mediaGallery: [
-        { src: '/agri/cut-demo-fields.png', caption: 'PER-FIELD CUT PERCENT // three real fields at 10 m pixels, red = cut, green = standing, with the computed nCutPct: 77.8% (91 of 117 px), 11.4% (25 of 220 px), 36.2% (42 of 116 px)' },
-        { src: '/agri/cropscan-fields.png', caption: 'TRUE COLOUR VS MASK // Sentinel-2 on the left, the two-colour cut mask on the right, four real fields from season 68' },
-        { src: '/agri/harvest-sar-map.png', caption: 'RADAR THROUGH CLOUD // per-field VH drop against the baseline of each field, 20 x 20 km, Dec 2025 to Mar 2026. Agreement with harvest tickets rises 82% to 91%' },
-        { src: '/agri/sar-map-region.png', caption: 'WHOLE REGION // the same signal across 4,648 fields, radar on top, the harvest tickets that scored it underneath' },
-        { src: '/agri/cropscan-confusion.png', caption: 'SCORED AGAINST TICKETS // confusion matrix on 8,924 fields, season 68: precision 0.869, recall 0.897, accuracy 0.881, F1 0.883' },
+        { src: '/agri/cropscan-sheet.jpg', caption: 'TWENTY FIELDS, SEASON 68 // true colour next to the two-colour cut mask for each field, with the computed cut percent and the pixel count it came from' },
+        { src: '/agri/cut-demo-fields.png', caption: 'PER-FIELD CUT PERCENT // 10 m pixels, red = cut, green = standing: 77.8% (91 of 117 px), 11.4% (25 of 220 px), 36.2% (42 of 116 px)' },
+        { src: '/agri/harvest-sar-map.png', caption: 'RADAR THROUGH CLOUD // per-field VH drop against the pre-season baseline, 20 x 20 km, Dec 2025 to Mar 2026. Agreement with the harvest tickets 82%, 77%, 91% on 497 / 387 / 387 fields' },
+        { src: '/agri/sar-map-region.png', caption: 'WHOLE REGION // the same comparison across 4,648 fields: 66% agreement in December, 74% in February, 89% in March' },
+        { src: '/agri/cropscan-confusion.png', caption: 'SCORED AGAINST TICKETS // 8,924 fields, season 68: TP 7,961, FN 918, FP 1,199, TN 7,684, F1 0.883' },
       ],
       keyFeatures: [
         'Two-colour NDVI rule per polygon: count pixels with NDVI ≤ 0.25 against the field\'s pre-harvest image; cut % is the share of the polygon, and "cut" fires at 50%.',
