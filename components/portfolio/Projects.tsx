@@ -43,7 +43,8 @@ interface Project {
   category: Category;
   image?: string;
   isGif?: boolean;
-  scrollTo?: string;   // section title inside the case study to open at
+  scrollTo?: string;
+  tech?: string;       // what kind of AI it is: ML/DL, LLM, rule-based, plain software   // section title inside the case study to open at
   internalLink?: string;
   externalUrl?: string;
   actionLabel?: string;
@@ -57,6 +58,7 @@ const ALL_PROJECTS: Project[] = [
   // ── AGRI & SATELLITE ──────────────────────────────────────────────────────
   {
     title: 'CropScan: Harvest Monitoring',
+    tech: 'ML · REMOTE SENSING',
     role: 'REMOTE SENSING · SENTINEL-1 / SENTINEL-2',
     desc: 'Which fields are cut, when, and how much. Optical NDVI counts cut pixels inside each polygon. When the rainy season hides the ground for weeks, Sentinel-1 radar takes over: a VH backscatter drop against each field\'s own baseline, checked against the mill\'s harvest tickets (89–91% agreement by March). Out-of-block on 8,924 fields: precision 0.869, recall 0.897.',
     stack: ['Sentinel-2 NDVI', 'Sentinel-1 VH', 'rasterio', 'FastAPI', 'Railway'],
@@ -68,6 +70,7 @@ const ALL_PROJECTS: Project[] = [
   },
   {
     title: 'Yield Pro: Health, Cause & Yield',
+    tech: 'ML/DL · REMOTE SENSING',
     role: 'MACHINE LEARNING · SAR→NDVI GAPFILL',
     desc: 'Per-field health state, a cause label (drought, decline, recovery) and P10/P50/P90 tonnes per rai. The hard part is cloud: a radar-to-NDVI model trained on 449k out-of-block pixels fills the optical gaps through the wet season (95.7% within ±0.10, conformal bands, abstains when unsure). Yield ships as deciles because the honest out-of-zone correlation is 0.25–0.31, not the in-sample 0.72.',
     stack: ['LightGBM', 'PyTorch', 'CHIRPS', 'SoilGrids', 'MLflow', 'Kaggle GPU'],
@@ -79,6 +82,7 @@ const ALL_PROJECTS: Project[] = [
   },
   {
     title: 'Enterprise RAG Ecosystem',
+    tech: 'LLM · RAG',
     role: 'FULL-STACK AI ENGINEER',
     desc: 'Two RAG systems built for networks with no outbound internet. Vector Docs manages document ingestion with hybrid RRF retrieval, while WebClient AI integrates LangGraph for agentic orchestration and live SQL querying of the Mantis bug tracker.',
     stack: ['LangGraph', 'BGE-M3', 'pgvector', 'Ollama', 'Kubernetes'],
@@ -90,6 +94,7 @@ const ALL_PROJECTS: Project[] = [
   },
   {
     title: 'Vector Docs (embedding_rag)',
+    tech: 'LLM · RAG',
     role: 'ENTERPRISE RAG SYSTEM',
     desc: 'On-premises document knowledge base: three ingestion pipelines (manual, email, external), BGE-M3 1024D embeddings, vision-enhanced image indexing, and hybrid RRF retrieval with BGE cross-encoder re-ranking.',
     stack: ['Python', 'BGE-M3', 'pgvector', 'RRF', 'Ollama'],
@@ -102,6 +107,7 @@ const ALL_PROJECTS: Project[] = [
   // ── Sugarcane CV: one card per detector (all open the same case study at their section)
   {
     title: 'Sugarcane CV 1/9: Burnt vs Fresh Cane',
+    tech: 'DL · COMPUTER VISION',
     role: 'TRAINED CLASSIFIER · CCTV',
     desc: 'Is the load on the truck burnt or fresh? Burnt cane is paid less, so every truck is graded. A trained image classifier on 8,612 real CCTV frames from the weighbridge camera. Works, but it is bound to that camera: move the lens and it needs retraining.',
     stack: ['PyTorch', 'EfficientNet-B0', 'ONNX'],
@@ -114,6 +120,7 @@ const ALL_PROJECTS: Project[] = [
   },
   {
     title: 'Sugarcane CV 2/9: Burnt Cane Mixed into a Load',
+    tech: 'RULE-BASED · COMPUTER VISION',
     role: 'COLOUR RULE · NO MODEL',
     desc: 'How much of a mixed load is burnt? No model: the detector counts dark burnt pixels against fresh green on the visible top surface. Tested on simulated mixes (30% scattered, 50% layered). The rule is found; the cut-off that flips the grade is not set yet.',
     stack: ['OpenCV', 'NumPy'],
@@ -126,6 +133,7 @@ const ALL_PROJECTS: Project[] = [
   },
   {
     title: 'Sugarcane CV 3/9: Dirt, Tops and Leaf Trash',
+    tech: 'DL · COMPUTER VISION',
     role: 'TRAINED SEGMENTATION',
     desc: 'What share of the load is soil, cane tops and leaf trash instead of millable cane. A trained segmentation model on 65 real labelled images. Too little data to conclude anything: reported as inconclusive rather than dressed up.',
     stack: ['PyTorch', 'Segmentation'],
@@ -137,6 +145,7 @@ const ALL_PROJECTS: Project[] = [
   },
   {
     title: 'Sugarcane CV 4/9: Is There Cane on the Truck',
+    tech: 'RULE-BASED · COMPUTER VISION',
     role: 'EDGE RULE · DEPLOYED',
     desc: 'Before anything else, the side camera decides whether the incoming truck is loaded or empty and triggers the front camera. No model for the decision: classical edge and texture cues, 3.9 ms per frame, running on site at the mill.',
     stack: ['OpenCV', 'YOLO11n', 'Raspberry Pi'],
@@ -148,6 +157,7 @@ const ALL_PROJECTS: Project[] = [
   },
   {
     title: 'Sugarcane CV 5/9: Dust Opacity While Tipping',
+    tech: 'DL + RULE · COMPUTER VISION',
     role: 'SEGMENTATION + RULE',
     desc: 'How thick is the dust cloud as a truck tips, per bay, to trigger water spray and feed environmental reporting. LR-ASPP segmentation plus a hand-written veto rule. Recall is measured on a synthetic test set only; real dust has not been scored yet.',
     stack: ['LR-ASPP', 'PyTorch', 'OpenCV'],
@@ -160,6 +170,7 @@ const ALL_PROJECTS: Project[] = [
   },
   {
     title: 'Sugarcane CV 6/9: Sand, Rock and Metal by Sound',
+    tech: 'DL · AUDIO',
     role: 'AUDIO CNN · MICROPHONE',
     desc: 'A camera cannot see inside the pile, but a microphone hears sand or a rock hit the conveyor. Sound goes to log-mel spectrograms and a small CNN, trained on real recordings from the tipping bay. Sand is solved; rock and metal impacts are not claimed yet (recall 0.47–0.59).',
     stack: ['log-mel CNN', 'soundfile', 'Stable Audio Open'],
@@ -170,6 +181,7 @@ const ALL_PROJECTS: Project[] = [
   },
   {
     title: 'Sugarcane CV 7/9: Cane Flow on the Conveyor',
+    tech: 'DL · COMPUTER VISION',
     role: 'SELF-TRAINING · 70 FPS',
     desc: 'Share of leaf on the moving sheet of cane, a continuous quality signal instead of one still per truck. A self-training segmentation model: labels start from a small hand-made set and the model grows them on real mill video. Runs at 70 fps.',
     stack: ['YOLO', 'Self-training', 'OpenCV'],
@@ -182,6 +194,7 @@ const ALL_PROJECTS: Project[] = [
   },
   {
     title: 'Sugarcane CV 8/9: Thai Licence Plate OCR',
+    tech: 'DL + RULE · OCR',
     role: 'TWO READERS · ZERO WRONG',
     desc: 'Bind every load to the right farmer by reading the plate at the weighbridge. Two independent readers: ONNX + cross-frame voting for accuracy, and a pure-CV reader with no model at all. Strict mode on a 60-image hard set: it abstains rather than guess, 0 wrong reads.',
     stack: ['ONNX', 'OpenCV', 'Cross-frame voting'],
@@ -192,6 +205,7 @@ const ALL_PROJECTS: Project[] = [
   },
   {
     title: 'Sugarcane CV 9/9: Stalk Segmentation',
+    tech: 'DL · COMPUTER VISION',
     role: 'SUPPORTING · DINOv2',
     desc: 'Outlines each individual cane stalk. No business value on its own; it exists so leaf share, stalk length and stacking orientation can be measured on real stalks. 31 hand-labelled images, DINOv2 features.',
     stack: ['DINOv2', 'PyTorch'],
@@ -203,6 +217,7 @@ const ALL_PROJECTS: Project[] = [
   },
   {
     title: 'CaneGate: Truck Inspection',
+    tech: 'DL · COMPUTER VISION',
     role: 'PRODUCTION CV · DOCKER',
     desc: 'All-in-one inspection at the weighbridge: a side camera grades the cane on the truck, a front camera reads the Thai plate in strict mode. Ships as Docker images (canegate, canegate-web, canegate-lpr) with live view, per-truck confirmation, shift stats and a simulation mode for testing without trucks.',
     stack: ['Docker', 'FastAPI', 'YOLOv8', 'OCR', 'React'],
@@ -215,6 +230,7 @@ const ALL_PROJECTS: Project[] = [
   },
   {
     title: 'YouTube Shorts Automation',
+    tech: 'GENAI · ANALYTICS',
     role: 'AI CONTENT PIPELINE · GROWTH',
     desc: 'Reads yesterday\'s Analytics, decides the next theme, generates 9:16 clips with a locked AI character, QCs every frame, uploads on schedule and measures 48 hours later. BudyStory reached 3.34M views and 5,510 subscribers in its first weeks; the rules that survived the data are written down, the ones that failed are logged.',
     stack: ['Python', 'YouTube Analytics API', 'meta.ai', 'Graph API', 'ffmpeg'],
@@ -226,6 +242,7 @@ const ALL_PROJECTS: Project[] = [
   },
   {
     title: 'Dragon Combat: Bots That Pass for Players',
+    tech: 'RULE-BASED · GAME AI',
     role: 'GAME AI · ROBLOX LUAU',
     desc: 'Aerial dragon PvP where the bot brain is a three-state steering FSM, not a network: patrol through boost rings, gun-run with a quarter-second lead and a 240-stud break-off, evade with a sinusoidal jink. Tuned to one goal: players cannot tell which dragons are bots, and can still beat them.',
     stack: ['Roblox Studio', 'Luau', 'Steering behaviours', 'FSM'],
@@ -239,6 +256,7 @@ const ALL_PROJECTS: Project[] = [
   },
   {
     title: 'Bitcoin ML Prediction',
+    tech: 'ML/DL · TIME SERIES',
     role: 'MACHINE LEARNING ENGINEER',
     desc: 'Sequence and tree models over 12 years of BTC-USD OHLCV with 18 engineered indicators (RSI, MACD, Bollinger Bands, EMA). The LSTM reaches 12.19% MAPE on price regression. The directional classifiers land near chance, which the repo reports rather than hides.',
     stack: ['Python', 'TensorFlow', 'XGBoost', 'scikit-learn'],
@@ -250,6 +268,7 @@ const ALL_PROJECTS: Project[] = [
   },
   {
     title: 'AlgoTrade: AI Trading Engine',
+    tech: 'LLM · AUTOMATION',
     role: 'AI AUTOMATION · FULL-STACK',
     desc: 'Thai LLM (Pathumma Qwen3-8B) analyzes RSI/EMA/VWAP every hour and executes real bracket orders on Alpaca Markets automatically. Four rule-based strategies (Momentum, Mean Reversion, Stat-Arb, Pairs) run in parallel with risk management and Telegram alerts.',
     stack: ['ThaiLLM Qwen3-8B', 'Alpaca Markets', 'Next.js 16', 'Vercel Cron'],
@@ -261,6 +280,7 @@ const ALL_PROJECTS: Project[] = [
   },
   {
     title: 'Ninja Fruit: Pose Game',
+    tech: 'DL · POSE ESTIMATION',
     role: 'COMPUTER VISION',
     desc: 'Fruit Ninja-style game controlled by real-time body movement via webcam only. YOLOv8 Pose Detection tracks 17 wrist keypoints per frame to detect slash trajectories at 30+ FPS. Supports up to 3 simultaneous players.',
     stack: ['Python', 'YOLOv8', 'OpenCV', 'Pygame'],
@@ -273,6 +293,7 @@ const ALL_PROJECTS: Project[] = [
   },
   {
     title: 'Subway Kids Runner',
+    tech: 'DL · POSE ESTIMATION',
     role: 'COMPUTER VISION',
     desc: 'Subway Surfers-style endless runner controlled by full-body pose. MediaPipe BlazePose tracks 33 landmarks for lane-switch and jump gestures. Deployable as Pygame (local) or browser + FastAPI WebSocket (web mode).',
     stack: ['Python', 'MediaPipe', 'Pygame', 'FastAPI', 'WebSocket'],
@@ -286,6 +307,7 @@ const ALL_PROJECTS: Project[] = [
   // ── NON-FEATURED ──────────────────────────────────────────────────────────
   {
     title: "Bank's EDC Visualizer",
+    tech: 'SOFTWARE · WEB',
     role: 'DATA VISUALIZATION ENGINEER',
     desc: 'Interactive map of all EDC terminals across Thailand. Real-time filtering by province, region, type, and status. Built for internal bank operations teams.',
     stack: ['FastAPI', 'Leaflet.js', 'Chart.js', 'PostgreSQL'],
@@ -296,6 +318,7 @@ const ALL_PROJECTS: Project[] = [
   },
   {
     title: 'Kafka-to-API Connector',
+    tech: 'SOFTWARE · BACKEND',
     role: 'MICROSERVICE ENGINEER',
     desc: 'Production microservice managing Kafka → REST API data synchronization with at-least-once delivery, DLQ, and full audit trail. Java 21 + Spring Boot.',
     stack: ['Java 21', 'Spring Boot', 'Apache Kafka', 'PostgreSQL'],
@@ -306,6 +329,7 @@ const ALL_PROJECTS: Project[] = [
   },
   {
     title: 'VM Auto-Scaling & Monitoring',
+    tech: 'SOFTWARE · INFRA',
     role: 'INFRASTRUCTURE ENGINEER',
     desc: 'Proactive VM auto-scaling system that provisions new nodes before CPU/RAM saturation. Prometheus + Grafana + automated provisioning scripts with < 3 min provision time.',
     stack: ['Prometheus', 'Grafana', 'Python', 'Cloud VM API'],
@@ -316,6 +340,7 @@ const ALL_PROJECTS: Project[] = [
   },
   {
     title: 'ELIC: AI English Tutor',
+    tech: 'LLM · MOBILE',
     role: 'SENIOR PROJECT · KU CHALERMPHRAKIAT',
     desc: 'AI-powered mobile English learning app for Thai learners. Scenario-based conversation (hotel, interview, medical), real-time grammar correction, structured vocabulary tables, 3 gamified exercises, TTS playback via Gemini Voice API. Capstone 2025.',
     stack: ['React Native', 'Expo', 'Google Gemini', 'Firebase', 'FastAPI'],
@@ -327,6 +352,7 @@ const ALL_PROJECTS: Project[] = [
   },
   {
     title: 'Donlaya Makeup',
+    tech: 'SOFTWARE · WEB',
     role: 'FREELANCE · WEB DESIGN & DEPLOYMENT',
     desc: 'Marketing site for a Singapore makeup artist. Next.js, responsive, live.',
     stack: ['Web Design', 'Responsive UI', 'Deployment', 'SEO', 'Production Launch'],
@@ -339,6 +365,7 @@ const ALL_PROJECTS: Project[] = [
   },
   {
     title: 'Google Ads Strategy & Audience Modeling',
+    tech: 'DATA · ANALYTICS',
     role: 'FREELANCE · DATA & GROWTH',
     desc: 'Built campaign planning around Google Ads with data visualization, audience analysis, and model-driven targeting. The work covered segment discovery, ad planning, performance reporting, and execution support for ad operations.',
     stack: ['Google Ads', 'Data Visualization', 'Data Science', 'Audience Modeling', 'Campaign Planning'],
@@ -424,6 +451,7 @@ function ProjectCard({ p, index }: { p: Project; index: number }) {
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '0.35rem' }}>
             <span className="project-role mono">{p.role}</span>
             <span className="project-badges">
+              {p.tech && <span className="tech-badge mono">{p.tech}</span>}
               <span className="category-badge mono">{p.category}</span>
               {p.freelance && <span className="category-badge freelance-badge mono">FREELANCE</span>}
             </span>
@@ -622,6 +650,7 @@ export default function Projects() {
           font-size: 0.57rem; font-weight: 900;
           border: 1.5px solid #ffffff; padding: 0.2rem 0.6rem; letter-spacing: 0.08em;
         }
+        .tech-badge { background: #000; color: #fff; font-size: 0.55rem; font-weight: 900; letter-spacing: 0.14em; padding: 0.22rem 0.5rem; white-space: nowrap; }
         .category-badge {
           font-size: 0.51rem; font-weight: 900;
           background: #f2f2f2; padding: 0.16rem 0.5rem;
