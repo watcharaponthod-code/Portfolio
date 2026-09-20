@@ -34,7 +34,7 @@ export type ViewType =
   | 'project-sycapt' | 'project-kafka' | 'project-geomap' | 'project-monitoring'
   | 'project-rag-ecosystem' | 'project-embedding-rag' | 'project-bitcoin' 
   | 'project-trading' | 'project-ninja' | 'project-subway' | 'project-elic'
-  | 'project-agri-ai' | 'project-shorts';
+  | 'project-agri-ai' | 'project-shorts' | 'project-sugarcane-cv';
 
 export const useUI = create<{
   currentView: ViewType;

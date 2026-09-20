@@ -50,8 +50,10 @@ interface Project {
   freelance?: boolean;
 }
 
+// Cards are rendered grouped by `category` (see GROUP_DESCRIPTIONS / CATEGORIES);
+// within a group, `featured` cards come first, then the rest, in array order.
 const ALL_PROJECTS: Project[] = [
-  // ── FEATURED · AGRI & SATELLITE ───────────────────────────────────────────
+  // ── AGRI & SATELLITE ──────────────────────────────────────────────────────
   {
     title: 'CropScan: Harvest Monitoring',
     role: 'REMOTE SENSING · SENTINEL-1 / SENTINEL-2',
@@ -103,10 +105,9 @@ const ALL_PROJECTS: Project[] = [
     stack: ['YOLOv8', 'OpenCV', 'PyTorch', 'librosa', 'ONNX'],
     metrics: '9 PROBLEMS · REAL CCTV',
     category: 'COMPUTER VISION',
+    internalLink: 'project-sugarcane-cv',
     image: DUST_GIF,
     isGif: true,
-    externalUrl: 'https://github.com/watcharaponthod-code/sugarcane-cv',
-    actionLabel: 'VIEW REPO',
     featured: true,
   },
   {
@@ -191,7 +192,7 @@ const ALL_PROJECTS: Project[] = [
     isGif: true,
     featured: true,
   },
-  // ── OTHER ─────────────────────────────────────────────────────────────────
+  // ── NON-FEATURED ──────────────────────────────────────────────────────────
   {
     title: "Bank's EDC Visualizer",
     role: 'DATA VISUALIZATION ENGINEER',
@@ -258,7 +259,31 @@ const ALL_PROJECTS: Project[] = [
   },
 ];
 
-const CATEGORIES: Category[] = ['ALL', 'AGRI & SATELLITE', 'COMPUTER VISION', 'AI & RAG', 'FULL-STACK', 'SYSTEMS', 'DATA & GROWTH'];
+type Group = Exclude<Category, 'ALL'>;
+
+// Display order of the grouped sections (01 … 06); the filter buttons follow the same order.
+const GROUP_ORDER: Group[] = [
+  'AGRI & SATELLITE',
+  'COMPUTER VISION',
+  'AI & RAG',
+  'SYSTEMS',
+  'FULL-STACK',
+  'DATA & GROWTH',
+];
+
+const CATEGORIES: Category[] = ['ALL', ...GROUP_ORDER];
+
+const GROUP_DESCRIPTIONS: Record<Group, string> = {
+  'AGRI & SATELLITE': 'Satellite monitoring for a Thai sugar mill: harvest state, field health, yield.',
+  'COMPUTER VISION':  'Cameras and microphones that have to work on real hardware.',
+  'AI & RAG':         'Retrieval systems and LLM apps, most of them on-premises.',
+  'SYSTEMS':          'Backend, infrastructure and game AI.',
+  'FULL-STACK':       'Web products shipped end to end, from data layer to live site.',
+  'DATA & GROWTH':    'Pipelines and campaigns judged by the numbers they moved.',
+};
+
+// The first two groups (flagship work) use the wider two-column grid.
+const WIDE_GRID_GROUPS = 2;
 
 function ProjectCard({ p, index }: { p: Project; index: number }) {
   const { setView } = useUI();
@@ -306,7 +331,10 @@ function ProjectCard({ p, index }: { p: Project; index: number }) {
           <span className="project-number mono">{String(index + 1).padStart(2, '0')}</span>
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '0.35rem' }}>
             <span className="project-role mono">{p.role}</span>
-            <span className="category-badge mono">{p.category}</span>
+            <span className="project-badges">
+              <span className="category-badge mono">{p.category}</span>
+              {p.freelance && <span className="category-badge freelance-badge mono">FREELANCE</span>}
+            </span>
           </div>
         </div>
 
@@ -334,13 +362,41 @@ function ProjectCard({ p, index }: { p: Project; index: number }) {
   );
 }
 
+function ProjectGroup({ group, order, projects, wide }: { group: Group; order: number; projects: Project[]; wide: boolean }) {
+  const { ref, inView } = useInView(0.1);
+  return (
+    <section className="project-group">
+      <div
+        ref={ref}
+        className="group-header"
+        style={{ opacity: inView ? 1 : 0, transform: inView ? 'none' : 'translateY(20px)', transition: 'opacity 0.6s ease, transform 0.6s cubic-bezier(0.16,1,0.3,1)' }}
+      >
+        <div className="group-title mono">
+          <span className="group-index">{String(order + 1).padStart(2, '0')}</span>
+          <span className="group-sep">·</span>
+          <span className="group-label">{group}</span>
+        </div>
+        <p className="group-desc mono">{GROUP_DESCRIPTIONS[group]}</p>
+      </div>
+      <div className={`projects-grid${wide ? ' featured-grid' : ''}`}>
+        {projects.map((p, i) => <ProjectCard key={p.title} p={p} index={i} />)}
+      </div>
+    </section>
+  );
+}
+
 export default function Projects() {
   const [active, setActive] = useState<Category>('ALL');
   const { ref: hRef, inView: hInView } = useInView(0.12);
-  const filtered = ALL_PROJECTS.filter(p => active === 'ALL' || p.category === active);
-  const featured = filtered.filter(p => p.featured);
-  const freelance = filtered.filter(p => p.freelance);
-  const others = filtered.filter(p => !p.featured && !p.freelance);
+
+  // Fixed group order; within a group, featured cards first, then the rest (array order preserved).
+  const groups = GROUP_ORDER
+    .map((group, order) => {
+      const inGroup = ALL_PROJECTS.filter(p => p.category === group);
+      const projects = [...inGroup.filter(p => p.featured), ...inGroup.filter(p => !p.featured)];
+      return { group, order, projects };
+    })
+    .filter(g => g.projects.length > 0 && (active === 'ALL' || g.group === active));
 
   return (
     <div className="section container" style={{ minHeight: '100vh', paddingTop: '6rem', paddingBottom: '8rem' }}>
@@ -358,36 +414,15 @@ export default function Projects() {
         ))}
       </div>
 
-      {featured.length > 0 && (
-        <>
-          <div className="subsection-label mono">FEATURED</div>
-          <div className="projects-grid featured-grid">
-            {featured.map((p, i) => <ProjectCard key={p.title} p={p} index={i} />)}
-          </div>
-        </>
-      )}
-
-      {others.length > 0 && (
-        <>
-          <div className="subsection-label mono" style={{ marginTop: featured.length > 0 ? '5rem' : 0 }}>
-            {featured.length > 0 ? 'OTHER PROJECTS' : 'ALL PROJECTS'}
-          </div>
-          <div className="projects-grid">
-            {others.map((p, i) => <ProjectCard key={p.title} p={p} index={i} />)}
-          </div>
-        </>
-      )}
-
-      {freelance.length > 0 && (
-        <>
-          <div className="subsection-label mono" style={{ marginTop: featured.length > 0 || others.length > 0 ? '5rem' : 0 }}>
-            FREELANCE WORK
-          </div>
-          <div className="projects-grid">
-            {freelance.map((p, i) => <ProjectCard key={p.title} p={p} index={i} />)}
-          </div>
-        </>
-      )}
+      {groups.map(g => (
+        <ProjectGroup
+          key={g.group}
+          group={g.group}
+          order={g.order}
+          projects={g.projects}
+          wide={g.order < WIDE_GRID_GROUPS}
+        />
+      ))}
 
       <style>{`
         .category-filter {
@@ -403,9 +438,32 @@ export default function Projects() {
         .filter-btn:hover { border-color: #fff; color: #fff; }
         .filter-btn.active { background: #fff; color: #000; border-color: #fff; }
 
-        .subsection-label {
-          font-size: 0.58rem; font-weight: 900; color: #aaa;
-          letter-spacing: 0.28em; margin-bottom: 1.8rem;
+        /* Group sections */
+        .project-group + .project-group { margin-top: 5rem; }
+        .group-header {
+          display: flex; justify-content: space-between; align-items: baseline;
+          gap: 2rem; padding-top: 1.2rem; margin-bottom: 1.8rem;
+          border-top: 1px solid #333;
+        }
+        .group-title {
+          display: flex; align-items: baseline; gap: 0.6rem;
+          font-size: 0.62rem; font-weight: 900; letter-spacing: 0.28em;
+          color: #fff; white-space: nowrap;
+        }
+        .group-index { color: #666; }
+        .group-sep { color: #444; }
+        .group-desc {
+          margin: 0; font-size: 0.62rem; font-weight: 700; letter-spacing: 0.04em;
+          color: #888; text-align: right; max-width: 34rem; line-height: 1.6;
+        }
+
+        .project-badges {
+          display: inline-flex; gap: 0.3rem; align-items: center; justify-content: flex-end;
+          flex-wrap: wrap;
+        }
+        .freelance-badge {
+          background: transparent; color: #999;
+          border: 1px solid #555;
         }
 
         .projects-grid {
@@ -518,6 +576,11 @@ export default function Projects() {
             grid-template-columns: 1fr; gap: 1.2rem;
           }
           .project-thumb-box { height: 200px; }
+          .project-group + .project-group { margin-top: 3.5rem; }
+          .group-header {
+            flex-direction: column; align-items: flex-start; gap: 0.6rem;
+          }
+          .group-desc { text-align: left; max-width: none; }
         }
         @media (max-width: 640px) {
           .project-content-wrap { padding: 1.3rem; }

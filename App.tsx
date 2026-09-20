@@ -17,6 +17,7 @@ import BitcoinMLProject from './components/portfolio/BitcoinMLProject';
 import RAGEcosystemProject from './components/portfolio/RAGEcosystemProject';
 import AgriAIProject from './components/portfolio/AgriAIProject';
 import ShortsAutomationProject from './components/portfolio/ShortsAutomationProject';
+import SugarcaneCVProject from './components/portfolio/SugarcaneCVProject';
 import { AnimatePresence, motion } from 'framer-motion';
 
 function App() {
@@ -50,6 +51,7 @@ function App() {
       case 'project-elic': return <ElicProject />;
       case 'project-agri-ai': return <AgriAIProject />;
       case 'project-shorts': return <ShortsAutomationProject />;
+      case 'project-sugarcane-cv': return <SugarcaneCVProject />;
       default: return null;
     }
   }, [currentView]);
