@@ -1,12 +1,12 @@
-// Text chat for the assistant panel. RAG: embed the question, pull the top
-// chunks from the in-memory vector index (lib/server/rag.ts), and stream a
-// short answer from the fastest Gemini text model. The browser never sees the
-// key. Response is a plain text stream; the chunk ids used are returned in
-// the X-Sources header so the UI can show them.
+// Text chat for the assistant panel. A small LangGraph state machine decides
+// whether the turn needs the knowledge base, retrieves when it does, and keeps
+// a short memory of the visitor so follow-up questions land in context.
+// Streams plain text; the actions and the updated memory follow the answer
+// after a marker so the panel can render buttons and remember the thread.
 import { GoogleGenAI } from '@google/genai';
-import { retrieve, formatContext, hasThai } from '../lib/server/rag.js';
-import { streamText, generateText } from '../lib/server/generate.js';
+import { streamText } from '../lib/server/generate.js';
 import { actionsFor, ACTION_MARKER } from '../lib/server/actions.js';
+import { buildGraph, systemPrompt, updateMemory, type Memory } from '../lib/server/agent.js';
 
 export const config = { runtime: 'nodejs' };
 
@@ -14,22 +14,6 @@ const MAX_TURNS = 8;
 const MAX_MSG_CHARS = 2000;
 
 type Msg = { role: 'user' | 'assistant'; content: string };
-
-function systemPrompt(lang: 'th' | 'en', context: string) {
-  return `You are the assistant on Watcharapon Thodraksa's portfolio site, answering visitors (recruiters, clients, engineers) about him and his work.
-
-Answer in ${lang === 'th' ? 'Thai (ภาษาไทย), polite with ครับ, and call him คุณวัชรพล' : 'English, and call him Watcharapon'}.
-
-STYLE
-- Direct and factual. No hype, no promotional adjectives. Say what was measured and on what evidence.
-- Short: 1 to 4 sentences for simple questions, a few short bullet points at most for broad ones. Plain text, no headers, no tables.
-- Quote numbers exactly as they appear in the context (F1 0.883, 95.7%, 3.34M views). Never invent numbers or projects.
-- If the context does not cover the question, say so in one sentence and offer the closest related fact. Do not guess.
-- Do not mention "the context" or "the knowledge base"; just answer.
-
-CONTEXT (retrieved for this question)
-${context}`;
-}
 
 export default async function handler(req: any, res: any) {
   if (req.method !== 'POST') {
@@ -51,27 +35,22 @@ export default async function handler(req: any, res: any) {
   const last = [...messages].reverse().find(m => m.role === 'user');
   if (!last || !last.content.trim()) return res.status(400).json({ error: 'a user message is required' });
 
+  const memory: Memory = (body.memory && typeof body.memory === 'object') ? body.memory : {};
   const t0 = Date.now();
   try {
     const ai = apiKey ? new GoogleGenAI({ apiKey }) : null;
-    let hits = await retrieve(ai, last.content, 5);
-    // A Thai question against an English knowledge base can miss entirely.
-    // When it does, translate the question once and retrieve again.
-    if (hasThai(last.content) && (hits[0]?.method === 'keyword') && (hits[0]?.score ?? 0) < 2) {
-      try {
-        const { text: en } = await generateText(ai, {
-          system: 'Translate the user question into short English search keywords. Output only the keywords.',
-          contents: [{ role: 'user', parts: [{ text: last.content }] }],
-          maxOutputTokens: 40,
-          temperature: 0,
-        });
-        if (en) hits = await retrieve(ai, `${last.content} ${en}`, 5);
-      } catch { /* keep the first result */ }
-    }
+    const graph = buildGraph(ai);
+    const state = await graph.invoke({
+      question: last.content,
+      lang,
+      history: messages,
+      memory,
+    });
     const tRetrieve = Date.now() - t0;
+    const hits = state.hits || [];
 
     const { stream, model } = await streamText(ai, {
-      system: systemPrompt(lang, formatContext(hits)),
+      system: systemPrompt(lang, state.context || '', memory),
       contents: messages.map(m => ({ role: m.role === 'user' ? 'user' : 'model', parts: [{ text: m.content }] })),
       maxOutputTokens: 1400,
     });
@@ -80,14 +59,18 @@ export default async function handler(req: any, res: any) {
     res.setHeader('Content-Type', 'text/plain; charset=utf-8');
     res.setHeader('Cache-Control', 'no-store');
     res.setHeader('X-Sources', hits.map(h => h.chunk.id).join(','));
-    res.setHeader('X-Retrieval', `${hits[0]?.method || 'none'};${tRetrieve}ms`);
+    res.setHeader('X-Retrieval', `${state.needsFacts ? (hits[0]?.method || 'none') : 'skipped'};${tRetrieve}ms`);
     res.setHeader('X-Model', model);
+
+    let answer = '';
     for await (const chunk of stream) {
-      if (chunk.text) res.write(chunk.text);
+      if (chunk.text) { answer += chunk.text; res.write(chunk.text); }
     }
+
     // Buttons the visitor can act on, derived from the chunks actually used.
     const actions = actionsFor(last.content, hits.map(h => h.chunk.id));
-    if (actions.length) res.write(ACTION_MARKER + JSON.stringify(actions));
+    const nextMemory = await updateMemory(ai, memory, last.content, answer);
+    res.write(ACTION_MARKER + JSON.stringify({ actions, memory: nextMemory }));
     res.end();
   } catch (e: any) {
     console.error('[chat]', e?.stack || e?.message || e);
