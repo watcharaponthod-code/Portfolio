@@ -1,18 +1,43 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { TbMenu2, TbX } from 'react-icons/tb';
+import { useLang, type I18nKey, type Lang } from '../lib/i18n';
 
 const RESUME_DOWNLOAD_URL = 'https://drive.google.com/uc?export=download&id=1s46ejC-br7Ykct-bP4PO1dYdWCkItDXq';
 
-const NAV_ITEMS = [
-  { id: 'hero',       label: 'Home' },
-  { id: 'philosophy', label: 'About' },
-  { id: 'projects',   label: 'Projects' },
-  { id: 'skills',     label: 'Skills' },
-  { id: 'contact',    label: 'Contact' },
+const NAV_ITEMS: { id: string; key: I18nKey }[] = [
+  { id: 'hero',       key: 'nav.home' },
+  { id: 'philosophy', key: 'nav.about' },
+  { id: 'projects',   key: 'nav.projects' },
+  { id: 'skills',     key: 'nav.skills' },
+  { id: 'contact',    key: 'nav.contact' },
 ];
 
+const LANGS: Lang[] = ['th', 'en'];
+
+function LangToggle({ mobile = false }: { mobile?: boolean }) {
+  const { lang, setLang, t } = useLang();
+  return (
+    <div className={`nav-lang-toggle mono${mobile ? ' mobile' : ''}`} role="group" aria-label={t('nav.lang.label')}>
+      {LANGS.map((l, i) => (
+        <span key={l} style={{ display: 'inline-flex', alignItems: 'center' }}>
+          {i > 0 && <span className="nav-lang-sep">|</span>}
+          <button
+            type="button"
+            className={`nav-lang-btn${lang === l ? ' on' : ''}`}
+            aria-pressed={lang === l}
+            onClick={() => setLang(l)}
+          >
+            {l.toUpperCase()}
+          </button>
+        </span>
+      ))}
+    </div>
+  );
+}
+
 export default function NavBar() {
+  const { t } = useLang();
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState('hero');
@@ -82,7 +107,7 @@ export default function NavBar() {
               background: 'none', border: 'none', cursor: 'pointer',
               position: 'relative', transition: 'color 0.3s'
             }}>
-              {item.label}
+              {t(item.key)}
               {activeSection === item.id && (
                 <motion.div layoutId="nav-underline" style={{
                   position: 'absolute', bottom: -5, left: 0, right: 0, height: '1px', background: '#000'
@@ -90,15 +115,19 @@ export default function NavBar() {
               )}
             </button>
           ))}
-          <a href={RESUME_DOWNLOAD_URL} className="nav-resume-btn">Resume</a>
+          <a href={RESUME_DOWNLOAD_URL} className="nav-resume-btn">{t('nav.resume')}</a>
+          <LangToggle />
         </div>
 
-        <button className="nav-burger" onClick={() => setMenuOpen(!menuOpen)} style={{
-          background: 'none', border: '1px solid rgba(0,0,0,0.2)', color: '#000',
-          padding: '0.4rem 0.6rem', cursor: 'pointer', display: 'none'
-        }}>
-          {menuOpen ? <TbX size={22} /> : <TbMenu2 size={22} />}
-        </button>
+        <div className="nav-mobile-right" style={{ display: 'none', alignItems: 'center', gap: '0.75rem' }}>
+          <LangToggle />
+          <button className="nav-burger" onClick={() => setMenuOpen(!menuOpen)} style={{
+            background: 'none', border: '1px solid rgba(0,0,0,0.2)', color: '#000',
+            padding: '0.4rem 0.6rem', cursor: 'pointer'
+          }}>
+            {menuOpen ? <TbX size={22} /> : <TbMenu2 size={22} />}
+          </button>
+        </div>
       </motion.nav>
 
       <AnimatePresence>
@@ -113,7 +142,7 @@ export default function NavBar() {
                   fontSize: '2.5rem', fontWeight: 800, color: activeSection === item.id ? '#000' : 'rgba(0,0,0,0.2)',
                   background: 'none', border: 'none', marginBottom: '1.5rem', textTransform: 'uppercase'
               }}>
-                {item.label}
+                {t(item.key)}
               </motion.button>
             ))}
             <motion.a
@@ -124,8 +153,16 @@ export default function NavBar() {
               className="nav-mobile-resume-btn"
               onClick={() => setMenuOpen(false)}
             >
-              Resume
+              {t('nav.resume')}
             </motion.a>
+            <motion.div
+              initial={{ y: 20, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ delay: (NAV_ITEMS.length + 1) * 0.05 }}
+              style={{ marginTop: '1.5rem' }}
+            >
+              <LangToggle mobile />
+            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
@@ -154,9 +191,26 @@ export default function NavBar() {
           border-color: #000;
           background: rgba(0,0,0,0.08);
         }
+        .nav-lang-toggle {
+          display: inline-flex; align-items: center;
+          border: 1px solid rgba(0,0,0,0.22);
+          padding: 0.2rem 0.35rem;
+          font-size: 0.68rem; font-weight: 800; letter-spacing: 0.1em;
+          color: #000; background: #fff;
+        }
+        .nav-lang-toggle.mobile { font-size: 0.9rem; padding: 0.4rem 0.7rem; }
+        .nav-lang-btn {
+          background: none; border: none; cursor: pointer;
+          font: inherit; letter-spacing: inherit;
+          color: rgba(0,0,0,0.35); padding: 0.15rem 0.35rem;
+          transition: color 0.2s;
+        }
+        .nav-lang-btn:hover { color: #000; }
+        .nav-lang-btn.on { color: #000; text-decoration: underline; text-underline-offset: 3px; }
+        .nav-lang-sep { color: rgba(0,0,0,0.25); font-weight: 400; }
         @media (max-width: 900px) {
           .nav-desktop-links { display: none !important; }
-          .nav-burger { display: block !important; }
+          .nav-mobile-right { display: flex !important; }
         }
       `}</style>
     </>
