@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
 import { useUI } from '../../lib/state';
+import { useAuto } from '../../lib/i18n/auto';
 import { TbArrowLeft, TbBrandGithub, TbExternalLink } from 'react-icons/tb';
 
 export interface ProjectSection {
@@ -51,6 +52,14 @@ function Figure({ src, alt, caption, reduce }: { src: string; alt: string; capti
 }
 
 export default function ProjectDetail({ data }: Props) {
+  // Thai for the case-study prose comes from /api/translate, cached per visitor.
+  const tr = useAuto([
+    data.title, data.role, data.tagline, data.overview,
+    ...(data.keyFeatures || []),
+    ...data.sections.flatMap(s => [s.title, s.body, s.imageCaption]),
+    ...(data.mediaGallery || []).map(g => g.caption),
+    ...data.metrics.map(m => m.label),
+  ]);
   const { setView } = useUI();
   const topRef = useRef<HTMLDivElement>(null);
   const reduce = useReducedMotion();
@@ -82,7 +91,7 @@ export default function ProjectDetail({ data }: Props) {
         <button onClick={() => setView('landing')} className="pd-btn pd-btn-ghost mono">
           <TbArrowLeft size={14} /> BACK
         </button>
-        <div className="pd-topbar-meta mono">{data.role} // {data.year}</div>
+        <div className="pd-topbar-meta mono">{tr(data.role)} // {data.year}</div>
         <div className="pd-topbar-actions">
           {data.githubLink && (
             <a href={data.githubLink} target="_blank" rel="noreferrer" className="pd-btn pd-btn-solid mono">
@@ -101,13 +110,13 @@ export default function ProjectDetail({ data }: Props) {
 
         {/* ── Hero ── */}
         <header className="pd-hero">
-          <motion.div className="pd-eyebrow mono" {...rise(0.05)}>{data.role.toUpperCase()}</motion.div>
-          <motion.h1 className="pd-title" {...rise(0.12)}>{data.title}</motion.h1>
-          <motion.p className="pd-tagline" {...rise(0.2)}>{data.tagline}</motion.p>
+          <motion.div className="pd-eyebrow mono" {...rise(0.05)}>{tr(data.role).toUpperCase()}</motion.div>
+          <motion.h1 className="pd-title" {...rise(0.12)}>{tr(data.title)}</motion.h1>
+          <motion.p className="pd-tagline" {...rise(0.2)}>{tr(data.tagline)}</motion.p>
           <motion.div className="pd-metrics" {...rise(0.3)}>
             {data.metrics.map(m => (
               <div key={m.label} className="pd-metric">
-                <div className="pd-metric-label mono">{m.label}</div>
+                <div className="pd-metric-label mono">{tr(m.label)}</div>
                 <div className="pd-metric-value mono">{m.value}</div>
               </div>
             ))}
@@ -120,7 +129,7 @@ export default function ProjectDetail({ data }: Props) {
             <div className="pd-eyebrow mono">LIVE_DEMO // MEDIA_GALLERY</div>
             <div className="pd-gallery">
               {data.mediaGallery.map((item, i) => (
-                <Figure key={i} src={item.src} alt={item.caption || `media-${i}`} caption={item.caption} reduce={reduce} />
+                <Figure key={i} src={item.src} alt={item.caption || `media-${i}`} caption={tr(item.caption)} reduce={reduce} />
               ))}
             </div>
           </section>
@@ -129,7 +138,7 @@ export default function ProjectDetail({ data }: Props) {
         {/* ── Overview ── */}
         <section className="pd-section">
           <div className="pd-kicker mono">01 // OVERVIEW</div>
-          <p className="pd-lead measure">{data.overview}</p>
+          <p className="pd-lead measure">{tr(data.overview)}</p>
         </section>
 
         {/* ── Key Features ── */}
@@ -140,7 +149,7 @@ export default function ProjectDetail({ data }: Props) {
               {data.keyFeatures.map((feat, i) => (
                 <div key={i} className="pd-feature">
                   <div className="pd-feature-num mono">{String(i + 1).padStart(2, '0')}</div>
-                  <p>{feat}</p>
+                  <p>{tr(feat)}</p>
                 </div>
               ))}
             </div>
@@ -151,17 +160,17 @@ export default function ProjectDetail({ data }: Props) {
         {data.sections.map((sec, i) => (
           <section key={i} data-section={sec.title} className="pd-section pd-content">
             <div className="pd-kicker mono">
-              {String(i + sectionOffset).padStart(2, '0')} // {sec.title.toUpperCase()}
+              {String(i + sectionOffset).padStart(2, '0')} // {tr(sec.title).toUpperCase()}
             </div>
-            <h3 className="pd-h3">{sec.title}</h3>
+            <h3 className="pd-h3">{tr(sec.title)}</h3>
 
             {/* Image shown FULL WIDTH first */}
             {sec.image && (
-              <Figure src={sec.image} alt={sec.title} caption={sec.imageCaption} reduce={reduce} />
+              <Figure src={sec.image} alt={sec.title} caption={tr(sec.imageCaption)} reduce={reduce} />
             )}
 
             {/* Text description below */}
-            <p className="pd-body measure">{sec.body}</p>
+            <p className="pd-body measure">{tr(sec.body)}</p>
           </section>
         ))}
 

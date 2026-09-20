@@ -3,6 +3,9 @@ import { motion, useReducedMotion } from 'framer-motion';
 import SectionHeader from './SectionHeader';
 import { TbArrowRight } from 'react-icons/tb';
 import { useUI } from '../../lib/state';
+import { useAuto } from '../../lib/i18n/auto';
+import { useLang } from '../../lib/i18n';
+import { PROJECT_TH, GROUP_TH, UI_TH, ACTION_LABEL_TH } from '../../lib/i18n/projects.th';
 
 import picGeo     from '../project/geomap/LINE_20260324_213523.jpg';
 import picKafka   from '../project/kafka/kafka1.png';
@@ -390,6 +393,17 @@ const GROUP_DESCRIPTIONS: Record<Group, string> = {
 const WIDE_GRID_GROUPS = 2;
 
 function ProjectCard({ p, index }: { p: Project; index: number }) {
+  const { lang } = useLang();
+  const th = lang === 'th' ? PROJECT_TH[p.title] : undefined;
+  const auto = useAuto(lang === 'th' && !th ? [p.title, p.role, p.desc] : []);
+  const T = (s?: string) => (s ? (lang === 'th' ? auto(s) : s) : '');
+  const title = th?.title || T(p.title);
+  const role = th?.role || T(p.role);
+  const desc = th?.desc || T(p.desc);
+  const metrics = th?.metrics || p.metrics;
+  const action = lang === 'th'
+    ? (p.actionLabel ? (ACTION_LABEL_TH[p.actionLabel] || p.actionLabel) : UI_TH.caseStudy)
+    : (p.actionLabel || 'CASE STUDY');
   const { setView } = useUI();
   const reduce = useReducedMotion();
   const handleOpen = () => {
@@ -433,7 +447,7 @@ function ProjectCard({ p, index }: { p: Project; index: number }) {
         <div className="project-header">
           <span className="project-number mono">{String(index + 1).padStart(2, '0')}</span>
           <div className="project-meta">
-            <span className="project-role mono">{p.role}</span>
+            <span className="project-role mono">{role}</span>
             <span className="project-badges">
               {p.tech && <span className="tech-badge mono">{p.tech}</span>}
               <span className="category-badge mono">{p.category}</span>
@@ -442,8 +456,8 @@ function ProjectCard({ p, index }: { p: Project; index: number }) {
           </div>
         </div>
 
-        <h2 className="project-title">{p.title}</h2>
-        <p className="project-desc">{p.desc}</p>
+        <h2 className="project-title">{title}</h2>
+        <p className="project-desc">{desc}</p>
 
         <div className="project-stack-section">
           <div className="project-stack-label mono">STACK</div>
@@ -455,10 +469,10 @@ function ProjectCard({ p, index }: { p: Project; index: number }) {
         <div className="project-footer">
           <div className="project-metrics">
             <div className="project-metric-label mono">IMPACT</div>
-            <div className="project-metric-value mono">{p.metrics}</div>
+            <div className="project-metric-value mono">{metrics}</div>
           </div>
           <button type="button" className="project-detail-btn mono">
-            {p.actionLabel || 'CASE STUDY'} <TbArrowRight size={13} />
+            {action} <TbArrowRight size={13} />
           </button>
         </div>
       </div>
@@ -467,6 +481,8 @@ function ProjectCard({ p, index }: { p: Project; index: number }) {
 }
 
 function ProjectGroup({ group, order, projects, wide }: { group: Group; order: number; projects: Project[]; wide: boolean }) {
+  const { lang } = useLang();
+  const gth = lang === 'th' ? GROUP_TH[group] : undefined;
   const reduce = useReducedMotion();
   return (
     <section className="project-group">
@@ -490,14 +506,14 @@ function ProjectGroup({ group, order, projects, wide }: { group: Group; order: n
         >
           <span className="group-index">{String(order + 1).padStart(2, '0')}</span>
           <span className="group-sep">·</span>
-          <span className="group-label">{group}</span>
+          <span className="group-label">{gth?.label || group}</span>
         </motion.div>
         <motion.p
           className="group-desc mono"
           variants={{ hidden: reduce ? { opacity: 0 } : { opacity: 0, y: 10 }, show: { opacity: 1, y: 0 } }}
           transition={{ duration: 0.5, ease: EASE, delay: 0.18 }}
         >
-          {GROUP_DESCRIPTIONS[group]}
+          {gth?.desc || GROUP_DESCRIPTIONS[group]}
         </motion.p>
       </motion.div>
       <div className={`projects-grid${wide ? ' featured-grid' : ''}`}>
@@ -508,6 +524,7 @@ function ProjectGroup({ group, order, projects, wide }: { group: Group; order: n
 }
 
 export default function Projects() {
+  const { lang } = useLang();
   const [active, setActive] = useState<Category>('ALL');
 
   // Fixed group order; within a group, featured cards first, then the rest (array order preserved).
@@ -522,9 +539,9 @@ export default function Projects() {
   return (
     <div className="section container projects-section">
       <SectionHeader
-        subtitle="02 / SELECTED WORKS"
-        titleLines={['Deep Dives &', 'Case Studies.']}
-        description="Production systems, research projects, and freelance delivery work. Filter by discipline: click any card to open the case study, live site, or planning document."
+        subtitle={lang === 'th' ? UI_TH.sectionSubtitle : "02 / SELECTED WORKS"}
+        titleLines={lang === 'th' ? [UI_TH.sectionHeader] : ['Deep Dives &', 'Case Studies.']}
+        description={lang === 'th' ? UI_TH.sectionDesc : 'Production systems, research projects, and freelance delivery work. Filter by discipline: click any card to open the case study, live site, or planning document.'}
       />
 
       <div className="category-filter" role="tablist" aria-label="Filter projects by discipline">

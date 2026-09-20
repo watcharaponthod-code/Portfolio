@@ -11,7 +11,7 @@ import { GoogleGenAI } from '@google/genai';
 import { KNOWLEDGE_BASE } from '../knowledge.js';
 import { IDENTITY_CONTEXT_STRING } from '../identity.js';
 
-export const EMBED_MODEL = 'gemini-embedding-001';
+export const EMBED_MODEL = process.env['EMBED_MODEL'] || 'gemini-embedding-001';
 const DIM = 768;
 const MAX_CHUNK_CHARS = 700;
 

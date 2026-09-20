@@ -6,10 +6,10 @@
 // Speed matters more than depth here: the visitor is waiting mid-sentence.
 import { GoogleGenAI } from '@google/genai';
 import { retrieve, formatContext } from '../lib/server/rag.js';
+import { generateText } from '../lib/server/generate.js';
 
 export const config = { runtime: 'nodejs' };
 
-const MODEL = 'gemini-2.5-flash-lite';
 const MAX_QUESTION_CHARS = 1500;
 
 function systemPrompt(lang: 'th' | 'en', context: string) {
@@ -43,22 +43,17 @@ export default async function handler(req: any, res: any) {
   try {
     const ai = new GoogleGenAI({ apiKey });
     const hits = await retrieve(ai, question, 4);
-    const r = await ai.models.generateContent({
-      model: MODEL,
+    const { text, model } = await generateText(ai, {
+      system: systemPrompt(lang, formatContext(hits)),
       contents: [{ role: 'user', parts: [{ text: question }] }],
-      config: {
-        systemInstruction: systemPrompt(lang, formatContext(hits)),
-        temperature: 0.3,
-        maxOutputTokens: 200,
-        thinkingConfig: { thinkingBudget: 0 },
-      },
+      maxOutputTokens: 200,
     });
-    const answer = (r.text || '').trim();
+    const answer = text;
     if (!answer) return res.status(502).json({ error: 'empty answer' });
     res.setHeader('Cache-Control', 'no-store');
-    return res.status(200).json({ answer, model: MODEL, sources: hits.map(h => h.chunk.id), ms: Date.now() - t0 });
+    return res.status(200).json({ answer, model, sources: hits.map(h => h.chunk.id), ms: Date.now() - t0 });
   } catch (e: any) {
-    console.error('[brain]', e?.message || e);
+    console.error('[brain]', e?.stack || e?.message || e);
     return res.status(502).json({ error: 'brain failed' });
   }
 }

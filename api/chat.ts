@@ -5,10 +5,10 @@
 // the X-Sources header so the UI can show them.
 import { GoogleGenAI } from '@google/genai';
 import { retrieve, formatContext } from '../lib/server/rag.js';
+import { streamText } from '../lib/server/generate.js';
 
 export const config = { runtime: 'nodejs' };
 
-const MODEL = 'gemini-2.5-flash-lite';
 const MAX_TURNS = 8;
 const MAX_MSG_CHARS = 2000;
 
@@ -54,15 +54,10 @@ export default async function handler(req: any, res: any) {
     const hits = await retrieve(ai, last.content, 5);
     const tRetrieve = Date.now() - t0;
 
-    const stream = await ai.models.generateContentStream({
-      model: MODEL,
+    const { stream, model } = await streamText(ai, {
+      system: systemPrompt(lang, formatContext(hits)),
       contents: messages.map(m => ({ role: m.role === 'user' ? 'user' : 'model', parts: [{ text: m.content }] })),
-      config: {
-        systemInstruction: systemPrompt(lang, formatContext(hits)),
-        temperature: 0.3,
-        maxOutputTokens: 600,
-        thinkingConfig: { thinkingBudget: 0 },
-      },
+      maxOutputTokens: 600,
     });
 
     res.status(200);
@@ -70,13 +65,13 @@ export default async function handler(req: any, res: any) {
     res.setHeader('Cache-Control', 'no-store');
     res.setHeader('X-Sources', hits.map(h => h.chunk.id).join(','));
     res.setHeader('X-Retrieval', `${hits[0]?.method || 'none'};${tRetrieve}ms`);
-    res.setHeader('X-Model', MODEL);
+    res.setHeader('X-Model', model);
     for await (const chunk of stream) {
       if (chunk.text) res.write(chunk.text);
     }
     res.end();
   } catch (e: any) {
-    console.error('[chat]', e?.message || e);
+    console.error('[chat]', e?.stack || e?.message || e);
     if (!res.headersSent) res.status(502).json({ error: 'chat failed' });
     else res.end();
   }

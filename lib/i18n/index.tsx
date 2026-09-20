@@ -20,15 +20,14 @@ const DICT = {
 
     // Hero
     'hero.role': 'AI Engineer',
-    'hero.blurb':
-      'I build computer vision that has to work on real cameras, in real weather, on hardware someone already owns. Most of it runs at a sugar mill in Thailand: grading cane on the weighbridge, reading truck plates, listening for rocks in the load. I report what the numbers do not cover as carefully as what they do.',
+    'hero.blurb': 'I design solutions that fit the business: cut cost, open revenue, and automate the small repetitive work so people can spend their day on what actually matters. I shape the workflow around how the company already operates, then take it end to end, design, build, deploy and verify, and stay on it after it ships. Most of my current work runs at a sugar mill in Thailand.',
     'hero.resume': 'Resume',
     'hero.about': 'About_Me',
 
     // About / Philosophy
     'about.subtitle': '01 / INTRODUCTION',
-    'about.title1': 'Models that run',
-    'about.title2': 'on real cameras.',
+    'about.title1': 'Design, build, deploy,',
+    'about.title2': 'and verify.',
     'about.badge': '@Bangkok, Thailand',
     'about.stat.years': 'Years Coding',
     'about.stat.projects': 'Real Projects',
@@ -88,15 +87,14 @@ const DICT = {
 
     // Hero
     'hero.role': 'วิศวกร AI',
-    'hero.blurb':
-      'ผมสร้างระบบ computer vision ที่ต้องทำงานได้จริงบนกล้องจริง ในสภาพอากาศจริง บนเครื่องที่ลูกค้ามีอยู่แล้ว งานส่วนใหญ่อยู่ที่โรงงานน้ำตาลในไทย ทั้งการคัดเกรดอ้อยที่ตาชั่ง อ่านป้ายทะเบียนรถบรรทุก และฟังเสียงหินที่ปนมากับอ้อย ผมรายงานสิ่งที่ตัวเลขยังไม่ครอบคลุมอย่างระมัดระวังเท่ากับสิ่งที่ครอบคลุม',
+    'hero.blurb': 'ผมออกแบบโซลูชันให้เข้ากับธุรกิจจริง ลดต้นทุน สร้างรายได้ และวางระบบอัตโนมัติมาแทนงานจุกจิกซ้ำ ๆ เพื่อให้พนักงานได้ใช้เวลากับงานที่สำคัญกว่า ผมออกแบบ workflow ตามวิธีทำงานที่องค์กรใช้อยู่จริง แล้วรับผิดชอบตั้งแต่ออกแบบ สร้าง deploy ไปจนถึงตรวจสอบผลหลังใช้งาน งานส่วนใหญ่ตอนนี้อยู่ที่โรงงานน้ำตาลในไทยครับ',
     'hero.resume': 'เรซูเม่',
     'hero.about': 'เกี่ยวกับผม',
 
     // About / Philosophy
     'about.subtitle': '01 / แนะนำตัว',
-    'about.title1': 'โมเดลที่ทำงานได้',
-    'about.title2': 'บนกล้องจริง',
+    'about.title1': 'รับจบตั้งแต่ออกแบบ สร้าง',
+    'about.title2': 'deploy และตรวจสอบ',
     'about.badge': '@กรุงเทพฯ ประเทศไทย',
     'about.stat.years': 'ปีที่เขียนโค้ด',
     'about.stat.projects': 'โปรเจกต์ใช้งานจริง',
