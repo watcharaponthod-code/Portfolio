@@ -13,7 +13,6 @@ const TRADING_DASH  = 'https://raw.githubusercontent.com/watcharaponthod-code/tr
 const NINJA_GIF     = 'https://raw.githubusercontent.com/watcharaponthod-code/Ninja_fruit/main/demo/demo-gameplay.gif';
 const SUBWAY_GIF    = 'https://raw.githubusercontent.com/watcharaponthod-code/subway-kids/main/demo/demo-gameplay.gif';
 const RAG_CHAT_DIAG = 'https://raw.githubusercontent.com/watcharaponthod-code/rag-chat/main/diagram/diagram.png';
-const ELIC_ARCH     = 'https://raw.githubusercontent.com/watcharaponthod-code/elic/main/architecture-diagram.svg';
 const DONLAYA_WORK  = 'https://lh3.googleusercontent.com/d/1LlQNx6MpBvUXJ9VEZEzTk_YvhFnBLEA4=w1600';
 const DUST_GIF      = 'https://raw.githubusercontent.com/watcharaponthod-code/sugarcane-cv/main/media/dust_real.gif';
 const CANEGATE_LIVE = 'https://raw.githubusercontent.com/watcharaponthod-code/canegate-assets/main/screen-live.png';
@@ -338,7 +337,7 @@ const ALL_PROJECTS: Project[] = [
     metrics: 'CAPSTONE 2025',
     category: 'AI & RAG',
     internalLink: 'project-elic',
-    image: ELIC_ARCH,
+    image: 'https://raw.githubusercontent.com/watcharaponthod-code/elic/main/docs/images/conversation-roles.jpg',
     featured: true,
   },
   {
