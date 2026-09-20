@@ -396,7 +396,7 @@ function ProjectCard({ p, index }: { p: Project; index: number }) {
   const { lang } = useLang();
   const [hovered, setHovered] = useState(false);
   const [opening, setOpening] = useState(false);
-  const gallery = galleryFor(p.internalLink);
+  const gallery = galleryFor(p.internalLink, p.title);
   const preview = gallery.slice(0, 6);
   const th = lang === 'th' ? PROJECT_TH[p.title] : undefined;
   const auto = useAuto(lang === 'th' && !th ? [p.title, p.role, p.desc] : []);
@@ -453,7 +453,7 @@ function ProjectCard({ p, index }: { p: Project; index: number }) {
           {p.isGif && (
             <div className="gif-badge mono">{lang === 'th' ? UI_TH.liveDemo : 'LIVE DEMO'}</div>
           )}
-          {preview.length > 1 && (
+          {preview.length > 0 && (
             <motion.div
               className="thumb-grid"
               initial={false}
@@ -475,7 +475,7 @@ function ProjectCard({ p, index }: { p: Project; index: number }) {
                 ))}
               </div>
               <div className="thumb-grid-label mono">
-                {lang === 'th' ? `${gallery.length} ภาพในกรณีศึกษา` : `${gallery.length} images inside`}
+                {lang === 'th' ? `${gallery.length} ภาพในกรณีศึกษา` : `${gallery.length} image${gallery.length === 1 ? '' : 's'} inside`}
               </div>
             </motion.div>
           )}
@@ -698,11 +698,13 @@ export default function Projects() {
           flex: 1; display: grid; gap: 3px; padding: 3px; min-height: 0;
           grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(2, 1fr);
         }
+        .thumb-grid-inner.n1 { grid-template-columns: 1fr; grid-template-rows: 1fr; }
         .thumb-grid-inner.n2 { grid-template-columns: repeat(2, 1fr); grid-template-rows: 1fr; }
         .thumb-grid-inner.n3 { grid-template-columns: repeat(3, 1fr); grid-template-rows: 1fr; }
         .thumb-grid-inner.n4 { grid-template-columns: repeat(2, 1fr); grid-template-rows: repeat(2, 1fr); }
         .thumb-cell { overflow: hidden; background: #f4f4f2; }
         .thumb-cell img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .thumb-grid-inner.n1 .thumb-cell img { object-fit: contain; background: #fff; }
         .thumb-grid-label {
           padding: 0.3rem 0.5rem; font-size: 0.52rem; letter-spacing: 0.16em;
           color: #fff; background: #000; text-align: center;
