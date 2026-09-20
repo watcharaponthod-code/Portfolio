@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { Modality } from '@google/genai';
+import { Modality, Type, type FunctionDeclaration, type LiveServerToolCall } from '@google/genai';
 import { useLiveAPIContext } from '@/contexts/LiveAPIContext';
 import { useAgent, useUser } from '@/lib/state';
 import { createSystemInstructions } from '@/lib/prompts';
@@ -7,8 +7,25 @@ import { getMemoryString } from '@/lib/memory';
 import ControlTray from '@/components/console/control-tray/ControlTray';
 import BasicFace from '@/components/demo/basic-face/BasicFace';
 
+// Layer 1 (this file) is the realtime voice model: it listens and speaks.
+// Layer 2 (api/brain.ts) holds the full knowledge base and a text model with
+// room to reason. Layer 1 reaches it through this tool whenever the visitor
+// asks something factual, then reads the answer back.
+const ASK_BRAIN: FunctionDeclaration = {
+  name: 'ask_brain',
+  description: 'Look up any factual question about Watcharapon: his projects, numbers, results, skills, work history, education, contact. Returns a short spoken-style answer to read aloud verbatim. Call this before answering anything about him; never guess.',
+  parameters: {
+    type: Type.OBJECT,
+    properties: {
+      question: { type: Type.STRING, description: 'The visitor\'s question, in their own words and language.' },
+    },
+    required: ['question'],
+  },
+};
+
 export default function LiveAIDemo() {
   const { client, connected, setConfig, connect } = useLiveAPIContext();
+  const [thinking, setThinking] = useState(false);
   const user = useUser();
   const { current } = useAgent();
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -41,9 +58,17 @@ export default function LiveAIDemo() {
     7. Avoid slang or informal expressions.
     `;
 
+    const layerInstruction = `
+    TWO-LAYER RULE:
+    - You are the voice layer. You do not hold the detailed facts yourself.
+    - For ANY question about Watcharapon (projects, results, numbers, stack, experience, education, contact), call the ask_brain tool first, then read its answer aloud naturally. Never answer such questions from memory and never invent numbers.
+    - While waiting for the tool, say one short phrase like ${lang === 'th' ? '"ขอตรวจสอบข้อมูลสักครู่ครับ"' : '"one moment, let me check"'}, then continue with the tool result.
+    - Greetings, small talk and clarifying questions you may handle yourself.
+    `;
+
     const memoryContext = getMemoryString();
     const finalInstructions = baseInstructions +
-      (lang === 'th' ? thaiInstruction : englishInstruction) +
+      (lang === 'th' ? thaiInstruction : englishInstruction) + layerInstruction +
       (memoryContext ? `\n\n--- RECENT CONVERSATION HISTORY (SHORT-TERM MEMORY) ---\n${memoryContext}\n-------------------------------------------------------` : "");
 
     setConfig({
@@ -70,8 +95,42 @@ export default function LiveAIDemo() {
           },
         ],
       },
+      tools: [{ functionDeclarations: [ASK_BRAIN] }],
     });
   }, [setConfig, user, current, lang]);
+
+  // Layer 1 -> Layer 2: answer every ask_brain call through /api/brain.
+  useEffect(() => {
+    const onToolCall = async (toolCall: LiveServerToolCall) => {
+      const calls = toolCall.functionCalls || [];
+      if (!calls.length) return;
+      setThinking(true);
+      const functionResponses = await Promise.all(calls.map(async fc => {
+        let response: Record<string, unknown> = { error: 'unknown tool' };
+        if (fc.name === 'ask_brain') {
+          const question = String((fc.args as any)?.question || '');
+          try {
+            const r = await fetch('/api/brain', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ question, lang }),
+            });
+            const data = await r.json();
+            response = r.ok && data.answer
+              ? { answer: data.answer }
+              : { error: 'the knowledge layer is unavailable; tell the visitor you cannot check right now' };
+          } catch {
+            response = { error: 'the knowledge layer is unavailable; tell the visitor you cannot check right now' };
+          }
+        }
+        return { id: fc.id, name: fc.name, response };
+      }));
+      setThinking(false);
+      client.sendToolResponse({ functionResponses });
+    };
+    client.on('toolcall', onToolCall);
+    return () => { client.off('toolcall', onToolCall); };
+  }, [client, lang]);
 
   useEffect(() => {
     const beginSession = async () => {
@@ -136,6 +195,13 @@ export default function LiveAIDemo() {
 
       <div style={{ flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center', position: 'relative' }}>
         <BasicFace canvasRef={canvasRef} />
+        <div className="mono" style={{
+          position: 'absolute', bottom: '8px', left: 0, right: 0, textAlign: 'center',
+          fontSize: '0.58rem', letterSpacing: '0.2em', color: 'var(--text-secondary)',
+          opacity: thinking ? 1 : 0, transition: 'opacity 0.3s',
+        }}>
+          LAYER 2 // CONSULTING KNOWLEDGE BASE
+        </div>
       </div>
 
       <div style={{ padding: '1rem', display: 'flex', justifyContent: 'center', position: 'relative', zIndex: 10 }}>

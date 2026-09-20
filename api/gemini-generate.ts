@@ -11,7 +11,7 @@ export default async function handler(req: any, res: any) {
     res.setHeader('Allow', 'POST');
     return res.status(405).json({ error: 'POST only' });
   }
-  const apiKey = process.env.GEMINI_API_KEY;
+  const apiKey = process.env['GEMINI_API_KEY']; // bracket form so vite's define cannot replace it in dev
   if (!apiKey) return res.status(500).json({ error: 'GEMINI_API_KEY is not set on the server' });
 
   const body = typeof req.body === 'string' ? safeJson(req.body) : req.body || {};
