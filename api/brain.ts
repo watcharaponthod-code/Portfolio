@@ -54,7 +54,8 @@ export default async function handler(req: any, res: any) {
     return res.status(200).json({ answer, model, sources: hits.map(h => h.chunk.id), ms: Date.now() - t0 });
   } catch (e: any) {
     console.error('[brain]', e?.stack || e?.message || e);
-    return res.status(502).json({ error: 'brain failed', detail: String(e?.message || e).slice(0, 300) });
+    const quota = /429|exceeded your current quota|RESOURCE_EXHAUSTED/i.test(String(e?.message || e));
+    return res.status(quota ? 429 : 502).json({ error: quota ? 'quota' : 'brain failed' });
   }
 }
 

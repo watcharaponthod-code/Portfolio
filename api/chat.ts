@@ -76,7 +76,8 @@ export default async function handler(req: any, res: any) {
     res.end();
   } catch (e: any) {
     console.error('[chat]', e?.stack || e?.message || e);
-    if (!res.headersSent) res.status(502).json({ error: 'chat failed', detail: String(e?.message || e).slice(0, 300) });
+    const quota = /429|exceeded your current quota|RESOURCE_EXHAUSTED/i.test(String(e?.message || e));
+    if (!res.headersSent) res.status(quota ? 429 : 502).json({ error: quota ? 'quota' : 'chat failed' });
     else res.end();
   }
 }

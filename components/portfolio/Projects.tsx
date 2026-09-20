@@ -109,7 +109,7 @@ const ALL_PROJECTS: Project[] = [
     metrics: '8,612 REAL CCTV FRAMES',
     category: 'COMPUTER VISION',
     internalLink: 'project-scv-1',
-    image: 'https://raw.githubusercontent.com/watcharaponthod-code/sugarcane-cv/main/figures/real_burnt_cane.jpg',
+    image: '/media/burnt-burnt-98.jpg',
     featured: true,
   },
   {

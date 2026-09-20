@@ -85,6 +85,7 @@ export default function AssistantPanel() {
           messages: history.slice(-12).map(m => ({ role: m.role, content: m.content })),
         }),
       });
+      if (r.status === 429) throw new Error('quota');
       if (!r.ok || !r.body) throw new Error(`chat endpoint returned ${r.status}`);
       const sources = (r.headers.get('X-Sources') || '').split(',').filter(Boolean);
       const reader = r.body.getReader();
@@ -108,9 +109,14 @@ export default function AssistantPanel() {
       setMessages(m => m.map(x => x.id === draftId ? { ...x, content: body.trim() || (lang === 'th' ? 'ไม่มีข้อมูลเรื่องนี้ครับ' : 'No information on that.'), sources, ms, actions } : x));
     } catch (e: any) {
       if (e?.name === 'AbortError') return;
-      const msg = lang === 'th'
-        ? 'ตอนนี้ต่อระบบตอบคำถามไม่ได้ครับ ลองใหม่อีกครั้ง หรือกดโหมด VOICE'
-        : 'The answer service is unreachable right now. Try again, or switch to VOICE.';
+      const quota = e?.message === 'quota';
+      const msg = quota
+        ? (lang === 'th'
+            ? 'วันนี้โควตาของผู้ช่วย AI เต็มแล้วครับ ระบบจะกลับมาตอบได้เมื่อโควตารีเซ็ต ระหว่างนี้กดดูกรณีศึกษาได้ตามปกติ'
+            : 'The assistant has used up its quota for now. It will answer again once the quota resets; the case studies are all still open to read.')
+        : (lang === 'th'
+            ? 'ตอนนี้ต่อระบบตอบคำถามไม่ได้ครับ ลองใหม่อีกครั้ง'
+            : 'The answer service is unreachable right now. Please try again.');
       setMessages(m => m.map(x => x.id === draftId ? { ...x, content: msg, error: true } : x));
     } finally {
       setBusy(false);
