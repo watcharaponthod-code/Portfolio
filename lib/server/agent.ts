@@ -152,7 +152,7 @@ export function buildGraph(ai: GoogleGenAI | null) {
     // Some questions are about the world, not about him: what a company does,
     // what a tool is. The knowledge base cannot know that and must not guess,
     // so those go to a web-searching model and come back as labelled context.
-    .addNode('web', async (s: AgentState) => {
+    .addNode('lookupWeb', async (s: AgentState) => {
       const web = await webLookup(s.question);
       const context = web ? `${s.context}\n\n[WEB] ${web}` : s.context;
       return { web, context };
@@ -161,9 +161,9 @@ export function buildGraph(ai: GoogleGenAI | null) {
     .addConditionalEdges('route', (s: AgentState) => (s.needsFacts ? 'makePlan' : END), { makePlan: 'makePlan', [END]: END })
     .addEdge('makePlan', 'search')
     .addConditionalEdges('search', (s: AgentState) => (s.coverage === 0 ? 'widen' : 'rerank'), { widen: 'widen', rerank: 'rerank' })
-    .addConditionalEdges('rerank', (s: AgentState) => (needsWeb(s) ? 'web' : END), { web: 'web', [END]: END })
-    .addConditionalEdges('widen', (s: AgentState) => (needsWeb(s) ? 'web' : END), { web: 'web', [END]: END })
-    .addEdge('web', END);
+    .addConditionalEdges('rerank', (s: AgentState) => (needsWeb(s) ? 'lookupWeb' : END), { lookupWeb: 'lookupWeb', [END]: END })
+    .addConditionalEdges('widen', (s: AgentState) => (needsWeb(s) ? 'lookupWeb' : END), { lookupWeb: 'lookupWeb', [END]: END })
+    .addEdge('lookupWeb', END);
 
   return graph.compile();
 }
