@@ -74,7 +74,7 @@ export default async function handler(req: any, res: any) {
     // with a trading link.
     const top = hits[0]?.score ?? 0;
     const strong = hits.filter(h => h.score >= top * 0.6 && h.score > 0).slice(0, 3);
-    const actions = actionsFor(last.content, strong.map(h => h.chunk.id));
+    const actions = actionsFor(last.content, strong.map(h => h.chunk.id), answer);
     const nextMemory = await updateMemory(ai, memory, last.content, answer);
     res.write(ACTION_MARKER + JSON.stringify({ actions, memory: nextMemory }));
     res.end();
