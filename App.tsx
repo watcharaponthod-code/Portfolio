@@ -15,6 +15,8 @@ import ElicProject from './components/portfolio/ElicProject';
 import EmbeddingRagProject from './components/portfolio/EmbeddingRagProject';
 import BitcoinMLProject from './components/portfolio/BitcoinMLProject';
 import RAGEcosystemProject from './components/portfolio/RAGEcosystemProject';
+import AgriAIProject from './components/portfolio/AgriAIProject';
+import ShortsAutomationProject from './components/portfolio/ShortsAutomationProject';
 import { AnimatePresence, motion } from 'framer-motion';
 
 function App() {
@@ -46,6 +48,8 @@ function App() {
       case 'project-ninja': return <NinjaFruitProject />;
       case 'project-subway': return <SubwayKidsProject />;
       case 'project-elic': return <ElicProject />;
+      case 'project-agri-ai': return <AgriAIProject />;
+      case 'project-shorts': return <ShortsAutomationProject />;
       default: return null;
     }
   }, [currentView]);

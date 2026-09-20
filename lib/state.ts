@@ -33,7 +33,8 @@ export type ViewType =
   | 'landing' | 'system' | 'skills' | 'playground' | 'projects' | 'live-ai' | 'philosophy' 
   | 'project-sycapt' | 'project-kafka' | 'project-geomap' | 'project-monitoring'
   | 'project-rag-ecosystem' | 'project-embedding-rag' | 'project-bitcoin' 
-  | 'project-trading' | 'project-ninja' | 'project-subway' | 'project-elic';
+  | 'project-trading' | 'project-ninja' | 'project-subway' | 'project-elic'
+  | 'project-agri-ai' | 'project-shorts';
 
 export const useUI = create<{
   currentView: ViewType;

@@ -6,7 +6,7 @@
 
 export const CREATOR_IDENTITY = {
     name: "Watcharapon Thodraksa (Oat)",
-    role: "Full-Stack Developer | AI Application | Mobile | UX/UI Design",
+    role: "AI Engineer | Computer Vision | Satellite ML | Full-Stack",
     location: "Bangkok, Thailand",
     email: "watcharapon.thod@gmail.com",
     phone: "094-453-2072",
@@ -15,6 +15,9 @@ export const CREATOR_IDENTITY = {
     education: "B.Sc. Computer Science (Co-op Program), Kasetsart University Chalermphrakiat, GPA 2.97 (2022–present)",
     philosophy: "Building production-grade systems, not just interfaces. Clarity over cleverness. Every technical decision must serve a clear user need.",
     specialties: [
+        "Computer Vision on real cameras: YOLOv8, OpenCV, MediaPipe, ONNX, audio detection, Thai plate OCR (sugarcane-cv, CaneGate, eKYC)",
+        "Satellite ML: Sentinel-1/2, Planetary Computer, NDVI/SAR, LightGBM, conformal gates, out-of-block evaluation (Agri-AI, CropScan, Yield Pro)",
+        "MLOps: Kaggle/Modal GPU training, MLflow, PROVENANCE tracking, Railway, Loki + Grafana + Prometheus",
         "Full-Stack Development: React, Next.js, NestJS, FastAPI, Python, TypeScript, Java Spring Boot",
         "AI & RAG Pipelines: LangChain, LangGraph, LlamaIndex, pgvector, Qdrant, Gemini API, Hugging Face",
         "Mobile Development: React Native + Gemini API (iOS/Android)",
@@ -23,6 +26,9 @@ export const CREATOR_IDENTITY = {
         "UX/UI Design: Figma, JTBD, Business Model Canvas, Canva, Power BI, n8n"
     ],
     achievements: [
+        "Agri-AI (TokinTech, 2026): per-field satellite monitoring for a Thai sugar mill. CropScan cut/standing F1 0.883 on 8,924 fields; SAR to NDVI gapfill 95.7% within ±0.10 on 129k held-out pixels; Yield Pro P10/P90 deciles. Paper submitted to Precision Agriculture (Springer), Aug 2026.",
+        "sugarcane-cv + CaneGate: nine CV/audio detectors at the weighbridge (burnt vs fresh on 8,612 real CCTV frames, cane flow at 70 fps, Thai plate OCR at zero wrong reads), shipped as Docker images and running at the mill.",
+        "YouTube Shorts automation: analytics-driven AI content loop, BudyStory 3.34M views / 5,510 subscribers / 189 clips in its first weeks.",
         "Built Sycapt AI Enterprise — Full-stack On-Premises RAG system (Next.js, NestJS, Python) with Hybrid Search + Re-ranking, deployed on Kubernetes.",
         "Solved GPU VRAM 16GB constraint: designed Model Swapping system cycling 4 LLMs using 120GB RAM as buffer.",
         "Built EDC Geo Map Dashboard visualizing 15,423 Bangkok Bank EDC machines nationwide with real-time filtering (Leaflet.js + FastAPI).",

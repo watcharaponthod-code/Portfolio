@@ -15,6 +15,9 @@ const SUBWAY_GIF    = 'https://raw.githubusercontent.com/watcharaponthod-code/su
 const RAG_CHAT_DIAG = 'https://raw.githubusercontent.com/watcharaponthod-code/rag-chat/main/diagram/diagram.png';
 const ELIC_ARCH     = 'https://raw.githubusercontent.com/watcharaponthod-code/elic/main/architecture-diagram.svg';
 const DONLAYA_WORK  = 'https://lh3.googleusercontent.com/d/1LlQNx6MpBvUXJ9VEZEzTk_YvhFnBLEA4=w1600';
+const DUST_GIF      = 'https://raw.githubusercontent.com/watcharaponthod-code/sugarcane-cv/main/media/dust_real.gif';
+const CANEGATE_LIVE = 'https://raw.githubusercontent.com/watcharaponthod-code/canegate-assets/main/screen-live.png';
+const DRAGON_GIF    = 'https://raw.githubusercontent.com/watcharaponthod-code/roblox-dragon-combat/main/media/dragon_combat.gif';
 
 function useInView(threshold = 0.1) {
   const ref = useRef<HTMLDivElement>(null);
@@ -29,7 +32,7 @@ function useInView(threshold = 0.1) {
   return { ref, inView };
 }
 
-type Category = 'ALL' | 'AI & RAG' | 'FULL-STACK' | 'SYSTEMS' | 'COMPUTER VISION' | 'DATA & GROWTH';
+type Category = 'ALL' | 'AGRI & SATELLITE' | 'COMPUTER VISION' | 'AI & RAG' | 'FULL-STACK' | 'SYSTEMS' | 'DATA & GROWTH';
 
 interface Project {
   title: string;
@@ -48,6 +51,100 @@ interface Project {
 }
 
 const ALL_PROJECTS: Project[] = [
+  // ── FEATURED · AGRI & SATELLITE ───────────────────────────────────────────
+  {
+    title: 'Agri-AI: Satellite Field Monitoring',
+    role: 'AI / MLOPS ENGINEER · TOKINTECH',
+    desc: 'Per-field sugarcane monitoring for a Thai mill from Sentinel-2, Sentinel-1 radar and weather. Fills cloud gaps with a radar-to-NDVI model (95.7% within ±0.10 on 129k held-out pixels), labels health and cause per field, and pushes recommendations into the mill\'s own backend every cycle.',
+    stack: ['Sentinel-1/2', 'FastAPI', 'LightGBM', 'PyTorch', 'MLflow', 'Railway'],
+    metrics: '448,986 OUT-OF-BLOCK PX',
+    category: 'AGRI & SATELLITE',
+    internalLink: 'project-agri-ai',
+    image: '/agri/agri-architecture.jpg',
+    featured: true,
+  },
+  {
+    title: 'CropScan: Harvest Monitoring',
+    role: 'COMPUTER VISION · REMOTE SENSING',
+    desc: 'Cut or still standing, and how much of the field. A two-colour NDVI rule counts cut pixels inside each polygon; a Sentinel-1 VH-drop gate confirms through cloud. Scored against 8,924 fields of real weighbridge tickets: precision 0.869, recall 0.897.',
+    stack: ['Sentinel-2 NDVI', 'Sentinel-1 VH', 'rasterio', 'Python'],
+    metrics: 'F1 0.883 · 8,924 FIELDS',
+    category: 'AGRI & SATELLITE',
+    internalLink: 'project-agri-ai',
+    image: '/agri/cropscan-fields.png',
+    featured: true,
+  },
+  {
+    title: 'Yield Pro: Field Health & Yield',
+    role: 'MACHINE LEARNING · AGRONOMY',
+    desc: 'P10/P50/P90 tonnes-per-rai and a cause label (drought, decline, recovery) per field from optical, radar, rain, ET0, soil and terrain features. In-sample Spearman 0.72 is the ceiling; the out-of-zone number is 0.25–0.31, so the product ships deciles and ranking, not a tonne figure.',
+    stack: ['LightGBM', 'GroupKFold', 'CHIRPS', 'Open-Meteo', 'SoilGrids'],
+    metrics: 'P10–P90 COVERS 80%',
+    category: 'AGRI & SATELLITE',
+    internalLink: 'project-agri-ai',
+    image: '/agri/yieldpro-backtest.png',
+    featured: true,
+  },
+  {
+    title: 'Sugarcane CV: Nine Mill Detectors',
+    role: 'COMPUTER VISION · AUDIO',
+    desc: 'Nine detection problems from one Thai sugar mill: dust opacity at the tipper, burnt vs fresh cane on 8,612 real CCTV frames, mixed loads by colour alone, sand and rock by sound, cane flow on the conveyor at 70 fps, Thai plate OCR designed for zero wrong reads. Each row says what evidence it stands on.',
+    stack: ['YOLOv8', 'OpenCV', 'PyTorch', 'librosa', 'ONNX'],
+    metrics: '9 PROBLEMS · REAL CCTV',
+    category: 'COMPUTER VISION',
+    image: DUST_GIF,
+    isGif: true,
+    externalUrl: 'https://github.com/watcharaponthod-code/sugarcane-cv',
+    actionLabel: 'VIEW REPO',
+    featured: true,
+  },
+  {
+    title: 'CaneGate: Truck Inspection',
+    role: 'PRODUCTION CV · DOCKER',
+    desc: 'All-in-one inspection at the weighbridge: a side camera grades the cane on the truck, a front camera reads the Thai plate in strict mode. Ships as Docker images (canegate, canegate-web, canegate-lpr) with live view, per-truck confirmation, shift stats and a simulation mode for testing without trucks.',
+    stack: ['Docker', 'FastAPI', 'YOLOv8', 'OCR', 'React'],
+    metrics: 'DEPLOYED AT THE MILL',
+    category: 'COMPUTER VISION',
+    image: CANEGATE_LIVE,
+    externalUrl: 'https://hub.docker.com/r/khawoat07/canegate',
+    actionLabel: 'DOCKER HUB',
+    featured: true,
+  },
+  {
+    title: 'eKYC: Liveness + Face Identity',
+    role: 'MOBILE · BIOMETRICS',
+    desc: 'React Native module plus a FastAPI decision server. The phone coaches turn, blink and active-flash checks; the server re-derives everything from pixels with MediaPipe, ArcFace and a MiniFASNet anti-spoof ensemble. No biometric data is stored on the phone. 187 server tests, 42 on real models, and a PAD harness for ISO 30107-3 metrics.',
+    stack: ['React Native', 'FastAPI', 'MediaPipe', 'DeepFace', 'ONNX'],
+    metrics: 'APCER / BPCER HARNESS',
+    category: 'COMPUTER VISION',
+    externalUrl: 'https://github.com/watcharaponthod-code/ekyc',
+    actionLabel: 'VIEW REPO',
+    featured: true,
+  },
+  {
+    title: 'YouTube Shorts Automation',
+    role: 'AI CONTENT PIPELINE · GROWTH',
+    desc: 'Reads yesterday\'s Analytics, decides the next theme, generates 9:16 clips with a locked AI character, QCs every frame, uploads on schedule and measures 48 hours later. BudyStory reached 3.34M views and 5,510 subscribers in its first weeks; the rules that survived the data are written down, the ones that failed are logged.',
+    stack: ['Python', 'YouTube Analytics API', 'meta.ai', 'Graph API', 'ffmpeg'],
+    metrics: '3.34M VIEWS · 189 CLIPS',
+    category: 'DATA & GROWTH',
+    internalLink: 'project-shorts',
+    image: '/media/shorts-pipeline.jpg',
+    featured: true,
+  },
+  {
+    title: 'Dragon Combat: Bots That Pass for Players',
+    role: 'GAME AI · ROBLOX LUAU',
+    desc: 'Aerial dragon PvP where the bot brain is a three-state steering FSM, not a network: patrol through boost rings, gun-run with a quarter-second lead and a 240-stud break-off, evade with a sinusoidal jink. Tuned to one goal: players cannot tell which dragons are bots, and can still beat them.',
+    stack: ['Roblox Studio', 'Luau', 'Steering behaviours', 'FSM'],
+    metrics: 'µs PER BOT PER FRAME',
+    category: 'SYSTEMS',
+    image: DRAGON_GIF,
+    isGif: true,
+    externalUrl: 'https://github.com/watcharaponthod-code/roblox-dragon-combat',
+    actionLabel: 'VIEW REPO',
+    featured: true,
+  },
   // ── FEATURED ──────────────────────────────────────────────────────────────
   {
     title: 'Enterprise RAG Ecosystem',
@@ -184,7 +281,7 @@ const ALL_PROJECTS: Project[] = [
   },
 ];
 
-const CATEGORIES: Category[] = ['ALL', 'AI & RAG', 'FULL-STACK', 'SYSTEMS', 'COMPUTER VISION', 'DATA & GROWTH'];
+const CATEGORIES: Category[] = ['ALL', 'AGRI & SATELLITE', 'COMPUTER VISION', 'AI & RAG', 'FULL-STACK', 'SYSTEMS', 'DATA & GROWTH'];
 
 function ProjectCard({ p, index }: { p: Project; index: number }) {
   const { setView } = useUI();
