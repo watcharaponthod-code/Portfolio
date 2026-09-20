@@ -152,8 +152,8 @@ function HeroSection({ onAboutMe }: { onAboutMe: () => void }) {
               y: stage >= 2 ? 0 : 30,
               flexWrap: 'wrap'
             }} transition={{ duration: 1 }}>
-              <a href={RESUME_DOWNLOAD_URL} className="btn-monochrome-primary">Resume</a>
-              <button type="button" onClick={onAboutMe} className="btn-monochrome-outline">About_Me</button>
+              <a href={RESUME_DOWNLOAD_URL} className="btn-monochrome-primary">{t('hero.resume')}</a>
+              <button type="button" onClick={onAboutMe} className="btn-monochrome-outline">{t('hero.about')}</button>
             </motion.div>
           </div>
 

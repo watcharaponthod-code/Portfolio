@@ -15,11 +15,13 @@ import {
 import { BsTerminalSplit } from 'react-icons/bs';
 import SectionHeader from './SectionHeader';
 import { motion } from 'framer-motion';
+import { useLang } from '../../lib/i18n';
 
 export default function SkillArchitecture() {
+  const { t } = useLang();
   const categories = [
     {
-      title: "LANGUAGES & SYSTEMS",
+      title: t('skills.cat1'),
       id: "01",
       skills: [
         { name: "Java", icon: <SiSpringboot /> },
@@ -35,7 +37,7 @@ export default function SkillArchitecture() {
       ]
     },
     {
-      title: "FRAMEWORKS & APPS",
+      title: t('skills.cat2'),
       id: "02",
       skills: [
         { name: "Next.js", icon: <SiNextdotjs /> },
@@ -53,7 +55,7 @@ export default function SkillArchitecture() {
       ]
     },
     {
-      title: "AI & DATA ARCHITECTURE",
+      title: t('skills.cat3'),
       id: "03",
       skills: [
         { name: "LangChain", icon: <TbBrain /> },
@@ -68,7 +70,7 @@ export default function SkillArchitecture() {
       ]
     },
     {
-      title: "INFRA & PROD OPS",
+      title: t('skills.cat4'),
       id: "04",
       skills: [
         { name: "Docker", icon: <SiDocker /> },
@@ -91,9 +93,9 @@ export default function SkillArchitecture() {
     <div className="section container" style={{ minHeight: '90vh', display: 'flex', flexDirection: 'column', padding: '5rem 0' }}>
       <div className="animate-enter">
         <SectionHeader
-          subtitle="03 / REPOSITORY ECOSYSTEM"
-          titleLines={["Technical Stack", "Overview."]}
-          description="A dense mapping of my specialized skills across four core domains. Designed for efficient architectural scanning."
+          subtitle={t('skills.subtitle')}
+          titleLines={[t('skills.title1'), t('skills.title2')]}
+          description={t('skills.desc')}
         />
 
         <div className="skills-compact-quadrants">

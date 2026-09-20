@@ -2,19 +2,21 @@ import mineImg from '@/imge/mine.jpg';
 import SectionHeader from './SectionHeader';
 import { TbMail, TbPhone, TbBrandGithub } from 'react-icons/tb';
 import { Medal } from 'lucide-react';
+import { useLang } from '../../lib/i18n';
 
 export default function Philosophy() {
+  const { t } = useLang();
   const stats = [
-    { value: "4+", label: "Years Coding" },
-    { value: "7+", label: "Real Projects" },
-    { value: "3", label: "Hackathons" },
-    { value: "100%", label: "Delivery Rate" },
+    { value: "4+", label: t('about.stat.years') },
+    { value: "7+", label: t('about.stat.projects') },
+    { value: "3", label: t('about.stat.hackathons') },
+    { value: "100%", label: t('about.stat.delivery') },
   ];
 
   const awards = [
-    { icon: <Medal size={20} strokeWidth={1.5} />, title: "Winner", event: "UI Design-athon 2025" },
-    { icon: <Medal size={20} strokeWidth={1.5} />, title: "1st Runner-up", event: "KUSE AI Hackathon 2025" },
-    { icon: <Medal size={20} strokeWidth={1.5} />, title: "Participant", event: "RERU Cyber Hackathon 2025" },
+    { icon: <Medal size={20} strokeWidth={1.5} />, title: t('about.award.winner'), event: "UI Design-athon 2025" },
+    { icon: <Medal size={20} strokeWidth={1.5} />, title: t('about.award.runnerup'), event: "KUSE AI Hackathon 2025" },
+    { icon: <Medal size={20} strokeWidth={1.5} />, title: t('about.award.participant'), event: "RERU Cyber Hackathon 2025" },
   ];
 
   return (
@@ -23,8 +25,8 @@ export default function Philosophy() {
 
         {/* Section Header */}
         <SectionHeader
-          subtitle="01 / INTRODUCTION"
-          titleLines={["Models that run", "on real cameras."]}
+          subtitle={t('about.subtitle')}
+          titleLines={[t('about.title1'), t('about.title2')]}
         />
 
         {/* Main Grid */}
@@ -43,7 +45,7 @@ export default function Philosophy() {
                 />
               </div>
               <div className="photo-badge mono" style={{ background: '#fff', border: '1px solid #000', color: '#000' }}>
-                <span>@Bangkok, Thailand</span>
+                <span>{t('about.badge')}</span>
               </div>
             </div>
 
@@ -61,28 +63,28 @@ export default function Philosophy() {
           <div className="story-right">
             {/* Education Profile */}
             <div className="story-section stagger-item" style={{ marginBottom: '3rem', padding: '2rem', background: 'rgba(0,0,0,0.03)', borderLeft: '4px solid #000' }}>
-              <h3 className="mono" style={{ fontSize: '0.8rem', color: 'rgba(0,0,0,0.4)', marginBottom: '0.5rem', letterSpacing: '0.2rem' }}>EDUCATION</h3>
-              <p style={{ margin: 0, fontSize: '1.2rem', fontWeight: 800, color: '#000' }}>Kasetsart University</p>
-              <p style={{ margin: '0.25rem 0', color: 'rgba(0,0,0,0.5)', fontSize: '1rem' }}>B.Sc. in Computer Science (Co-op Program)</p>
+              <h3 className="mono" style={{ fontSize: '0.8rem', color: 'rgba(0,0,0,0.4)', marginBottom: '0.5rem', letterSpacing: '0.2rem' }}>{t('about.education')}</h3>
+              <p style={{ margin: 0, fontSize: '1.2rem', fontWeight: 800, color: '#000' }}>{t('about.university')}</p>
+              <p style={{ margin: '0.25rem 0', color: 'rgba(0,0,0,0.5)', fontSize: '1rem' }}>{t('about.degree')}</p>
               <div style={{ display: 'flex', gap: '1.5rem', marginTop: '1rem' }}>
-                <span className="mono" style={{ fontSize: '0.8rem', fontWeight: 600 }}>GRADUATION: 2025</span>
+                <span className="mono" style={{ fontSize: '0.8rem', fontWeight: 600 }}>{t('about.graduation')}</span>
               </div>
             </div>
 
             <div className="story-section stagger-item" style={{ marginBottom: '3rem' }}>
               <p className="story-bio" style={{ fontSize: '1.1rem', color: 'rgba(0,0,0,0.7)', lineHeight: 1.9, fontWeight: 400 }}>
-                I build computer vision and LLM systems and take them to production. Recent work: dust and material detection on live mill CCTV, face liveness for eKYC, and agentic retrieval running fully on local inference. I also build what goes around the model, the inference server, the mobile app, the dashboard and the deploy. What I care about most is evaluation you can trust. I measure out of sample, I report accuracy next to coverage, and I would rather a model abstain than guess.
+                {t('about.bio')}
               </p>
             </div>
 
             {/* Philosophy blocks */}
             <div className="story-section stagger-item">
-              <h3 className="mono story-section-title" style={{ borderColor: 'rgba(0,0,0,0.1)' }}>Core Philosophy</h3>
+              <h3 className="mono story-section-title" style={{ borderColor: 'rgba(0,0,0,0.1)' }}>{t('about.philosophy')}</h3>
               <div className="philosophy-blocks">
                 {[
-                  { id: '01', name: 'Clarity over cleverness', desc: 'The next person to read this is me in six months.' },
-                  { id: '02', name: 'Ship it or it does not count', desc: 'A model in a notebook has not solved anything yet.' },
-                  { id: '03', name: 'Constraints first', desc: 'The camera the site already owns is the target, not the compromise.' }
+                  { id: '01', name: t('about.p1.name'), desc: t('about.p1.desc') },
+                  { id: '02', name: t('about.p2.name'), desc: t('about.p2.desc') },
+                  { id: '03', name: t('about.p3.name'), desc: t('about.p3.desc') }
                 ].map(item => (
                   <div key={item.id} className="philosophy-block">
                     <div className="philosophy-block-num mono" style={{ color: '#000' }}>{item.id}</div>
@@ -97,7 +99,7 @@ export default function Philosophy() {
 
             {/* Awards list (New) */}
             <div className="story-section stagger-item" style={{ marginTop: '2rem' }}>
-              <h3 className="mono story-section-title" style={{ borderColor: 'rgba(0,0,0,0.1)' }}>Awards & Hackathons</h3>
+              <h3 className="mono story-section-title" style={{ borderColor: 'rgba(0,0,0,0.1)' }}>{t('about.awards')}</h3>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.5rem' }}>
                 {awards.map((a, i) => (
                   <div key={i} style={{ background: 'rgba(0,0,0,0.03)', padding: '1.5rem', borderLeft: '1px solid #000' }}>
@@ -112,7 +114,7 @@ export default function Philosophy() {
 
             {/* Contact Box (Merged) */}
             <div id="contact" className="story-section stagger-item contact-box" style={{ marginTop: '2rem', padding: '2.5rem', background: '#000', color: '#fff' }}>
-              <div className="mono" style={{ fontSize: '0.7rem', fontWeight: 900, marginBottom: '1.5rem', letterSpacing: '0.2rem' }}>AVAILABLE_FOR_HIRE</div>
+              <div className="mono" style={{ fontSize: '0.7rem', fontWeight: 900, marginBottom: '1.5rem', letterSpacing: '0.2rem' }}>{t('about.hire')}</div>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
                 <a href="mailto:watcharapon.thod@gmail.com" style={{ fontSize: 'clamp(1.2rem, 3vw, 2rem)', fontWeight: 950, color: '#fff', textDecoration: 'none', borderBottom: '3px solid #fff' }}>
                   watcharapon.thod@gmail.com
@@ -122,7 +124,7 @@ export default function Philosophy() {
                     <TbPhone size={18} /> 094-453-2072
                   </a>
                   <a href="https://github.com/watcharaponthod-code" target="_blank" rel="noreferrer" style={{ color: '#fff', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.9rem', fontWeight: 700 }}>
-                    <TbBrandGithub size={18} /> GITHUB_REPOSITORY
+                    <TbBrandGithub size={18} /> {t('about.github')}
                   </a>
                 </div>
               </div>

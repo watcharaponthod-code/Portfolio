@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
 import { TbSend, TbMicrophone, TbMessage, TbSparkles, TbRefresh } from 'react-icons/tb';
 import LiveAIDemo from './LiveAIDemo';
+import { useLang, type Lang } from '../../lib/i18n';
 
-type Lang = 'th' | 'en';
 type Mode = 'chat' | 'voice';
 interface Msg { id: number; role: 'user' | 'assistant'; content: string; sources?: string[]; ms?: number; error?: boolean }
 
@@ -30,8 +30,8 @@ let nextId = 1;
 
 export default function AssistantPanel() {
   const [mode, setMode] = useState<Mode>('chat');
-  const [lang, setLang] = useState<Lang>('th');
-  const [messages, setMessages] = useState<Msg[]>([{ id: nextId++, role: 'assistant', content: GREETING.th }]);
+  const { lang, setLang } = useLang();
+  const [messages, setMessages] = useState<Msg[]>(() => [{ id: nextId++, role: 'assistant', content: GREETING[lang] }]);
   const [input, setInput] = useState('');
   const [busy, setBusy] = useState(false);
   const listRef = useRef<HTMLDivElement>(null);
@@ -46,10 +46,15 @@ export default function AssistantPanel() {
     if (mode === 'chat') inputRef.current?.focus();
   }, [mode]);
 
+  // The language is global (site-wide toggle in the NavBar and the TH/EN buttons here).
+  // Whenever it changes, and the chat is still only the greeting, swap the greeting.
+  useEffect(() => {
+    setMessages(m => (m.length === 1 && m[0].role === 'assistant') ? [{ id: nextId++, role: 'assistant', content: GREETING[lang] }] : m);
+  }, [lang]);
+
   const switchLang = (l: Lang) => {
     if (l === lang) return;
     setLang(l);
-    setMessages(m => (m.length === 1 && m[0].role === 'assistant') ? [{ id: nextId++, role: 'assistant', content: GREETING[l] }] : m);
   };
 
   const reset = () => {
