@@ -37,7 +37,7 @@ export default function MatrixRain({ isDark = true, opacity = 0.4 }: MatrixRainP
 
         const draw = () => {
             // Lower alpha clear for longer trails, higher contrast
-            ctx.fillStyle = isDark ? 'rgba(0, 0, 0, 0.08)' : 'rgba(255, 255, 255, 0.08)';
+            ctx.fillStyle = isDark ? 'rgba(255,255,255, 0.08)' : 'rgba(0,0,0, 0.08)';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
 
             ctx.font = `bold ${fontSize}px var(--font-mono)`;
@@ -46,11 +46,11 @@ export default function MatrixRain({ isDark = true, opacity = 0.4 }: MatrixRainP
                 const text = binary.charAt(Math.floor(Math.random() * binary.length));
 
                 // High contrast base color (Increased visibility)
-                ctx.fillStyle = isDark ? 'rgba(255, 255, 255, 0.55)' : 'rgba(0, 0, 0, 0.55)';
+                ctx.fillStyle = isDark ? 'rgba(0,0,0, 0.55)' : 'rgba(255,255,255, 0.55)';
 
                 // Highlight 35% of the characters for extra clarity
                 if (Math.random() > 0.65) {
-                    ctx.fillStyle = isDark ? '#ffffff' : '#000000';
+                    ctx.fillStyle = isDark ? '#000000' : '#ffffff';
                 }
 
                 ctx.fillText(text, i * colStep, drops[i] * fontSize);

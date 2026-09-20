@@ -23,11 +23,11 @@ export default function BinaryBackground({ opacity = 0.04 }) {
 
     const draw = () => {
       // Paint over the canvas with a transparent white to create the "fading trail" effect
-      ctx.fillStyle = 'rgba(255, 255, 255, 0.1)';
+      ctx.fillStyle = 'rgba(0,0,0, 0.1)';
       ctx.fillRect(0, 0, width, height);
 
       // Set text style for the 0s and 1s
-      ctx.fillStyle = `rgba(0, 0, 0, ${opacity})`;
+      ctx.fillStyle = `rgba(255,255,255, ${opacity})`;
       ctx.font = `300 ${fontSize}px "Space Mono", monospace`;
       ctx.textAlign = 'center';
 

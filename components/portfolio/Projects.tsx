@@ -326,8 +326,8 @@ export default function Projects() {
           letter-spacing: 0.1em; cursor: pointer; color: #999;
           transition: all 0.25s ease;
         }
-        .filter-btn:hover { border-color: #000; color: #000; }
-        .filter-btn.active { background: #000; color: #fff; border-color: #000; }
+        .filter-btn:hover { border-color: #fff; color: #fff; }
+        .filter-btn.active { background: #fff; color: #000; border-color: #fff; }
 
         .subsection-label {
           font-size: 0.58rem; font-weight: 900; color: #aaa;
@@ -346,7 +346,7 @@ export default function Projects() {
 
         /* Card */
         .project-card {
-          background: #fff; border: 1px solid #e8e8e8;
+          background: #000; border: 1px solid #e8e8e8;
           display: flex; flex-direction: column; overflow: hidden;
           transition:
             box-shadow 0.4s ease,
@@ -355,14 +355,14 @@ export default function Projects() {
         }
         .project-card:hover {
           transform: translateY(-8px);
-          box-shadow: 0 32px 72px rgba(0,0,0,0.13);
+          box-shadow: 0 32px 72px rgba(255,255,255,0.13);
           border-color: #bbb;
         }
 
         /* Thumbnail — NO greyscale, full colour */
         .project-thumb-box {
           height: 220px; overflow: hidden;
-          background: #000; position: relative;
+          background: #fff; position: relative;
           border-bottom: 1px solid #e8e8e8;
         }
         .project-thumb-img {
@@ -372,16 +372,16 @@ export default function Projects() {
         .project-card:hover .project-thumb-img { transform: scale(1.05); }
         .thumb-overlay {
           position: absolute; inset: 0;
-          background: linear-gradient(to bottom, transparent 50%, rgba(0,0,0,0.3));
+          background: linear-gradient(to bottom, transparent 50%, rgba(255,255,255,0.3));
         }
 
         /* GIF badge */
         .gif-badge {
           position: absolute; top: 0.8rem; right: 0.8rem;
-          background: rgba(0,0,0,0.75); color: #fff;
+          background: rgba(255,255,255,0.75); color: #000;
           padding: 0.25rem 0.65rem; font-size: 0.52rem; font-weight: 900;
           letter-spacing: 0.14em;
-          border: 1px solid rgba(255,255,255,0.2);
+          border: 1px solid rgba(0,0,0,0.2);
         }
 
         .project-content-wrap {
@@ -392,11 +392,11 @@ export default function Projects() {
           align-items: flex-start; margin-bottom: 1rem;
         }
         .project-number {
-          font-size: 1.9rem; font-weight: 900; opacity: 0.07; color: #000; line-height: 1;
+          font-size: 1.9rem; font-weight: 900; opacity: 0.07; color: #fff; line-height: 1;
         }
         .project-role {
           font-size: 0.57rem; font-weight: 900;
-          border: 1.5px solid #111; padding: 0.2rem 0.6rem; letter-spacing: 0.08em;
+          border: 1.5px solid #ffffff; padding: 0.2rem 0.6rem; letter-spacing: 0.08em;
         }
         .category-badge {
           font-size: 0.51rem; font-weight: 900;
@@ -429,14 +429,14 @@ export default function Projects() {
         .project-metric-value { font-size: 0.9rem; font-weight: 950; }
 
         .project-detail-btn {
-          background: #fff; color: #000; border: 1.5px solid #111;
+          background: #000; color: #fff; border: 1.5px solid #ffffff;
           padding: 0.5rem 1rem; font-family: var(--font-mono); font-size: 0.61rem;
           font-weight: 900; display: flex; align-items: center; gap: 0.4rem;
           letter-spacing: 0.08em; cursor: pointer;
           transition: background 0.25s, color 0.25s, border-color 0.25s;
         }
         .project-card:hover .project-detail-btn {
-          background: #000; color: #fff; border-color: #000;
+          background: #fff; color: #000; border-color: #fff;
         }
 
         @media (max-width: 900px) {

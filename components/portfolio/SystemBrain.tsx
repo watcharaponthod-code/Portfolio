@@ -81,7 +81,7 @@ export default function SystemBrain() {
       </div>
 
       <div style={{ marginBottom: '2rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <h3 className="mono" style={{ fontSize: '0.85rem', color: 'rgba(0,0,0,0.5)', letterSpacing: '0.1em' }}>OPTIONAL: VIEW TECHNICAL ARCHITECTURE</h3>
+        <h3 className="mono" style={{ fontSize: '0.85rem', color: 'rgba(255,255,255,0.5)', letterSpacing: '0.1em' }}>OPTIONAL: VIEW TECHNICAL ARCHITECTURE</h3>
       </div>
 
       {/* Desktop Diagram Container */}
@@ -89,15 +89,15 @@ export default function SystemBrain() {
         position: 'relative',
         height: '650px',
         border: '1px solid black',
-        background: '#050505',
+        background: '#fafaf8',
         overflow: 'hidden',
-        boxShadow: '0 40px 100px rgba(0,0,0,0.1)'
+        boxShadow: '0 40px 100px rgba(255,255,255,0.1)'
       }}>
         {/* Animated Grid Background */}
         <div className="grid-overlay" style={{
           position: 'absolute',
           inset: 0,
-          backgroundImage: 'radial-gradient(circle at 50% 50%, rgba(255,255,255,0.02) 1px, transparent 1px)',
+          backgroundImage: 'radial-gradient(circle at 50% 50%, rgba(0,0,0,0.02) 1px, transparent 1px)',
           backgroundSize: '24px 24px',
           opacity: 0.8
         }} />
@@ -113,12 +113,12 @@ export default function SystemBrain() {
               <g key={i}>
                 <line
                   x1={start.x} y1={start.y} x2={end.x} y2={end.y}
-                  stroke={isActive ? 'rgba(255,255,255,0.4)' : 'rgba(255,255,255,0.1)'}
+                  stroke={isActive ? 'rgba(0,0,0,0.4)' : 'rgba(0,0,0,0.1)'}
                   strokeWidth={isActive ? '2' : '1'}
                   strokeDasharray={isActive ? "none" : "4 4"}
                   style={{ transition: 'all 0.4s ease' }}
                 />
-                <circle r="3" fill="rgba(255,255,255,0.6)" style={{
+                <circle r="3" fill="rgba(0,0,0,0.6)" style={{
                   animation: `flowMove ${2 + i}s linear infinite`
                 }}>
                   <animateMotion
@@ -145,7 +145,7 @@ export default function SystemBrain() {
               <circle
                 r="45"
                 fill="black"
-                stroke={activeNode === node.id ? 'white' : 'rgba(255,255,255,0.1)'}
+                stroke={activeNode === node.id ? 'white' : 'rgba(0,0,0,0.1)'}
                 strokeWidth="1"
                 style={{ transition: 'all 0.3s' }}
               />
@@ -153,7 +153,7 @@ export default function SystemBrain() {
               {/* Inner Circle (Icon Container) */}
               <circle
                 r="30"
-                fill={activeNode === node.id ? 'white' : 'rgba(255,255,255,0.05)'}
+                fill={activeNode === node.id ? 'white' : 'rgba(0,0,0,0.05)'}
                 style={{ transition: 'all 0.3s' }}
               />
 
@@ -175,7 +175,7 @@ export default function SystemBrain() {
                 y="65"
                 textAnchor="middle"
                 className="mono"
-                fill={activeNode === node.id ? 'white' : 'rgba(255,255,255,0.5)'}
+                fill={activeNode === node.id ? 'white' : 'rgba(0,0,0,0.5)'}
                 style={{ fontSize: '0.65rem', fontWeight: 700, letterSpacing: '0.1em', transition: 'fill 0.3s' }}
               >
                 {node.label}
@@ -190,40 +190,40 @@ export default function SystemBrain() {
           bottom: '40px',
           right: '40px',
           width: '320px',
-          background: 'rgba(0,0,0,0.85)',
+          background: 'rgba(255,255,255,0.85)',
           backdropFilter: 'blur(20px)',
-          border: '1px solid rgba(255,255,255,0.1)',
+          border: '1px solid rgba(0,0,0,0.1)',
           padding: '1.5rem',
           zIndex: 10,
           transition: 'opacity 0.3s, transform 0.3s',
           opacity: activeNode ? 1 : 0,
           transform: activeNode ? 'translateY(0)' : 'translateY(20px)'
         }}>
-          <div className="mono" style={{ fontSize: '0.6rem', color: 'rgba(255,255,255,0.4)', marginBottom: '1rem', borderBottom: '1px solid rgba(255,255,255,0.1)', paddingBottom: '0.5rem' }}>
+          <div className="mono" style={{ fontSize: '0.6rem', color: 'rgba(0,0,0,0.4)', marginBottom: '1rem', borderBottom: '1px solid rgba(0,0,0,0.1)', paddingBottom: '0.5rem' }}>
             NODE_METADATA // READ_ONLY
           </div>
           <h4 className="mono" style={{ margin: '0 0 0.75rem 0', fontSize: '1rem', color: 'white' }}>
             {nodes.find(n => n.id === activeNode)?.label}
           </h4>
-          <p style={{ fontSize: '0.85rem', lineHeight: '1.5', color: 'rgba(255,255,255,0.7)', margin: '0 0 1.25rem 0' }}>
+          <p style={{ fontSize: '0.85rem', lineHeight: '1.5', color: 'rgba(0,0,0,0.7)', margin: '0 0 1.25rem 0' }}>
             {nodes.find(n => n.id === activeNode)?.details}
           </p>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
             {nodes.find(n => n.id === activeNode)?.tech.map(t => (
-              <span key={t} className="mono" style={{ fontSize: '0.65rem', background: 'rgba(255,255,255,0.1)', color: 'white', padding: '0.2rem 0.5rem' }}>
+              <span key={t} className="mono" style={{ fontSize: '0.65rem', background: 'rgba(0,0,0,0.1)', color: 'white', padding: '0.2rem 0.5rem' }}>
                 {t}
               </span>
             ))}
           </div>
         </div>
 
-        <div className="mono" style={{ position: 'absolute', top: '30px', right: '30px', fontSize: '0.65rem', color: 'rgba(255,255,255,0.3)', pointerEvents: 'none' }}>
+        <div className="mono" style={{ position: 'absolute', top: '30px', right: '30px', fontSize: '0.65rem', color: 'rgba(0,0,0,0.3)', pointerEvents: 'none' }}>
           KERNEL: OPS_SECURE // ARCH: ARM_64
         </div>
       </div>
 
       {/* Mobile Experience (List Style) */}
-      <div className="mobile-system-list" style={{ display: 'none', flexDirection: 'column', gap: '1px', background: 'rgba(0,0,0,0.1)' }}>
+      <div className="mobile-system-list" style={{ display: 'none', flexDirection: 'column', gap: '1px', background: 'rgba(255,255,255,0.1)' }}>
         {nodes.map((node, i) => (
           <div
             key={node.id}

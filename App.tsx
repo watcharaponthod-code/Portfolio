@@ -64,7 +64,7 @@ function App() {
   }, [projectOverlay]);
 
   return (
-    <div className="App" style={{ background: '#000' }}>
+    <div className="App" style={{ background: '#fff' }}>
       <LiveAPIProvider apiKey={API_KEY}>
         <NavBar />
         <main>
@@ -141,11 +141,11 @@ function App() {
       <style>{`
         .project-detail-overlay {
           position: fixed; inset: 0; z-index: 5000;
-          background: #0f0f0f;
+          background: #f2f2f0;
           overflow: hidden; display: flex; justify-content: center;
         }
         .project-detail-window {
-          background: #0f0f0f;
+          background: #f2f2f0;
           width: 100%; height: 100%;
           position: relative; display: flex; flex-direction: column;
         }
@@ -157,39 +157,39 @@ function App() {
           display: flex; flex-direction: column; align-items: flex-end; gap: 1rem;
         }
         .ai-hint-box {
-          background: #fff; color: #000; padding: 1.5rem; width: 300px;
-          box-shadow: 0 20px 50px rgba(0,0,0,0.4); border-radius: 4px;
+          background: #000; color: #fff; padding: 1.5rem; width: 300px;
+          box-shadow: 0 20px 50px rgba(255,255,255,0.4); border-radius: 4px;
           cursor: pointer; position: relative;
         }
         .ai-hint-box .hint-header {
           display: flex; align-items: center; gap: 0.5rem; font-weight: 950;
-          font-size: 0.65rem; margin-bottom: 0.8rem; border-bottom: 1px solid rgba(0,0,0,0.1);
+          font-size: 0.65rem; margin-bottom: 0.8rem; border-bottom: 1px solid rgba(255,255,255,0.1);
           padding-bottom: 0.5rem;
         }
-        .ai-hint-box p { font-size: 0.85rem; line-height: 1.5; margin-bottom: 1rem; color: #000; font-weight: 500; }
+        .ai-hint-box p { font-size: 0.85rem; line-height: 1.5; margin-bottom: 1rem; color: #fff; font-weight: 500; }
         .ai-hint-box .hint-action { font-size: 0.7rem; font-weight: 950; text-decoration: underline; text-align: right; }
 
         .floating-ai-toggle {
-          width: 64px; height: 64px; background: #000; color: #fff;
-          border: 1px solid #fff; border-radius: 50%; display: flex;
+          width: 64px; height: 64px; background: #fff; color: #000;
+          border: 1px solid #000; border-radius: 50%; display: flex;
           align-items: center; justify-content: center; cursor: pointer;
-          box-shadow: 0 10px 30px rgba(0,0,0,0.3); transition: all 0.4s;
+          box-shadow: 0 10px 30px rgba(255,255,255,0.3); transition: all 0.4s;
         }
-        .floating-ai-toggle:hover { transform: scale(1.1); background: #fff; color: #000; }
-        .floating-ai-toggle.active { background: #fff; color: #000; }
+        .floating-ai-toggle:hover { transform: scale(1.1); background: #000; color: #fff; }
+        .floating-ai-toggle.active { background: #000; color: #fff; }
 
         .ai-mini-window {
           position: absolute; bottom: 85px; right: 0;
-          width: 450px; height: 650px; background: #000;
-          border: 1px solid #fff; box-shadow: 0 40px 100px rgba(0,0,0,0.8);
+          width: 450px; height: 650px; background: #fff;
+          border: 1px solid #000; box-shadow: 0 40px 100px rgba(255,255,255,0.8);
           display: flex; flex-direction: column; overflow: hidden;
         }
         .ai-mini-header {
-          padding: 1rem 1.5rem; background: #fff; color: #000;
+          padding: 1rem 1.5rem; background: #000; color: #fff;
           display: flex; justify-content: space-between; align-items: center;
         }
         .ai-mini-header .title { font-weight: 950; font-size: 0.7rem; letter-spacing: 0.2rem; }
-        .status-blink { width: 8px; height: 8px; background: #000; border-radius: 50%; animation: blink 1s infinite; }
+        .status-blink { width: 8px; height: 8px; background: #fff; border-radius: 50%; animation: blink 1s infinite; }
         .ai-mini-body { flex: 1; position: relative; }
         
         @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }

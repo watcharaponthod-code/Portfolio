@@ -57,22 +57,22 @@ function HackerPreloader({ onDone }: { onDone: () => void }) {
       animate={{ y: exiting ? '-100%' : 0 }}
       transition={{ duration: 1, ease: [0.76, 0, 0.24, 1] }}
       style={{
-        position: 'fixed', inset: 0, zIndex: 99999, background: '#000',
+        position: 'fixed', inset: 0, zIndex: 99999, background: '#fff',
         display: 'flex', flexDirection: 'column', justifyContent: 'center',
         padding: 'clamp(1.5rem, 8vw, 5rem)', overflow: 'hidden'
       }}
     >
       <div style={{ position: 'relative', zIndex: 1, maxWidth: '800px' }}>
-        <div style={{ fontSize: 'clamp(2rem, 8vw, 6rem)', fontWeight: 950, color: '#fff', marginBottom: 'clamp(1.5rem, 4vw, 3rem)', letterSpacing: '-0.04em' }}>
+        <div style={{ fontSize: 'clamp(2rem, 8vw, 6rem)', fontWeight: 950, color: '#000', marginBottom: 'clamp(1.5rem, 4vw, 3rem)', letterSpacing: '-0.04em' }}>
           BOOT_SEQUENCER
         </div>
-        <div className="mono" style={{ fontSize: '1rem', lineHeight: '2.5', color: 'rgba(255,255,255,0.3)' }}>
+        <div className="mono" style={{ fontSize: '1rem', lineHeight: '2.5', color: 'rgba(0,0,0,0.3)' }}>
           {lines.map((line, i) => (
             <motion.div key={i} initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }}>
-              <span style={{ color: '#fff', marginRight: '1.5rem', opacity: 0.5 }}>#</span>{line}
+              <span style={{ color: '#000', marginRight: '1.5rem', opacity: 0.5 }}>#</span>{line}
             </motion.div>
           ))}
-          <span className="cursor-blink" style={{ color: '#fff' }}>█</span>
+          <span className="cursor-blink" style={{ color: '#000' }}>█</span>
         </div>
       </div>
     </motion.div>
@@ -100,55 +100,130 @@ function HeroSection({ onAboutMe }: { onAboutMe: () => void }) {
   }, []);
 
   return (
-    <section ref={containerRef} id="hero" style={{ position: 'relative', height: '130vh', background: '#000' }}>
+    <section ref={containerRef} id="hero" style={{ position: 'relative', height: '130vh', background: '#fff' }}>
       <motion.div className="hero-sticky-wrap">
-        <div style={{ position: 'absolute', inset: 0, opacity: 0.25, zIndex: 0 }}>
+        <div style={{ position: 'absolute', inset: 0, opacity: 0.10, zIndex: 0 }}>
           <MatrixRain opacity={1} isDark />
         </div>
 
-        <motion.div className="container" style={{
-          position: 'relative', zIndex: 2, textAlign: 'center', scale: scale, y: yParallax
+        <motion.div className="container hero-grid" style={{
+          position: 'relative', zIndex: 2, scale: scale, y: yParallax
         }}>
-          <h1 style={{
-            fontSize: 'clamp(4rem, 14vw, 11rem)',
-            fontWeight: 950,
-            color: '#fff',
-            lineHeight: 0.85,
-            letterSpacing: '-0.06em',
-            marginBottom: '1.2rem',
-            opacity: stage >= 1 ? 1 : 0,
-            transition: 'opacity 1.2s'
-          }}>
-            {stage >= 1 && <ScrambleText text="Watcharapon" delay={100} duration={1500} />}
-          </h1>
+          <div className="hero-copy">
+            <h1 style={{
+              fontSize: 'clamp(3rem, 9vw, 7rem)',
+              fontWeight: 950,
+              color: 'var(--text-primary)',
+              lineHeight: 0.85,
+              letterSpacing: '-0.06em',
+              marginBottom: '1.2rem',
+              opacity: stage >= 1 ? 1 : 0,
+              transition: 'opacity 1.2s'
+            }}>
+              {stage >= 1 && <ScrambleText text="Watcharapon" delay={100} duration={1500} />}
+            </h1>
 
-          <div style={{
-            fontSize: 'clamp(1rem, 2.5vw, 1.45rem)',
-            color: 'rgba(255,255,255,0.58)',
-            fontFamily: 'var(--font-mono)',
-            opacity: stage >= 1 ? 1 : 0,
-            transition: 'opacity 1s 0.2s',
-            fontWeight: 700,
-            letterSpacing: '0.1em',
-            marginBottom: '0.6rem'
-          }}>
-            <ScrambleText text="AI Engineer" delay={700} duration={1200} chars="01" />
-            <span className="cursor-blink" style={{ color: '#fff' }}>_</span>
+            <div style={{
+              fontSize: 'clamp(1rem, 2.5vw, 1.45rem)',
+              color: 'var(--text-secondary)',
+              fontFamily: 'var(--font-mono)',
+              opacity: stage >= 1 ? 1 : 0,
+              transition: 'opacity 1s 0.2s',
+              fontWeight: 700,
+              letterSpacing: '0.1em',
+              marginBottom: '1.6rem'
+            }}>
+              <ScrambleText text="AI Engineer" delay={700} duration={1200} chars="01" />
+              <span className="cursor-blink" style={{ color: 'var(--text-primary)' }}>_</span>
+            </div>
+
+            <p className="hero-blurb" style={{
+              opacity: stage >= 2 ? 1 : 0,
+              transition: 'opacity 1s 0.3s'
+            }}>
+              I build computer vision that has to work on real cameras, in real weather,
+              on hardware someone already owns. Most of it runs at a sugar mill in Thailand:
+              grading cane on the weighbridge, reading truck plates, listening for rocks in
+              the load. I report what the numbers do not cover as carefully as what they do.
+            </p>
+
+            <motion.div className="hero-buttons" style={{
+              display: 'flex', gap: '1.5rem', marginTop: 'clamp(2rem, 4vw, 3rem)',
+              opacity: stage >= 2 ? 1 : 0,
+              y: stage >= 2 ? 0 : 30,
+              flexWrap: 'wrap'
+            }} transition={{ duration: 1 }}>
+              <a href={RESUME_DOWNLOAD_URL} className="btn-monochrome-primary">Resume</a>
+              <button type="button" onClick={onAboutMe} className="btn-monochrome-outline">About_Me</button>
+            </motion.div>
           </div>
 
-          <motion.div className="hero-buttons" style={{
-            display: 'flex', gap: '1.5rem', justifyContent: 'center', marginTop: 'clamp(2.5rem, 6vw, 4rem)',
-            opacity: stage >= 2 ? 1 : 0,
-            y: stage >= 2 ? 0 : 30,
-            flexWrap: 'wrap'
-          }} transition={{ duration: 1 }}>
-            <a href={RESUME_DOWNLOAD_URL} className="btn-monochrome-primary">Resume</a>
-            <button type="button" onClick={onAboutMe} className="btn-monochrome-outline">About_Me</button>
+          <motion.div
+            className="hero-portrait-wrap"
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: stage >= 1 ? 1 : 0, y: stage >= 1 ? 0 : 40 }}
+            transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
+          >
+            <img src="/hero-portrait.png" alt="Watcharapon" className="hero-portrait" />
           </motion.div>
         </motion.div>
       </motion.div>
 
       <style>{`
+        .hero-grid {
+          display: grid;
+          grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+          align-items: center;
+          gap: clamp(2rem, 5vw, 5rem);
+          text-align: left;
+        }
+        .hero-blurb {
+          max-width: 46ch;
+          font-size: clamp(0.95rem, 1.5vw, 1.08rem);
+          line-height: 1.75;
+          color: var(--text-secondary);
+        }
+        .hero-portrait-wrap {
+          position: relative;
+          display: flex;
+          justify-content: center;
+          align-items: flex-end;
+        }
+        /* soft ground shadow so the cut-out does not float on the white */
+        .hero-portrait-wrap::after {
+          content: '';
+          position: absolute;
+          bottom: 2%;
+          left: 50%;
+          transform: translateX(-50%);
+          width: 62%;
+          height: 26px;
+          background: radial-gradient(ellipse at center, rgba(16,16,20,0.20), rgba(16,16,20,0) 70%);
+          filter: blur(6px);
+          z-index: -1;
+        }
+        .hero-portrait {
+          width: auto;
+          max-width: 100%;
+          max-height: 74vh;
+          height: auto;
+          display: block;
+          filter: drop-shadow(0 26px 44px rgba(16,16,20,0.16));
+          -webkit-mask-image: linear-gradient(to bottom, #000 86%, rgba(0,0,0,0) 100%);
+          mask-image: linear-gradient(to bottom, #000 86%, rgba(0,0,0,0) 100%);
+        }
+        @media (max-width: 900px) {
+          .hero-grid {
+            grid-template-columns: 1fr;
+            text-align: center;
+            gap: 2rem;
+          }
+          .hero-copy { order: 2; }
+          .hero-portrait-wrap { order: 1; }
+          .hero-blurb { margin-left: auto; margin-right: auto; }
+          .hero-buttons { justify-content: center; }
+          .hero-portrait { max-height: 46vh; }
+        }
         @media (max-width: 640px) {
           .btn-monochrome-primary,
           .btn-monochrome-outline {
@@ -163,10 +238,11 @@ function HeroSection({ onAboutMe }: { onAboutMe: () => void }) {
             margin-left: auto;
             margin-right: auto;
           }
+          .hero-portrait { max-height: 38vh; }
         }
         .btn-monochrome-primary {
-          background: #fff;
-          color: #000;
+          background: #000;
+          color: #fff;
           padding: 1.25rem 3.5rem;
           text-decoration: none;
           font-family: var(--font-mono);
@@ -175,17 +251,17 @@ function HeroSection({ onAboutMe }: { onAboutMe: () => void }) {
           text-transform: uppercase;
           letter-spacing: 0.25rem;
           transition: all 0.4s;
-          border: 1px solid #fff;
+          border: 1px solid #000;
         }
         .btn-monochrome-primary:hover {
-          background: #000;
-          color: #fff;
+          background: #fff;
+          color: #000;
           transform: translateY(-5px);
         }
         .btn-monochrome-outline {
-          border: 1px solid rgba(255,255,255,0.24);
-          background: rgba(255,255,255,0.04);
-          color: #fff;
+          border: 1px solid rgba(0,0,0,0.24);
+          background: rgba(0,0,0,0.04);
+          color: #000;
           padding: 1.25rem 3.5rem;
           font-family: var(--font-mono); font-weight: 900;
           font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.25rem; transition: all 0.4s;
@@ -193,10 +269,10 @@ function HeroSection({ onAboutMe }: { onAboutMe: () => void }) {
           backdrop-filter: blur(12px);
         }
         .btn-monochrome-outline:hover {
-          border-color: #fff;
-          box-shadow: 0 0 30px rgba(255,255,255,0.1);
+          border-color: #000;
+          box-shadow: 0 0 30px rgba(0,0,0,0.1);
           transform: translateY(-5px);
-          background: rgba(255,255,255,0.1);
+          background: rgba(0,0,0,0.1);
         }
       `}</style>
     </section>

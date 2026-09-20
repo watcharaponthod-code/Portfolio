@@ -11,15 +11,15 @@ export default function SectionHeader({ subtitle, titleLines, description, isDar
     return (
         <header className="section-header" style={{
             marginBottom: '4rem',
-            borderLeft: '4px solid #ffffff',
+            borderLeft: '4px solid #000000',
             paddingLeft: '2rem',
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'center',
-            boxShadow: '-4px 0 20px rgba(255,255,255,0.05)',
+            boxShadow: '-4px 0 20px rgba(0,0,0,0.05)',
         }}>
             <div className="mono" style={{
-                color: '#ffffff',
+                color: '#000000',
                 marginBottom: '1rem',
                 letterSpacing: '0.2rem',
                 textTransform: 'uppercase',
@@ -32,7 +32,7 @@ export default function SectionHeader({ subtitle, titleLines, description, isDar
                 fontSize: 'clamp(2.5rem, 5vw, 4.5rem)',
                 fontWeight: 900,
                 lineHeight: 0.95,
-                color: '#ffffff',
+                color: '#000000',
                 marginBottom: description ? '1.5rem' : '0',
                 textTransform: 'uppercase',
                 letterSpacing: '-0.04em',
@@ -46,7 +46,7 @@ export default function SectionHeader({ subtitle, titleLines, description, isDar
             {description && (
                 <p className="mono" style={{
                     marginTop: '0',
-                    color: 'rgba(255,255,255,0.6)',
+                    color: 'rgba(0,0,0,0.6)',
                     maxWidth: '600px',
                     fontSize: '0.9rem',
                     lineHeight: '1.6',

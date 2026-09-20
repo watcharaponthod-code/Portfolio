@@ -24,8 +24,8 @@ const MEDIA = {
 function FramedImage({ src, caption, contain = false }: { src: string; caption: string; contain?: boolean }) {
   return (
     <div style={{ padding: '0 2.5rem' }}>
-      <div style={{ border: '1px solid rgba(255,255,255,0.15)', overflow: 'hidden', background: 'rgba(255,255,255,0.02)' }}>
-        <div style={{ background: '#111', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+      <div style={{ border: '1px solid rgba(0,0,0,0.15)', overflow: 'hidden', background: 'rgba(0,0,0,0.02)' }}>
+        <div style={{ background: '#ffffff', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
           <img
             src={src}
             alt={caption}
@@ -38,7 +38,7 @@ function FramedImage({ src, caption, contain = false }: { src: string; caption: 
             loading="lazy"
           />
         </div>
-        <div className="mono" style={{ padding: '0.6rem 1.2rem', fontSize: '0.52rem', color: 'rgba(255,255,255,0.22)', borderTop: '1px solid rgba(255,255,255,0.08)', letterSpacing: '0.18em', textAlign: 'center' }}>
+        <div className="mono" style={{ padding: '0.6rem 1.2rem', fontSize: '0.52rem', color: 'rgba(0,0,0,0.22)', borderTop: '1px solid rgba(0,0,0,0.08)', letterSpacing: '0.18em', textAlign: 'center' }}>
           {caption}
         </div>
       </div>
@@ -60,13 +60,13 @@ function Caption({ title, paras, specs, links }: {
       )}
       <div style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem', marginBottom: specs || links ? '1.8rem' : 0, maxWidth: '720px' }}>
         {paras.map((p, i) => (
-          <p key={i} style={{ fontSize: 'clamp(0.87rem, 1.9vw, 0.97rem)', color: 'rgba(255,255,255,0.62)', lineHeight: 1.85, fontWeight: 300, margin: 0 }}>{p}</p>
+          <p key={i} style={{ fontSize: 'clamp(0.87rem, 1.9vw, 0.97rem)', color: 'rgba(0,0,0,0.62)', lineHeight: 1.85, fontWeight: 300, margin: 0 }}>{p}</p>
         ))}
       </div>
       {specs && (
         <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '0.45rem', marginBottom: links ? '1.4rem' : 0 }}>
           {specs.map(s => (
-            <span key={s} className="mono" style={{ fontSize: '0.53rem', fontWeight: 900, border: '1px solid rgba(255,255,255,0.15)', padding: '0.2rem 0.65rem', color: 'rgba(255,255,255,0.38)', letterSpacing: '0.1em' }}>{s}</span>
+            <span key={s} className="mono" style={{ fontSize: '0.53rem', fontWeight: 900, border: '1px solid rgba(0,0,0,0.15)', padding: '0.2rem 0.65rem', color: 'rgba(0,0,0,0.38)', letterSpacing: '0.1em' }}>{s}</span>
           ))}
         </div>
       )}
@@ -74,9 +74,9 @@ function Caption({ title, paras, specs, links }: {
         <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '0.6rem' }}>
           {links.map(g => (
             <a key={g.url} href={g.url} target="_blank" rel="noreferrer" className="mono"
-              style={{ display: 'inline-flex', alignItems: 'center', gap: '0.45rem', padding: '0.5rem 1.1rem', background: '#fff', color: '#000', textDecoration: 'none', fontSize: '0.6rem', fontWeight: 900, letterSpacing: '0.13em', transition: 'all 0.2s' }}
-              onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = '#e63f6a'; (e.currentTarget as HTMLElement).style.color = '#fff'; }}
-              onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = '#fff'; (e.currentTarget as HTMLElement).style.color = '#000'; }}
+              style={{ display: 'inline-flex', alignItems: 'center', gap: '0.45rem', padding: '0.5rem 1.1rem', background: '#000', color: '#fff', textDecoration: 'none', fontSize: '0.6rem', fontWeight: 900, letterSpacing: '0.13em', transition: 'all 0.2s' }}
+              onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = '#e63f6a'; (e.currentTarget as HTMLElement).style.color = '#000'; }}
+              onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = '#000'; (e.currentTarget as HTMLElement).style.color = '#fff'; }}
             >
               <TbBrandGithub size={12} /> {g.label}
             </a>
@@ -91,10 +91,10 @@ function Caption({ title, paras, specs, links }: {
 function SectionHeader({ index, label, title, subtitle }: { index: string; label: string; title: string; subtitle: string }) {
   return (
     <div style={{ padding: '3rem 2.5rem 2rem', textAlign: 'center' }}>
-      <span className="mono" style={{ fontSize: 'clamp(3rem, 9vw, 6rem)', fontWeight: 950, color: 'rgba(255,255,255,0.04)', lineHeight: 1, letterSpacing: '-0.06em', display: 'block', marginBottom: '0.5rem' }}>{index}</span>
+      <span className="mono" style={{ fontSize: 'clamp(3rem, 9vw, 6rem)', fontWeight: 950, color: 'rgba(0,0,0,0.04)', lineHeight: 1, letterSpacing: '-0.06em', display: 'block', marginBottom: '0.5rem' }}>{index}</span>
       <div className="mono" style={{ fontSize: '0.54rem', color: '#e63f6a', fontWeight: 900, letterSpacing: '0.28em', marginBottom: '0.6rem' }}>{label}</div>
-      <h2 style={{ fontSize: 'clamp(1.7rem, 4.5vw, 2.8rem)', fontWeight: 950, color: '#fff', letterSpacing: '-0.04em', textTransform: 'uppercase', lineHeight: 1, marginBottom: '0.5rem' }}>{title}</h2>
-      <div className="mono" style={{ fontSize: '0.57rem', color: 'rgba(255,255,255,0.28)', fontWeight: 700, letterSpacing: '0.16em' }}>{subtitle}</div>
+      <h2 style={{ fontSize: 'clamp(1.7rem, 4.5vw, 2.8rem)', fontWeight: 950, color: '#000', letterSpacing: '-0.04em', textTransform: 'uppercase', lineHeight: 1, marginBottom: '0.5rem' }}>{title}</h2>
+      <div className="mono" style={{ fontSize: '0.57rem', color: 'rgba(0,0,0,0.28)', fontWeight: 700, letterSpacing: '0.16em' }}>{subtitle}</div>
     </div>
   );
 }
@@ -129,33 +129,33 @@ export default function PresentationMode({ onComplete }: Props) {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0, transition: { duration: 0.4 } }}
-          style={{ position: 'fixed', inset: 0, zIndex: 9000, background: '#0f0f0f', display: 'flex', flexDirection: 'column' }}
+          style={{ position: 'fixed', inset: 0, zIndex: 9000, background: '#f2f2f0', display: 'flex', flexDirection: 'column' }}
         >
           {/* Top bar */}
-          <div style={{ flexShrink: 0, borderBottom: '1px solid rgba(255,255,255,0.08)', padding: '1rem 2rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: 'rgba(15,15,15,0.98)', backdropFilter: 'blur(12px)', zIndex: 10 }}>
-            <span className="mono" style={{ fontSize: '0.6rem', fontWeight: 900, color: 'rgba(255,255,255,0.3)', letterSpacing: '0.22em' }}>
+          <div style={{ flexShrink: 0, borderBottom: '1px solid rgba(0,0,0,0.08)', padding: '1rem 2rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: 'rgba(248,248,246,0.98)', backdropFilter: 'blur(12px)', zIndex: 10 }}>
+            <span className="mono" style={{ fontSize: '0.6rem', fontWeight: 900, color: 'rgba(0,0,0,0.3)', letterSpacing: '0.22em' }}>
               WATCHARAPON_THOD <span style={{ opacity: 0.3 }}>// PORTFOLIO_v4</span>
             </span>
             <button onClick={handleClose} className="mono"
-              style={{ background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.15)', color: '#fff', padding: '0.4rem 1rem', fontSize: '0.6rem', fontWeight: 900, letterSpacing: '0.15em', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.4rem', transition: 'all 0.2s' }}
-              onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = '#fff'; (e.currentTarget as HTMLElement).style.color = '#000'; }}
-              onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = 'rgba(255,255,255,0.08)'; (e.currentTarget as HTMLElement).style.color = '#fff'; }}
+              style={{ background: 'rgba(0,0,0,0.08)', border: '1px solid rgba(0,0,0,0.15)', color: '#000', padding: '0.4rem 1rem', fontSize: '0.6rem', fontWeight: 900, letterSpacing: '0.15em', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.4rem', transition: 'all 0.2s' }}
+              onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = '#000'; (e.currentTarget as HTMLElement).style.color = '#fff'; }}
+              onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = 'rgba(0,0,0,0.08)'; (e.currentTarget as HTMLElement).style.color = '#000'; }}
             >
               <TbX size={11} /> SKIP
             </button>
           </div>
 
           {/* Scrollable body */}
-          <div ref={scrollRef} onScroll={handleScroll} style={{ flex: 1, overflowY: 'auto', background: '#080808' }}>
-          <div style={{ maxWidth: '900px', margin: '0 auto', width: '100%', background: '#0f0f0f', boxShadow: '0 0 60px rgba(0,0,0,0.8)' }}>
+          <div ref={scrollRef} onScroll={handleScroll} style={{ flex: 1, overflowY: 'auto', background: '#f7f7f5' }}>
+          <div style={{ maxWidth: '900px', margin: '0 auto', width: '100%', background: '#f2f2f0', boxShadow: '0 0 60px rgba(255,255,255,0.8)' }}>
 
             {/* ── 00 IDENTITY ──────────────────────────────────── */}
-            <div style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+            <div style={{ borderBottom: '1px solid rgba(0,0,0,0.06)' }}>
               <SectionHeader index="00" label="IDENTITY" title="WATCHARAPON THOD" subtitle="FULL-STACK AI ENGINEER · COMPUTER SCIENCE · KASETSART UNIVERSITY" />
 
               {/* Circular avatar + contact — centred */}
               <div style={{ padding: '0 2.5rem 2.5rem', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', gap: '1.5rem' }}>
-                <div style={{ width: '200px', height: '200px', borderRadius: '50%', overflow: 'hidden', border: '2px solid rgba(255,255,255,0.2)', flexShrink: 0 }}>
+                <div style={{ width: '200px', height: '200px', borderRadius: '50%', overflow: 'hidden', border: '2px solid rgba(0,0,0,0.2)', flexShrink: 0 }}>
                   <img src={minePhoto} alt="Watcharapon" style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top' }} />
                 </div>
                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.5rem' }}>
@@ -164,20 +164,20 @@ export default function PresentationMode({ onComplete }: Props) {
                     { icon: <TbPhone size={13} />, text: '094-453-2072' },
                     { icon: <TbMapPin size={13} />, text: 'Bangkok, Thailand' },
                   ].map(({ icon, text }) => (
-                    <div key={text} style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', color: 'rgba(255,255,255,0.45)', fontSize: '0.85rem', fontWeight: 300 }}>
-                      <span style={{ color: 'rgba(255,255,255,0.25)' }}>{icon}</span>{text}
+                    <div key={text} style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', color: 'rgba(0,0,0,0.45)', fontSize: '0.85rem', fontWeight: 300 }}>
+                      <span style={{ color: 'rgba(0,0,0,0.25)' }}>{icon}</span>{text}
                     </div>
                   ))}
                 </div>
                 <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '0.45rem' }}>
                   {['IMMEDIATE AVAILABILITY', 'B.SC. COMPUTER SCIENCE', 'KASETSART UNIVERSITY', '2025'].map(s => (
-                    <span key={s} className="mono" style={{ fontSize: '0.53rem', fontWeight: 900, border: '1px solid rgba(255,255,255,0.15)', padding: '0.2rem 0.65rem', color: 'rgba(255,255,255,0.38)', letterSpacing: '0.1em' }}>{s}</span>
+                    <span key={s} className="mono" style={{ fontSize: '0.53rem', fontWeight: 900, border: '1px solid rgba(0,0,0,0.15)', padding: '0.2rem 0.65rem', color: 'rgba(0,0,0,0.38)', letterSpacing: '0.1em' }}>{s}</span>
                   ))}
                 </div>
                 <a href="https://github.com/watcharaponthod-code" target="_blank" rel="noreferrer" className="mono"
-                  style={{ display: 'inline-flex', alignItems: 'center', gap: '0.45rem', padding: '0.5rem 1.1rem', background: '#fff', color: '#000', textDecoration: 'none', fontSize: '0.6rem', fontWeight: 900, letterSpacing: '0.13em', transition: 'all 0.2s' }}
-                  onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = '#e63f6a'; (e.currentTarget as HTMLElement).style.color = '#fff'; }}
-                  onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = '#fff'; (e.currentTarget as HTMLElement).style.color = '#000'; }}
+                  style={{ display: 'inline-flex', alignItems: 'center', gap: '0.45rem', padding: '0.5rem 1.1rem', background: '#000', color: '#fff', textDecoration: 'none', fontSize: '0.6rem', fontWeight: 900, letterSpacing: '0.13em', transition: 'all 0.2s' }}
+                  onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = '#e63f6a'; (e.currentTarget as HTMLElement).style.color = '#000'; }}
+                  onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = '#000'; (e.currentTarget as HTMLElement).style.color = '#fff'; }}
                 >
                   <TbBrandGithub size={12} /> VIEW GITHUB
                 </a>
@@ -195,19 +195,19 @@ export default function PresentationMode({ onComplete }: Props) {
                     'Today I can develop and deploy AI systems both API-based and via local inference — using Ollama for on-premise deployments — while designing monitoring and cost-control layers that allow teams to operate sustainably at scale. I am also focused on using AI to improve internal workflows: document processing, automation, and internal tooling that solves real team pain points.',
                     'For me, moving from DevOps into AI is not a career change — it is the convergence of infrastructure knowledge, scalability thinking, and AI application design. I build systems that can be genuinely deployed, scaled, and maintained within the real constraints of a team and a business.',
                   ].map((para, i) => (
-                    <p key={i} style={{ fontSize: 'clamp(0.87rem, 1.9vw, 0.97rem)', color: 'rgba(255,255,255,0.62)', lineHeight: 1.85, fontWeight: 300, margin: 0 }}>{para}</p>
+                    <p key={i} style={{ fontSize: 'clamp(0.87rem, 1.9vw, 0.97rem)', color: 'rgba(0,0,0,0.62)', lineHeight: 1.85, fontWeight: 300, margin: 0 }}>{para}</p>
                   ))}
                 </div>
               </div>
             </div>
 
             {/* ── 01 RAG ECOSYSTEM ─────────────────────────────── */}
-            <div style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+            <div style={{ borderBottom: '1px solid rgba(0,0,0,0.06)' }}>
               <SectionHeader index="01" label="FEATURED · AI & RAG" title="ENTERPRISE RAG ECOSYSTEM" subtitle="VECTOR DOCS (embedding_rag) + WEBCLIENT AI WORKSPACE (rag-chat)" />
 
               {/* Diagram 1 — Vector Docs */}
               <div style={{ padding: '0 2.5rem 0', textAlign: 'center' }}>
-                <div className="mono" style={{ fontSize: '0.54rem', color: 'rgba(255,255,255,0.3)', letterSpacing: '0.22em', marginBottom: '1rem' }}>SYSTEM_01 // VECTOR DOCS — embedding_rag</div>
+                <div className="mono" style={{ fontSize: '0.54rem', color: 'rgba(0,0,0,0.3)', letterSpacing: '0.22em', marginBottom: '1rem' }}>SYSTEM_01 // VECTOR DOCS — embedding_rag</div>
               </div>
               <FramedImage src={MEDIA.EMB_DIAGRAM} caption="VECTOR_DOCS // THREE INGESTION PIPELINES → BGE-M3 EMBEDDINGS → HYBRID RRF RETRIEVAL → CROSS-ENCODER RERANKING" />
               <Caption
@@ -222,8 +222,8 @@ export default function PresentationMode({ onComplete }: Props) {
               />
 
               {/* Diagram 2 — RAG Chat */}
-              <div style={{ padding: '1rem 2.5rem 0', borderTop: '1px solid rgba(255,255,255,0.04)', textAlign: 'center' }}>
-                <div className="mono" style={{ fontSize: '0.54rem', color: 'rgba(255,255,255,0.3)', letterSpacing: '0.22em', marginBottom: '1rem' }}>SYSTEM_02 // WEBCLIENT AI WORKSPACE — rag-chat</div>
+              <div style={{ padding: '1rem 2.5rem 0', borderTop: '1px solid rgba(0,0,0,0.04)', textAlign: 'center' }}>
+                <div className="mono" style={{ fontSize: '0.54rem', color: 'rgba(0,0,0,0.3)', letterSpacing: '0.22em', marginBottom: '1rem' }}>SYSTEM_02 // WEBCLIENT AI WORKSPACE — rag-chat</div>
               </div>
               <FramedImage src={MEDIA.RAG_DIAGRAM} caption="RAG_CHAT // LANGGRAPH INTENT ROUTING → DOCUMENT SEARCH · IMAGE SEARCH · LIVE SQL → OLLAMA LLM ANSWER" />
               <Caption
@@ -239,7 +239,7 @@ export default function PresentationMode({ onComplete }: Props) {
             </div>
 
             {/* ── 02 BITCOIN ML ─────────────────────────────────── */}
-            <div style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+            <div style={{ borderBottom: '1px solid rgba(0,0,0,0.06)' }}>
               <SectionHeader index="02" label="FEATURED · ML RESEARCH" title="BITCOIN ML PREDICTION" subtitle="LSTM 87.81% · XGBOOST · RANDOM FOREST · 12 YEARS DATA" />
               <FramedImage src={MEDIA.BITCOIN_ARCH} caption="MODEL_ARCHITECTURE // LSTM (128→64→32) + XGBOOST + RANDOM FOREST ENSEMBLE · 18 TECHNICAL INDICATORS" />
               <Caption
@@ -254,7 +254,7 @@ export default function PresentationMode({ onComplete }: Props) {
             </div>
 
             {/* ── 03 NINJA FRUIT ───────────────────────────────── */}
-            <div style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+            <div style={{ borderBottom: '1px solid rgba(0,0,0,0.06)' }}>
               <SectionHeader index="03" label="FEATURED · COMPUTER VISION" title="NINJA FRUIT" subtitle="YOLOV8 POSE DETECTION · 30+ FPS · 3-PLAYER SIMULTANEOUS" />
               <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
                 <FramedImage src={MEDIA.NINJA1} caption="DEMO_01 // SINGLE PLAYER — WRIST SLASH DETECTION AT 30+ FPS" />
@@ -273,7 +273,7 @@ export default function PresentationMode({ onComplete }: Props) {
             </div>
 
             {/* ── 04 SUBWAY KIDS ───────────────────────────────── */}
-            <div style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+            <div style={{ borderBottom: '1px solid rgba(0,0,0,0.06)' }}>
               <SectionHeader index="04" label="FEATURED · COMPUTER VISION" title="SUBWAY KIDS RUNNER" subtitle="MEDIAPIPE BLAZEPOSE · 60 FPS · LOCAL PYGAME + WEB FASTAPI MODE" />
               <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
                 <FramedImage src={MEDIA.SUBWAY1} caption="DEMO_01 // BODY-CONTROLLED LANE SWITCHING AT 60 FPS — WEBCAM ONLY" />
@@ -292,7 +292,7 @@ export default function PresentationMode({ onComplete }: Props) {
             </div>
 
             {/* ── 05 ALGOTRADE ─────────────────────────────────── */}
-            <div style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+            <div style={{ borderBottom: '1px solid rgba(0,0,0,0.06)' }}>
               <SectionHeader index="05" label="AI AUTOMATION · TRADING" title="ALGOTRADE" subtitle="AUTOMATED TRADING ENGINE · VERCEL CRON · REAL-TIME DASHBOARD · TELEGRAM ALERTS" />
               <FramedImage src={MEDIA.TRADING} caption="ALGOTRADE_DASHBOARD // AUTO-TRADER · EQUITY CURVE · OPEN POSITIONS · P&L HISTORY" />
               <Caption
@@ -308,7 +308,7 @@ export default function PresentationMode({ onComplete }: Props) {
             </div>
 
             {/* ── 06 ELIC ───────────────────────────────── */}
-            <div style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+            <div style={{ borderBottom: '1px solid rgba(0,0,0,0.06)' }}>
               <SectionHeader index="06" label="FEATURED · AI CHATBOT" title="ELIC" subtitle="English Learning App · Google Gemini API · React Native · Expo" />
               <FramedImage src={MEDIA.ELIC_DIAGRAM} caption="ELIC USE CASE DIAGRAM" />
               <Caption
@@ -318,8 +318,8 @@ export default function PresentationMode({ onComplete }: Props) {
               />
             </div>
             <div style={{ padding: '5rem 2.5rem', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '2rem', textAlign: 'center' }}>
-              <div className="mono" style={{ fontSize: '0.55rem', color: 'rgba(255,255,255,0.18)', letterSpacing: '0.3em' }}>END_OF_PROFILE // EXPLORE_CASE_STUDIES</div>
-              <h3 style={{ fontSize: 'clamp(2rem, 6vw, 4rem)', fontWeight: 950, color: '#fff', letterSpacing: '-0.04em', textTransform: 'uppercase', lineHeight: 1, margin: 0 }}>
+              <div className="mono" style={{ fontSize: '0.55rem', color: 'rgba(0,0,0,0.18)', letterSpacing: '0.3em' }}>END_OF_PROFILE // EXPLORE_CASE_STUDIES</div>
+              <h3 style={{ fontSize: 'clamp(2rem, 6vw, 4rem)', fontWeight: 950, color: '#000', letterSpacing: '-0.04em', textTransform: 'uppercase', lineHeight: 1, margin: 0 }}>
                 Ready to explore<br />the work?
               </h3>
               <motion.button
@@ -327,13 +327,13 @@ export default function PresentationMode({ onComplete }: Props) {
                 animate={reachedEnd ? { scale: [1, 1.04, 1] } : {}}
                 transition={{ repeat: reachedEnd ? Infinity : 0, duration: 1.6 }}
                 className="mono"
-                style={{ background: reachedEnd ? '#fff' : 'rgba(255,255,255,0.1)', color: reachedEnd ? '#000' : '#fff', border: reachedEnd ? 'none' : '1px solid rgba(255,255,255,0.2)', padding: '1.1rem 3.5rem', fontSize: '0.85rem', fontWeight: 950, letterSpacing: '0.22em', cursor: 'pointer', transition: 'all 0.35s' }}
-                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = '#e63f6a'; (e.currentTarget as HTMLElement).style.color = '#fff'; }}
-                onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.background = reachedEnd ? '#fff' : 'rgba(255,255,255,0.1)'; el.style.color = reachedEnd ? '#000' : '#fff'; }}
+                style={{ background: reachedEnd ? '#000' : 'rgba(0,0,0,0.1)', color: reachedEnd ? '#fff' : '#000', border: reachedEnd ? 'none' : '1px solid rgba(0,0,0,0.2)', padding: '1.1rem 3.5rem', fontSize: '0.85rem', fontWeight: 950, letterSpacing: '0.22em', cursor: 'pointer', transition: 'all 0.35s' }}
+                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = '#e63f6a'; (e.currentTarget as HTMLElement).style.color = '#000'; }}
+                onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.background = reachedEnd ? '#000' : 'rgba(0,0,0,0.1)'; el.style.color = reachedEnd ? '#fff' : '#000'; }}
               >
                 ENTER SITE →
               </motion.button>
-              <span className="mono" style={{ fontSize: '0.55rem', color: 'rgba(255,255,255,0.2)', letterSpacing: '0.15em' }}>
+              <span className="mono" style={{ fontSize: '0.55rem', color: 'rgba(0,0,0,0.2)', letterSpacing: '0.15em' }}>
                 {reachedEnd ? 'SCROLL COMPLETE ✓' : 'SCROLL TO UNLOCK'}
               </span>
             </div>
@@ -345,13 +345,13 @@ export default function PresentationMode({ onComplete }: Props) {
           {progress < 0.02 && (
             <div style={{ position: 'absolute', bottom: '4rem', left: '50%', transform: 'translateX(-50%)', zIndex: 20, pointerEvents: 'none' }}>
               <motion.div animate={{ y: [0, 7, 0] }} transition={{ repeat: Infinity, duration: 1.4 }}>
-                <TbArrowDown size={20} color="rgba(255,255,255,0.3)" />
+                <TbArrowDown size={20} color="rgba(0,0,0,0.3)" />
               </motion.div>
             </div>
           )}
 
           {/* Progress bar */}
-          <div style={{ flexShrink: 0, height: '3px', background: 'rgba(255,255,255,0.06)' }}>
+          <div style={{ flexShrink: 0, height: '3px', background: 'rgba(0,0,0,0.06)' }}>
             <motion.div style={{ height: '100%', background: '#e63f6a', transformOrigin: 'left', scaleX: progress }} />
           </div>
         </motion.div>

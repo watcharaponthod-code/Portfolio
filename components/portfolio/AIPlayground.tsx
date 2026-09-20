@@ -126,12 +126,12 @@ export default function AIPlayground() {
                   <div className="mono" style={{ color: 'rgba(16,185,129,0.5)', fontSize: '0.8rem' }}>
                     System active — Ready for questions
                   </div>
-                  <div className="mono" style={{ color: 'rgba(255,255,255,0.3)', fontSize: '0.75rem', marginTop: '0.5rem' }}>
+                  <div className="mono" style={{ color: 'rgba(0,0,0,0.3)', fontSize: '0.75rem', marginTop: '0.5rem' }}>
                     {`>`} Please select a quick query or type your own...
                   </div>
                   {/* Suggestions */}
                   <div style={{ marginTop: '1.5rem', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                    <div className="mono" style={{ fontSize: '0.65rem', color: 'rgba(255,255,255,0.3)', marginBottom: '0.3rem', letterSpacing: '0.1em' }}>QUICK QUERIES:</div>
+                    <div className="mono" style={{ fontSize: '0.65rem', color: 'rgba(0,0,0,0.3)', marginBottom: '0.3rem', letterSpacing: '0.1em' }}>QUICK QUERIES:</div>
                     {suggestions.map((s, i) => (
                       <button
                         key={i}
@@ -147,7 +147,7 @@ export default function AIPlayground() {
               )}
 
               {isLoading && !output && (
-                <div className="mono" style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.85rem' }}>
+                <div className="mono" style={{ color: 'rgba(0,0,0,0.5)', fontSize: '0.85rem' }}>
                   <span className="loading-dots">Processing</span>
                 </div>
               )}
@@ -248,7 +248,7 @@ export default function AIPlayground() {
 
           {/* Payload debug */}
           <div className="obs-card obs-card-dark">
-            <div className="mono obs-card-title" style={{ color: 'rgba(255,255,255,0.5)' }}>System Payload</div>
+            <div className="mono obs-card-title" style={{ color: 'rgba(0,0,0,0.5)' }}>System Payload</div>
             <div className="mono payload-view">
               {useRAG
                 ? `query: "${input || '...'}"
@@ -342,8 +342,8 @@ mode: direct`
 
         /* Terminal */
         .terminal-window {
-          background: #0d1117;
-          border: 1px solid #21262d;
+          background: #f6f6f4;
+          border: 1px solid #dededa;
           border-radius: 8px;
           overflow: hidden;
           display: flex;
@@ -356,8 +356,8 @@ mode: direct`
           align-items: center;
           gap: 0.75rem;
           padding: 0.75rem 1rem;
-          background: #161b22;
-          border-bottom: 1px solid #21262d;
+          background: #ededea;
+          border-bottom: 1px solid #dededa;
         }
 
         .terminal-dots {
@@ -377,7 +377,7 @@ mode: direct`
 
         .terminal-title {
           font-size: 0.72rem;
-          color: rgba(255,255,255,0.4);
+          color: rgba(0,0,0,0.4);
           flex: 1;
           text-align: center;
           letter-spacing: 0.05em;
@@ -413,7 +413,7 @@ mode: direct`
           border: none;
           padding: 0.3rem 0;
           font-size: 0.78rem;
-          color: rgba(255,255,255,0.4);
+          color: rgba(0,0,0,0.4);
           cursor: pointer;
           transition: color 0.2s;
           width: 100%;
@@ -424,14 +424,14 @@ mode: direct`
         }
 
         .terminal-response {
-          color: rgba(255,255,255,0.85);
+          color: rgba(0,0,0,0.85);
         }
 
         .terminal-text {
           font-size: 0.88rem;
           line-height: 1.7;
           white-space: pre-wrap;
-          color: rgba(255,255,255,0.8);
+          color: rgba(0,0,0,0.8);
         }
 
         .terminal-input-area {
@@ -439,8 +439,8 @@ mode: direct`
           align-items: center;
           gap: 0.75rem;
           padding: 0.75rem 1rem;
-          border-top: 1px solid #21262d;
-          background: #0d1117;
+          border-top: 1px solid #dededa;
+          background: #f6f6f4;
         }
 
         .terminal-input {
@@ -448,13 +448,13 @@ mode: direct`
           background: transparent;
           border: none;
           outline: none;
-          color: rgba(255,255,255,0.9);
+          color: rgba(0,0,0,0.9);
           font-size: 0.88rem;
           caret-color: #10b981;
         }
 
         .terminal-input::placeholder {
-          color: rgba(255,255,255,0.25);
+          color: rgba(0,0,0,0.25);
         }
 
         .terminal-input:disabled {
@@ -488,7 +488,7 @@ mode: direct`
         .loading-spinner {
           width: 14px;
           height: 14px;
-          border: 2px solid rgba(255,255,255,0.3);
+          border: 2px solid rgba(0,0,0,0.3);
           border-top-color: white;
           border-radius: 50%;
           animation: spin 0.8s linear infinite;
@@ -519,8 +519,8 @@ mode: direct`
         }
 
         .obs-card-dark {
-          background: #0d1117;
-          border-color: #21262d;
+          background: #f6f6f4;
+          border-color: #dededa;
         }
 
         .obs-card-title {

@@ -60,15 +60,15 @@ export default function NavBar() {
         style={{
           position: 'fixed', top: 0, left: 0, right: 0, height: '64px',
           zIndex: 1000, display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-          padding: '0 clamp(1rem, 5vw, 3rem)', background: scrolled ? 'rgba(0,0,0,0.95)' : 'transparent',
+          padding: '0 clamp(1rem, 5vw, 3rem)', background: scrolled ? 'rgba(255,255,255,0.95)' : 'transparent',
           backdropFilter: scrolled ? 'blur(15px)' : 'none',
-          borderBottom: scrolled ? '1px solid rgba(255,255,255,0.1)' : 'none',
+          borderBottom: scrolled ? '1px solid rgba(0,0,0,0.1)' : 'none',
           transition: 'background 0.4s ease, border-color 0.4s ease',
         }}
       >
         <button onClick={() => scrollTo('hero')} style={{
           fontFamily: 'var(--font-mono)', fontWeight: 800, fontSize: '1.1rem',
-          letterSpacing: '-0.04em', color: '#fff', background: 'none', border: 'none', cursor: 'pointer'
+          letterSpacing: '-0.04em', color: '#000', background: 'none', border: 'none', cursor: 'pointer'
         }}>
           watcharapon
         </button>
@@ -78,14 +78,14 @@ export default function NavBar() {
             <button key={item.id} onClick={() => scrollTo(item.id)} style={{
               fontFamily: 'var(--font-mono)', fontSize: '0.75rem', fontWeight: 700,
               letterSpacing: '0.1em', textTransform: 'uppercase',
-              color: activeSection === item.id ? '#fff' : 'rgba(255,255,255,0.4)',
+              color: activeSection === item.id ? '#000' : 'rgba(0,0,0,0.4)',
               background: 'none', border: 'none', cursor: 'pointer',
               position: 'relative', transition: 'color 0.3s'
             }}>
               {item.label}
               {activeSection === item.id && (
                 <motion.div layoutId="nav-underline" style={{
-                  position: 'absolute', bottom: -5, left: 0, right: 0, height: '1px', background: '#fff'
+                  position: 'absolute', bottom: -5, left: 0, right: 0, height: '1px', background: '#000'
                 }} />
               )}
             </button>
@@ -94,7 +94,7 @@ export default function NavBar() {
         </div>
 
         <button className="nav-burger" onClick={() => setMenuOpen(!menuOpen)} style={{
-          background: 'none', border: '1px solid rgba(255,255,255,0.2)', color: '#fff',
+          background: 'none', border: '1px solid rgba(0,0,0,0.2)', color: '#000',
           padding: '0.4rem 0.6rem', cursor: 'pointer', display: 'none'
         }}>
           {menuOpen ? <TbX size={22} /> : <TbMenu2 size={22} />}
@@ -104,13 +104,13 @@ export default function NavBar() {
       <AnimatePresence>
         {menuOpen && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} style={{
-            position: 'fixed', inset: 0, background: '#000', zIndex: 999,
+            position: 'fixed', inset: 0, background: '#fff', zIndex: 999,
             display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'
           }}>
             {NAV_ITEMS.map((item, i) => (
               <motion.button key={item.id} initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: i * 0.05 }}
                 onClick={() => scrollTo(item.id)} style={{
-                  fontSize: '2.5rem', fontWeight: 800, color: activeSection === item.id ? '#fff' : 'rgba(255,255,255,0.2)',
+                  fontSize: '2.5rem', fontWeight: 800, color: activeSection === item.id ? '#000' : 'rgba(0,0,0,0.2)',
                   background: 'none', border: 'none', marginBottom: '1.5rem', textTransform: 'uppercase'
               }}>
                 {item.label}
@@ -133,15 +133,15 @@ export default function NavBar() {
       <style>{`
         .nav-resume-btn {
           font-family: var(--font-mono); font-size: 0.72rem; font-weight: 800;
-          color: #000; background: #fff; padding: 0.45rem 1.2rem; text-decoration: none;
+          color: #fff; background: #000; padding: 0.45rem 1.2rem; text-decoration: none;
           transition: all 0.3s;
         }
         .nav-resume-btn:hover { background: #ccc; }
         .nav-mobile-resume-btn {
           margin-top: 1rem;
           padding: 0.85rem 1.6rem;
-          border: 1px solid rgba(255,255,255,0.22);
-          color: #fff;
+          border: 1px solid rgba(0,0,0,0.22);
+          color: #000;
           text-decoration: none;
           font-family: var(--font-mono);
           font-size: 0.78rem;
@@ -151,8 +151,8 @@ export default function NavBar() {
           transition: all 0.3s ease;
         }
         .nav-mobile-resume-btn:hover {
-          border-color: #fff;
-          background: rgba(255,255,255,0.08);
+          border-color: #000;
+          background: rgba(0,0,0,0.08);
         }
         @media (max-width: 900px) {
           .nav-desktop-links { display: none !important; }

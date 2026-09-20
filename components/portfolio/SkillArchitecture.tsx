@@ -147,8 +147,8 @@ export default function SkillArchitecture() {
         }
         
         .quadrant-min {
-          background: #fff;
-          border: 1px solid #111;
+          background: #000;
+          border: 1px solid #ffffff;
           padding: 2.5rem;
           display: flex;
           flex-direction: column;
@@ -159,22 +159,22 @@ export default function SkillArchitecture() {
         }
 
         .quadrant-min:hover {
-          border-color: #000;
-          box-shadow: 0 40px 100px rgba(0,0,0,0.05);
+          border-color: #fff;
+          box-shadow: 0 40px 100px rgba(255,255,255,0.05);
         }
 
         .animated-border-accent {
           position: absolute;
           top: 0; left: 0;
           height: 4px;
-          background: #000;
+          background: #fff;
         }
 
         .quadrant-min-header {
           display: flex;
           align-items: center;
           gap: 1rem;
-          border-bottom: 3px solid #000;
+          border-bottom: 3px solid #fff;
           padding-bottom: 1.2rem;
           margin-bottom: 0.5rem;
         }
@@ -182,7 +182,7 @@ export default function SkillArchitecture() {
         .quadrant-id {
           font-size: 0.9rem;
           font-weight: 950;
-          color: #000;
+          color: #fff;
           opacity: 0.1;
         }
 
@@ -191,7 +191,7 @@ export default function SkillArchitecture() {
           font-weight: 950;
           letter-spacing: 0.15rem;
           text-transform: uppercase;
-          color: #000; /* Set to Black */
+          color: #fff; /* Set to Black */
         }
 
         .skills-dense-grid {
@@ -205,7 +205,7 @@ export default function SkillArchitecture() {
           flex-direction: column;
           align-items: center;
           justify-content: center;
-          background: #fff;
+          background: #000;
           border: 1.5px solid #eee;
           padding: 1rem 0.4rem;
           gap: 0.8rem;
@@ -217,33 +217,33 @@ export default function SkillArchitecture() {
         }
 
         .skill-mini-card:hover {
-          border-color: #000;
-          background: #000;
-          color: #fff;
+          border-color: #fff;
+          background: #fff;
+          color: #000;
           z-index: 10;
         }
 
         .mini-icon {
           font-size: 1.8rem;
-          color: #000;
+          color: #fff;
           transition: all 0.3s;
         }
 
         .skill-mini-card:hover .mini-icon {
-          color: #fff;
+          color: #000;
           transform: scale(1.1);
         }
 
         .mini-label {
           font-size: 0.65rem;
           font-weight: 950;
-          color: #000;
+          color: #fff;
           text-transform: uppercase;
           line-height: 1.2;
         }
 
         .skill-mini-card:hover .mini-label {
-          color: #fff;
+          color: #000;
         }
 
         @media (max-width: 1200px) {
