@@ -85,8 +85,15 @@ export function actionsFor(question: string, sectionIds: string[]): ChatAction[]
     if (key && !seen.has(key)) { seen.add(key); out.push(a); }
   };
 
+  const ALIAS: Record<string, string> = {
+    'gh-sugarcane-cv': 'projects-sugarcane-cv', 'gh-ekyc': 'projects-ekyc', 'gh-elic': 'projects-elic',
+    'gh-roblox-dragon-combat': 'projects-dragon-combat', 'gh-bitcoin-ml-prediction': 'projects-bitcoin-ml',
+    'gh-rag-chat': 'projects-rag-chat', 'gh-embedding-rag': 'projects-embedding-rag', 'gh-ninja-fruit': 'projects-ninja-fruit',
+    'gh-subway-kids': 'projects-subway-kids', 'gh-trading': 'projects-trading', 'gh-profile': 'about',
+  };
   for (const id of sectionIds) {
-    const base = id.split('#')[0];
+    const raw = id.split('#')[0];
+    const base = ALIAS[raw] || raw;
     for (const e of BY_SECTION[base] || []) {
       push({ kind: e.view ? 'view' : 'link', label: { en: e.en, th: e.th }, view: e.view, url: e.url, image: e.image || coverFor(e.view) });
     }

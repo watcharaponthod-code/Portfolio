@@ -98,8 +98,29 @@ export function buildGraph(ai: GoogleGenAI | null) {
           if (!prev || h.score > prev.score) best.set(h.chunk.id, h);
         }
       }
-      const hits = [...best.values()].sort((a, b) => b.score - a.score).slice(0, 8);
+      const hits = [...best.values()].sort((a, b) => b.score - a.score).slice(0, 12);
       return { hits, context: formatContext(hits), coverage: hits.length };
+    })
+    // Retrieval is recall; this is precision. The model reads the candidates
+    // and keeps only the ones that actually answer the question, so the final
+    // context is tight and the answer does not wander into neighbouring topics.
+    .addNode('rerank', async (s: AgentState) => {
+      if (s.hits.length <= 4) return {};
+      try {
+        const listing = s.hits.map((h, i) => `[${i}] ${h.chunk.title}\n${h.chunk.text.slice(0, 320)}`).join('\n\n');
+        const { text } = await generateText(ai, {
+          system: 'You select passages. Given a question and numbered passages, output the indices of the passages needed to answer it fully, most relevant first, comma separated, at most 6. Output only the indices.',
+          contents: [{ role: 'user', parts: [{ text: `QUESTION: ${s.question}\n\nPASSAGES:\n${listing}` }] }],
+          maxOutputTokens: 40,
+          temperature: 0,
+        });
+        const picked = Array.from(new Set((text.match(/\d+/g) || []).map(Number))).filter(i => i >= 0 && i < s.hits.length).slice(0, 6);
+        if (picked.length < 2) return {};
+        const hits = picked.map(i => s.hits[i]);
+        return { hits, context: formatContext(hits), coverage: hits.length };
+      } catch {
+        return {};
+      }
     })
     // Nothing matched: widen once with the bare question before giving up, so
     // a phrasing the planner mangled still has a chance.
@@ -110,7 +131,8 @@ export function buildGraph(ai: GoogleGenAI | null) {
     .addEdge(START, 'route')
     .addConditionalEdges('route', (s: AgentState) => (s.needsFacts ? 'makePlan' : END), { makePlan: 'makePlan', [END]: END })
     .addEdge('makePlan', 'search')
-    .addConditionalEdges('search', (s: AgentState) => (s.coverage === 0 ? 'widen' : END), { widen: 'widen', [END]: END })
+    .addConditionalEdges('search', (s: AgentState) => (s.coverage === 0 ? 'widen' : 'rerank'), { widen: 'widen', rerank: 'rerank' })
+    .addEdge('rerank', END)
     .addEdge('widen', END);
 
   return graph.compile();

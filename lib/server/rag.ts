@@ -9,6 +9,7 @@
 // keyword overlap so the assistant still answers.
 import { GoogleGenAI } from '@google/genai';
 import { KNOWLEDGE_BASE } from '../knowledge.js';
+import { GITHUB_KNOWLEDGE } from '../knowledge.generated.js';
 import { IDENTITY_CONTEXT_STRING } from '../identity.js';
 
 export const EMBED_MODEL = process.env['EMBED_MODEL'] || 'gemini-embedding-001';
@@ -50,6 +51,8 @@ export function buildChunks(): Chunk[] {
     { id: 'identity', title: 'Identity and contact', text: IDENTITY_CONTEXT_STRING.trim(), keywords: ['who', 'contact', 'email', 'phone', 'role', 'identity', 'about'] },
   ];
   for (const s of KNOWLEDGE_BASE) chunks.push(...chunkSection(s.id, s.title, s.content, s.keywords));
+  // Everything readable from his public GitHub, generated from the READMEs.
+  for (const s of GITHUB_KNOWLEDGE) chunks.push(...chunkSection(s.id, s.title, s.content, s.keywords));
   return chunks;
 }
 
@@ -201,33 +204,65 @@ function bm25Score(index: Bm25Index, docId: number, terms: string[]): number {
 
 export interface Hit { chunk: Chunk; score: number; method: 'vector' | 'keyword' }
 
-export async function retrieve(ai: GoogleGenAI | null, query: string, k = 5): Promise<Hit[]> {
-  const index = await getIndex(ai);
-  const usable = ai ? index.filter(c => c.vec) : [];
-  if (usable.length && ai) {
-    try {
-      const [qv] = await embedAll(ai!, [query], 'RETRIEVAL_QUERY');
-      const scored = usable.map(c => ({ chunk: c, score: dot(qv, c.vec!), method: 'vector' as const }));
-      scored.sort((a, b) => b.score - a.score);
-      // always keep identity within reach for who/contact style questions
-      const top = scored.slice(0, k);
-      if (!top.some(h => h.chunk.id === 'identity') && /who|contact|email|phone|ใคร|ติดต่อ|อีเมล|เบอร์/i.test(query)) {
-        const idn = scored.find(h => h.chunk.id === 'identity');
-        if (idn) top.push(idn);
-      }
-      return top;
-    } catch (e: any) {
-      console.error('[rag] query embedding failed, using keyword retrieval:', e?.message || e);
-    }
-  }
+/** BM25 ranking over every chunk. Always available, no network. */
+function lexical(index: Indexed[], query: string): Hit[] {
   const chunks = index as unknown as Chunk[];
   if (!bm25 || bm25For !== chunks) { bm25 = buildBm25(chunks); bm25For = chunks; }
   const terms = tokenize(expandQuery(query));
   const scored = index.map((c, i) => ({ chunk: c, score: bm25Score(bm25!, i, terms), method: 'keyword' as const }));
   scored.sort((a, b) => b.score - a.score);
-  // An answer with no real match is better than an answer built from the
-  // nearest unrelated chunk, so weak results are dropped entirely.
-  return scored.filter(h => h.score >= 1.5).slice(0, k);
+  return scored.filter(h => h.score >= 1.5);
+}
+
+/**
+ * Vector search finds the meaning, BM25 finds the exact term. Neither alone is
+ * enough: an embedding misses "F1 0.883" as a literal and BM25 misses a
+ * paraphrase. Reciprocal rank fusion merges the two rankings without needing
+ * their scores to be comparable.
+ */
+export async function retrieve(ai: GoogleGenAI | null, query: string, k = 5): Promise<Hit[]> {
+  const index = await getIndex(ai);
+  const lex = lexical(index, query);
+  const usable = ai ? index.filter(c => c.vec) : [];
+
+  let vec: Hit[] = [];
+  if (usable.length && ai) {
+    try {
+      const [qv] = await embedAll(ai, [query], 'RETRIEVAL_QUERY');
+      vec = usable.map(c => ({ chunk: c, score: dot(qv, c.vec!), method: 'vector' as const }));
+      vec.sort((a, b) => b.score - a.score);
+      vec = vec.slice(0, 12);
+    } catch (e: any) {
+      console.error('[rag] query embedding failed, lexical only:', e?.message || e);
+    }
+  }
+
+  if (!vec.length) return lex.slice(0, k);
+
+  const RRF_K = 60;
+  const fused = new Map<string, { hit: Hit; score: number }>();
+  const add = (list: Hit[], weight: number) => {
+    list.forEach((h, rank) => {
+      const cur = fused.get(h.chunk.id);
+      const add = weight / (RRF_K + rank + 1);
+      if (cur) { cur.score += add; if (h.method === 'vector') cur.hit = h; }
+      else fused.set(h.chunk.id, { hit: { ...h, method: 'vector' }, score: add });
+    });
+  };
+  add(vec, 1.0);
+  add(lex.slice(0, 12), 0.8);
+
+  const out = [...fused.values()]
+    .sort((a, b) => b.score - a.score)
+    .slice(0, k)
+    .map(x => ({ ...x.hit, score: x.score * 100 }));
+
+  // keep identity within reach for who/contact questions
+  if (!out.some(h => h.chunk.id === 'identity') && /who|contact|email|phone|ใคร|ติดต่อ|อีเมล|เบอร์/i.test(query)) {
+    const idn = index.find(c => c.id === 'identity');
+    if (idn) out.push({ chunk: idn, score: 0.1, method: 'vector' });
+  }
+  return out;
 }
 
 export function formatContext(hits: Hit[]): string {
