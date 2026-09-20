@@ -31,6 +31,8 @@ const State = Annotation.Root({
   }),
   memory: Annotation<Memory>({ reducer: (a, b) => ({ ...a, ...b }), default: () => ({}) }),
   needsFacts: Annotation<boolean>({ reducer: (_, b) => b, default: () => true }),
+  plan: Annotation<string[]>({ reducer: (_, b) => b, default: () => [] }),
+  coverage: Annotation<number>({ reducer: (_, b) => b, default: () => 0 }),
   hits: Annotation<Hit[]>({ reducer: (_, b) => b, default: () => [] }),
   context: Annotation<string>({ reducer: (_, b) => b, default: () => '' }),
 });
@@ -40,42 +42,76 @@ export type AgentState = typeof State.State;
 const SMALL_TALK = /^(hi|hey|hello|thanks|thank you|ok|okay|cool|bye|สวัสดี|ขอบคุณ|โอเค|ครับ|ค่ะ|บาย)\b/i;
 
 export function buildGraph(ai: GoogleGenAI | null) {
+  /** Retrieval for one query string, translating Thai into search keywords. */
+  const search = async (q: string, k: number) => {
+    let query = q;
+    if (hasThai(q)) {
+      try {
+        const { text: en } = await generateText(ai, {
+          system: 'Turn the question into 3 to 8 English search keywords for a portfolio knowledge base about satellite ML, computer vision, RAG systems and mobile apps. Output only the keywords, space separated, no punctuation.',
+          contents: [{ role: 'user', parts: [{ text: q }] }],
+          maxOutputTokens: 40,
+          temperature: 0,
+        });
+        if (en) query = `${q} ${en}`;
+      } catch { /* fall back to the raw question */ }
+    }
+    return retrieve(ai, query, k);
+  };
+
   const graph = new StateGraph(State)
-    // Decide whether this turn needs the knowledge base.
+    // Small talk needs no facts at all; everything else does.
     .addNode('route', async (s: AgentState) => {
       const q = s.question.trim();
-      if (q.length < 12 && SMALL_TALK.test(q)) return { needsFacts: false };
+      if (q.length < 12 && SMALL_TALK.test(q)) return { needsFacts: false, plan: [] };
       return { needsFacts: true };
     })
-    // Pull the chunks that matter, translating the question first if a Thai
-    // query finds nothing in the English knowledge base.
-    .addNode('retrieve', async (s: AgentState) => {
-      // "and under cloud?" carries no subject of its own, so a short follow-up
-      // is searched together with the question before it.
+    // Break the question into the few things that actually have to be looked
+    // up. "Tell me about the satellite project and what was hard" is two
+    // searches, and answering it from one is how answers end up incomplete.
+    .addNode('makePlan', async (s: AgentState) => {
+      // a short follow-up inherits the question before it
       const prevUser = [...s.history].reverse().find((m, i) => i > 0 && m.role === 'user');
-      const query = s.question.trim().length <= 40 && prevUser
+      const base = s.question.trim().length <= 40 && prevUser
         ? `${prevUser.content} ${s.question}`
         : s.question;
-      let hits = await retrieve(ai, query, 5);
-      if (hasThai(query) && hits[0]?.method === 'keyword' && (hits[0]?.score ?? 0) < 2) {
-        try {
-          const { text: en } = await generateText(ai, {
-            system: 'Translate the user question into short English search keywords. Output only the keywords.',
-            contents: [{ role: 'user', parts: [{ text: query }] }],
-            maxOutputTokens: 40,
-            temperature: 0,
-          });
-          if (en) hits = await retrieve(ai, `${query} ${en}`, 5);
-        } catch { /* keep what we have */ }
+      try {
+        const { text } = await generateText(ai, {
+          system: 'Split the question into 1 to 3 short English search queries covering every part of it. One per line, no numbering, no commentary. If the question asks one thing, return one line.',
+          contents: [{ role: 'user', parts: [{ text: base }] }],
+          maxOutputTokens: 90,
+          temperature: 0,
+        });
+        const lines = text.split('\n').map(l => l.replace(/^[-*\d.\s]+/, '').trim()).filter(l => l.length > 2).slice(0, 3);
+        return { plan: lines.length ? [base, ...lines] : [base] };
+      } catch {
+        return { plan: [base] };
       }
-      return { hits, context: formatContext(hits) };
+    })
+    // Run every query, merge the results, keep the best of each chunk.
+    .addNode('search', async (s: AgentState) => {
+      const runs = await Promise.all(s.plan.map(q => search(q, 5)));
+      const best = new Map<string, Hit>();
+      for (const run of runs) {
+        for (const h of run) {
+          const prev = best.get(h.chunk.id);
+          if (!prev || h.score > prev.score) best.set(h.chunk.id, h);
+        }
+      }
+      const hits = [...best.values()].sort((a, b) => b.score - a.score).slice(0, 8);
+      return { hits, context: formatContext(hits), coverage: hits.length };
+    })
+    // Nothing matched: widen once with the bare question before giving up, so
+    // a phrasing the planner mangled still has a chance.
+    .addNode('widen', async (s: AgentState) => {
+      const hits = await search(s.question, 8);
+      return { hits, context: formatContext(hits), coverage: hits.length };
     })
     .addEdge(START, 'route')
-    .addConditionalEdges('route', (s: AgentState) => (s.needsFacts ? 'retrieve' : END), {
-      retrieve: 'retrieve',
-      [END]: END,
-    })
-    .addEdge('retrieve', END);
+    .addConditionalEdges('route', (s: AgentState) => (s.needsFacts ? 'makePlan' : END), { makePlan: 'makePlan', [END]: END })
+    .addEdge('makePlan', 'search')
+    .addConditionalEdges('search', (s: AgentState) => (s.coverage === 0 ? 'widen' : END), { widen: 'widen', [END]: END })
+    .addEdge('widen', END);
 
   return graph.compile();
 }

@@ -146,17 +146,57 @@ export function expandQuery(q: string): string {
   return extra.length ? `${q} ${extra.join(' ')}` : q;
 }
 
-function keywordScore(q: string, c: Chunk): number {
-  const ql = q.toLowerCase();
-  let s = 0;
-  for (const k of c.keywords) if (ql.includes(k.toLowerCase())) s += 2;
-  if (ql.includes(c.title.toLowerCase().slice(0, 12))) s += 2;
-  // Also match the body, so an expanded Thai question finds the English text.
-  const body = `${c.title} ${c.text}`.toLowerCase();
-  for (const tok of ql.split(/[^a-z0-9+#-]+/)) {
-    if (tok.length >= 4 && body.includes(tok)) s += 1;
+// Without embeddings the fallback has to be a real ranking function, not a
+// substring count: a question about the satellite work was matching the
+// identity chunk simply because a couple of letters appeared in it. BM25 over
+// the chunk text, built once per instance, ranks properly.
+const K1 = 1.4;
+const B = 0.72;
+
+interface Bm25Index {
+  docs: { id: number; len: number; tf: Map<string, number> }[];
+  df: Map<string, number>;
+  avgLen: number;
+}
+
+let bm25: Bm25Index | null = null;
+let bm25For: Chunk[] | null = null;
+
+function tokenize(s: string): string[] {
+  return s
+    .toLowerCase()
+    .split(/[^a-z0-9+#.-]+/)
+    .map(t => t.replace(/^[.-]+|[.-]+$/g, ''))
+    .filter(t => t.length >= 2);
+}
+
+function buildBm25(chunks: Chunk[]): Bm25Index {
+  const docs = chunks.map((c, id) => {
+    // keywords are repeated so a deliberate tag outweighs a passing mention
+    const text = `${c.title} ${c.title} ${c.keywords.join(' ')} ${c.keywords.join(' ')} ${c.text}`;
+    const toks = tokenize(text);
+    const tf = new Map<string, number>();
+    for (const t of toks) tf.set(t, (tf.get(t) || 0) + 1);
+    return { id, len: toks.length, tf };
+  });
+  const df = new Map<string, number>();
+  for (const d of docs) for (const t of d.tf.keys()) df.set(t, (df.get(t) || 0) + 1);
+  const avgLen = docs.reduce((n, d) => n + d.len, 0) / Math.max(docs.length, 1);
+  return { docs, df, avgLen };
+}
+
+function bm25Score(index: Bm25Index, docId: number, terms: string[]): number {
+  const d = index.docs[docId];
+  const N = index.docs.length;
+  let score = 0;
+  for (const t of terms) {
+    const f = d.tf.get(t);
+    if (!f) continue;
+    const n = index.df.get(t) || 0;
+    const idf = Math.log(1 + (N - n + 0.5) / (n + 0.5));
+    score += idf * ((f * (K1 + 1)) / (f + K1 * (1 - B + (B * d.len) / index.avgLen)));
   }
-  return s;
+  return score;
 }
 
 export interface Hit { chunk: Chunk; score: number; method: 'vector' | 'keyword' }
@@ -180,11 +220,14 @@ export async function retrieve(ai: GoogleGenAI | null, query: string, k = 5): Pr
       console.error('[rag] query embedding failed, using keyword retrieval:', e?.message || e);
     }
   }
-  const expanded = expandQuery(query);
-  const scored = index.map(c => ({ chunk: c, score: keywordScore(expanded, c), method: 'keyword' as const }));
+  const chunks = index as unknown as Chunk[];
+  if (!bm25 || bm25For !== chunks) { bm25 = buildBm25(chunks); bm25For = chunks; }
+  const terms = tokenize(expandQuery(query));
+  const scored = index.map((c, i) => ({ chunk: c, score: bm25Score(bm25!, i, terms), method: 'keyword' as const }));
   scored.sort((a, b) => b.score - a.score);
-  const top = scored.filter(h => h.score > 0).slice(0, k);
-  return top.length ? top : scored.slice(0, 2);
+  // An answer with no real match is better than an answer built from the
+  // nearest unrelated chunk, so weak results are dropped entirely.
+  return scored.filter(h => h.score >= 1.5).slice(0, k);
 }
 
 export function formatContext(hits: Hit[]): string {

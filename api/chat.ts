@@ -60,6 +60,7 @@ export default async function handler(req: any, res: any) {
     res.setHeader('Cache-Control', 'no-store');
     res.setHeader('X-Sources', hits.map(h => h.chunk.id).join(','));
     res.setHeader('X-Retrieval', `${state.needsFacts ? (hits[0]?.method || 'none') : 'skipped'};${tRetrieve}ms`);
+    res.setHeader('X-Plan', String((state.plan || []).length));
     res.setHeader('X-Model', model);
 
     let answer = '';
@@ -67,8 +68,13 @@ export default async function handler(req: any, res: any) {
       if (chunk.text) { answer += chunk.text; res.write(chunk.text); }
     }
 
-    // Buttons the visitor can act on, derived from the chunks actually used.
-    const actions = actionsFor(last.content, hits.map(h => h.chunk.id));
+    // Retrieval always returns its top five, but the tail of that list is
+    // often unrelated. Offer buttons only for the chunks that scored close to
+    // the best one, so a question about the satellite work does not come back
+    // with a trading link.
+    const top = hits[0]?.score ?? 0;
+    const strong = hits.filter(h => h.score >= top * 0.6 && h.score > 0).slice(0, 3);
+    const actions = actionsFor(last.content, strong.map(h => h.chunk.id));
     const nextMemory = await updateMemory(ai, memory, last.content, answer);
     res.write(ACTION_MARKER + JSON.stringify({ actions, memory: nextMemory }));
     res.end();

@@ -91,6 +91,7 @@ export default function AssistantPanel() {
   const { lang, setLang } = useLang();
   const { setView } = useUI();
   const [copied, setCopied] = useState<string | null>(null);
+  const [engine, setEngine] = useState<{ model: string; retrieval: string } | null>(null);
   const memoryRef = useRef<Memory>({});
   useEffect(() => { memoryRef.current = loadMemory(); }, []);
   const [messages, setMessages] = useState<Msg[]>(() => [{ id: nextId++, role: 'assistant', content: GREETING[lang] }]);
@@ -152,6 +153,10 @@ export default function AssistantPanel() {
       if (r.status === 429) throw new Error('quota');
       if (!r.ok || !r.body) throw new Error(`chat endpoint returned ${r.status}`);
       const sources = (r.headers.get('X-Sources') || '').split(',').filter(Boolean);
+      setEngine({
+        model: r.headers.get('X-Model') || '',
+        retrieval: (r.headers.get('X-Retrieval') || '').split(';')[0],
+      });
       const reader = r.body.getReader();
       const dec = new TextDecoder();
       let acc = '';
@@ -279,7 +284,11 @@ export default function AssistantPanel() {
             </button>
           </div>
           <div className="asst-foot mono">
-            <span>gemini-2.5-flash-lite · vector retrieval on server</span>
+            <span>
+              {engine
+                ? `${engine.model}${engine.retrieval ? ` · ${engine.retrieval} retrieval` : ''} · langgraph agent`
+                : (lang === 'th' ? 'ผู้ช่วยแบบ agent พร้อมความจำ' : 'agentic assistant with memory')}
+            </span>
             <button className="asst-reset" onClick={reset} title={lang === 'th' ? 'เริ่มใหม่' : 'New chat'}><TbRefresh size={12} /> {lang === 'th' ? 'เริ่มใหม่' : 'NEW'}</button>
           </div>
 
