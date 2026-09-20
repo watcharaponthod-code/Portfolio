@@ -4,8 +4,8 @@
 // here. This layer has the full knowledge base and a text model with room to
 // reason, and returns a short spoken-style answer for layer 1 to read out.
 import { GoogleGenAI } from '@google/genai';
-import { KNOWLEDGE_BASE } from '../lib/knowledge';
-import { IDENTITY_CONTEXT_STRING } from '../lib/identity';
+import { KNOWLEDGE_BASE } from '../lib/knowledge.js'; // .js: Vercel runs api/ as native ESM, extensionless paths fail at runtime
+import { IDENTITY_CONTEXT_STRING } from '../lib/identity.js';
 
 export const config = { runtime: 'nodejs' };
 
