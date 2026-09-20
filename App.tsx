@@ -3,7 +3,7 @@ import NavBar from './components/NavBar';
 import Landing from './components/portfolio/Landing';
 import { useState, useEffect, useMemo } from 'react';
 import { TbX, TbMessageChatbot, TbVolume } from 'react-icons/tb';
-import LiveAIDemo from './components/portfolio/LiveAIDemo';
+import AssistantPanel from './components/portfolio/AssistantPanel';
 import { useUI } from './lib/state';
 import GeoMapProject from './components/portfolio/GeoMapProject';
 import KafkaConnectorProject from './components/portfolio/KafkaConnectorProject';
@@ -101,7 +101,7 @@ function App() {
                   <div className="hint-header">
                     <TbVolume size={18} /> <span>SYSTEM_BROADCAST</span>
                   </div>
-                  <p>Try my AI Voice Assistant! Ask about my skills, projects, or professional background.</p>
+                  <p>Chat with my AI about the projects, the numbers behind them, or my background. Switch to voice any time.</p>
                   <div className="hint-action">CLICK TO INITIALIZE</div>
                 </motion.div>
               )}
@@ -124,11 +124,11 @@ function App() {
                   className="ai-mini-window"
                 >
                   <div className="ai-mini-header">
-                    <div className="mono title">CORE_AI_INTERFACE</div>
+                    <div className="mono title">ASK_WATCHARAPON_AI</div>
                     <div className="status-blink" />
                   </div>
                   <div className="ai-mini-body">
-                    <LiveAIDemo />
+                    <AssistantPanel />
                   </div>
                 </motion.div>
               )}
@@ -179,7 +179,7 @@ function App() {
 
         .ai-mini-window {
           position: absolute; bottom: 85px; right: 0;
-          width: 450px; height: 650px; background: #fff;
+          width: 460px; height: 680px; background: #fff;
           border: 1px solid #000; box-shadow: 0 40px 100px rgba(255,255,255,0.8);
           display: flex; flex-direction: column; overflow: hidden;
         }

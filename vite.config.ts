@@ -46,13 +46,15 @@ export default defineConfig(({ mode }) => {
     // Make .env.local visible to the api/ handlers in dev (same variable Vercel injects).
     if (env.GEMINI_API_KEY && !process.env.GEMINI_API_KEY) process.env.GEMINI_API_KEY = env.GEMINI_API_KEY;
     const hasKey = Boolean(process.env.GEMINI_API_KEY);
-    if (!hasKey) console.log(`[vite] no GEMINI_API_KEY in .env.local: /api/* will be proxied to ${PROD_ORIGIN}`);
+    // API_PROXY_TARGET in .env.local points the proxy at a preview deployment instead of production.
+    const proxyTarget = env.API_PROXY_TARGET || PROD_ORIGIN;
+    if (!hasKey) console.log(`[vite] no GEMINI_API_KEY in .env.local: /api/* will be proxied to ${proxyTarget}`);
     return {
       server: {
         port: 3000,
         host: '0.0.0.0',
         proxy: hasKey ? undefined : {
-          '/api': { target: PROD_ORIGIN, changeOrigin: true, secure: true },
+          '/api': { target: proxyTarget, changeOrigin: true, secure: true },
         },
       },
       plugins: [react(), ...(hasKey ? [vercelApiDev()] : [])],
