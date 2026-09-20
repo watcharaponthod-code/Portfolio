@@ -12,7 +12,7 @@ export const CREATOR_IDENTITY = {
     phone: "094-453-2072",
     github: "github.com/watcharapon",
     portfolio: "portfolio-6kgh9qejh-workabode.vercel.app",
-    education: "B.Sc. Computer Science (Co-op Program), Kasetsart University Chalermphrakiat, GPA 3.10 (2022–present)",
+    education: "B.Sc. Computer Science (Co-op Program), Kasetsart University Chalermphrakiat, GPA 3.10, graduated 2025",
     philosophy: "Building production-grade systems, not just interfaces. Clarity over cleverness. Every technical decision must serve a clear user need.",
     specialties: [
         "Computer Vision on real cameras: YOLOv8, OpenCV, MediaPipe, ONNX, audio detection, Thai plate OCR (sugarcane-cv, CaneGate, eKYC)",

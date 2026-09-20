@@ -28,7 +28,7 @@ const GREETING: Record<Lang, string> = {
   en: 'Hi, I am Watcharapon\'s assistant. Ask about his projects, results, stack or background. For a voice conversation, switch to VOICE above.',
 };
 
-const MEM_KEY = 'asst-memory-v1';
+const MEM_KEY = 'asst-memory-v2'; // bumped: v1 could hold a project name as the visitor
 
 function loadMemory(): Memory {
   try { return JSON.parse(localStorage.getItem(MEM_KEY) || '{}'); } catch { return {}; }

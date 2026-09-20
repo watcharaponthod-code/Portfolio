@@ -10,7 +10,7 @@ export const KNOWLEDGE_BASE: KnowledgeSection[] = [
     {
         id: "about",
         title: "About Watcharapon",
-        content: "Watcharapon (Oat) Thodraksa is an AI Engineer who builds computer vision and satellite ML that runs on real cameras and real fields. Most of his current work is for a Thai sugar mill: Agri-AI satellite field monitoring (CropScan, Yield Pro, SAR to NDVI gapfill) at TokinTech, and CaneGate / sugarcane-cv at the weighbridge. Earlier he worked as a Full-Stack Developer on AI applications, mobile and UX/UI. He is a Computer Science student (Co-op Program) at Kasetsart University Chalermphrakiat Sakon Nakhon Campus (GPA 3.10), with hands-on enterprise experience from his co-op at Sycapt Co., Ltd. in Bangkok. He can be reached at watcharapon.thod@gmail.com or 094-453-2072.",
+        content: "Watcharapon (Oat) Thodraksa is an AI Engineer who builds computer vision and satellite ML that runs on real cameras and real fields. Most of his current work is for a Thai sugar mill: Agri-AI satellite field monitoring (CropScan, Yield Pro, SAR to NDVI gapfill) at TokinTech, and CaneGate / sugarcane-cv at the weighbridge. Earlier he worked as a Full-Stack Developer on AI applications, mobile and UX/UI. He holds a B.Sc. in Computer Science (Co-op Program) from Kasetsart University Chalermphrakiat Sakon Nakhon Campus, graduated 2025 with GPA 3.10, with hands-on enterprise experience from his co-op at Sycapt Co., Ltd. in Bangkok. He can be reached at watcharapon.thod@gmail.com or 094-453-2072.",
         keywords: ["who", "biography", "background", "location", "bangkok", "contact", "email", "phone", "education", "university"]
     },
     {
