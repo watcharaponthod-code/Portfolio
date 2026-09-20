@@ -34,7 +34,16 @@ export default function ProjectDetail({ data }: Props) {
   const { setView } = useUI();
   const topRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => { topRef.current?.scrollIntoView({ behavior: 'instant' }); }, []);
+  useEffect(() => {
+    topRef.current?.scrollIntoView({ behavior: 'instant' });
+    // a card can ask to open the page at one section (Projects.tsx sets this)
+    let target: string | null = null;
+    try { target = sessionStorage.getItem('detail-scroll'); sessionStorage.removeItem('detail-scroll'); } catch {}
+    if (target) {
+      const el = document.querySelector<HTMLElement>(`[data-section="${CSS.escape(target)}"]`);
+      if (el) setTimeout(() => el.scrollIntoView({ behavior: 'smooth', block: 'start' }), 80);
+    }
+  }, []);
 
   return (
     <div ref={topRef} style={{ minHeight: '100vh', background: '#f2f2f0', color: '#000', fontFamily: 'inherit' }}>
@@ -130,7 +139,7 @@ export default function ProjectDetail({ data }: Props) {
 
         {/* ── Content Sections: image FIRST (full-width), then text ── */}
         {data.sections.map((sec, i) => (
-          <div key={i} style={{ marginBottom: 'clamp(4rem, 9vw, 7rem)' }}>
+          <div key={i} data-section={sec.title} style={{ marginBottom: 'clamp(4rem, 9vw, 7rem)', scrollMarginTop: '5rem' }}>
             <div className="mono" style={{ fontSize: '0.6rem', color: 'rgba(0,0,0,0.3)', letterSpacing: '0.25em', marginBottom: '1.2rem' }}>
               {String(i + (data.keyFeatures ? 3 : 2)).padStart(2, '0')} // {sec.title.toUpperCase()}
             </div>

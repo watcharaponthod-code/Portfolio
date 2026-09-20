@@ -43,6 +43,7 @@ interface Project {
   category: Category;
   image?: string;
   isGif?: boolean;
+  scrollTo?: string;   // section title inside the case study to open at
   internalLink?: string;
   externalUrl?: string;
   actionLabel?: string;
@@ -98,17 +99,107 @@ const ALL_PROJECTS: Project[] = [
     image: EMB_DIAGRAM,
     featured: true,
   },
+  // ── Sugarcane CV: one card per detector (all open the same case study at their section)
   {
-    title: 'Sugarcane CV: Nine Mill Detectors',
-    role: 'COMPUTER VISION · AUDIO',
-    desc: 'Nine detection problems from one Thai sugar mill: dust opacity at the tipper, burnt vs fresh cane on 8,612 real CCTV frames, mixed loads by colour alone, sand and rock by sound, cane flow on the conveyor at 70 fps, Thai plate OCR designed for zero wrong reads. Each row says what evidence it stands on.',
-    stack: ['YOLOv8', 'OpenCV', 'PyTorch', 'librosa', 'ONNX'],
-    metrics: '9 PROBLEMS · REAL CCTV',
+    title: 'Sugarcane CV 1/9: Burnt vs Fresh Cane',
+    role: 'TRAINED CLASSIFIER · CCTV',
+    desc: 'Is the load on the truck burnt or fresh? Burnt cane is paid less, so every truck is graded. A trained image classifier on 8,612 real CCTV frames from the weighbridge camera. Works, but it is bound to that camera: move the lens and it needs retraining.',
+    stack: ['PyTorch', 'EfficientNet-B0', 'ONNX'],
+    metrics: '8,612 REAL CCTV FRAMES',
     category: 'COMPUTER VISION',
     internalLink: 'project-sugarcane-cv',
-    image: DUST_GIF,
-    isGif: true,
+    scrollTo: 'A1 · Burnt vs fresh cane',
+    image: 'https://raw.githubusercontent.com/watcharaponthod-code/sugarcane-cv/main/figures/real_burnt_cane.jpg',
     featured: true,
+  },
+  {
+    title: 'Sugarcane CV 2/9: Burnt Cane Mixed into a Load',
+    role: 'COLOUR RULE · NO MODEL',
+    desc: 'How much of a mixed load is burnt? No model: the detector counts dark burnt pixels against fresh green on the visible top surface. Tested on simulated mixes (30% scattered, 50% layered). The rule is found; the cut-off that flips the grade is not set yet.',
+    stack: ['OpenCV', 'NumPy'],
+    metrics: 'RULE FOUND · THRESHOLD OPEN',
+    category: 'COMPUTER VISION',
+    internalLink: 'project-sugarcane-cv',
+    scrollTo: 'A2 · Burnt cane mixed into a load',
+    image: 'https://raw.githubusercontent.com/watcharaponthod-code/sugarcane-cv/main/figures/burn_mix_30pct_scattered.jpg',
+    featured: true,
+  },
+  {
+    title: 'Sugarcane CV 3/9: Dirt, Tops and Leaf Trash',
+    role: 'TRAINED SEGMENTATION',
+    desc: 'What share of the load is soil, cane tops and leaf trash instead of millable cane. A trained segmentation model on 65 real labelled images. Too little data to conclude anything: reported as inconclusive rather than dressed up.',
+    stack: ['PyTorch', 'Segmentation'],
+    metrics: '65 IMAGES · INCONCLUSIVE',
+    category: 'COMPUTER VISION',
+    internalLink: 'project-sugarcane-cv',
+    scrollTo: 'A3 · Dirt, tops and leaf trash',
+    image: 'https://raw.githubusercontent.com/watcharaponthod-code/sugarcane-cv/main/figures/dirty_area_labels.jpg',
+  },
+  {
+    title: 'Sugarcane CV 4/9: Is There Cane on the Truck',
+    role: 'EDGE RULE · DEPLOYED',
+    desc: 'Before anything else, the side camera decides whether the incoming truck is loaded or empty and triggers the front camera. No model for the decision: classical edge and texture cues, 3.9 ms per frame, running on site at the mill.',
+    stack: ['OpenCV', 'YOLO11n', 'Raspberry Pi'],
+    metrics: '3.9 MS / FRAME · ON SITE',
+    category: 'COMPUTER VISION',
+    internalLink: 'project-sugarcane-cv',
+    scrollTo: 'A4 · Is there cane on the truck',
+    image: 'https://raw.githubusercontent.com/watcharaponthod-code/sugarcane-cv/main/figures/canegate_live.png',
+  },
+  {
+    title: 'Sugarcane CV 5/9: Dust Opacity While Tipping',
+    role: 'SEGMENTATION + RULE',
+    desc: 'How thick is the dust cloud as a truck tips, per bay, to trigger water spray and feed environmental reporting. LR-ASPP segmentation plus a hand-written veto rule. Recall is measured on a synthetic test set only; real dust has not been scored yet.',
+    stack: ['LR-ASPP', 'PyTorch', 'OpenCV'],
+    metrics: 'SYNTHETIC TEST ONLY',
+    category: 'COMPUTER VISION',
+    internalLink: 'project-sugarcane-cv',
+    scrollTo: 'B1 · Dust opacity while tipping',
+    image: 'https://raw.githubusercontent.com/watcharaponthod-code/sugarcane-cv/main/media/dust_base_vs_veto.gif',
+    isGif: true,
+  },
+  {
+    title: 'Sugarcane CV 6/9: Sand, Rock and Metal by Sound',
+    role: 'AUDIO CNN · MICROPHONE',
+    desc: 'A camera cannot see inside the pile, but a microphone hears sand or a rock hit the conveyor. Sound goes to log-mel spectrograms and a small CNN, trained on real recordings from the tipping bay. Sand is solved; rock and metal impacts are not claimed yet (recall 0.47–0.59).',
+    stack: ['log-mel CNN', 'soundfile', 'Stable Audio Open'],
+    metrics: 'SAND SOLVED · REAL AUDIO',
+    category: 'COMPUTER VISION',
+    internalLink: 'project-sugarcane-cv',
+    scrollTo: 'B2 · Sand, rock and metal by sound',
+  },
+  {
+    title: 'Sugarcane CV 7/9: Cane Flow on the Conveyor',
+    role: 'SELF-TRAINING · 70 FPS',
+    desc: 'Share of leaf on the moving sheet of cane, a continuous quality signal instead of one still per truck. A self-training segmentation model: labels start from a small hand-made set and the model grows them on real mill video. Runs at 70 fps.',
+    stack: ['YOLO', 'Self-training', 'OpenCV'],
+    metrics: '70 FPS ON REAL VIDEO',
+    category: 'COMPUTER VISION',
+    internalLink: 'project-sugarcane-cv',
+    scrollTo: 'C1 · Cane flow on the conveyor',
+    image: 'https://raw.githubusercontent.com/watcharaponthod-code/sugarcane-cv/main/media/caneflow_real.gif',
+    isGif: true,
+  },
+  {
+    title: 'Sugarcane CV 8/9: Thai Licence Plate OCR',
+    role: 'TWO READERS · ZERO WRONG',
+    desc: 'Bind every load to the right farmer by reading the plate at the weighbridge. Two independent readers: ONNX + cross-frame voting for accuracy, and a pure-CV reader with no model at all. Strict mode on a 60-image hard set: it abstains rather than guess, 0 wrong reads.',
+    stack: ['ONNX', 'OpenCV', 'Cross-frame voting'],
+    metrics: '0 WRONG OF 60 HARD IMAGES',
+    category: 'COMPUTER VISION',
+    internalLink: 'project-sugarcane-cv',
+    scrollTo: 'D1 · Thai licence plate OCR',
+  },
+  {
+    title: 'Sugarcane CV 9/9: Stalk Segmentation',
+    role: 'SUPPORTING · DINOv2',
+    desc: 'Outlines each individual cane stalk. No business value on its own; it exists so leaf share, stalk length and stacking orientation can be measured on real stalks. 31 hand-labelled images, DINOv2 features.',
+    stack: ['DINOv2', 'PyTorch'],
+    metrics: '31 HAND LABELS',
+    category: 'COMPUTER VISION',
+    internalLink: 'project-sugarcane-cv',
+    scrollTo: 'E1 · Stalk segmentation',
+    image: 'https://raw.githubusercontent.com/watcharaponthod-code/sugarcane-cv/main/figures/stalk_seg_dino.jpg',
   },
   {
     title: 'CaneGate: Truck Inspection',
@@ -294,6 +385,7 @@ function ProjectCard({ p, index }: { p: Project; index: number }) {
       return;
     }
     if (p.internalLink) {
+      try { if (p.scrollTo) sessionStorage.setItem('detail-scroll', p.scrollTo); } catch {}
       setView(p.internalLink as any);
     }
   };
