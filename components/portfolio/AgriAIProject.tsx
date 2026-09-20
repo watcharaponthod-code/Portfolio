@@ -27,7 +27,7 @@ export default function AgriAIProject() {
       sections: [
         {
           title: 'System Architecture',
-          body: 'Four zones. Zone 1 is the data: Sentinel-2, Sentinel-1 and DEM from Planetary Computer, NISAR from NASA Earthdata, CHIRPS rain, Open-Meteo weather and SoilGrids. Zone 2 is ours on Railway: the agri-ai service, the warehouse and model buckets, Jupyter, MLflow, Postgres, Loki and Grafana. Zone 3 is external GPU training on Kaggle and Modal. Zone 4 is the customer: the mill's backend API, its SQL Server, and the farmer app that shows what we send.',
+          body: 'Four zones. Zone 1 is the data: Sentinel-2, Sentinel-1 and DEM from Planetary Computer, NISAR from NASA Earthdata, CHIRPS rain, Open-Meteo weather and SoilGrids. Zone 2 is ours on Railway: the agri-ai service, the warehouse and model buckets, Jupyter, MLflow, Postgres, Loki and Grafana. Zone 3 is external GPU training on Kaggle and Modal. Zone 4 is the customer: the mill\'s backend API, its SQL Server, and the farmer app that shows what we send.',
           image: '/agri/agri-architecture.jpg',
           imageCaption: 'ARCHITECTURE // DATA → RAILWAY → GPU TRAINING → CUSTOMER',
           fullWidth: true,
