@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+import { motion, useReducedMotion } from 'framer-motion';
 import { useUI } from '../../lib/state';
 import { TbArrowLeft, TbBrandGithub, TbExternalLink } from 'react-icons/tb';
 
@@ -30,162 +31,316 @@ interface Props {
   data: ProjectDetailData;
 }
 
+const EASE = [0.16, 1, 0.3, 1] as const;
+const VIEWPORT = { once: true, margin: '-60px' } as const;
+
+/** Figure with a 1px border and a mono grey caption; fades in on scroll. */
+function Figure({ src, alt, caption, reduce }: { src: string; alt: string; caption?: string; reduce: boolean | null }) {
+  return (
+    <motion.figure
+      className="pd-figure"
+      initial={reduce ? { opacity: 0 } : { opacity: 0, y: 16 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={VIEWPORT}
+      transition={{ duration: 0.6, ease: EASE }}
+    >
+      <img src={src} alt={alt} loading="lazy" />
+      {caption && <figcaption className="mono">{caption}</figcaption>}
+    </motion.figure>
+  );
+}
+
 export default function ProjectDetail({ data }: Props) {
   const { setView } = useUI();
   const topRef = useRef<HTMLDivElement>(null);
+  const reduce = useReducedMotion();
 
-  useEffect(() => { topRef.current?.scrollIntoView({ behavior: 'instant' }); }, []);
+  useEffect(() => {
+    topRef.current?.scrollIntoView({ behavior: 'instant' });
+    // a card can ask to open the page at one section (Projects.tsx sets this)
+    let target: string | null = null;
+    try { target = sessionStorage.getItem('detail-scroll'); sessionStorage.removeItem('detail-scroll'); } catch {}
+    if (target) {
+      const el = document.querySelector<HTMLElement>(`[data-section="${CSS.escape(target)}"]`);
+      if (el) setTimeout(() => el.scrollIntoView({ behavior: 'smooth', block: 'start' }), 80);
+    }
+  }, []);
+
+  const rise = (delay = 0) => ({
+    initial: reduce ? { opacity: 0 } : { opacity: 0, y: 18 },
+    animate: { opacity: 1, y: 0 },
+    transition: { duration: 0.6, ease: EASE, delay },
+  });
+
+  const sectionOffset = data.keyFeatures ? 3 : 2;
 
   return (
-    <div ref={topRef} style={{ minHeight: '100vh', background: '#f2f2f0', color: '#000', fontFamily: 'inherit' }}>
+    <div ref={topRef} className="pd-root">
 
       {/* ── Top bar ── */}
-      <div style={{ position: 'sticky', top: 0, zIndex: 50, background: 'rgba(248,248,246,0.95)', backdropFilter: 'blur(16px)', borderBottom: '1px solid rgba(0,0,0,0.07)', padding: '1rem 2.5rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <button
-          onClick={() => setView('landing')}
-          className="mono"
-          style={{ background: 'none', border: '1px solid rgba(0,0,0,0.2)', color: '#000', padding: '0.5rem 1.2rem', fontFamily: 'var(--font-mono)', fontSize: '0.65rem', fontWeight: 900, letterSpacing: '0.15em', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.5rem', transition: 'all 0.25s', textTransform: 'uppercase' }}
-          onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = '#000'; (e.currentTarget as HTMLElement).style.color = '#fff'; }}
-          onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = 'none'; (e.currentTarget as HTMLElement).style.color = '#000'; }}
-        >
+      <div className="pd-topbar">
+        <button onClick={() => setView('landing')} className="pd-btn pd-btn-ghost mono">
           <TbArrowLeft size={14} /> BACK
         </button>
-        <div className="mono" style={{ fontSize: '0.6rem', color: 'rgba(0,0,0,0.3)', letterSpacing: '0.2em' }}>{data.role} // {data.year}</div>
-        <div style={{ display: 'flex', gap: '0.8rem' }}>
+        <div className="pd-topbar-meta mono">{data.role} // {data.year}</div>
+        <div className="pd-topbar-actions">
           {data.githubLink && (
-            <a href={data.githubLink} target="_blank" rel="noreferrer" className="mono"
-              style={{ background: '#000', color: '#fff', border: 'none', padding: '0.5rem 1.2rem', fontSize: '0.65rem', fontWeight: 900, letterSpacing: '0.15em', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '0.5rem', transition: 'all 0.25s' }}
-              onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = '#e63f6a'; (e.currentTarget as HTMLElement).style.color = '#000'; }}
-              onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = '#000'; (e.currentTarget as HTMLElement).style.color = '#fff'; }}
-            >
+            <a href={data.githubLink} target="_blank" rel="noreferrer" className="pd-btn pd-btn-solid mono">
               <TbBrandGithub size={13} /> GITHUB
             </a>
           )}
           {data.liveLink && (
-            <a href={data.liveLink} target="_blank" rel="noreferrer" className="mono"
-              style={{ background: 'transparent', color: '#000', border: '1px solid rgba(0,0,0,0.25)', padding: '0.5rem 1.2rem', fontSize: '0.65rem', fontWeight: 900, letterSpacing: '0.15em', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '0.5rem', transition: 'all 0.25s' }}
-              onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = '#000'; (e.currentTarget as HTMLElement).style.color = '#fff'; }}
-              onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = 'transparent'; (e.currentTarget as HTMLElement).style.color = '#000'; }}
-            >
+            <a href={data.liveLink} target="_blank" rel="noreferrer" className="pd-btn pd-btn-ghost mono">
               <TbExternalLink size={13} /> LIVE
             </a>
           )}
         </div>
       </div>
 
-      <div style={{ maxWidth: '1100px', margin: '0 auto', padding: 'clamp(3rem, 7vw, 6rem) clamp(1.5rem, 5vw, 2.5rem)' }}>
+      <div className="pd-page">
 
         {/* ── Hero ── */}
-        <div style={{ borderBottom: '1px solid rgba(0,0,0,0.08)', paddingBottom: 'clamp(3rem, 7vw, 5rem)', marginBottom: 'clamp(3rem, 7vw, 5rem)' }}>
-          <div className="mono" style={{ fontSize: '0.6rem', color: '#e63f6a', fontWeight: 900, letterSpacing: '0.3em', marginBottom: '1.2rem' }}>{data.role.toUpperCase()}</div>
-          <h1 style={{ fontSize: 'clamp(2.5rem, 7vw, 5rem)', fontWeight: 950, letterSpacing: '-0.05em', textTransform: 'uppercase', lineHeight: 0.95, marginBottom: '1.5rem' }}>{data.title}</h1>
-          <p style={{ fontSize: 'clamp(1rem, 3vw, 1.3rem)', color: 'rgba(0,0,0,0.55)', fontWeight: 300, lineHeight: 1.6, maxWidth: '640px', marginBottom: '3rem' }}>{data.tagline}</p>
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '2.5rem', borderTop: '1px solid rgba(0,0,0,0.07)', paddingTop: '2rem' }}>
+        <header className="pd-hero">
+          <motion.div className="pd-eyebrow mono" {...rise(0.05)}>{data.role.toUpperCase()}</motion.div>
+          <motion.h1 className="pd-title" {...rise(0.12)}>{data.title}</motion.h1>
+          <motion.p className="pd-tagline" {...rise(0.2)}>{data.tagline}</motion.p>
+          <motion.div className="pd-metrics" {...rise(0.3)}>
             {data.metrics.map(m => (
-              <div key={m.label}>
-                <div className="mono" style={{ fontSize: '0.55rem', color: 'rgba(0,0,0,0.3)', letterSpacing: '0.2em', marginBottom: '0.3rem' }}>{m.label}</div>
-                <div className="mono" style={{ fontSize: '1.1rem', fontWeight: 950, letterSpacing: '-0.02em' }}>{m.value}</div>
+              <div key={m.label} className="pd-metric">
+                <div className="pd-metric-label mono">{m.label}</div>
+                <div className="pd-metric-value mono">{m.value}</div>
               </div>
             ))}
-          </div>
-        </div>
+          </motion.div>
+        </header>
 
         {/* ── Media Gallery (full-width, before any text) ── */}
         {data.mediaGallery && data.mediaGallery.length > 0 && (
-          <div style={{ marginBottom: 'clamp(3rem, 7vw, 5rem)' }}>
-            <div className="mono" style={{ fontSize: '0.6rem', color: '#e63f6a', fontWeight: 900, letterSpacing: '0.3em', marginBottom: '1.8rem' }}>LIVE_DEMO // MEDIA_GALLERY</div>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+          <section className="pd-section">
+            <div className="pd-eyebrow mono">LIVE_DEMO // MEDIA_GALLERY</div>
+            <div className="pd-gallery">
               {data.mediaGallery.map((item, i) => (
-                <div key={i} style={{ border: '1px solid rgba(0,0,0,0.08)', overflow: 'hidden', background: 'rgba(0,0,0,0.01)' }}>
-                  <img src={item.src} alt={item.caption || `media-${i}`} style={{ width: '100%', display: 'block' }} loading="lazy" />
-                  {item.caption && (
-                    <div className="mono" style={{ padding: '0.7rem 1.2rem', fontSize: '0.58rem', color: 'rgba(0,0,0,0.25)', borderTop: '1px solid rgba(0,0,0,0.06)', letterSpacing: '0.18em' }}>{item.caption}</div>
-                  )}
-                </div>
+                <Figure key={i} src={item.src} alt={item.caption || `media-${i}`} caption={item.caption} reduce={reduce} />
               ))}
             </div>
-          </div>
+          </section>
         )}
 
         {/* ── Overview ── */}
-        <div style={{ marginBottom: 'clamp(3rem, 7vw, 5rem)' }}>
-          <div className="mono" style={{ fontSize: '0.6rem', color: 'rgba(0,0,0,0.3)', letterSpacing: '0.25em', marginBottom: '1.2rem' }}>01 // OVERVIEW</div>
-          <p style={{ fontSize: 'clamp(1rem, 2.5vw, 1.15rem)', color: 'rgba(0,0,0,0.75)', lineHeight: 1.8, fontWeight: 300, maxWidth: '760px' }}>{data.overview}</p>
-        </div>
+        <section className="pd-section">
+          <div className="pd-kicker mono">01 // OVERVIEW</div>
+          <p className="pd-lead measure">{data.overview}</p>
+        </section>
 
         {/* ── Key Features ── */}
         {data.keyFeatures && data.keyFeatures.length > 0 && (
-          <div style={{ marginBottom: 'clamp(3rem, 7vw, 5rem)' }}>
-            <div className="mono" style={{ fontSize: '0.6rem', color: 'rgba(0,0,0,0.3)', letterSpacing: '0.25em', marginBottom: '1.5rem' }}>02 // KEY FEATURES</div>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '1px', border: '1px solid rgba(0,0,0,0.08)' }}>
+          <section className="pd-section">
+            <div className="pd-kicker mono">02 // KEY FEATURES</div>
+            <div className="pd-features">
               {data.keyFeatures.map((feat, i) => (
-                <div key={i} style={{ padding: '1.5rem', borderRight: i % 2 === 0 ? '1px solid rgba(0,0,0,0.08)' : 'none', borderBottom: '1px solid rgba(0,0,0,0.08)' }}>
-                  <div className="mono" style={{ fontSize: '0.6rem', color: '#e63f6a', marginBottom: '0.5rem' }}>{String(i + 1).padStart(2, '0')}</div>
-                  <p style={{ fontSize: '0.9rem', color: 'rgba(0,0,0,0.7)', lineHeight: 1.6 }}>{feat}</p>
+                <div key={i} className="pd-feature">
+                  <div className="pd-feature-num mono">{String(i + 1).padStart(2, '0')}</div>
+                  <p>{feat}</p>
                 </div>
               ))}
             </div>
-          </div>
+          </section>
         )}
 
         {/* ── Content Sections: image FIRST (full-width), then text ── */}
         {data.sections.map((sec, i) => (
-          <div key={i} style={{ marginBottom: 'clamp(4rem, 9vw, 7rem)' }}>
-            <div className="mono" style={{ fontSize: '0.6rem', color: 'rgba(0,0,0,0.3)', letterSpacing: '0.25em', marginBottom: '1.2rem' }}>
-              {String(i + (data.keyFeatures ? 3 : 2)).padStart(2, '0')} // {sec.title.toUpperCase()}
+          <section key={i} data-section={sec.title} className="pd-section pd-content">
+            <div className="pd-kicker mono">
+              {String(i + sectionOffset).padStart(2, '0')} // {sec.title.toUpperCase()}
             </div>
-            <h3 style={{ fontSize: 'clamp(1.3rem, 4vw, 2rem)', fontWeight: 950, letterSpacing: '-0.03em', textTransform: 'uppercase', marginBottom: '2rem' }}>{sec.title}</h3>
+            <h3 className="pd-h3">{sec.title}</h3>
 
             {/* Image shown FULL WIDTH first */}
             {sec.image && (
-              <div style={{ border: '1px solid rgba(0,0,0,0.08)', overflow: 'hidden', background: 'rgba(0,0,0,0.01)', marginBottom: '2.5rem' }}>
-                <img src={sec.image} alt={sec.title} style={{ width: '100%', display: 'block' }} loading="lazy" />
-                {sec.imageCaption && (
-                  <div className="mono" style={{ padding: '0.8rem 1.2rem', fontSize: '0.6rem', color: 'rgba(0,0,0,0.3)', borderTop: '1px solid rgba(0,0,0,0.06)', letterSpacing: '0.15em' }}>{sec.imageCaption}</div>
-                )}
-              </div>
+              <Figure src={sec.image} alt={sec.title} caption={sec.imageCaption} reduce={reduce} />
             )}
 
             {/* Text description below */}
-            <p style={{ fontSize: 'clamp(0.9rem, 2.2vw, 1.05rem)', color: 'rgba(0,0,0,0.65)', lineHeight: 1.8, fontWeight: 300, maxWidth: '760px' }}>{sec.body}</p>
-          </div>
+            <p className="pd-body measure">{sec.body}</p>
+          </section>
         ))}
 
         {/* ── Tech Stack ── */}
-        <div style={{ borderTop: '1px solid rgba(0,0,0,0.08)', paddingTop: 'clamp(2.5rem, 6vw, 4rem)', marginBottom: 'clamp(3rem, 7vw, 5rem)' }}>
-          <div className="mono" style={{ fontSize: '0.6rem', color: 'rgba(0,0,0,0.3)', letterSpacing: '0.25em', marginBottom: '1.5rem' }}>STACK</div>
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.6rem' }}>
+        <section className="pd-section">
+          <div className="pd-kicker mono">STACK</div>
+          <div className="pd-stack">
             {data.stack.map(t => (
-              <span key={t} className="mono" style={{ fontSize: '0.7rem', fontWeight: 900, border: '1px solid rgba(0,0,0,0.2)', padding: '0.4rem 1rem', color: 'rgba(0,0,0,0.7)', letterSpacing: '0.1em' }}>{t}</span>
+              <span key={t} className="pd-stack-tag mono">{t}</span>
             ))}
           </div>
-        </div>
+        </section>
 
         {/* ── Footer CTA ── */}
-        <div style={{ borderTop: '1px solid rgba(0,0,0,0.08)', paddingTop: '2.5rem', display: 'flex', flexWrap: 'wrap', gap: '1rem', alignItems: 'center', justifyContent: 'space-between' }}>
-          <div className="mono" style={{ fontSize: '0.6rem', color: 'rgba(0,0,0,0.2)', letterSpacing: '0.2em' }}>END_OF_CASE_STUDY // {data.id.toUpperCase()}</div>
-          <div style={{ display: 'flex', gap: '0.8rem' }}>
-            <button
-              onClick={() => setView('landing')}
-              className="mono"
-              style={{ background: '#000', color: '#fff', border: 'none', padding: '0.8rem 2rem', fontFamily: 'var(--font-mono)', fontSize: '0.7rem', fontWeight: 900, letterSpacing: '0.15em', cursor: 'pointer', transition: 'all 0.25s' }}
-              onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = '#e63f6a'; (e.currentTarget as HTMLElement).style.color = '#000'; }}
-              onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = '#000'; (e.currentTarget as HTMLElement).style.color = '#fff'; }}
-            >
+        <footer className="pd-footer">
+          <div className="pd-footer-meta mono">END_OF_CASE_STUDY // {data.id.toUpperCase()}</div>
+          <div className="pd-footer-actions">
+            <button onClick={() => setView('landing')} className="pd-btn pd-btn-solid pd-btn-lg mono">
               ← BACK TO WORKS
             </button>
             {data.githubLink && (
-              <a href={data.githubLink} target="_blank" rel="noreferrer" className="mono"
-                style={{ background: 'transparent', color: '#000', border: '1px solid rgba(0,0,0,0.25)', padding: '0.8rem 2rem', fontSize: '0.7rem', fontWeight: 900, letterSpacing: '0.15em', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '0.6rem', transition: 'all 0.25s' }}
-                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = '#000'; (e.currentTarget as HTMLElement).style.color = '#fff'; }}
-                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = 'transparent'; (e.currentTarget as HTMLElement).style.color = '#000'; }}
-              >
+              <a href={data.githubLink} target="_blank" rel="noreferrer" className="pd-btn pd-btn-ghost pd-btn-lg mono">
                 <TbBrandGithub size={14} /> GITHUB
               </a>
             )}
           </div>
-        </div>
+        </footer>
       </div>
+
+      <style>{`
+        .pd-root {
+          --pd-accent: #e63f6a;               /* the one existing accent on case-study pages */
+          --pd-bg: #f5f5f3;
+          --pd-rule: rgba(16,16,20,0.10);
+          --pd-gutter: clamp(1.25rem, 5vw, 2.5rem);
+          min-height: 100vh; background: var(--pd-bg); color: var(--text-primary);
+          font-family: inherit;
+        }
+
+        /* ── sticky top bar ── */
+        .pd-topbar {
+          position: sticky; top: 0; z-index: 50;
+          display: flex; align-items: center; justify-content: space-between; gap: var(--space-4);
+          padding: var(--space-3) var(--pd-gutter);
+          background: rgba(245,245,243,0.88); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+          border-bottom: 1px solid var(--pd-rule);
+        }
+        .pd-topbar-meta {
+          font-size: var(--text-2xs); letter-spacing: 0.2em; color: var(--text-tertiary);
+          text-transform: uppercase; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+          min-width: 0;
+        }
+        .pd-topbar-actions { display: flex; gap: var(--space-2); flex: 0 0 auto; }
+
+        /* ── buttons ── */
+        .pd-btn {
+          display: inline-flex; align-items: center; gap: 0.5rem;
+          padding: 0.5rem 1.1rem; font-family: var(--font-mono); font-size: var(--text-2xs);
+          font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; text-decoration: none;
+          cursor: pointer; line-height: 1; white-space: nowrap;
+          transition: background var(--dur-fast) ease, color var(--dur-fast) ease, border-color var(--dur-fast) ease;
+        }
+        .pd-btn-lg { padding: 0.85rem 1.8rem; font-size: 0.68rem; }
+        .pd-btn-ghost { background: transparent; color: var(--text-primary); border: 1px solid var(--border-accent); }
+        .pd-btn-ghost:hover { background: var(--text-primary); color: #fff; border-color: var(--text-primary); }
+        .pd-btn-solid { background: var(--text-primary); color: #fff; border: 1px solid var(--text-primary); }
+        .pd-btn-solid:hover { background: var(--pd-accent); border-color: var(--pd-accent); color: #fff; }
+
+        /* ── page column ── */
+        .pd-page {
+          max-width: 1100px; margin: 0 auto;
+          padding: clamp(3rem, 7vw, 5.5rem) var(--pd-gutter) clamp(4rem, 8vw, 6rem);
+        }
+
+        /* ── hero ── */
+        .pd-hero { padding-bottom: var(--section-gap); }
+        .pd-eyebrow {
+          font-size: var(--text-2xs); font-weight: 700; letter-spacing: 0.3em; text-transform: uppercase;
+          color: var(--pd-accent); margin-bottom: var(--space-5);
+        }
+        .pd-title {
+          font-size: clamp(2.4rem, 1.6rem + 4.5vw, 5rem); font-weight: 900;
+          letter-spacing: -0.045em; text-transform: uppercase; line-height: 0.95;
+          margin: 0 0 var(--space-5); max-width: 18ch; text-wrap: balance;
+        }
+        .pd-tagline {
+          font-size: var(--text-lg); color: var(--text-secondary);
+          font-weight: 300; line-height: 1.6; max-width: 40ch; margin: 0 0 var(--space-7);
+        }
+        .pd-metrics {
+          display: grid; grid-template-columns: repeat(4, minmax(0, 1fr));
+          gap: var(--space-5) var(--space-6);
+          border-top: 1px solid var(--pd-rule); padding-top: var(--space-5);
+        }
+        .pd-metric { min-width: 0; }
+        .pd-metric-label {
+          font-size: 0.55rem; letter-spacing: 0.2em; text-transform: uppercase;
+          color: var(--text-tertiary); margin-bottom: var(--space-2);
+        }
+        .pd-metric-value { font-size: 1.05rem; font-weight: 700; letter-spacing: -0.02em; line-height: 1.25; overflow-wrap: anywhere; }
+
+        /* ── sections: one rhythm, thin rule on top ── */
+        .pd-section {
+          border-top: 1px solid var(--pd-rule);
+          padding-top: var(--section-gap);
+          margin-bottom: var(--section-gap);
+          scroll-margin-top: 5rem;
+        }
+        .pd-kicker {
+          font-size: var(--text-2xs); letter-spacing: 0.25em; text-transform: uppercase;
+          color: var(--text-tertiary); margin-bottom: var(--space-5);
+        }
+        .pd-h3 {
+          font-size: var(--text-h3); font-weight: 900; letter-spacing: -0.03em;
+          text-transform: uppercase; line-height: 1.05; margin: 0 0 var(--space-6);
+        }
+        .pd-lead {
+          font-size: var(--text-lg); color: rgba(16,16,20,0.78);
+          line-height: 1.75; font-weight: 300;
+        }
+        .pd-body {
+          font-size: var(--text-base); color: var(--text-secondary);
+          line-height: 1.8; font-weight: 300;
+        }
+
+        /* ── figures ── */
+        .pd-figure {
+          margin: 0 0 var(--space-6); border: 1px solid var(--pd-rule);
+          overflow: hidden; background: #fff;
+        }
+        .pd-figure img { width: 100%; display: block; }
+        .pd-figure figcaption {
+          padding: var(--space-3) var(--space-4); font-size: var(--text-2xs);
+          color: var(--text-tertiary); letter-spacing: 0.15em; text-transform: uppercase;
+          border-top: 1px solid var(--pd-rule); line-height: 1.5;
+        }
+        .pd-gallery { display: flex; flex-direction: column; gap: var(--space-4); }
+        .pd-gallery .pd-figure { margin-bottom: 0; }
+
+        /* ── key features ── */
+        .pd-features {
+          display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+          gap: 1px; background: var(--pd-rule); border: 1px solid var(--pd-rule);
+        }
+        .pd-feature { padding: var(--space-5); background: var(--pd-bg); }
+        .pd-feature-num { font-size: var(--text-2xs); color: var(--pd-accent); letter-spacing: 0.15em; margin-bottom: var(--space-2); }
+        .pd-feature p { font-size: var(--text-sm); color: rgba(16,16,20,0.72); line-height: 1.65; font-weight: 400; margin: 0; }
+
+        /* ── stack ── */
+        .pd-stack { display: flex; flex-wrap: wrap; gap: var(--space-2); }
+        .pd-stack-tag {
+          font-size: 0.68rem; font-weight: 700; border: 1px solid var(--border-accent);
+          padding: 0.4rem 0.9rem; color: var(--text-secondary); letter-spacing: 0.1em;
+        }
+
+        /* ── footer ── */
+        .pd-footer {
+          border-top: 1px solid var(--pd-rule); padding-top: var(--space-6);
+          display: flex; flex-wrap: wrap; gap: var(--space-4); align-items: center; justify-content: space-between;
+        }
+        .pd-footer-meta { font-size: var(--text-2xs); color: var(--text-tertiary); letter-spacing: 0.2em; }
+        .pd-footer-actions { display: flex; flex-wrap: wrap; gap: var(--space-2); }
+
+        @media (max-width: 900px) {
+          .pd-metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        }
+        @media (max-width: 640px) {
+          .pd-topbar { padding: var(--space-2) var(--pd-gutter); }
+          .pd-topbar-meta { display: none; }
+          .pd-btn { padding: 0.5rem 0.9rem; }
+          .pd-title { max-width: none; }
+          .pd-tagline { margin-bottom: var(--space-6); }
+          .pd-metrics { gap: var(--space-4); }
+          .pd-features { grid-template-columns: 1fr; }
+          .pd-feature { padding: var(--space-4); }
+          .pd-footer-actions { width: 100%; }
+          .pd-footer-actions .pd-btn { flex: 1 1 auto; justify-content: center; }
+        }
+      `}</style>
     </div>
   );
 }

@@ -29,6 +29,10 @@ export default function ShortsAutomationProject() {
           title: 'What the numbers say',
           body: 'Traffic is 97% Shorts feed, 84% Thailand and 15% Laos, 95% mobile, 56% women, 25–44 years. Average 211k views a day across the last 8 days measured. Revenue estimates are labelled as market reference RPM, not account data, because the analytics API does not expose revenue before monetisation. The realistic income for a channel like this is brand deals and affiliate, not ad revenue, and the doc says so.',
         },
+        {
+          title: 'Outcome',
+          body: "What it changed: a two-channel content operation runs on one person's time, with every publishing decision driven by the previous day's numbers. In its first weeks the main channel reached 3.34M views and 5,510 subscribers.",
+        },
       ],
       stack: ['Python', 'Bash', 'YouTube Analytics API', 'Maton REST proxy', 'meta.ai', 'Facebook Graph API', 'Gemini TTS', 'ffmpeg'],
       metrics: [

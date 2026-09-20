@@ -1,9 +1,10 @@
 import { LiveAPIProvider } from './contexts/LiveAPIContext';
+import { LanguageProvider } from './lib/i18n';
 import NavBar from './components/NavBar';
 import Landing from './components/portfolio/Landing';
 import { useState, useEffect, useMemo } from 'react';
 import { TbX, TbMessageChatbot, TbVolume } from 'react-icons/tb';
-import LiveAIDemo from './components/portfolio/LiveAIDemo';
+import AssistantPanel from './components/portfolio/AssistantPanel';
 import { useUI } from './lib/state';
 import GeoMapProject from './components/portfolio/GeoMapProject';
 import KafkaConnectorProject from './components/portfolio/KafkaConnectorProject';
@@ -16,7 +17,11 @@ import EmbeddingRagProject from './components/portfolio/EmbeddingRagProject';
 import BitcoinMLProject from './components/portfolio/BitcoinMLProject';
 import RAGEcosystemProject from './components/portfolio/RAGEcosystemProject';
 import AgriAIProject from './components/portfolio/AgriAIProject';
+import CropScanProject from './components/portfolio/CropScanProject';
+import YieldProProject from './components/portfolio/YieldProProject';
 import ShortsAutomationProject from './components/portfolio/ShortsAutomationProject';
+import SugarcaneCVProject from './components/portfolio/SugarcaneCVProject';
+import SugarcaneDetectorProject from './components/portfolio/SugarcaneDetectorProject';
 import { AnimatePresence, motion } from 'framer-motion';
 
 function App() {
@@ -49,8 +54,13 @@ function App() {
       case 'project-subway': return <SubwayKidsProject />;
       case 'project-elic': return <ElicProject />;
       case 'project-agri-ai': return <AgriAIProject />;
+      case 'project-cropscan': return <CropScanProject />;
+      case 'project-yieldpro': return <YieldProProject />;
       case 'project-shorts': return <ShortsAutomationProject />;
-      default: return null;
+      case 'project-sugarcane-cv': return <SugarcaneCVProject />;
+      default:
+        if (currentView.startsWith('project-scv-')) return <SugarcaneDetectorProject id={currentView.replace('project-', '')} />;
+        return null;
     }
   }, [currentView]);
 
@@ -64,6 +74,7 @@ function App() {
 
   return (
     <div className="App" style={{ background: '#fff' }}>
+      <LanguageProvider>
       <LiveAPIProvider>
         <NavBar />
         <main>
@@ -101,7 +112,7 @@ function App() {
                   <div className="hint-header">
                     <TbVolume size={18} /> <span>SYSTEM_BROADCAST</span>
                   </div>
-                  <p>Try my AI Voice Assistant! Ask about my skills, projects, or professional background.</p>
+                  <p>Chat with my AI about the projects, the numbers behind them, or my background. Switch to voice any time.</p>
                   <div className="hint-action">CLICK TO INITIALIZE</div>
                 </motion.div>
               )}
@@ -124,11 +135,11 @@ function App() {
                   className="ai-mini-window"
                 >
                   <div className="ai-mini-header">
-                    <div className="mono title">CORE_AI_INTERFACE</div>
+                    <div className="mono title">ASK_WATCHARAPON_AI</div>
                     <div className="status-blink" />
                   </div>
                   <div className="ai-mini-body">
-                    <LiveAIDemo />
+                    <AssistantPanel />
                   </div>
                 </motion.div>
               )}
@@ -136,6 +147,7 @@ function App() {
           </div>
         )}
       </LiveAPIProvider>
+      </LanguageProvider>
 
       <style>{`
         .project-detail-overlay {
@@ -156,40 +168,43 @@ function App() {
           display: flex; flex-direction: column; align-items: flex-end; gap: 1rem;
         }
         .ai-hint-box {
-          background: #000; color: #fff; padding: 1.5rem; width: 300px;
-          box-shadow: 0 20px 50px rgba(255,255,255,0.4); border-radius: 4px;
+          background: #101014; color: #fff; padding: 1.25rem 1.5rem; width: 300px;
+          box-shadow: 0 16px 40px rgba(16,16,20,0.22); border-radius: 12px;
           cursor: pointer; position: relative;
         }
         .ai-hint-box .hint-header {
-          display: flex; align-items: center; gap: 0.5rem; font-weight: 950;
-          font-size: 0.65rem; margin-bottom: 0.8rem; border-bottom: 1px solid rgba(255,255,255,0.1);
-          padding-bottom: 0.5rem;
+          display: flex; align-items: center; gap: 0.5rem; font-weight: 700;
+          font-size: 0.65rem; letter-spacing: 0.12em; margin-bottom: 0.75rem;
+          border-bottom: 1px solid rgba(255,255,255,0.12); padding-bottom: 0.6rem;
         }
-        .ai-hint-box p { font-size: 0.85rem; line-height: 1.5; margin-bottom: 1rem; color: #fff; font-weight: 500; }
-        .ai-hint-box .hint-action { font-size: 0.7rem; font-weight: 950; text-decoration: underline; text-align: right; }
+        .ai-hint-box p { font-size: 0.85rem; line-height: 1.55; margin-bottom: 1rem; color: rgba(255,255,255,0.88); font-weight: 400; }
+        .ai-hint-box .hint-action { font-size: 0.66rem; font-weight: 700; letter-spacing: 0.1em; text-decoration: underline; text-underline-offset: 3px; text-align: right; }
 
         .floating-ai-toggle {
-          width: 64px; height: 64px; background: #fff; color: #000;
-          border: 1px solid #000; border-radius: 50%; display: flex;
+          width: 60px; height: 60px; background: #fff; color: #101014;
+          border: 1px solid #101014; border-radius: 50%; display: flex;
           align-items: center; justify-content: center; cursor: pointer;
-          box-shadow: 0 10px 30px rgba(255,255,255,0.3); transition: all 0.4s;
+          box-shadow: 0 10px 28px rgba(16,16,20,0.18);
+          transition: transform 0.35s cubic-bezier(0.16,1,0.3,1), background 0.25s ease, color 0.25s ease, box-shadow 0.25s ease;
         }
-        .floating-ai-toggle:hover { transform: scale(1.1); background: #000; color: #fff; }
-        .floating-ai-toggle.active { background: #000; color: #fff; }
+        .floating-ai-toggle:hover { transform: scale(1.06); background: #101014; color: #fff; box-shadow: 0 14px 36px rgba(16,16,20,0.26); }
+        .floating-ai-toggle.active { background: #101014; color: #fff; }
 
         .ai-mini-window {
-          position: absolute; bottom: 85px; right: 0;
-          width: 450px; height: 650px; background: #fff;
-          border: 1px solid #000; box-shadow: 0 40px 100px rgba(255,255,255,0.8);
+          position: absolute; bottom: 80px; right: 0;
+          width: 440px; height: min(680px, calc(100vh - 8rem)); background: #fff;
+          border: 1px solid rgba(16,16,20,0.16); border-radius: 16px;
+          box-shadow: 0 24px 64px rgba(16,16,20,0.18), 0 4px 12px rgba(16,16,20,0.08);
           display: flex; flex-direction: column; overflow: hidden;
         }
         .ai-mini-header {
-          padding: 1rem 1.5rem; background: #000; color: #fff;
-          display: flex; justify-content: space-between; align-items: center;
+          padding: 0.85rem 1.25rem; background: #101014; color: #fff;
+          display: flex; justify-content: space-between; align-items: center; gap: 1rem;
+          flex: 0 0 auto;
         }
-        .ai-mini-header .title { font-weight: 950; font-size: 0.7rem; letter-spacing: 0.2rem; }
-        .status-blink { width: 8px; height: 8px; background: #fff; border-radius: 50%; animation: blink 1s infinite; }
-        .ai-mini-body { flex: 1; position: relative; }
+        .ai-mini-header .title { font-weight: 700; font-size: 0.66rem; letter-spacing: 0.2em; }
+        .status-blink { width: 7px; height: 7px; background: #fff; border-radius: 50%; animation: blink 1.4s ease-in-out infinite; flex: 0 0 auto; }
+        .ai-mini-body { flex: 1 1 auto; position: relative; min-height: 0; }
         
         @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
 
@@ -199,15 +214,17 @@ function App() {
         }
 
         @media (max-width: 600px) {
-          .ai-mini-window { 
-            width: calc(100vw - 2rem); 
-            height: clamp(500px, 80vh, 700px); 
-            right: 0rem;
-            max-height: calc(100% - 100px);
+          .ai-widget-root { bottom: 0.75rem; right: 0.5rem; }
+          .ai-mini-window {
+            width: calc(100vw - 1rem);
+            height: clamp(480px, 78vh, 700px);
+            max-height: calc(100vh - 5.5rem);
+            right: 0;
+            bottom: 72px;
+            border-radius: 14px;
           }
-          .ai-widget-root { bottom: 1rem; right: 1rem; }
-          .ai-hint-box { width: calc(100vw - 2rem); }
-          .floating-ai-toggle { width: 56px; height: 56px; }
+          .ai-hint-box { width: calc(100vw - 1rem); }
+          .floating-ai-toggle { width: 54px; height: 54px; }
         }
       `}</style>
     </div>

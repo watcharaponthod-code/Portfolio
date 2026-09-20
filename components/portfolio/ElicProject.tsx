@@ -53,6 +53,10 @@ export default function ElicProject() {
           title: 'CI/CD & Build Pipeline',
           body: 'GitHub Actions workflow builds the APK through EAS (Expo Application Services) and uploads the artifact to Google Drive automatically. Two build profiles: preview and production. Requires EXPO_TOKEN and MATON_API_KEY as repository secrets.',
         },
+        {
+          title: 'Outcome',
+          body: "What it changed: Thai learners get a conversation partner that corrects them mid-sentence and explains in Thai, on a phone, with no tutor cost per session. The capstone shipped as an installable APK with a live leaderboard.",
+        },
       ],
       stack: ['React Native 0.76.9', 'Expo ~52.0', 'Google Gemini API', 'Firebase Auth', 'Cloud Firestore', 'Firebase Realtime DB', 'FastAPI TTS', 'AsyncStorage', 'GitHub Actions', 'EAS Build'],
       metrics: [

@@ -58,6 +58,10 @@ export default function RAGEcosystemProject() {
           image: pic5,
           imageCaption: 'INFRA // KUBERNETES + GITLAB CI/CD PIPELINE',
         },
+        {
+          title: 'Outcome',
+          body: "What it changed for the company: every department uploads its documents into one system, so anyone can follow a project's status and see its full picture without chasing people. Questions that used to mean searching mail and shared drives are answered from the documents themselves, with the source shown. Nothing leaves the building, which is what made it usable for internal records at all.",
+        },
       ],
       stack: ['React', 'TypeScript', 'Node.js', 'Express', 'Python', 'LangGraph', 'LangChain', 'LlamaIndex', 'Ollama', 'BGE-M3', 'BGE-Reranker-v2-m3', 'pgvector', 'PostgreSQL', 'MySQL', 'n8n', 'Docker', 'Kubernetes', 'GitLab CI/CD'],
       metrics: [

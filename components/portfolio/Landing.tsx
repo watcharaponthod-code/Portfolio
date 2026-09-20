@@ -6,6 +6,7 @@ import SkillArchitecture from './SkillArchitecture';
 import Projects from './Projects';
 import MatrixRain from '../visuals/MatrixRain';
 import ScrambleText from '../visuals/ScrambleText';
+import { useLang } from '../../lib/i18n';
 
 interface LandingProps {
   onPresentationComplete?: () => void;
@@ -81,6 +82,7 @@ function HackerPreloader({ onDone }: { onDone: () => void }) {
 
 // ── Hero Section (Restoring Stage 0/1/2) ────────────────────────
 function HeroSection({ onAboutMe }: { onAboutMe: () => void }) {
+  const { lang, t } = useLang();
   const [stage, setStage] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -133,7 +135,7 @@ function HeroSection({ onAboutMe }: { onAboutMe: () => void }) {
               letterSpacing: '0.1em',
               marginBottom: '1.6rem'
             }}>
-              <ScrambleText text="AI Engineer" delay={700} duration={1200} chars="01" />
+              <ScrambleText key={lang} text={t('hero.role')} delay={700} duration={1200} chars="01" />
               <span className="cursor-blink" style={{ color: 'var(--text-primary)' }}>_</span>
             </div>
 
@@ -141,10 +143,7 @@ function HeroSection({ onAboutMe }: { onAboutMe: () => void }) {
               opacity: stage >= 2 ? 1 : 0,
               transition: 'opacity 1s 0.3s'
             }}>
-              I build computer vision that has to work on real cameras, in real weather,
-              on hardware someone already owns. Most of it runs at a sugar mill in Thailand:
-              grading cane on the weighbridge, reading truck plates, listening for rocks in
-              the load. I report what the numbers do not cover as carefully as what they do.
+              {t('hero.blurb')}
             </p>
 
             <motion.div className="hero-buttons" style={{
@@ -153,8 +152,8 @@ function HeroSection({ onAboutMe }: { onAboutMe: () => void }) {
               y: stage >= 2 ? 0 : 30,
               flexWrap: 'wrap'
             }} transition={{ duration: 1 }}>
-              <a href={RESUME_DOWNLOAD_URL} className="btn-monochrome-primary">Resume</a>
-              <button type="button" onClick={onAboutMe} className="btn-monochrome-outline">About_Me</button>
+              <a href={RESUME_DOWNLOAD_URL} className="btn-monochrome-primary">{t('hero.resume')}</a>
+              <button type="button" onClick={onAboutMe} className="btn-monochrome-outline">{t('hero.about')}</button>
             </motion.div>
           </div>
 
@@ -350,11 +349,9 @@ export default function Landing({ onPresentationComplete }: LandingProps) {
 
   return (
     <div className="landing-page">
-      {!preloaderDone && <HackerPreloader onDone={() => { setPreloaderDone(true); setShowPresentation(true); }} />}
+      {!preloaderDone && <HackerPreloader onDone={() => { setPreloaderDone(true); handleComplete(); }} />}
 
-      {showPresentation && !presentationDone && (
-        <PresentationMode onComplete={handleComplete} />
-      )}
+      {/* presentation intro removed: it repeated the hero and the case studies */}
 
       {/* Main Content Sections */}
       <HeroSection onAboutMe={() => scrollToSection('introduction')} />

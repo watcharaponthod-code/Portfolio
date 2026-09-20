@@ -23,13 +23,14 @@ const ASK_BRAIN: FunctionDeclaration = {
   },
 };
 
-export default function LiveAIDemo() {
-  const { client, connected, setConfig, connect } = useLiveAPIContext();
+export default function LiveAIDemo({ lang: langProp = 'th' }: { lang?: 'th' | 'en' } = {}) {
+  const { client, connected, setConfig, connect, disconnect } = useLiveAPIContext();
   const [thinking, setThinking] = useState(false);
   const user = useUser();
   const { current } = useAgent();
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const [lang, setLang] = useState<'th' | 'en'>('th');
+  const [lang, setLang] = useState<'th' | 'en'>(langProp);
+  useEffect(() => { setLang(langProp); }, [langProp]);
   const configuredRef = useRef(false);
   const connectAttemptRef = useRef(false);
 
@@ -99,6 +100,14 @@ export default function LiveAIDemo() {
     });
   }, [setConfig, user, current, lang]);
 
+  useEffect(() => {
+    if (connected || connectAttemptRef.current) return;
+    const t = setTimeout(() => { connectAttemptRef.current = true; connect(); }, 350);
+    return () => clearTimeout(t);
+  }, [connect, connected]);
+
+  useEffect(() => () => { disconnect(); }, [disconnect]);
+
   // Layer 1 -> Layer 2: answer every ask_brain call through /api/brain.
   useEffect(() => {
     const onToolCall = async (toolCall: LiveServerToolCall) => {
@@ -146,52 +155,6 @@ export default function LiveAIDemo() {
 
   return (
     <div style={{ height: '100%', display: 'flex', flexDirection: 'column', position: 'relative' }}>
-
-      {/* Language Toggle */}
-      <div style={{
-        position: 'absolute',
-        top: '10px',
-        right: '10px',
-        zIndex: 20,
-        background: 'rgba(255,255,255,0.05)',
-        borderRadius: '20px',
-        padding: '4px',
-        display: 'flex',
-        gap: '4px'
-      }}>
-        <button
-          onClick={() => setLang('th')}
-          style={{
-            padding: '4px 12px',
-            borderRadius: '16px',
-            border: 'none',
-            background: lang === 'th' ? 'var(--text-primary)' : 'transparent',
-            color: lang === 'th' ? 'var(--bg-primary)' : 'var(--text-secondary)',
-            fontSize: '12px',
-            fontWeight: 600,
-            cursor: 'pointer',
-            transition: 'all 0.2s'
-          }}
-        >
-          TH
-        </button>
-        <button
-          onClick={() => setLang('en')}
-          style={{
-            padding: '4px 12px',
-            borderRadius: '16px',
-            border: 'none',
-            background: lang === 'en' ? 'var(--text-primary)' : 'transparent',
-            color: lang === 'en' ? 'var(--bg-primary)' : 'var(--text-secondary)',
-            fontSize: '12px',
-            fontWeight: 600,
-            cursor: 'pointer',
-            transition: 'all 0.2s'
-          }}
-        >
-          EN
-        </button>
-      </div>
 
       <div style={{ flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center', position: 'relative' }}>
         <BasicFace canvasRef={canvasRef} />
