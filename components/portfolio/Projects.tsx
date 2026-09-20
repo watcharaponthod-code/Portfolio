@@ -4,6 +4,7 @@ import SectionHeader from './SectionHeader';
 import { TbArrowRight } from 'react-icons/tb';
 import { useUI } from '../../lib/state';
 import { useAuto } from '../../lib/i18n/auto';
+import { galleryFor } from '../../lib/galleries';
 import { useLang } from '../../lib/i18n';
 import { PROJECT_TH, GROUP_TH, UI_TH, ACTION_LABEL_TH, TECH_TH, ROLE_TH } from '../../lib/i18n/projects.th';
 
@@ -393,6 +394,10 @@ const WIDE_GRID_GROUPS = 2;
 
 function ProjectCard({ p, index }: { p: Project; index: number }) {
   const { lang } = useLang();
+  const [hovered, setHovered] = useState(false);
+  const [opening, setOpening] = useState(false);
+  const gallery = galleryFor(p.internalLink);
+  const preview = gallery.slice(0, 6);
   const th = lang === 'th' ? PROJECT_TH[p.title] : undefined;
   const auto = useAuto(lang === 'th' && !th ? [p.title, p.role, p.desc] : []);
   const T = (s?: string) => (s ? (lang === 'th' ? auto(s) : s) : '');
@@ -414,7 +419,9 @@ function ProjectCard({ p, index }: { p: Project; index: number }) {
     }
     if (p.internalLink) {
       try { if (p.scrollTo) sessionStorage.setItem('detail-scroll', p.scrollTo); } catch {}
-      setView(p.internalLink as any);
+      if (reduce) { setView(p.internalLink as any); return; }
+      setOpening(true);
+      window.setTimeout(() => setView(p.internalLink as any), 260);
     }
   };
 
@@ -422,11 +429,16 @@ function ProjectCard({ p, index }: { p: Project; index: number }) {
     <motion.div
       className="project-card"
       onClick={handleOpen}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      onFocus={() => setHovered(true)}
+      onBlur={() => setHovered(false)}
       initial={reduce ? { opacity: 0 } : { opacity: 0, y: 24 }}
       whileInView={{ opacity: 1, y: 0 }}
-      whileHover={reduce ? undefined : { y: -4 }}
+      animate={opening ? { scale: 1.03, opacity: 0.35 } : {}}
+      whileHover={reduce || opening ? undefined : { y: -4 }}
       viewport={CARD_VIEWPORT}
-      transition={{ duration: 0.55, ease: EASE, delay: Math.min(index, 8) * 0.05 }}
+      transition={{ duration: opening ? 0.26 : 0.55, ease: EASE, delay: opening ? 0 : Math.min(index, 8) * 0.05 }}
     >
       {p.image && (
         <div className="project-thumb-box">
@@ -440,6 +452,32 @@ function ProjectCard({ p, index }: { p: Project; index: number }) {
           <div className="thumb-overlay" />
           {p.isGif && (
             <div className="gif-badge mono">{lang === 'th' ? UI_TH.liveDemo : 'LIVE DEMO'}</div>
+          )}
+          {preview.length > 1 && (
+            <motion.div
+              className="thumb-grid"
+              initial={false}
+              animate={{ opacity: hovered && !reduce ? 1 : 0 }}
+              transition={{ duration: 0.28, ease: EASE }}
+              aria-hidden={!hovered}
+            >
+              <div className={`thumb-grid-inner n${Math.min(preview.length, 6)}`}>
+                {preview.map((src, i) => (
+                  <motion.div
+                    key={src}
+                    className="thumb-cell"
+                    initial={false}
+                    animate={{ opacity: hovered ? 1 : 0, y: hovered ? 0 : 8 }}
+                    transition={{ duration: 0.3, ease: EASE, delay: hovered ? i * 0.04 : 0 }}
+                  >
+                    <img src={src} alt="" loading="lazy" />
+                  </motion.div>
+                ))}
+              </div>
+              <div className="thumb-grid-label mono">
+                {lang === 'th' ? `${gallery.length} ภาพในกรณีศึกษา` : `${gallery.length} images inside`}
+              </div>
+            </motion.div>
           )}
         </div>
       )}
@@ -652,6 +690,24 @@ export default function Projects() {
           transition: transform 0.7s var(--ease-out);
         }
         .project-card:hover .project-thumb-img { transform: scale(1.03); }
+        .thumb-grid {
+          position: absolute; inset: 0; background: #fff;
+          display: flex; flex-direction: column; pointer-events: none;
+        }
+        .thumb-grid-inner {
+          flex: 1; display: grid; gap: 3px; padding: 3px; min-height: 0;
+          grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(2, 1fr);
+        }
+        .thumb-grid-inner.n2 { grid-template-columns: repeat(2, 1fr); grid-template-rows: 1fr; }
+        .thumb-grid-inner.n3 { grid-template-columns: repeat(3, 1fr); grid-template-rows: 1fr; }
+        .thumb-grid-inner.n4 { grid-template-columns: repeat(2, 1fr); grid-template-rows: repeat(2, 1fr); }
+        .thumb-cell { overflow: hidden; background: #f4f4f2; }
+        .thumb-cell img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .thumb-grid-label {
+          padding: 0.3rem 0.5rem; font-size: 0.52rem; letter-spacing: 0.16em;
+          color: #fff; background: #000; text-align: center;
+        }
+        @media (hover: none) { .thumb-grid { display: none; } }
         .thumb-overlay {
           position: absolute; inset: 0; pointer-events: none;
           background: linear-gradient(to bottom, transparent 60%, rgba(16,16,20,0.06));
