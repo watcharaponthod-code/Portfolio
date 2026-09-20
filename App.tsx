@@ -18,6 +18,7 @@ import RAGEcosystemProject from './components/portfolio/RAGEcosystemProject';
 import AgriAIProject from './components/portfolio/AgriAIProject';
 import ShortsAutomationProject from './components/portfolio/ShortsAutomationProject';
 import SugarcaneCVProject from './components/portfolio/SugarcaneCVProject';
+import SugarcaneDetectorProject from './components/portfolio/SugarcaneDetectorProject';
 import { AnimatePresence, motion } from 'framer-motion';
 
 function App() {
@@ -52,7 +53,9 @@ function App() {
       case 'project-agri-ai': return <AgriAIProject />;
       case 'project-shorts': return <ShortsAutomationProject />;
       case 'project-sugarcane-cv': return <SugarcaneCVProject />;
-      default: return null;
+      default:
+        if (currentView.startsWith('project-scv-')) return <SugarcaneDetectorProject id={currentView.replace('project-', '')} />;
+        return null;
     }
   }, [currentView]);
 

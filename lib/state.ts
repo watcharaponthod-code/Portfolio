@@ -34,7 +34,8 @@ export type ViewType =
   | 'project-sycapt' | 'project-kafka' | 'project-geomap' | 'project-monitoring'
   | 'project-rag-ecosystem' | 'project-embedding-rag' | 'project-bitcoin' 
   | 'project-trading' | 'project-ninja' | 'project-subway' | 'project-elic'
-  | 'project-agri-ai' | 'project-shorts' | 'project-sugarcane-cv';
+  | 'project-agri-ai' | 'project-shorts' | 'project-sugarcane-cv'
+  | 'project-scv-1' | 'project-scv-2' | 'project-scv-3' | 'project-scv-4' | 'project-scv-5' | 'project-scv-6' | 'project-scv-7' | 'project-scv-8' | 'project-scv-9';
 
 export const useUI = create<{
   currentView: ViewType;
