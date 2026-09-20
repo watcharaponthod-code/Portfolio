@@ -159,7 +159,7 @@ const ALL_PROJECTS: Project[] = [
     metrics: 'SYNTHETIC TEST ONLY',
     category: 'COMPUTER VISION',
     internalLink: 'project-scv-5',
-    image: 'https://raw.githubusercontent.com/watcharaponthod-code/sugarcane-cv/main/media/dust_base_vs_veto.gif',
+    image: 'https://raw.githubusercontent.com/watcharaponthod-code/sugarcane-cv/main/media/dust_real.gif',
     isGif: true,
   },
   {
