@@ -17,11 +17,6 @@ import BitcoinMLProject from './components/portfolio/BitcoinMLProject';
 import RAGEcosystemProject from './components/portfolio/RAGEcosystemProject';
 import { AnimatePresence, motion } from 'framer-motion';
 
-const API_KEY = process.env.GEMINI_API_KEY as string;
-if (typeof API_KEY !== 'string') {
-  throw new Error('Missing required environment variable: REACT_APP_GEMINI_API_KEY');
-}
-
 function App() {
   const { currentView, setView } = useUI();
   const [showAi, setShowAi] = useState(false);
@@ -65,7 +60,7 @@ function App() {
 
   return (
     <div className="App" style={{ background: '#fff' }}>
-      <LiveAPIProvider apiKey={API_KEY}>
+      <LiveAPIProvider>
         <NavBar />
         <main>
           <Landing onPresentationComplete={() => {

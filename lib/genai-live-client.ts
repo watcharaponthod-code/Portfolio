@@ -70,7 +70,7 @@ export interface LiveClientEventTypes {
 export class GenAILiveClient extends EventEmitter<LiveClientEventTypes> {
   public readonly model: string = DEFAULT_LIVE_API_MODEL;
 
-  protected readonly client: GoogleGenAI;
+  protected client?: GoogleGenAI;
   protected session?: Session;
 
   private _status: 'connected' | 'disconnected' | 'connecting' = 'disconnected';
@@ -83,13 +83,17 @@ export class GenAILiveClient extends EventEmitter<LiveClientEventTypes> {
    * @param apiKey - API key for authentication with Google GenAI
    * @param model - Optional model name to override the default model
    */
-  constructor(apiKey: string, model?: string) {
+  // The browser never holds the real API key. Each connect asks the server
+  // for a single-use ephemeral token and builds a fresh client around it.
+  constructor(model?: string) {
     super();
     if (model) this.model = model;
+  }
 
-    this.client = new GoogleGenAI({
-      apiKey: apiKey,
-    });
+  private async fetchToken(): Promise<{ token: string; model?: string }> {
+    const r = await fetch('/api/gemini-token', { method: 'POST' });
+    if (!r.ok) throw new Error(`token endpoint returned ${r.status}`);
+    return r.json();
   }
 
   public async connect(config: LiveConnectConfig): Promise<boolean> {
@@ -106,6 +110,12 @@ export class GenAILiveClient extends EventEmitter<LiveClientEventTypes> {
     };
 
     try {
+      const { token, model } = await this.fetchToken();
+      if (model) this.model = model;
+      this.client = new GoogleGenAI({
+        apiKey: token,
+        httpOptions: { apiVersion: 'v1alpha' },   // ephemeral tokens are v1alpha
+      });
       this.session = await this.client.live.connect({
         model: this.model,
         config: {

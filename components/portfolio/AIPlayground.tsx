@@ -1,5 +1,4 @@
 import { useState, useRef, useEffect } from 'react';
-import { GoogleGenAI } from "@google/genai";
 import { TbMessageCircle, TbTerminal, TbCpu, TbSend, TbToggleRight, TbToggleLeft, TbBolt } from 'react-icons/tb';
 import { getRelevantContext } from '@/lib/knowledge';
 
@@ -37,9 +36,6 @@ export default function AIPlayground() {
     const startTime = Date.now();
 
     try {
-      const apiKey = process.env.GEMINI_API_KEY || '';
-      const ai = new GoogleGenAI({ apiKey });
-
       setTimeout(() => setTraceStep(2), 200);
       setTimeout(() => setTraceStep(3), 600);
 
@@ -49,17 +45,22 @@ export default function AIPlayground() {
         ? `Context:\n${context}\n\nQuestion: ${input}`
         : input;
 
-      const response = await ai.models.generateContentStream({
-        model: 'gemini-2.0-flash',
-        contents: [{ role: 'user', parts: [{ text: finalPrompt }] }],
-        config: { systemInstruction: systemPrompt }
+      // the key lives on the server; this endpoint streams plain text back
+      const response = await fetch('/api/gemini-generate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ prompt: finalPrompt, system: systemPrompt }),
       });
+      if (!response.ok || !response.body) throw new Error(`generate endpoint returned ${response.status}`);
 
-      let fullText = '';
-      for await (const chunk of response) {
-        if (chunk.text) {
-          fullText += chunk.text;
-          setOutput(prev => prev + chunk.text);
+      const reader = response.body.getReader();
+      const decoder = new TextDecoder();
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        const text = decoder.decode(value, { stream: true });
+        if (text) {
+          setOutput(prev => prev + text);
           if (bottomRef.current) {
             bottomRef.current.scrollIntoView({ behavior: 'smooth' });
           }
@@ -115,7 +116,7 @@ export default function AIPlayground() {
                 <div className="terminal-dot dot-yellow" />
                 <div className="terminal-dot dot-green" />
               </div>
-              <div className="mono terminal-title">watcharapon-ai // gemini-2.0-flash</div>
+              <div className="mono terminal-title">watcharapon-ai // gemini-2.5-flash</div>
               <div className="terminal-status-dot" />
             </div>
 

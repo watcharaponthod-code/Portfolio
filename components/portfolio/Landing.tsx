@@ -189,28 +189,16 @@ function HeroSection({ onAboutMe }: { onAboutMe: () => void }) {
           justify-content: center;
           align-items: flex-end;
         }
-        /* soft ground shadow so the cut-out does not float on the white */
-        .hero-portrait-wrap::after {
-          content: '';
-          position: absolute;
-          bottom: 2%;
-          left: 50%;
-          transform: translateX(-50%);
-          width: 62%;
-          height: 26px;
-          background: radial-gradient(ellipse at center, rgba(16,16,20,0.20), rgba(16,16,20,0) 70%);
-          filter: blur(6px);
-          z-index: -1;
-        }
         .hero-portrait {
           width: auto;
           max-width: 100%;
           max-height: 74vh;
           height: auto;
           display: block;
-          filter: drop-shadow(0 26px 44px rgba(16,16,20,0.16));
-          -webkit-mask-image: linear-gradient(to bottom, #000 86%, rgba(0,0,0,0) 100%);
-          mask-image: linear-gradient(to bottom, #000 86%, rgba(0,0,0,0) 100%);
+          /* one tight shadow; a wide soft one reads as a grey smear on white */
+          filter: drop-shadow(0 10px 18px rgba(16,16,20,0.10));
+          -webkit-mask-image: linear-gradient(to bottom, #000 96%, rgba(0,0,0,0) 100%);
+          mask-image: linear-gradient(to bottom, #000 96%, rgba(0,0,0,0) 100%);
         }
         @media (max-width: 900px) {
           .hero-grid {

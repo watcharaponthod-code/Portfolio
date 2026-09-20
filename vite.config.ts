@@ -10,9 +10,11 @@ export default defineConfig(({ mode }) => {
         host: '0.0.0.0',
       },
       plugins: [react()],
+      // GEMINI_API_KEY is deliberately NOT defined here. It is read at runtime
+      // by the serverless functions in api/, so it never enters the client bundle.
       define: {
-        'process.env.API_KEY': JSON.stringify(env.GEMINI_API_KEY),
-        'process.env.GEMINI_API_KEY': JSON.stringify(env.GEMINI_API_KEY)
+        'process.env.API_KEY': 'undefined',
+        'process.env.GEMINI_API_KEY': 'undefined'
       },
       resolve: {
         alias: {
