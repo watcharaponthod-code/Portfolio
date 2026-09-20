@@ -4,6 +4,10 @@
 import { GoogleGenAI } from '@google/genai';
 
 const CANDIDATES = ['gemini-2.5-flash-lite', 'gemini-2.5-flash'];
+// Gemini 2.5 thinks by default and those tokens come out of maxOutputTokens,
+// which truncates short answers. Ask for no thinking; if a model rejects the
+// field, retry without it.
+const THINK_OFF = { thinkingConfig: { thinkingBudget: 0 } } as const;
 let chosen: string | null = null;
 
 export interface GenOpts {
@@ -18,15 +22,20 @@ export async function generateText(ai: GoogleGenAI, o: GenOpts): Promise<{ text:
   let lastErr: any;
   for (const model of order) {
     try {
-      const r = await ai.models.generateContent({
-        model,
-        contents: o.contents,
-        config: {
-          systemInstruction: o.system,
-          temperature: o.temperature ?? 0.3,
-          maxOutputTokens: o.maxOutputTokens,
-        },
-      });
+      let r;
+      try {
+        r = await ai.models.generateContent({
+          model,
+          contents: o.contents,
+          config: { systemInstruction: o.system, temperature: o.temperature ?? 0.3, maxOutputTokens: o.maxOutputTokens, ...THINK_OFF },
+        });
+      } catch {
+        r = await ai.models.generateContent({
+          model,
+          contents: o.contents,
+          config: { systemInstruction: o.system, temperature: o.temperature ?? 0.3, maxOutputTokens: o.maxOutputTokens },
+        });
+      }
       chosen = model;
       return { text: (r.text || '').trim(), model };
     } catch (e: any) {
@@ -42,15 +51,20 @@ export async function streamText(ai: GoogleGenAI, o: GenOpts) {
   let lastErr: any;
   for (const model of order) {
     try {
-      const stream = await ai.models.generateContentStream({
-        model,
-        contents: o.contents,
-        config: {
-          systemInstruction: o.system,
-          temperature: o.temperature ?? 0.3,
-          maxOutputTokens: o.maxOutputTokens,
-        },
-      });
+      let stream;
+      try {
+        stream = await ai.models.generateContentStream({
+          model,
+          contents: o.contents,
+          config: { systemInstruction: o.system, temperature: o.temperature ?? 0.3, maxOutputTokens: o.maxOutputTokens, ...THINK_OFF },
+        });
+      } catch {
+        stream = await ai.models.generateContentStream({
+          model,
+          contents: o.contents,
+          config: { systemInstruction: o.system, temperature: o.temperature ?? 0.3, maxOutputTokens: o.maxOutputTokens },
+        });
+      }
       chosen = model;
       return { stream, model };
     } catch (e: any) {

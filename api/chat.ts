@@ -57,7 +57,7 @@ export default async function handler(req: any, res: any) {
     const { stream, model } = await streamText(ai, {
       system: systemPrompt(lang, formatContext(hits)),
       contents: messages.map(m => ({ role: m.role === 'user' ? 'user' : 'model', parts: [{ text: m.content }] })),
-      maxOutputTokens: 600,
+      maxOutputTokens: 1400,
     });
 
     res.status(200);

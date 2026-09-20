@@ -46,7 +46,7 @@ export default async function handler(req: any, res: any) {
     const { text, model } = await generateText(ai, {
       system: systemPrompt(lang, formatContext(hits)),
       contents: [{ role: 'user', parts: [{ text: question }] }],
-      maxOutputTokens: 200,
+      maxOutputTokens: 600,
     });
     const answer = text;
     if (!answer) return res.status(502).json({ error: 'empty answer' });
