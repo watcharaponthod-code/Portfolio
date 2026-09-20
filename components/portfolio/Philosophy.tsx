@@ -133,40 +133,45 @@ export default function Philosophy() {
       </div>
 
       <style>{`
-        .story-grid { display: grid; grid-template-columns: 400px 1fr; gap: 6rem; align-items: start; }
+        .story-root { width: 100%; }
+        .story-grid { display: grid; grid-template-columns: minmax(0, 380px) minmax(0, 1fr); gap: var(--space-9); align-items: start; }
         .photo-wrapper { position: relative; }
         .photo-frame { border: 1px solid rgba(0,0,0,0.1); overflow: hidden; background: #ffffff; }
-        .story-photo { width: 100%; transition: transform 0.5s; }
-        .photo-frame:hover .story-photo { transform: scale(1.05); }
-        .photo-badge { position: absolute; bottom: 20px; left: 20px; padding: 0.5rem 1rem; font-size: 0.7rem; font-weight: 800; }
-        .story-stats { display: grid; grid-template-columns: 1fr 1fr; border: 1px solid rgba(0,0,0,0.1); margin-top: 2rem; }
-        .story-stat { padding: 1.5rem; border-right: 1px solid rgba(0,0,0,0.1); border-bottom: 1px solid rgba(0,0,0,0.1); text-align: center; }
+        .story-photo { width: 100%; display: block; transition: transform 0.7s cubic-bezier(0.16,1,0.3,1); }
+        .photo-frame:hover .story-photo { transform: scale(1.03); }
+        .photo-badge { position: absolute; bottom: 20px; left: 20px; padding: 0.5rem 1rem; font-size: 0.7rem; font-weight: 800; letter-spacing: 0.06em; }
+        .story-stats { display: grid; grid-template-columns: 1fr 1fr; border: 1px solid rgba(0,0,0,0.1); margin-top: var(--space-5); }
+        .story-stat { padding: var(--space-5); border-right: 1px solid rgba(0,0,0,0.1); border-bottom: 1px solid rgba(0,0,0,0.1); text-align: center; transition: background 0.25s ease; }
         .story-stat:nth-child(even) { border-right: none; }
         .story-stat:nth-child(3), .story-stat:nth-child(4) { border-bottom: none; }
-        .story-stat-value { font-size: 2rem; font-weight: 900; }
-        .story-stat-label { font-size: 0.6rem; opacity: 0.4; letter-spacing: 0.1em; }
-        .story-right { display: flex; flex-direction: column; gap: 4rem; }
-        .story-section-title { font-size: 0.8rem; font-weight: 900; letter-spacing: 0.2rem; text-transform: uppercase; margin-bottom: 2rem; padding-bottom: 0.5rem; border-bottom: 1px solid rgba(0,0,0,0.1); }
-        .philosophy-blocks { display: flex; flexDirection: column; gap: 2rem; }
-        .philosophy-block { display: flex; gap: 2rem; }
-        .philosophy-block-num { font-size: 0.8rem; font-weight: 900; opacity: 0.3; }
-        .philosophy-block-name { font-size: 1.1rem; font-weight: 800; display: block; margin-bottom: 0.5rem; }
-        
+        .story-stat-value { font-size: 2rem; font-weight: 900; letter-spacing: -0.03em; line-height: 1; margin-bottom: var(--space-2); }
+        .story-stat-label { font-size: 0.6rem; opacity: 0.4; letter-spacing: 0.14em; text-transform: uppercase; }
+        .story-right { display: flex; flex-direction: column; gap: var(--space-7); min-width: 0; }
+        .story-right > .story-section { margin: 0 !important; }
+        .story-section-title { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; margin-bottom: var(--space-5); padding-bottom: var(--space-3); border-bottom: 1px solid rgba(0,0,0,0.1); }
+        .story-bio { max-width: 62ch; }
+        .philosophy-blocks { display: flex; flex-direction: column; gap: var(--space-5); }
+        .philosophy-block { display: flex; gap: var(--space-5); align-items: baseline; }
+        .philosophy-block-num { font-size: 0.72rem; font-weight: 700; opacity: 0.3; flex: 0 0 2ch; }
+        .philosophy-block-name { font-size: 1.05rem; font-weight: 700; display: block; margin-bottom: var(--space-1); letter-spacing: -0.01em; }
+        .philosophy-block-desc { font-size: var(--text-sm); line-height: 1.6; max-width: 52ch; }
+
         @media (max-width: 1200px) {
-          .story-grid { gap: 4rem; }
+          .story-grid { gap: var(--space-8); }
         }
 
-        @media (max-width: 1100px) { 
-          .story-grid { grid-template-columns: 1fr; gap: 3rem; } 
-          .story-left { max-width: 500px; margin: 0 auto; width: 100%; } 
-          .story-right { gap: 3rem; }
+        @media (max-width: 1100px) {
+          .story-grid { grid-template-columns: 1fr; gap: var(--space-7); }
+          .story-left { max-width: 500px; margin: 0 auto; width: 100%; }
+          .story-right { gap: var(--space-6); }
         }
 
         @media (max-width: 640px) {
-          .philosophy-block { gap: 1rem; }
-          .story-stat { padding: 1rem; }
+          .philosophy-block { gap: var(--space-4); }
+          .story-stat { padding: var(--space-4); }
           .story-stat-value { font-size: 1.5rem; }
-          .contact-box { padding: 1.5rem !important; }
+          .story-section-title { margin-bottom: var(--space-4); }
+          .contact-box { padding: var(--space-5) !important; }
         }
       `}</style>
     </div>

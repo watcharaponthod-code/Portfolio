@@ -1,4 +1,5 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState } from 'react';
+import { motion, useReducedMotion } from 'framer-motion';
 import SectionHeader from './SectionHeader';
 import { TbArrowRight } from 'react-icons/tb';
 import { useUI } from '../../lib/state';
@@ -18,18 +19,10 @@ const DUST_GIF      = 'https://raw.githubusercontent.com/watcharaponthod-code/su
 const CANEGATE_LIVE = 'https://raw.githubusercontent.com/watcharaponthod-code/canegate-assets/main/screen-live.png';
 const DRAGON_GIF    = 'https://raw.githubusercontent.com/watcharaponthod-code/roblox-dragon-combat/main/media/dragon_combat.gif';
 
-function useInView(threshold = 0.1) {
-  const ref = useRef<HTMLDivElement>(null);
-  const [inView, setInView] = useState(false);
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) { setInView(true); obs.disconnect(); } }, { threshold });
-    obs.observe(el);
-    return () => obs.disconnect();
-  }, [threshold]);
-  return { ref, inView };
-}
+// shared motion settings (cheap: opacity + translateY only, runs once)
+const EASE = [0.16, 1, 0.3, 1] as const;
+const VIEWPORT = { once: true, margin: '-80px' } as const;
+const CARD_VIEWPORT = { once: true, margin: '-40px' } as const;
 
 type Category = 'ALL' | 'AGRI & SATELLITE' | 'COMPUTER VISION' | 'AI & RAG' | 'FULL-STACK' | 'SYSTEMS' | 'DATA & GROWTH';
 
@@ -169,6 +162,7 @@ const ALL_PROJECTS: Project[] = [
     desc: 'A camera cannot see inside the pile, but a microphone hears sand or a rock hit the conveyor. Sound goes to log-mel spectrograms and a small CNN, trained on real recordings from the tipping bay. Sand is solved; rock and metal impacts are not claimed yet (recall 0.47–0.59).',
     stack: ['log-mel CNN', 'soundfile', 'Stable Audio Open'],
     metrics: 'SAND SOLVED · REAL AUDIO',
+    image: '/media/acoustic-overview.jpg',
     category: 'COMPUTER VISION',
     internalLink: 'project-scv-6',
   },
@@ -397,7 +391,7 @@ const WIDE_GRID_GROUPS = 2;
 
 function ProjectCard({ p, index }: { p: Project; index: number }) {
   const { setView } = useUI();
-  const { ref, inView } = useInView(0.06);
+  const reduce = useReducedMotion();
   const handleOpen = () => {
     if (p.externalUrl) {
       window.open(p.externalUrl, '_blank', 'noopener,noreferrer');
@@ -410,16 +404,14 @@ function ProjectCard({ p, index }: { p: Project; index: number }) {
   };
 
   return (
-    <div
-      ref={ref}
+    <motion.div
       className="project-card"
       onClick={handleOpen}
-      style={{
-        opacity: inView ? 1 : 0,
-        transform: inView ? 'translateY(0)' : 'translateY(40px)',
-        transition: `opacity 0.6s ease ${index * 0.06}s, transform 0.6s cubic-bezier(0.16,1,0.3,1) ${index * 0.06}s`,
-        cursor: 'pointer',
-      }}
+      initial={reduce ? { opacity: 0 } : { opacity: 0, y: 24 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      whileHover={reduce ? undefined : { y: -4 }}
+      viewport={CARD_VIEWPORT}
+      transition={{ duration: 0.55, ease: EASE, delay: Math.min(index, 8) * 0.05 }}
     >
       {p.image && (
         <div className="project-thumb-box">
@@ -440,7 +432,7 @@ function ProjectCard({ p, index }: { p: Project; index: number }) {
       <div className="project-content-wrap">
         <div className="project-header">
           <span className="project-number mono">{String(index + 1).padStart(2, '0')}</span>
-          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '0.35rem' }}>
+          <div className="project-meta">
             <span className="project-role mono">{p.role}</span>
             <span className="project-badges">
               {p.tech && <span className="tech-badge mono">{p.tech}</span>}
@@ -470,26 +462,44 @@ function ProjectCard({ p, index }: { p: Project; index: number }) {
           </button>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 }
 
 function ProjectGroup({ group, order, projects, wide }: { group: Group; order: number; projects: Project[]; wide: boolean }) {
-  const { ref, inView } = useInView(0.1);
+  const reduce = useReducedMotion();
   return (
     <section className="project-group">
-      <div
-        ref={ref}
+      <motion.div
         className="group-header"
-        style={{ opacity: inView ? 1 : 0, transform: inView ? 'none' : 'translateY(20px)', transition: 'opacity 0.6s ease, transform 0.6s cubic-bezier(0.16,1,0.3,1)' }}
+        initial="hidden"
+        whileInView="show"
+        viewport={VIEWPORT}
       >
-        <div className="group-title mono">
+        {/* growing top rule */}
+        <motion.span
+          className="group-rule"
+          aria-hidden
+          variants={{ hidden: { scaleX: 0 }, show: { scaleX: 1 } }}
+          transition={{ duration: reduce ? 0 : 0.8, ease: EASE }}
+        />
+        <motion.div
+          className="group-title mono"
+          variants={{ hidden: reduce ? { opacity: 0 } : { opacity: 0, y: 10 }, show: { opacity: 1, y: 0 } }}
+          transition={{ duration: 0.5, ease: EASE, delay: 0.1 }}
+        >
           <span className="group-index">{String(order + 1).padStart(2, '0')}</span>
           <span className="group-sep">·</span>
           <span className="group-label">{group}</span>
-        </div>
-        <p className="group-desc mono">{GROUP_DESCRIPTIONS[group]}</p>
-      </div>
+        </motion.div>
+        <motion.p
+          className="group-desc mono"
+          variants={{ hidden: reduce ? { opacity: 0 } : { opacity: 0, y: 10 }, show: { opacity: 1, y: 0 } }}
+          transition={{ duration: 0.5, ease: EASE, delay: 0.18 }}
+        >
+          {GROUP_DESCRIPTIONS[group]}
+        </motion.p>
+      </motion.div>
       <div className={`projects-grid${wide ? ' featured-grid' : ''}`}>
         {projects.map((p, i) => <ProjectCard key={p.title} p={p} index={i} />)}
       </div>
@@ -499,7 +509,6 @@ function ProjectGroup({ group, order, projects, wide }: { group: Group; order: n
 
 export default function Projects() {
   const [active, setActive] = useState<Category>('ALL');
-  const { ref: hRef, inView: hInView } = useInView(0.12);
 
   // Fixed group order; within a group, featured cards first, then the rest (array order preserved).
   const groups = GROUP_ORDER
@@ -511,18 +520,24 @@ export default function Projects() {
     .filter(g => g.projects.length > 0 && (active === 'ALL' || g.group === active));
 
   return (
-    <div className="section container" style={{ minHeight: '100vh', paddingTop: '6rem', paddingBottom: '8rem' }}>
-      <div ref={hRef} style={{ opacity: hInView ? 1 : 0, transform: hInView ? 'none' : 'translateY(28px)', transition: 'all 0.7s ease' }}>
-        <SectionHeader
-          subtitle="02 / SELECTED WORKS"
-          titleLines={['Deep Dives &', 'Case Studies.']}
-          description="Production systems, research projects, and freelance delivery work. Filter by discipline: click any card to open the case study, live site, or planning document."
-        />
-      </div>
+    <div className="section container projects-section">
+      <SectionHeader
+        subtitle="02 / SELECTED WORKS"
+        titleLines={['Deep Dives &', 'Case Studies.']}
+        description="Production systems, research projects, and freelance delivery work. Filter by discipline: click any card to open the case study, live site, or planning document."
+      />
 
-      <div className="category-filter">
+      <div className="category-filter" role="tablist" aria-label="Filter projects by discipline">
         {CATEGORIES.map(cat => (
-          <button key={cat} className={`filter-btn mono ${active === cat ? 'active' : ''}`} onClick={() => setActive(cat)}>{cat}</button>
+          <button
+            key={cat}
+            role="tab"
+            aria-selected={active === cat}
+            className={`filter-btn mono ${active === cat ? 'active' : ''}`}
+            onClick={() => setActive(cat)}
+          >
+            {cat}
+          </button>
         ))}
       </div>
 
@@ -537,168 +552,204 @@ export default function Projects() {
       ))}
 
       <style>{`
+        .projects-section { justify-content: flex-start; }
+
+        /* ── Filter row ── */
         .category-filter {
-          display: flex; flex-wrap: wrap; gap: 0.5rem;
-          margin-bottom: 3rem; margin-top: 0.5rem;
+          display: flex; flex-wrap: wrap; gap: var(--space-2);
+          margin-bottom: var(--section-gap);
         }
         .filter-btn {
-          background: transparent; border: 1px solid #d0d0d0;
-          padding: 0.45rem 1.1rem; font-size: 0.62rem; font-weight: 900;
-          letter-spacing: 0.1em; cursor: pointer; color: #999;
-          transition: all 0.25s ease;
+          background: transparent; border: 1px solid var(--border-strong);
+          padding: 0.5rem 1.1rem; font-size: var(--text-2xs); font-weight: 700;
+          letter-spacing: 0.14em; cursor: pointer; color: var(--text-tertiary);
+          border-radius: 999px;
+          transition: color var(--dur-fast) ease, border-color var(--dur-fast) ease, background var(--dur-fast) ease;
         }
-        .filter-btn:hover { border-color: #fff; color: #fff; }
-        .filter-btn.active { background: #fff; color: #000; border-color: #fff; }
+        .filter-btn:hover { border-color: var(--text-primary); color: var(--text-primary); }
+        .filter-btn.active { background: var(--text-primary); color: #fff; border-color: var(--text-primary); }
 
-        /* Group sections */
-        .project-group + .project-group { margin-top: 5rem; }
+        /* ── Group sections ── */
+        .project-group + .project-group { margin-top: var(--section-gap); }
         .group-header {
+          position: relative;
           display: flex; justify-content: space-between; align-items: baseline;
-          gap: 2rem; padding-top: 1.2rem; margin-bottom: 1.8rem;
-          border-top: 1px solid #333;
+          gap: var(--space-6); padding-top: var(--space-4); margin-bottom: var(--space-6);
+        }
+        .group-rule {
+          position: absolute; top: 0; left: 0; right: 0; height: 1px;
+          background: var(--text-primary); transform-origin: left center;
         }
         .group-title {
           display: flex; align-items: baseline; gap: 0.6rem;
-          font-size: 0.62rem; font-weight: 900; letter-spacing: 0.28em;
-          color: #fff; white-space: nowrap;
+          font-size: var(--text-xs); font-weight: 700; letter-spacing: 0.28em;
+          color: var(--text-primary); white-space: nowrap; text-transform: uppercase;
         }
-        .group-index { color: #666; }
-        .group-sep { color: #444; }
+        .group-index { color: var(--text-tertiary); }
+        .group-sep { color: var(--border-accent); }
         .group-desc {
-          margin: 0; font-size: 0.62rem; font-weight: 700; letter-spacing: 0.04em;
-          color: #888; text-align: right; max-width: 34rem; line-height: 1.6;
+          margin: 0; font-size: var(--text-xs); font-weight: 400; letter-spacing: 0.02em;
+          color: var(--text-tertiary); text-align: right; max-width: 36rem; line-height: 1.6;
         }
 
+        /* ── Grid ── */
+        .projects-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+          gap: var(--space-5);
+          align-items: stretch;
+        }
+        .featured-grid {
+          grid-template-columns: repeat(auto-fill, minmax(420px, 1fr));
+          gap: var(--space-6);
+        }
+
+        /* ── Card ── */
+        .project-card {
+          position: relative;
+          height: 100%;
+          background: var(--bg-card);
+          border: 1px solid var(--border-light);
+          border-radius: 4px;
+          display: flex; flex-direction: column; overflow: hidden;
+          cursor: pointer;
+          transition: box-shadow var(--dur-base) ease, border-color var(--dur-fast) ease;
+        }
+        .project-card:hover {
+          box-shadow: var(--shadow-card);
+          border-color: var(--border-accent);
+        }
+
+        /* Thumbnail: fixed 220px, cover, no greyscale */
+        .project-thumb-box {
+          height: 220px; flex: 0 0 220px; overflow: hidden;
+          background: var(--bg-tertiary); position: relative;
+          border-bottom: 1px solid var(--border-light);
+        }
+        .project-thumb-img {
+          width: 100%; height: 100%; object-fit: cover; display: block;
+          transition: transform 0.7s var(--ease-out);
+        }
+        .project-card:hover .project-thumb-img { transform: scale(1.03); }
+        .thumb-overlay {
+          position: absolute; inset: 0; pointer-events: none;
+          background: linear-gradient(to bottom, transparent 60%, rgba(16,16,20,0.06));
+        }
+
+        .gif-badge {
+          position: absolute; top: var(--space-3); right: var(--space-3);
+          background: rgba(255,255,255,0.9); color: var(--text-primary);
+          padding: 0.25rem 0.6rem; font-size: 0.52rem; font-weight: 700;
+          letter-spacing: 0.14em; border: 1px solid var(--border-strong);
+          backdrop-filter: blur(4px);
+        }
+
+        .project-content-wrap {
+          padding: var(--space-5) var(--space-5) var(--space-5);
+          flex: 1 1 auto; display: flex; flex-direction: column; min-width: 0;
+        }
+        .project-header {
+          display: flex; justify-content: space-between; align-items: flex-start;
+          gap: var(--space-3); margin-bottom: var(--space-4);
+        }
+        .project-meta {
+          display: flex; flex-direction: column; align-items: flex-end; gap: 0.4rem; min-width: 0;
+        }
+        .project-number {
+          font-size: 1.75rem; font-weight: 700; line-height: 1;
+          color: var(--text-primary); opacity: 0.08; flex: 0 0 auto;
+          transition: opacity var(--dur-fast) ease;
+        }
+        .project-card:hover .project-number { opacity: 0.18; }
+        .project-role {
+          font-size: 0.57rem; font-weight: 700; letter-spacing: 0.08em;
+          border: 1px solid var(--border-strong); color: var(--text-tertiary);
+          padding: 0.22rem 0.6rem; text-align: right;
+          transition: color var(--dur-fast) ease, border-color var(--dur-fast) ease;
+        }
+        .project-card:hover .project-role { border-color: var(--text-primary); color: var(--text-primary); }
         .project-badges {
           display: inline-flex; gap: 0.3rem; align-items: center; justify-content: flex-end;
           flex-wrap: wrap;
         }
-        .freelance-badge {
-          background: transparent; color: #999;
-          border: 1px solid #555;
+        .tech-badge {
+          background: var(--text-primary); color: #fff; font-size: 0.55rem; font-weight: 700;
+          letter-spacing: 0.14em; padding: 0.22rem 0.5rem; white-space: nowrap;
         }
-
-        .projects-grid {
-          display: grid;
-          grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
-          gap: 1.8rem;
-        }
-        .featured-grid {
-          grid-template-columns: repeat(auto-fill, minmax(420px, 1fr));
-          gap: 2rem;
-        }
-
-        /* Card */
-        .project-card {
-          background: #000; border: 1px solid #e8e8e8;
-          display: flex; flex-direction: column; overflow: hidden;
-          transition:
-            box-shadow 0.4s ease,
-            transform 0.4s cubic-bezier(0.16,1,0.3,1),
-            border-color 0.3s ease;
-        }
-        .project-card:hover {
-          transform: translateY(-8px);
-          box-shadow: 0 32px 72px rgba(255,255,255,0.13);
-          border-color: #bbb;
-        }
-
-        /* Thumbnail, NO greyscale, full colour */
-        .project-thumb-box {
-          height: 220px; overflow: hidden;
-          background: #fff; position: relative;
-          border-bottom: 1px solid #e8e8e8;
-        }
-        .project-thumb-img {
-          width: 100%; height: 100%; object-fit: cover;
-          transition: transform 0.6s cubic-bezier(0.16,1,0.3,1);
-        }
-        .project-card:hover .project-thumb-img { transform: scale(1.05); }
-        .thumb-overlay {
-          position: absolute; inset: 0;
-          background: linear-gradient(to bottom, transparent 50%, rgba(255,255,255,0.3));
-        }
-
-        /* GIF badge */
-        .gif-badge {
-          position: absolute; top: 0.8rem; right: 0.8rem;
-          background: rgba(255,255,255,0.75); color: #000;
-          padding: 0.25rem 0.65rem; font-size: 0.52rem; font-weight: 900;
-          letter-spacing: 0.14em;
-          border: 1px solid rgba(0,0,0,0.2);
-        }
-
-        .project-content-wrap {
-          padding: 1.8rem; flex: 1; display: flex; flex-direction: column;
-        }
-        .project-header {
-          display: flex; justify-content: space-between;
-          align-items: flex-start; margin-bottom: 1rem;
-        }
-        .project-number {
-          font-size: 1.9rem; font-weight: 900; opacity: 0.07; color: #fff; line-height: 1;
-        }
-        .project-role {
-          font-size: 0.57rem; font-weight: 900;
-          border: 1.5px solid #ffffff; padding: 0.2rem 0.6rem; letter-spacing: 0.08em;
-        }
-        .tech-badge { background: #000; color: #fff; font-size: 0.55rem; font-weight: 900; letter-spacing: 0.14em; padding: 0.22rem 0.5rem; white-space: nowrap; }
         .category-badge {
-          font-size: 0.51rem; font-weight: 900;
-          background: #f2f2f2; padding: 0.16rem 0.5rem;
-          color: #888; letter-spacing: 0.1em;
+          font-size: 0.51rem; font-weight: 700; letter-spacing: 0.1em;
+          background: var(--bg-tertiary); color: var(--text-tertiary); padding: 0.2rem 0.5rem;
+          white-space: nowrap;
         }
+        .freelance-badge { background: transparent; border: 1px solid var(--border-strong); }
+
         .project-title {
-          font-size: 1.18rem; font-weight: 950; letter-spacing: -0.04em;
-          margin-bottom: 0.7rem; text-transform: uppercase;
+          font-size: 1.15rem; font-weight: 800; letter-spacing: -0.03em; line-height: 1.1;
+          margin-bottom: var(--space-3); text-transform: uppercase; color: var(--text-primary);
+          text-wrap: balance;
         }
         .project-desc {
-          font-size: 0.87rem; line-height: 1.68; color: #444;
-          margin-bottom: 1.4rem; flex: 1;
+          font-size: var(--text-sm); line-height: 1.68; color: var(--text-secondary);
+          font-weight: 400; margin-bottom: var(--space-5); flex: 1 1 auto;
         }
 
         .project-stack-label {
-          font-size: 0.57rem; font-weight: 900; color: #bbb; margin-bottom: 0.5rem;
+          font-size: 0.57rem; font-weight: 700; letter-spacing: 0.18em;
+          color: var(--text-tertiary); margin-bottom: var(--space-2);
         }
-        .project-stack-tags { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-bottom: 1.4rem; }
+        .project-stack-tags { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-bottom: var(--space-5); min-width: 0; }
         .stack-tag {
-          background: #f5f5f5; padding: 0.14rem 0.5rem;
-          font-size: 0.57rem; font-weight: 800; color: #888;
+          background: var(--bg-tertiary); padding: 0.18rem 0.5rem;
+          font-size: 0.57rem; font-weight: 700; color: var(--text-secondary);
+          white-space: nowrap; max-width: 100%; overflow: hidden; text-overflow: ellipsis;
         }
 
+        /* footer pinned to the bottom of every card in a row */
         .project-footer {
-          border-top: 1px solid #ebebeb; padding-top: 1.2rem;
-          display: flex; justify-content: space-between; align-items: flex-end;
+          margin-top: auto;
+          border-top: 1px solid var(--border-light); padding-top: var(--space-4);
+          display: flex; justify-content: space-between; align-items: flex-end; gap: var(--space-3);
         }
-        .project-metric-label { font-size: 0.52rem; font-weight: 900; color: #bbb; margin-bottom: 0.18rem; }
-        .project-metric-value { font-size: 0.9rem; font-weight: 950; }
+        .project-metrics { min-width: 0; }
+        .project-metric-label { font-size: 0.52rem; font-weight: 700; letter-spacing: 0.18em; color: var(--text-tertiary); margin-bottom: 0.2rem; }
+        .project-metric-value { font-size: 0.85rem; font-weight: 700; color: var(--text-primary); line-height: 1.3; }
 
         .project-detail-btn {
-          background: #000; color: #fff; border: 1.5px solid #ffffff;
-          padding: 0.5rem 1rem; font-family: var(--font-mono); font-size: 0.61rem;
-          font-weight: 900; display: flex; align-items: center; gap: 0.4rem;
-          letter-spacing: 0.08em; cursor: pointer;
-          transition: background 0.25s, color 0.25s, border-color 0.25s;
+          flex: 0 0 auto;
+          background: transparent; color: var(--text-primary); border: 1px solid var(--text-primary);
+          padding: 0.5rem 0.9rem; font-family: var(--font-mono); font-size: 0.6rem;
+          font-weight: 700; display: inline-flex; align-items: center; gap: 0.4rem;
+          letter-spacing: 0.1em; cursor: pointer; white-space: nowrap;
+          transition: background var(--dur-fast) ease, color var(--dur-fast) ease;
         }
-        .project-card:hover .project-detail-btn {
-          background: #fff; color: #000; border-color: #fff;
-        }
+        .project-detail-btn svg { transition: transform var(--dur-fast) var(--ease-out); }
+        .project-card:hover .project-detail-btn { background: var(--text-primary); color: #fff; }
+        .project-card:hover .project-detail-btn svg { transform: translateX(3px); }
 
         @media (max-width: 900px) {
           .projects-grid, .featured-grid {
-            grid-template-columns: 1fr; gap: 1.2rem;
+            grid-template-columns: 1fr; gap: var(--space-4);
           }
-          .project-thumb-box { height: 200px; }
-          .project-group + .project-group { margin-top: 3.5rem; }
+          .project-thumb-box { height: 200px; flex-basis: 200px; }
+          .project-group + .project-group { margin-top: var(--space-8); }
           .group-header {
-            flex-direction: column; align-items: flex-start; gap: 0.6rem;
+            flex-direction: column; align-items: flex-start; gap: var(--space-3);
+            margin-bottom: var(--space-5);
           }
           .group-desc { text-align: left; max-width: none; }
         }
         @media (max-width: 640px) {
-          .project-content-wrap { padding: 1.3rem; }
+          .category-filter { margin-bottom: var(--space-7); }
+          .filter-btn { padding: 0.4rem 0.8rem; font-size: 0.56rem; }
+          .project-content-wrap { padding: var(--space-4); }
+          .project-header { flex-direction: column; gap: var(--space-2); }
+          .project-meta { align-items: flex-start; }
+          .project-badges { justify-content: flex-start; }
+          .project-role { text-align: left; }
+          .project-number { display: none; }
           .project-title { font-size: 1.05rem; }
-          .filter-btn { padding: 0.3rem 0.7rem; font-size: 0.58rem; }
+          .project-footer { flex-wrap: wrap; align-items: center; }
+          .project-detail-btn { width: 100%; justify-content: center; }
         }
       `}</style>
     </div>

@@ -28,6 +28,45 @@
   --font-sans: 'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 
   --nav-height: 64px;
+
+  /* ── Spacing scale (vertical rhythm, 4px base) ─────────────────── */
+  --space-1: 0.25rem;   /*  4px */
+  --space-2: 0.5rem;    /*  8px */
+  --space-3: 0.75rem;   /* 12px */
+  --space-4: 1rem;      /* 16px */
+  --space-5: 1.5rem;    /* 24px */
+  --space-6: 2rem;      /* 32px */
+  --space-7: 3rem;      /* 48px */
+  --space-8: 4rem;      /* 64px */
+  --space-9: 6rem;      /* 96px */
+
+  /* section / layout rhythm */
+  --section-pad:    clamp(5rem, 10vw, 8rem);   /* top + bottom of a .section */
+  --section-gap:    clamp(3rem, 6vw, 5rem);    /* between blocks inside a section */
+  --header-gap:     clamp(2.5rem, 5vw, 4rem);  /* SectionHeader → content */
+  --container-max:  1280px;
+  --gutter:         clamp(4rem, 6vw, 5rem);    /* desktop side gutter */
+
+  /* ── Type scale (one clamp() ramp, used by headings + components) ── */
+  --text-2xs:     0.58rem;                              /* tiny mono badges */
+  --text-xs:      0.66rem;                              /* mono labels */
+  --text-sm:      clamp(0.82rem, 0.78rem + 0.2vw, 0.9rem);
+  --text-base:    clamp(0.95rem, 0.9rem + 0.25vw, 1.05rem);
+  --text-lg:      clamp(1.1rem, 1rem + 0.5vw, 1.3rem);   /* taglines */
+  --text-h3:      clamp(1.25rem, 1.05rem + 1vw, 1.75rem);
+  --text-h2:      clamp(1.9rem, 1.4rem + 2.6vw, 3.5rem);
+  --text-h1:      clamp(2.5rem, 1.8rem + 3.6vw, 4.75rem); /* section titles */
+  --text-display: clamp(3rem, 2rem + 8vw, 7.5rem);       /* hero only */
+
+  --measure:        65ch;   /* body copy in case studies */
+  --measure-short:  58ch;   /* section header descriptions */
+
+  /* motion */
+  --ease-out:  cubic-bezier(0.16, 1, 0.3, 1);
+  --dur-fast:  0.25s;
+  --dur-base:  0.45s;
+  --shadow-card: 0 12px 32px rgba(16,16,20,0.08), 0 2px 6px rgba(16,16,20,0.04);
+  --shadow-panel: 0 24px 64px rgba(16,16,20,0.18), 0 4px 12px rgba(16,16,20,0.08);
 }
 
 /* ── Base Reset ─────────────────────────────────────────────────── */
@@ -49,6 +88,8 @@ html, body {
   scroll-behavior: smooth;
 }
 
+img, svg, video { max-width: 100%; }
+
 /* Custom scrollbar */
 ::-webkit-scrollbar { width: 4px; }
 ::-webkit-scrollbar-track { background: var(--bg-secondary); }
@@ -65,17 +106,18 @@ h1, h2, h3, h4, h5, h6 {
   line-height: 1;
   text-transform: uppercase;
   color: var(--text-primary);
+  text-wrap: balance;
 }
 
-h1 { font-size: clamp(2.5rem, 12vw, 8rem); }
-h2 { font-size: clamp(1.8rem, 6vw, 4rem); }
-h3 { font-size: clamp(1.1rem, 4vw, 1.75rem); }
+h1 { font-size: var(--text-display); }
+h2 { font-size: var(--text-h2); }
+h3 { font-size: var(--text-h3); letter-spacing: -0.03em; line-height: 1.1; }
 
 p {
-  line-height: 1.6;
+  line-height: 1.65;
   color: var(--text-secondary);
   font-weight: 300;
-  font-size: clamp(0.9rem, 2.5vw, 1rem);
+  font-size: var(--text-base);
 }
 
 a { color: inherit; }
@@ -88,22 +130,28 @@ a { color: inherit; }
 .label {
   font-family: var(--font-mono);
   text-transform: uppercase;
-  font-size: 0.65rem;
+  font-size: var(--text-xs);
   letter-spacing: 0.15em;
   color: var(--text-tertiary);
 }
 
+/* body-copy measure for case studies and long paragraphs */
+.measure       { max-width: var(--measure); }
+.measure-short { max-width: var(--measure-short); }
+
 /* ── Layout ─────────────────────────────────────────────────────── */
 .container {
   width: 100%;
-  max-width: 1400px;
+  max-width: calc(var(--container-max) + 2 * var(--gutter));
   margin: 0 auto;
-  padding: 0 4rem;
+  padding-left: var(--gutter);
+  padding-right: var(--gutter);
 }
 
 .section {
   min-height: 100vh;
-  padding: 8rem 0;
+  padding-top: var(--section-pad);
+  padding-bottom: var(--section-pad);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -115,13 +163,29 @@ a { color: inherit; }
   background: var(--bg-primary);
 }
 
-@media (max-width: 1024px) { 
-  .container { padding: 0 2rem; } 
-  .section { padding: 6rem 0; }
+@media (max-width: 1024px) {
+  :root { --gutter: 2rem; }
 }
-@media (max-width: 640px)  { 
-  .container { padding: 0 1.25rem; } 
-  .section { padding: 4rem 0; } 
+@media (max-width: 640px) {
+  :root {
+    --gutter: 1.25rem;
+    --section-pad: 4rem;
+    --header-gap: 2.25rem;
+  }
+}
+
+/* ── Reduced motion: keep opacity fades, drop transforms ─────────── */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  .project-card, .project-card:hover, .project-thumb-img, .project-card:hover .project-thumb-img,
+  .project-detail-btn svg, .floating-ai-toggle:hover, .floating-ai-btn:hover, .story-photo {
+    transform: none !important;
+  }
 }
 
 /* ── Component Overrides — Black & White ───────────────────────── */
@@ -173,20 +237,8 @@ a { color: inherit; }
 .skill-bar-wrap { background: rgba(0,0,0,0.05) !important; }
 .skill-bar-fill { background: #000 !important; box-shadow: 0 0 10px rgba(0,0,0,0.2) !important; }
 
-/* Projects section */
-.project-card {
-  background: var(--bg-card) !important;
-  border: 1px solid var(--border-light) !important;
-  cursor: pointer;
-}
-.project-card:hover { border-color: #000 !important; transform: translateY(-4px) !important; background: #e8e8ea !important; }
-.project-accent-bar { background: #000 !important; }
-.project-number { color: #000 !important; opacity: 0.05 !important; }
-.project-card:hover .project-number { opacity: 0.1 !important; }
-.project-role { border-color: var(--border-light) !important; color: var(--text-tertiary) !important; }
-.project-card:hover .project-role { border-color: #000 !important; color: #000 !important; }
-.project-title { color: #000 !important; }
-.project-desc { color: var(--text-secondary) !important; }
+/* Projects section: card visuals live in components/portfolio/Projects.tsx.
+   Only the legacy .project-link (used by older detail pages) is kept here. */
 .project-link { border: 1px solid rgba(0,0,0,0.3) !important; color: #000 !important; }
 .project-link:hover { background: #000 !important; color: #fff !important; }
 
