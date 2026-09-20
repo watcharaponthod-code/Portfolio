@@ -553,7 +553,9 @@ export default function Projects() {
             className={`filter-btn mono ${active === cat ? 'active' : ''}`}
             onClick={() => setActive(cat)}
           >
-            {cat}
+            {cat === 'ALL'
+              ? (lang === 'th' ? UI_TH.all : 'ALL')
+              : ((lang === 'th' && GROUP_TH[cat as Group]?.label) || cat)}
           </button>
         ))}
       </div>
@@ -644,7 +646,8 @@ export default function Projects() {
           border-bottom: 1px solid var(--border-light);
         }
         .project-thumb-img {
-          width: 100%; height: 100%; object-fit: cover; display: block;
+          width: 100%; height: 100%; object-fit: contain; object-position: center; display: block;
+          background: #fff;
           transition: transform 0.7s var(--ease-out);
         }
         .project-card:hover .project-thumb-img { transform: scale(1.03); }
