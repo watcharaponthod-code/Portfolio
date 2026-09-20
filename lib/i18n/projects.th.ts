@@ -187,7 +187,7 @@ export const GROUP_TH: Record<string, { label: string; desc: string }> = {
     desc: 'ติดตามด้วยภาพถ่ายดาวเทียมให้โรงงานน้ำตาลในไทย: สถานะการเก็บเกี่ยว สุขภาพแปลง และผลผลิต',
   },
   'COMPUTER VISION': {
-    label: 'COMPUTER VISION',
+    label: 'คอมพิวเตอร์วิทัศน์',
     desc: 'กล้องและไมโครโฟนที่ต้องทำงานได้จริงบนอุปกรณ์จริง',
   },
   'AI & RAG': {
@@ -199,7 +199,7 @@ export const GROUP_TH: Record<string, { label: string; desc: string }> = {
     desc: 'ระบบหลังบ้าน โครงสร้างพื้นฐาน และ AI ในเกม',
   },
   'FULL-STACK': {
-    label: 'FULL-STACK',
+    label: 'เว็บและแอปเต็มรูปแบบ',
     desc: 'ผลิตภัณฑ์เว็บที่ส่งมอบครบวงจร ตั้งแต่ชั้นข้อมูลจนถึงเว็บไซต์ที่เปิดใช้จริง',
   },
   'DATA & GROWTH': {
@@ -234,3 +234,45 @@ export const ACTION_LABEL_TH: Record<string, string> = {
   'VISIT SITE': UI_TH.visitSite,
   'VIEW PLAN': UI_TH.viewPlan,
 };
+
+// Technique badge on each card: what kind of AI it is.
+export const TECH_TH: Record<string, string> = {
+  'ML · REMOTE SENSING': 'ML · รีโมตเซนซิง',
+  'ML/DL · REMOTE SENSING': 'ML/DL · รีโมตเซนซิง',
+  'DL · COMPUTER VISION': 'DL · คอมพิวเตอร์วิทัศน์',
+  'RULE-BASED · COMPUTER VISION': 'ใช้กฎ · คอมพิวเตอร์วิทัศน์',
+  'DL + RULE · COMPUTER VISION': 'DL + กฎ · คอมพิวเตอร์วิทัศน์',
+  'DL · SEGMENTATION': 'DL · แบ่งส่วนภาพ',
+  'DL · AUDIO': 'DL · เสียง',
+  'DL · SELF-TRAINING': 'DL · สอนตัวเอง',
+  'DL + RULE · OCR': 'DL + กฎ · OCR',
+  'DL · POSE ESTIMATION': 'DL · ตรวจจับท่าทาง',
+  'ML/DL · TIME SERIES': 'ML/DL · อนุกรมเวลา',
+  'LLM · RAG': 'LLM · RAG',
+  'LLM · AUTOMATION': 'LLM · ระบบอัตโนมัติ',
+  'LLM · MOBILE': 'LLM · โมบาย',
+  'RULE-BASED · GAME AI': 'ใช้กฎ · AI ในเกม',
+  'SOFTWARE · BACKEND': 'ซอฟต์แวร์ · เบื้องหลังระบบ',
+  'SOFTWARE · INFRA': 'ซอฟต์แวร์ · โครงสร้างพื้นฐาน',
+  'SOFTWARE · WEB': 'ซอฟต์แวร์ · เว็บ',
+  'GENAI · ANALYTICS': 'GenAI · วิเคราะห์ข้อมูล',
+  'DATA · ANALYTICS': 'ข้อมูล · วิเคราะห์ข้อมูล',
+};
+
+// The role line above each card title.
+export const ROLE_TH: Record<string, string> = {
+  'COMPUTER VISION': 'คอมพิวเตอร์วิทัศน์',
+  'COMPUTER VISION · AUDIO': 'คอมพิวเตอร์วิทัศน์ · เสียง',
+  'REMOTE SENSING · SENTINEL-1 / SENTINEL-2': 'รีโมตเซนซิง · Sentinel-1 / Sentinel-2',
+  'MACHINE LEARNING · SAR→NDVI GAPFILL': 'แมชชีนเลิร์นนิง · เติมช่องว่าง SAR→NDVI',
+};
+
+// Labels inside a case-study page.
+export const DETAIL_TH = {
+  back: 'ย้อนกลับ',
+  overview: 'ภาพรวม',
+  keyFeatures: 'สิ่งที่ระบบทำได้',
+  mediaGallery: 'ภาพประกอบ',
+  liveDemo: 'ตัวอย่างการทำงาน',
+  stack: 'เครื่องมือที่ใช้',
+} as const;

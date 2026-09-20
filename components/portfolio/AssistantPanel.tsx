@@ -205,7 +205,10 @@ export default function AssistantPanel() {
         .asst-bubble p { margin: 0; }
         .asst-bubble p + p { margin-top: 0.35rem; }
         .asst-bubble.assistant { background: #f3f3f1; color: #111; border-bottom-left-radius: 4px; }
-        .asst-bubble.user { background: #000; color: #fff; border-bottom-right-radius: 4px; }
+        .asst-bubble.user { background: #000; border-bottom-right-radius: 4px; }
+        .asst-bubble.user,
+        .asst-bubble.user p,
+        .asst-bubble.user * { color: #fff; }
         .asst-bubble.err { background: #fff3f3; color: #8a1f1f; border: 1px solid #f0c4c4; }
         .asst-meta { margin-top: 0.45rem; font-size: 0.55rem; letter-spacing: 0.12em; color: #8a8a8a; }
         .asst-dots { display: inline-flex; gap: 4px; padding: 0.2rem 0; }

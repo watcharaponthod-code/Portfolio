@@ -297,3 +297,58 @@ a { color: inherit; }
   z-index: -1;
   pointer-events: none;
 }
+
+/* ---- Thai typography -------------------------------------------------
+   Space Grotesk and Space Mono carry no Thai glyphs, so in Thai the browser
+   would fall back to a system face with a different weight and metrics. Put a
+   real Thai face first, give the taller Thai glyphs more room to breathe, and
+   break lines between words rather than mid-syllable. */
+:root { --font-thai: 'IBM Plex Sans Thai', 'Noto Sans Thai', 'Leelawadee UI', sans-serif; }
+
+html[lang='th'] body,
+html[lang='th'] .section-header-title,
+html[lang='th'] h1,
+html[lang='th'] h2,
+html[lang='th'] h3,
+html[lang='th'] p,
+html[lang='th'] button,
+html[lang='th'] a,
+html[lang='th'] li {
+  font-family: var(--font-thai);
+}
+html[lang='th'] .mono,
+html[lang='th'] [class*='mono'] {
+  font-family: 'IBM Plex Sans Thai', var(--font-mono);
+  letter-spacing: 0.08em;
+}
+html[lang='th'] p,
+html[lang='th'] .pd-body,
+html[lang='th'] .pd-lead,
+html[lang='th'] .project-desc,
+html[lang='th'] .hero-blurb,
+html[lang='th'] .section-header-desc,
+html[lang='th'] .group-desc {
+  line-height: 1.85;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+  letter-spacing: 0;
+}
+html[lang='th'] h1,
+html[lang='th'] .pd-title,
+html[lang='th'] .project-title,
+html[lang='th'] .section-header-title {
+  line-height: 1.35;
+  letter-spacing: -0.01em;
+  word-break: break-word;
+}
+html[lang='th'] .pd-h3,
+html[lang='th'] h3 { line-height: 1.45; }
+/* Thai has no capitals; uppercasing only distorts the glyphs. */
+html[lang='th'] .section-header-title,
+html[lang='th'] .pd-title,
+html[lang='th'] .pd-h3,
+html[lang='th'] .group-label,
+html[lang='th'] .project-title,
+html[lang='th'] .tech-badge,
+html[lang='th'] .category-badge,
+html[lang='th'] .filter-btn { text-transform: none; }

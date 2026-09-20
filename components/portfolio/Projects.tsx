@@ -5,7 +5,7 @@ import { TbArrowRight } from 'react-icons/tb';
 import { useUI } from '../../lib/state';
 import { useAuto } from '../../lib/i18n/auto';
 import { useLang } from '../../lib/i18n';
-import { PROJECT_TH, GROUP_TH, UI_TH, ACTION_LABEL_TH } from '../../lib/i18n/projects.th';
+import { PROJECT_TH, GROUP_TH, UI_TH, ACTION_LABEL_TH, TECH_TH, ROLE_TH } from '../../lib/i18n/projects.th';
 
 import picGeo     from '../project/geomap/LINE_20260324_213523.jpg';
 import picKafka   from '../project/kafka/kafka1.png';
@@ -396,7 +396,9 @@ function ProjectCard({ p, index }: { p: Project; index: number }) {
   const auto = useAuto(lang === 'th' && !th ? [p.title, p.role, p.desc] : []);
   const T = (s?: string) => (s ? (lang === 'th' ? auto(s) : s) : '');
   const title = th?.title || T(p.title);
-  const role = th?.role || T(p.role);
+  const techLabel = lang === 'th' ? (TECH_TH[p.tech || ''] || p.tech) : p.tech;
+  const categoryLabel = lang === 'th' ? (GROUP_TH[p.category]?.label || p.category) : p.category;
+  const role = th?.role || (lang === 'th' ? ROLE_TH[p.role] : undefined) || T(p.role);
   const desc = th?.desc || T(p.desc);
   const metrics = th?.metrics || p.metrics;
   const action = lang === 'th'
@@ -436,7 +438,7 @@ function ProjectCard({ p, index }: { p: Project; index: number }) {
           />
           <div className="thumb-overlay" />
           {p.isGif && (
-            <div className="gif-badge mono">LIVE DEMO</div>
+            <div className="gif-badge mono">{lang === 'th' ? UI_TH.liveDemo : 'LIVE DEMO'}</div>
           )}
         </div>
       )}
@@ -447,9 +449,9 @@ function ProjectCard({ p, index }: { p: Project; index: number }) {
           <div className="project-meta">
             <span className="project-role mono">{role}</span>
             <span className="project-badges">
-              {p.tech && <span className="tech-badge mono">{p.tech}</span>}
-              <span className="category-badge mono">{p.category}</span>
-              {p.freelance && <span className="category-badge freelance-badge mono">FREELANCE</span>}
+              {techLabel && <span className="tech-badge mono">{techLabel}</span>}
+              <span className="category-badge mono">{categoryLabel}</span>
+              {p.freelance && <span className="category-badge freelance-badge mono">{lang === 'th' ? UI_TH.freelance : 'FREELANCE'}</span>}
             </span>
           </div>
         </div>
@@ -458,7 +460,7 @@ function ProjectCard({ p, index }: { p: Project; index: number }) {
         <p className="project-desc">{desc}</p>
 
         <div className="project-stack-section">
-          <div className="project-stack-label mono">STACK</div>
+          <div className="project-stack-label mono">{lang === 'th' ? UI_TH.stack : 'STACK'}</div>
           <div className="project-stack-tags">
             {p.stack.map(t => <span key={t} className="stack-tag mono">{t}</span>)}
           </div>
@@ -466,7 +468,7 @@ function ProjectCard({ p, index }: { p: Project; index: number }) {
 
         <div className="project-footer">
           <div className="project-metrics">
-            <div className="project-metric-label mono">IMPACT</div>
+            <div className="project-metric-label mono">{lang === 'th' ? UI_TH.impact : 'IMPACT'}</div>
             <div className="project-metric-value mono">{metrics}</div>
           </div>
           <button type="button" className="project-detail-btn mono">

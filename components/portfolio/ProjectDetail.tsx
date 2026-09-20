@@ -2,6 +2,8 @@ import { useEffect, useRef } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
 import { useUI } from '../../lib/state';
 import { useAuto } from '../../lib/i18n/auto';
+import { useLang } from '../../lib/i18n';
+import { DETAIL_TH } from '../../lib/i18n/projects.th';
 import { TbArrowLeft, TbBrandGithub, TbExternalLink } from 'react-icons/tb';
 
 export interface ProjectSection {
@@ -53,6 +55,8 @@ function Figure({ src, alt, caption, reduce }: { src: string; alt: string; capti
 
 export default function ProjectDetail({ data }: Props) {
   // Thai for the case-study prose comes from /api/translate, cached per visitor.
+  const { lang } = useLang();
+  const L = (en: string, key: keyof typeof DETAIL_TH) => (lang === 'th' ? DETAIL_TH[key] : en);
   const tr = useAuto([
     data.title, data.role, data.tagline, data.overview,
     ...(data.keyFeatures || []),
@@ -89,7 +93,7 @@ export default function ProjectDetail({ data }: Props) {
       {/* ── Top bar ── */}
       <div className="pd-topbar">
         <button onClick={() => setView('landing')} className="pd-btn pd-btn-ghost mono">
-          <TbArrowLeft size={14} /> BACK
+          <TbArrowLeft size={14} /> {L('BACK', 'back')}
         </button>
         <div className="pd-topbar-meta mono">{tr(data.role)} // {data.year}</div>
         <div className="pd-topbar-actions">
@@ -126,7 +130,7 @@ export default function ProjectDetail({ data }: Props) {
         {/* ── Media Gallery (full-width, before any text) ── */}
         {data.mediaGallery && data.mediaGallery.length > 0 && (
           <section className="pd-section">
-            <div className="pd-eyebrow mono">LIVE_DEMO // MEDIA_GALLERY</div>
+            <div className="pd-eyebrow mono">{lang === 'th' ? `${DETAIL_TH.liveDemo} // ${DETAIL_TH.mediaGallery}` : 'LIVE_DEMO // MEDIA_GALLERY'}</div>
             <div className="pd-gallery">
               {data.mediaGallery.map((item, i) => (
                 <Figure key={i} src={item.src} alt={item.caption || `media-${i}`} caption={tr(item.caption)} reduce={reduce} />
@@ -137,14 +141,14 @@ export default function ProjectDetail({ data }: Props) {
 
         {/* ── Overview ── */}
         <section className="pd-section">
-          <div className="pd-kicker mono">01 // OVERVIEW</div>
+          <div className="pd-kicker mono">01 // {L('OVERVIEW','overview')}</div>
           <p className="pd-lead measure">{tr(data.overview)}</p>
         </section>
 
         {/* ── Key Features ── */}
         {data.keyFeatures && data.keyFeatures.length > 0 && (
           <section className="pd-section">
-            <div className="pd-kicker mono">02 // KEY FEATURES</div>
+            <div className="pd-kicker mono">02 // {L('KEY FEATURES', 'keyFeatures')}</div>
             <div className="pd-features">
               {data.keyFeatures.map((feat, i) => (
                 <div key={i} className="pd-feature">
@@ -176,7 +180,7 @@ export default function ProjectDetail({ data }: Props) {
 
         {/* ── Tech Stack ── */}
         <section className="pd-section">
-          <div className="pd-kicker mono">STACK</div>
+          <div className="pd-kicker mono">{L('STACK', 'stack')}</div>
           <div className="pd-stack">
             {data.stack.map(t => (
               <span key={t} className="pd-stack-tag mono">{t}</span>
@@ -189,7 +193,7 @@ export default function ProjectDetail({ data }: Props) {
           <div className="pd-footer-meta mono">END_OF_CASE_STUDY // {data.id.toUpperCase()}</div>
           <div className="pd-footer-actions">
             <button onClick={() => setView('landing')} className="pd-btn pd-btn-solid pd-btn-lg mono">
-              ← BACK TO WORKS
+              ← {lang === 'th' ? 'กลับไปหน้าผลงาน' : 'BACK TO WORKS'}
             </button>
             {data.githubLink && (
               <a href={data.githubLink} target="_blank" rel="noreferrer" className="pd-btn pd-btn-ghost pd-btn-lg mono">
