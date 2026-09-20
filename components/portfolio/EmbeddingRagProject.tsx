@@ -44,6 +44,10 @@ export default function EmbeddingRagProject() {
           title: 'Deployment & Infrastructure',
           body: 'React + Vite + TypeScript frontend. Node.js + Express backend for business logic and AI orchestration. PostgreSQL 15 with pgvector for all storage. Fully containerised with Docker Compose for local development and Kubernetes YAML for production. CI/CD via GitLab pipelines with automated build, test, and staging deployment on every merge request.',
         },
+        {
+          title: 'Outcome',
+          body: "What it changed for the company: documents from every department land in one searchable place, including scanned images, so project status and history can be checked in seconds and answers cite the file they came from. Runs fully on-premises with no per-query API cost.",
+        },
       ],
       stack: ['React', 'TypeScript', 'Vite', 'Node.js', 'Express', 'Python', 'PostgreSQL', 'pgvector', 'BGE-M3', 'BGE-Reranker-v2-m3', 'Llama3', 'Qwen', 'Ollama', 'n8n', 'Docker', 'Kubernetes'],
       metrics: [

@@ -125,7 +125,7 @@ const ALL_PROJECTS: Project[] = [
     metrics: 'RULE FOUND · THRESHOLD OPEN',
     category: 'COMPUTER VISION',
     internalLink: 'project-scv-2',
-    image: 'https://raw.githubusercontent.com/watcharaponthod-code/sugarcane-cv/main/figures/burn_mix_30pct_scattered.jpg',
+    image: '/media/burn-mix.jpg',
     featured: true,
   },
   {

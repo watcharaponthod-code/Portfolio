@@ -24,6 +24,10 @@ export default function YieldProProject() {
       sections: [
         { title: 'Why deciles, not tonnes', body: 'On the in-sample fit the model looks good (ρ 0.72, n = 8,386 at week 14). Held out by zone it drops to 0.25–0.31. The decile ordering still holds (P50 deciles rise monotonically with true tonnes/rai from 7.3 to 12.2), which is useful for prioritising fields, but a per-field tonne figure would be presenting the in-sample number as if it were real.' },
         { title: 'What is not claimed', body: 'The gapfill model answers 28.8% of pixels at the 95% gate; the rest are left blank on purpose. Health and cause labels are rule plus model, not ground truth, and are validated against the mill\'s field activity records rather than against agronomist visits.' },
+        {
+          title: 'Outcome',
+          body: "What it changed for the mill: field health, cause labels and yield deciles are available for planning cane supply and crushing schedules without paying an external AI service. Outside satellite-AI vendors in this market quote around 5 million baht per three years for a dashboard the mill cannot extend; this model runs in-house, is served through the mill's own API, and its outputs feed the farmer app and any downstream analysis the organisation wants to build.",
+        },
       ],
       stack: ['PyTorch', 'LightGBM', 'Sentinel-1 / Sentinel-2', 'CHIRPS', 'Open-Meteo', 'SoilGrids', 'Kaggle GPU', 'MLflow', 'Railway'],
       metrics: [

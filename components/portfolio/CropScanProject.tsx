@@ -25,6 +25,10 @@ export default function CropScanProject() {
       sections: [
         { title: 'How the signal is proven', body: 'The rule is scored against the mill\'s weighbridge tickets, which say when each field actually delivered cane. The score is out-of-block: fields in the test set never influenced the thresholds. False negatives are mostly fields that were cut in stages over weeks; false positives are mostly fields that were cut before the baseline image, which is why that case is routed to radar.' },
         { title: 'What is not claimed', body: 'CropScan does not estimate tonnes. It does not see through cloud with optical data, which is exactly why the radar channel exists. Radar agreement is reported as a percentage of tickets matched at each date, not as a classifier metric, because the two channels answer slightly different questions.' },
+        {
+          title: 'Outcome',
+          body: "What it changed for the mill: harvest planning now runs on a field-by-field map that updates every satellite pass, instead of phone calls and site visits. The mill did not have to buy an outside satellite-AI subscription: comparable vendor offers in this market run about 5 million baht per three years for a closed dashboard. This system is owned by the mill, exposes every result through its own API, and the same data can be reused in its farmer app and in further analysis.",
+        },
       ],
       stack: ['Sentinel-2 NDVI', 'Sentinel-1 VH', 'Planetary Computer', 'rasterio', 'Python', 'FastAPI', 'Railway', 'SQL Server'],
       metrics: [

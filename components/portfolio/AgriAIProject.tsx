@@ -7,7 +7,7 @@ export default function AgriAIProject() {
       title: 'Agri-AI: Satellite Field Monitoring',
       role: 'AI / MLOPS ENGINEER · TOKINTECH',
       year: '2026',
-      tagline: 'Per-field sugarcane monitoring for a Thai sugar mill (TRR) from Sentinel-2 optical, Sentinel-1 radar and weather data. Two products run on it: CropScan Harvest Monitoring answers "cut or still standing, and how much", Yield Pro answers "how healthy, why, and how many tonnes per rai".',
+      tagline: 'Per-field sugarcane monitoring for a Thai sugar mill from Sentinel-2 optical, Sentinel-1 radar and weather data. Two products run on it: CropScan Harvest Monitoring answers "cut or still standing, and how much", Yield Pro answers "how healthy, why, and how many tonnes per rai".',
       overview: 'Thousands of registered cane fields, one mill, and a 5-day satellite revisit that clouds wipe out for half the season. The system pulls every new Sentinel-2 and Sentinel-1 scene from Planetary Computer, computes per-pixel and per-field signals, fills the cloud gaps with a radar-to-NDVI model, labels each field with a health state and a cause, and pushes recommendations back into the mill\'s own backend. Every number it ships is measured out-of-block against the mill\'s real weighbridge tickets and harvest records, and the numbers that are not good enough yet are reported as exactly that.',
       mediaGallery: [
         { src: '/agri/cropscan-fields.png', caption: 'CROPSCAN // Sentinel-2 true colour (left) vs two-colour cut mask (right), four real fields, season 68' },
@@ -27,7 +27,7 @@ export default function AgriAIProject() {
       sections: [
         {
           title: 'System Architecture',
-          body: 'Four zones. Zone 1 is the data: Sentinel-2, Sentinel-1 and DEM from Planetary Computer, NISAR from NASA Earthdata, CHIRPS rain, Open-Meteo weather and SoilGrids. Zone 2 is ours on Railway: the agri-ai service, the warehouse and model buckets, Jupyter, MLflow, Postgres, Loki and Grafana. Zone 3 is external GPU training on Kaggle and Modal. Zone 4 is the customer: the TRR backend API, its SQL Server, and the farmer app that shows what we send.',
+          body: 'Four zones. Zone 1 is the data: Sentinel-2, Sentinel-1 and DEM from Planetary Computer, NISAR from NASA Earthdata, CHIRPS rain, Open-Meteo weather and SoilGrids. Zone 2 is ours on Railway: the agri-ai service, the warehouse and model buckets, Jupyter, MLflow, Postgres, Loki and Grafana. Zone 3 is external GPU training on Kaggle and Modal. Zone 4 is the customer: the mill's backend API, its SQL Server, and the farmer app that shows what we send.',
           image: '/agri/agri-architecture.jpg',
           imageCaption: 'ARCHITECTURE // DATA → RAILWAY → GPU TRAINING → CUSTOMER',
           fullWidth: true,
@@ -39,6 +39,10 @@ export default function AgriAIProject() {
         {
           title: 'What is not claimed',
           body: 'Yield tonnes per field are not shipped as a point estimate: out-of-zone correlation is a third of the in-sample figure, and the P10–P90 band only just covers 80% of real tickets. The gapfill model answers 28.8% of pixels at the 95% gate and abstains on the rest. Dust, burnt-cane and contamination detectors from the weighbridge cameras live in a separate repo (sugarcane-cv) with their own evidence tables.',
+        },
+        {
+          title: 'Outcome',
+          body: "What it changed for the mill: one in-house pipeline replaces an external satellite-AI subscription (market offers run about 5 million baht per three years for a closed dashboard). Every result is available through the mill's own API, so the organisation can build apps, reports and further analysis on top of it rather than renting them.",
         },
       ],
       stack: ['Python', 'FastAPI', 'Sentinel-1 / Sentinel-2', 'Planetary Computer', 'LightGBM', 'PyTorch', 'Kaggle GPU', 'Modal', 'MLflow', 'Railway', 'Loki + Grafana', 'SQL Server'],
