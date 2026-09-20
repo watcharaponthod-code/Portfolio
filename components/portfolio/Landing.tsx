@@ -350,11 +350,9 @@ export default function Landing({ onPresentationComplete }: LandingProps) {
 
   return (
     <div className="landing-page">
-      {!preloaderDone && <HackerPreloader onDone={() => { setPreloaderDone(true); setShowPresentation(true); }} />}
+      {!preloaderDone && <HackerPreloader onDone={() => { setPreloaderDone(true); handleComplete(); }} />}
 
-      {showPresentation && !presentationDone && (
-        <PresentationMode onComplete={handleComplete} />
-      )}
+      {/* presentation intro removed: it repeated the hero and the case studies */}
 
       {/* Main Content Sections */}
       <HeroSection onAboutMe={() => scrollToSection('introduction')} />
