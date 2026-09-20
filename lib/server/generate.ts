@@ -154,3 +154,33 @@ export async function streamText(ai: GoogleGenAI | null, o: GenOpts): Promise<{ 
   }
   throw lastErr;
 }
+
+/**
+ * A web-grounded answer from Groq's compound model, which searches the web
+ * itself. Used only for things the knowledge base cannot know, such as what
+ * an outside company does. Returns '' when the key or the model is missing.
+ */
+export async function webLookup(question: string, maxTokens = 260): Promise<string> {
+  if (!groqKey()) return '';
+  try {
+    const r = await fetch(GROQ_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${groqKey()}` },
+      body: JSON.stringify({
+        model: 'groq/compound-mini',
+        messages: [
+          { role: 'system', content: 'Search the web and answer in 2 to 4 factual sentences. Include the source URL in parentheses. If nothing reliable is found, reply exactly: NO RELIABLE SOURCE.' },
+          { role: 'user', content: question },
+        ],
+        max_tokens: maxTokens,
+        temperature: 0,
+      }),
+    });
+    if (!r.ok) return '';
+    const data = await r.json();
+    const text = String(data?.choices?.[0]?.message?.content || '').trim();
+    return /NO RELIABLE SOURCE/i.test(text) ? '' : text;
+  } catch {
+    return '';
+  }
+}

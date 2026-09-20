@@ -63,6 +63,7 @@ export default async function handler(req: any, res: any) {
     res.setHeader('X-Sources', hits.map(h => h.chunk.id).join(','));
     res.setHeader('X-Retrieval', `${state.needsFacts ? (hits[0]?.method || 'none') : 'skipped'};${tRetrieve}ms`);
     res.setHeader('X-Plan', String((state.plan || []).length));
+    res.setHeader('X-Web', state.web ? '1' : '0');
     res.setHeader('X-Model', model);
 
     let answer = '';

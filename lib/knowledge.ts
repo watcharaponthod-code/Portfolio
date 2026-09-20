@@ -148,8 +148,8 @@ export const KNOWLEDGE_BASE: KnowledgeSection[] = [
     {
         id: "experience-sycapt",
         title: "Work Experience: Sycapt Co., Ltd.",
-        content: "Software Developer (Co-op Internship) at Sycapt Co., Ltd., Bangkok — January to May 2025. Developed full-stack Sycapt AI Enterprise on Kubernetes, built Agentic RAG Pipeline, solved GPU VRAM constraints, created EDC Geo Map, developed Kafka microservice connector, and designed CI/CD pipeline with auto rollback.",
-        keywords: ["experience", "work", "sycapt", "job", "internship", "co-op", "company"]
+        content: "Sycapt Co., Ltd. is a Thai fintech and payment-processing company in Bangkok (Phetchaburi Road, Ratchathewi), founded in 2001-2002 by a management team from the payment industry. Its business is transaction processing and transaction switching for banks, financial institutions, oil companies and fintechs: payment gateways, fleet-card systems, installment payment plans, recurring payments, Dynamic Currency Conversion, and Alipay/WeChat acquiring. It is not an AI company; the AI knowledge-management system was an internal project Watcharapon built there. Software Developer (Co-op Internship) at Sycapt Co., Ltd., Bangkok — January to May 2025. Developed full-stack Sycapt AI Enterprise on Kubernetes, built Agentic RAG Pipeline, solved GPU VRAM constraints, created EDC Geo Map, developed Kafka microservice connector, and designed CI/CD pipeline with auto rollback.",
+        keywords: ["payment", "fintech", "transaction", "switching", "bank", "what does sycapt do", "บริษัทอะไร", "ทำอะไร", "การเงิน", "ธนาคาร", "experience", "work", "sycapt", "job", "internship", "co-op", "company"]
     }
 ];
 

@@ -11,7 +11,7 @@
 import { StateGraph, Annotation, START, END } from '@langchain/langgraph';
 import { GoogleGenAI } from '@google/genai';
 import { retrieve, formatContext, hasThai, type Hit } from './rag.js';
-import { generateText } from './generate.js';
+import { generateText, webLookup } from './generate.js';
 
 export interface Memory {
   /** who the visitor said they are, if they said */
@@ -34,10 +34,19 @@ const State = Annotation.Root({
   plan: Annotation<string[]>({ reducer: (_, b) => b, default: () => [] }),
   coverage: Annotation<number>({ reducer: (_, b) => b, default: () => 0 }),
   hits: Annotation<Hit[]>({ reducer: (_, b) => b, default: () => [] }),
+  web: Annotation<string>({ reducer: (_, b) => b, default: () => '' }),
   context: Annotation<string>({ reducer: (_, b) => b, default: () => '' }),
 });
 
 export type AgentState = typeof State.State;
+
+// An outside organisation or product, or a question the knowledge base
+// answered thinly, is grounds for a web lookup.
+const OUTSIDE_RE = /sycapt|tokintech|kasetsart|เกษตรศาสตร์|บริษัท(?:อะไร|ไหน|นี้)|company|organi[sz]ation|what is (?!cropscan|yield|elic|canegate)|คืออะไร|ทำธุรกิจ|ด้านไหน/i;
+function needsWeb(s: AgentState): boolean {
+  if (OUTSIDE_RE.test(s.question)) return true;
+  return s.needsFacts && s.hits.length < 2;
+}
 
 const SMALL_TALK = /^(hi|hey|hello|thanks|thank you|ok|okay|cool|bye|สวัสดี|ขอบคุณ|โอเค|ครับ|ค่ะ|บาย)\b/i;
 
@@ -140,12 +149,21 @@ export function buildGraph(ai: GoogleGenAI | null) {
       const hits = await search(s.question, 8);
       return { hits, context: formatContext(hits), coverage: hits.length };
     })
+    // Some questions are about the world, not about him: what a company does,
+    // what a tool is. The knowledge base cannot know that and must not guess,
+    // so those go to a web-searching model and come back as labelled context.
+    .addNode('web', async (s: AgentState) => {
+      const web = await webLookup(s.question);
+      const context = web ? `${s.context}\n\n[WEB] ${web}` : s.context;
+      return { web, context };
+    })
     .addEdge(START, 'route')
     .addConditionalEdges('route', (s: AgentState) => (s.needsFacts ? 'makePlan' : END), { makePlan: 'makePlan', [END]: END })
     .addEdge('makePlan', 'search')
     .addConditionalEdges('search', (s: AgentState) => (s.coverage === 0 ? 'widen' : 'rerank'), { widen: 'widen', rerank: 'rerank' })
-    .addEdge('rerank', END)
-    .addEdge('widen', END);
+    .addConditionalEdges('rerank', (s: AgentState) => (needsWeb(s) ? 'web' : END), { web: 'web', [END]: END })
+    .addConditionalEdges('widen', (s: AgentState) => (needsWeb(s) ? 'web' : END), { web: 'web', [END]: END })
+    .addEdge('web', END);
 
   return graph.compile();
 }
@@ -167,6 +185,8 @@ STYLE
 - Short: 1 to 3 sentences for a simple question. Plain text, no markdown, no headers.
 - Quote numbers exactly as they appear in the context (F1 0.883, 95.7%, 3.34M views). Never invent numbers or projects.
 - If the context does not cover it, say so in one sentence and offer the closest fact. Do not guess.
+- Never describe what a company or organisation does unless the context or a [WEB] passage states it. If neither does, say you do not have that.
+- A [WEB] passage is from a live web search: use it for facts about the outside world and mention the source in plain words.
 - If asked whether something was done in one place and the context shows it was done somewhere else (for example RAG at Sycapt, not at the mill), say where it was actually done and when.
 - Do not mention "the context" or "the knowledge base"; just answer.
 ${mem.length ? `\nWHAT YOU ALREADY KNOW ABOUT THIS VISITOR\n${mem.join('\n')}\nUse it to stay on their thread. Do not repeat it back to them unprompted.` : ''}
