@@ -54,7 +54,7 @@ export default async function handler(req: any, res: any) {
     return res.status(200).json({ answer, model, sources: hits.map(h => h.chunk.id), ms: Date.now() - t0 });
   } catch (e: any) {
     console.error('[brain]', e?.stack || e?.message || e);
-    return res.status(502).json({ error: 'brain failed' });
+    return res.status(502).json({ error: 'brain failed', detail: String(e?.message || e).slice(0, 300) });
   }
 }
 

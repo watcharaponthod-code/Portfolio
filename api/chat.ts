@@ -76,7 +76,7 @@ export default async function handler(req: any, res: any) {
     res.end();
   } catch (e: any) {
     console.error('[chat]', e?.stack || e?.message || e);
-    if (!res.headersSent) res.status(502).json({ error: 'chat failed' });
+    if (!res.headersSent) res.status(502).json({ error: 'chat failed', detail: String(e?.message || e).slice(0, 300) });
     else res.end();
   }
 }
