@@ -16,6 +16,8 @@ import EmbeddingRagProject from './components/portfolio/EmbeddingRagProject';
 import BitcoinMLProject from './components/portfolio/BitcoinMLProject';
 import RAGEcosystemProject from './components/portfolio/RAGEcosystemProject';
 import AgriAIProject from './components/portfolio/AgriAIProject';
+import CropScanProject from './components/portfolio/CropScanProject';
+import YieldProProject from './components/portfolio/YieldProProject';
 import ShortsAutomationProject from './components/portfolio/ShortsAutomationProject';
 import SugarcaneCVProject from './components/portfolio/SugarcaneCVProject';
 import SugarcaneDetectorProject from './components/portfolio/SugarcaneDetectorProject';
@@ -51,6 +53,8 @@ function App() {
       case 'project-subway': return <SubwayKidsProject />;
       case 'project-elic': return <ElicProject />;
       case 'project-agri-ai': return <AgriAIProject />;
+      case 'project-cropscan': return <CropScanProject />;
+      case 'project-yieldpro': return <YieldProProject />;
       case 'project-shorts': return <ShortsAutomationProject />;
       case 'project-sugarcane-cv': return <SugarcaneCVProject />;
       default:
