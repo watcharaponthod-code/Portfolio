@@ -156,31 +156,47 @@ export async function streamText(ai: GoogleGenAI | null, o: GenOpts): Promise<{ 
 }
 
 /**
- * A web-grounded answer from Groq's compound model, which searches the web
- * itself. Used only for things the knowledge base cannot know, such as what
- * an outside company does. Returns '' when the key or the model is missing.
+ * A web-grounded answer from Groq's compound-mini model, which searches the
+ * web itself. Two things learned the hard way: it only reaches for the search
+ * tool when the prompt is an explicit English "Search the web for: ...", and
+ * each call carries several thousand tokens of search results against a tight
+ * per-minute budget, so results are cached and the lookup is used sparingly.
  */
-export async function webLookup(question: string, maxTokens = 260): Promise<string> {
+const webCache = new Map<string, string>();
+
+export async function webLookup(englishQuery: string, maxTokens = 220): Promise<string> {
   if (!groqKey()) return '';
+  const q = englishQuery.trim();
+  if (!q) return '';
+  const hit = webCache.get(q.toLowerCase());
+  if (hit !== undefined) return hit;
+  const ctrl = new AbortController();
+  const timer = setTimeout(() => ctrl.abort(), 4500);
   try {
     const r = await fetch(GROQ_URL, {
       method: 'POST',
+      signal: ctrl.signal,
       headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${groqKey()}` },
       body: JSON.stringify({
         model: 'groq/compound-mini',
-        messages: [
-          { role: 'system', content: 'Search the web and answer in 2 to 4 factual sentences. Include the source URL in parentheses. If nothing reliable is found, reply exactly: NO RELIABLE SOURCE.' },
-          { role: 'user', content: question },
-        ],
+        messages: [{
+          role: 'user',
+          content: `Search the web for: ${q}. Answer in 2 to 4 factual sentences with the source URL in parentheses. If nothing reliable is found, reply exactly: NO RELIABLE SOURCE.`,
+        }],
         max_tokens: maxTokens,
         temperature: 0,
       }),
     });
-    if (!r.ok) return '';
+    if (!r.ok) { console.error('[web]', r.status, (await r.text()).slice(0, 160)); return ''; }
     const data = await r.json();
     const text = String(data?.choices?.[0]?.message?.content || '').trim();
-    return /NO RELIABLE SOURCE/i.test(text) ? '' : text;
-  } catch {
+    const out = /NO RELIABLE SOURCE|not familiar|don't have reliable/i.test(text) ? '' : text;
+    webCache.set(q.toLowerCase(), out);
+    return out;
+  } catch (e: any) {
+    console.error('[web]', e?.name === 'AbortError' ? 'timed out' : (e?.message || e));
     return '';
+  } finally {
+    clearTimeout(timer);
   }
 }

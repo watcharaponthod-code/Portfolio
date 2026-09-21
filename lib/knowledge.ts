@@ -140,6 +140,12 @@ export const KNOWLEDGE_BASE: KnowledgeSection[] = [
         keywords: ["project", "freelance", "website", "portfolio", "makeup", "nextjs", "tailwind"]
     },
     {
+        id: "employer-tokintech",
+        title: "Employer: TokinTech Co., Ltd.",
+        content: "TokinTech Co., Ltd. is a Thai software and IT-systems development company headquartered in Sakon Nakhon (Chiang Khruea, Mueang Sakon Nakhon) with an office on South Sathorn Road in Bangkok. It builds mobile and web applications; its Google Play titles include QR Genius (QR code and document tracking) and CaneSlip (a sugarcane field and delivery-slip app), and it regularly hires junior web developers and testers. Watcharapon works there as the AI and MLOps engineer on the Agri-AI satellite monitoring pipeline (CropScan, Yield Pro, SAR to NDVI gapfill) and the CaneGate weighbridge system delivered to a Thai sugar mill. TokinTech is the employer; the sugar mill is the customer.",
+        keywords: ["tokintech", "employer", "company", "what is tokintech", "sakon nakhon", "sathorn", "qr genius", "caneslip", "บริษัท", "นายจ้าง", "ทำงานที่ไหน", "สกลนคร", "องค์กร"]
+    },
+    {
         id: "awards",
         title: "Awards & Competitions",
         content: "🥈 2nd Place Runner-Up — KUSE AI Hackathon 2025: Built AI system in 3 days using Machine Learning, Prompt Engineering, and Design Thinking. 🏆 UI Design-athon 2025: UI design competition using JTBD and Business Model Canvas. 🔐 RERU Cyber Hackathon 2025 (Open Level): Penetration testing, vulnerability analysis, and defensive tool development.",

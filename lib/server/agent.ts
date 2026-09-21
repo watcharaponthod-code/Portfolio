@@ -35,6 +35,7 @@ const State = Annotation.Root({
   coverage: Annotation<number>({ reducer: (_, b) => b, default: () => 0 }),
   hits: Annotation<Hit[]>({ reducer: (_, b) => b, default: () => [] }),
   web: Annotation<string>({ reducer: (_, b) => b, default: () => '' }),
+  webTried: Annotation<boolean>({ reducer: (_, b) => b, default: () => false }),
   context: Annotation<string>({ reducer: (_, b) => b, default: () => '' }),
 });
 
@@ -42,9 +43,12 @@ export type AgentState = typeof State.State;
 
 // An outside organisation or product, or a question the knowledge base
 // answered thinly, is grounds for a web lookup.
-const OUTSIDE_RE = /sycapt|tokintech|kasetsart|เกษตรศาสตร์|บริษัท(?:อะไร|ไหน|นี้)|company|organi[sz]ation|what is (?!cropscan|yield|elic|canegate)|คืออะไร|ทำธุรกิจ|ด้านไหน/i;
+// Reach outside only when the visitor asks for it, or when the knowledge
+// base came back nearly empty. Anything the base does cover stays local: the
+// web model is slow and its free budget is small.
+const ASK_WEB_RE = /search the web|look it up|google|ค้นเว็บ|ค้นหาในเน็ต|หาข้อมูลจากเน็ต/i;
 function needsWeb(s: AgentState): boolean {
-  if (OUTSIDE_RE.test(s.question)) return true;
+  if (ASK_WEB_RE.test(s.question)) return true;
   return s.needsFacts && s.hits.length < 2;
 }
 
@@ -153,9 +157,16 @@ export function buildGraph(ai: GoogleGenAI | null) {
     // what a tool is. The knowledge base cannot know that and must not guess,
     // so those go to a web-searching model and come back as labelled context.
     .addNode('lookupWeb', async (s: AgentState) => {
-      const web = await webLookup(s.question);
+      // The planner already produced English queries; the first one after the
+      // raw question is the cleanest thing to search for. Pull out the named
+      // entity when the question names one, so "TokinTech คือบริษัทอะไร"
+      // searches "TokinTech company" rather than the Thai sentence.
+      const named = s.question.match(/[A-Z][A-Za-z0-9.&-]{2,}(?:\s+(?:Co\.?|Ltd\.?|Inc\.?|Corp\.?))*/g) || [];
+      const english = s.plan.find(q => q !== s.question && !hasThai(q)) || '';
+      const query = named.length ? `${named.join(' ')} ${/company|บริษัท|องค์กร/i.test(s.question) ? 'company' : ''}`.trim() : english;
+      const web = query ? await webLookup(query) : '';
       const context = web ? `${s.context}\n\n[WEB] ${web}` : s.context;
-      return { web, context };
+      return { web, context, webTried: true };
     })
     .addEdge(START, 'route')
     .addConditionalEdges('route', (s: AgentState) => (s.needsFacts ? 'makePlan' : END), { makePlan: 'makePlan', [END]: END })
@@ -186,7 +197,7 @@ STYLE
 - Quote numbers exactly as they appear in the context (F1 0.883, 95.7%, 3.34M views). Never invent numbers or projects.
 - If the context does not cover it, say so in one sentence and offer the closest fact. Do not guess.
 - Never describe what a company or organisation does unless the context or a [WEB] passage states it. If neither does, say you do not have that.
-- A [WEB] passage is from a live web search: use it for facts about the outside world and mention the source in plain words.
+- A [WEB] passage is from a live web search: use it for facts about the outside world and mention the source in plain words. If there is no [WEB] passage, never say the answer came from the web or from a search.
 - If asked whether something was done in one place and the context shows it was done somewhere else (for example RAG at Sycapt, not at the mill), say where it was actually done and when.
 - Do not mention "the context" or "the knowledge base"; just answer.
 ${mem.length ? `\nWHAT YOU ALREADY KNOW ABOUT THIS VISITOR\n${mem.join('\n')}\nUse it to stay on their thread. Do not repeat it back to them unprompted.` : ''}
