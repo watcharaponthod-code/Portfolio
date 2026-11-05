@@ -80,6 +80,19 @@ function HackerPreloader({ onDone }: { onDone: () => void }) {
   );
 }
 
+// Phone-only strip of real project shots under the hero copy (desktop has the portrait).
+const SCV = 'https://raw.githubusercontent.com/watcharaponthod-code/sugarcane-cv/main/media';
+const HERO_REEL = [
+  { src: '/agri/cropscan-fields.png', label: 'CropScan' },
+  { src: '/media/burnt-burnt-98.jpg', label: 'Burnt cane grading' },
+  { src: `${SCV}/dust_real.gif`, label: 'Dust opacity' },
+  { src: '/agri/sar-gapfill.png', label: 'Yield Pro' },
+  { src: '/media/plate-ocr.jpg', label: 'Plate OCR' },
+  { src: `${SCV}/caneflow_real.gif`, label: 'Conveyor flow' },
+  { src: 'https://raw.githubusercontent.com/watcharaponthod-code/canegate-assets/main/screen-live.png', label: 'CaneGate' },
+  { src: '/media/shorts-pipeline.jpg', label: 'Shorts AI' },
+];
+
 // ── Hero Section (Restoring Stage 0/1/2) ────────────────────────
 function HeroSection({ onAboutMe }: { onAboutMe: () => void }) {
   const { lang, t } = useLang();
@@ -113,7 +126,7 @@ function HeroSection({ onAboutMe }: { onAboutMe: () => void }) {
         }}>
           <div className="hero-copy">
             <h1 style={{
-              fontSize: 'clamp(3rem, 9vw, 7rem)',
+              fontSize: 'clamp(2rem, 10vw, 7rem)', // 11 caps must fit one line at 360px
               fontWeight: 950,
               color: 'var(--text-primary)',
               lineHeight: 0.85,
@@ -145,6 +158,17 @@ function HeroSection({ onAboutMe }: { onAboutMe: () => void }) {
             }}>
               {t('hero.blurb')}
             </p>
+
+            <div className="hero-reel" aria-hidden="true" style={{ opacity: stage >= 2 ? 1 : 0, transition: 'opacity 1s 0.4s' }}>
+              <div className="hero-reel-track">
+                {[...HERO_REEL, ...HERO_REEL].map((r, i) => (
+                  <figure key={i} className="hero-reel-item">
+                    <img src={r.src} alt="" loading="lazy" />
+                    <figcaption className="mono">{r.label}</figcaption>
+                  </figure>
+                ))}
+              </div>
+            </div>
 
             <motion.div className="hero-buttons" style={{
               display: 'flex', gap: '1.5rem', marginTop: 'clamp(2rem, 4vw, 3rem)',
@@ -201,7 +225,7 @@ function HeroSection({ onAboutMe }: { onAboutMe: () => void }) {
         }
         @media (max-width: 900px) {
           .hero-grid {
-            grid-template-columns: 1fr;
+            grid-template-columns: minmax(0, 1fr);
             text-align: center;
             gap: 2rem;
           }
@@ -214,11 +238,28 @@ function HeroSection({ onAboutMe }: { onAboutMe: () => void }) {
         /* On a phone the portrait pushes the name and the opening line below
            the fold, so the first thing a visitor sees is a photo instead of
            what the work is. Drop it and let the words start at the top. */
+        .hero-reel { display: none; }
+        .hero-copy { min-width: 0; } /* the max-content reel must not widen the grid column */
+        @keyframes hero-reel-scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
         @media (max-width: 760px) {
+          .hero-reel {
+            display: block; overflow: hidden; margin: 1.6rem -1rem 0;
+            contain: inline-size; /* report zero intrinsic width so the track can't stretch the hero */
+            -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+            mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+          }
+          .hero-reel-track { display: flex; gap: 0.75rem; width: max-content; animation: hero-reel-scroll 32s linear infinite; }
+          .hero-reel-item { margin: 0; width: 62vw; max-width: 260px; flex: none; }
+          .hero-reel-item img { width: 100%; aspect-ratio: 16 / 10; object-fit: cover; display: block; border-radius: 10px; background: #f1f1f1; }
+          .hero-reel-item figcaption { font-size: 0.62rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-secondary); margin-top: 0.4rem; }
           .hero-portrait-wrap { display: none; }
           .hero-grid { gap: 0; text-align: left; }
           .hero-blurb { margin-left: 0; margin-right: 0; }
           .hero-buttons { justify-content: flex-start; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .hero-reel { overflow-x: auto; }
+          .hero-reel-track { animation: none; }
         }
         @media (max-width: 640px) {
           .btn-monochrome-primary,
