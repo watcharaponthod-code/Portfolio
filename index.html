@@ -44,7 +44,7 @@
         <ul>
           <li><strong>CropScan: Harvest Monitoring</strong> - tells a sugar mill which cane fields have been harvested from Sentinel-1/Sentinel-2 imagery. F1 0.883 on 8,924 held-out fields.</li>
           <li><strong>Yield Pro: Health, Cause &amp; Yield</strong> - field health check and yield forecast; SAR-to-NDVI gapfill with 95.7% of values within ±0.10.</li>
-          <li><strong>CaneSight: Dust &amp; Dirty-Cane Monitoring</strong> - scores every cane dump from mill CCTV for dust, source bay, burnt cane and leaf; five model services on k3s inside the mill, CPU only.</li>
+          <li><strong>CaneSight: Dust &amp; Dirty-Cane Monitoring</strong> - turns every cane dump on mill CCTV into a result card (dust level, leafy cane, burnt or fresh, truck). Runs on a CPU-only k3s server inside the mill with an MLflow registry, gated training on Kaggle, GitOps deploys and drift monitoring.</li>
           <li><strong>CaneGate: Truck Inspection</strong> - camera inspection of cane trucks, deployed at the mill.</li>
           <li><strong>Enterprise RAG Ecosystem</strong> - LangGraph, BGE-M3, pgvector and Ollama assistant running 100% on-premises.</li>
           <li><strong>YouTube Shorts Automation</strong> - 3.34M views across 189 clips.</li>
