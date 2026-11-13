@@ -26,7 +26,7 @@ export const CREATOR_IDENTITY = {
         "UX/UI Design: Figma, JTBD, Business Model Canvas, Canva, Power BI, n8n"
     ],
     achievements: [
-        "Agri-AI (TokinTech, 2026): per-field satellite monitoring for a Thai sugar mill. CropScan cut/standing F1 0.883 on 8,924 fields; SAR to NDVI gapfill 95.7% within ±0.10 on 129k held-out pixels; Yield Pro P10/P90 deciles. Paper submitted to Precision Agriculture (Springer), Aug 2026.",
+        "Agri-AI (TRR, 2026): per-field satellite monitoring for a Thai sugar mill. CropScan cut/standing F1 0.883 on 8,924 fields; SAR to NDVI gapfill 95.7% within ±0.10 on 129k held-out pixels; Yield Pro P10/P90 deciles. Paper submitted to Precision Agriculture (Springer), Aug 2026.",
         "sugarcane-cv + CaneGate: nine CV/audio detectors at the weighbridge (burnt vs fresh on 8,612 real CCTV frames, cane flow at 70 fps, Thai plate OCR at zero wrong reads), shipped as Docker images and running at the mill.",
         "YouTube Shorts automation: analytics-driven AI content loop, BudyStory 3.34M views / 5,510 subscribers / 189 clips in its first weeks.",
         "Built Sycapt AI Enterprise — Full-stack On-Premises RAG system (Next.js, NestJS, Python) with Hybrid Search + Re-ranking, deployed on Kubernetes.",
