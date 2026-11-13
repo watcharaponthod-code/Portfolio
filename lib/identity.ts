@@ -15,7 +15,7 @@ export const CREATOR_IDENTITY = {
     education: "B.Sc. Computer Science (Co-op Program), Kasetsart University Chalermphrakiat, GPA 3.10, graduated 2025",
     philosophy: "Building production-grade systems, not just interfaces. Clarity over cleverness. Every technical decision must serve a clear user need.",
     specialties: [
-        "Computer Vision on real cameras: YOLOv8, OpenCV, MediaPipe, ONNX, audio detection, Thai plate OCR (sugarcane-cv, CaneGate, eKYC)",
+        "Computer Vision on real cameras: YOLOv8, OpenCV, MediaPipe, ONNX, audio detection, Thai plate OCR (sugarcane-cv, CaneGate)",
         "Satellite ML: Sentinel-1/2, Planetary Computer, NDVI/SAR, LightGBM, conformal gates, out-of-block evaluation (Agri-AI, CropScan, Yield Pro)",
         "MLOps: Kaggle/Modal GPU training, MLflow, PROVENANCE tracking, Railway, Loki + Grafana + Prometheus",
         "Full-Stack Development: React, Next.js, NestJS, FastAPI, Python, TypeScript, Java Spring Boot",

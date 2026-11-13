@@ -9,7 +9,6 @@ const NAV_ITEMS: { id: string; key: I18nKey }[] = [
   { id: 'hero',       key: 'nav.home' },
   { id: 'philosophy', key: 'nav.about' },
   { id: 'projects',   key: 'nav.projects' },
-  { id: 'skills',     key: 'nav.skills' },
   { id: 'contact',    key: 'nav.contact' },
 ];
 
