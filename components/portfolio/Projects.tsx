@@ -101,12 +101,12 @@ const ALL_PROJECTS: Project[] = [
     featured: true,
   },
   {
-    title: 'Tipping Dust Opacity',
+    title: 'CaneSight: Dust & Dirty-Cane Monitoring',
     tech: 'DL + RULE · COMPUTER VISION',
-    role: 'SEGMENTATION + RULE',
-    desc: 'Measures how thick the dust cloud is when a truck tips its cane, bay by bay. Thick dust switches on the water sprays and goes into the mill\'s environmental reports, so nobody has to watch and guess. A segmentation model finds the dust and a rule filters out false alarms. So far it is scored on a synthetic test set; scoring on real dust comes next.',
-    stack: ['LR-ASPP', 'PyTorch', 'OpenCV'],
-    metrics: 'SYNTHETIC TEST ONLY',
+    role: 'CCTV · 5 MODEL SERVICES · K3S',
+    desc: 'Watches the tipping yard through the mill\'s CCTV and scores every dump: how much dust it raised, which bay it came from, and whether the cane is burnt or mostly leaf. Dust drifting in from outside the frame is marked as external, where an earlier version blamed the nearest bay. Five model services run on a k3s server inside the mill, on CPU only. The dust model went from v31 to v38: the first real-footage versions flagged clean ground before the tip, traced to leaking SAM labels, and v38 now gives 0% false alarms on the back wall (v31: 9.2%). The burnt-cane classifier scores AUC 0.994 on 483 trucks from days it never saw. Limit: every real dust test clip so far comes from a single dump.',
+    stack: ['LR-ASPP', 'DINOv2', 'EfficientNet-B0', 'OpenVINO', 'k3s', 'Kaggle'],
+    metrics: 'RUNNING ON K3S AT THE MILL',
     category: 'COMPUTER VISION',
     internalLink: 'project-scv-5',
     image: 'https://raw.githubusercontent.com/watcharaponthod-code/sugarcane-cv/main/media/dust_real.gif',
@@ -222,7 +222,7 @@ const GROUP_DESCRIPTIONS: Record<Group, string> = {
 // The first two groups (flagship work) use the wider two-column grid.
 const WIDE_GRID_GROUPS = 2;
 // The four case studies shown before "show all" (also listed in the static fallback in index.html).
-const FLAGSHIP = ['CropScan: Harvest Monitoring', 'Yield Pro: Health, Cause & Yield', 'CaneGate: Truck Inspection', 'Enterprise RAG Ecosystem'];
+const FLAGSHIP = ['CropScan: Harvest Monitoring', 'Yield Pro: Health, Cause & Yield', 'CaneSight: Dust & Dirty-Cane Monitoring', 'CaneGate: Truck Inspection', 'Enterprise RAG Ecosystem', 'YouTube Shorts Automation'];
 
 function ProjectCard({ p, index }: { p: Project; index: number }) {
   const { lang } = useLang();
@@ -414,7 +414,7 @@ export default function Projects() {
       <SectionHeader
         subtitle={lang === 'th' ? UI_TH.sectionSubtitle : "02 / SELECTED WORKS"}
         titleLines={lang === 'th' ? [UI_TH.sectionHeader] : ['Main', 'projects.']}
-        description={lang === 'th' ? UI_TH.sectionDesc : 'Four systems I built, each with the result I measured. Click a card for details.'}
+        description={lang === 'th' ? UI_TH.sectionDesc : 'Six systems I built, each with the result I measured. Click a card for details.'}
       />
 
 
