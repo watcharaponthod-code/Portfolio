@@ -222,8 +222,8 @@ export const UI_TH = {
   featured: 'ผลงานเด่น',
   liveDemo: 'เดโมสด',
   sectionSubtitle: '02 / ผลงานคัดสรร',
-  sectionHeader: 'เจาะลึกผลงาน',
-  sectionDesc: 'สี่ระบบที่สร้างเพื่อใช้งานจริง พร้อมผลที่วัดได้ของแต่ละตัว กดการ์ดเพื่อเปิดกรณีศึกษา',
+  sectionHeader: 'โปรเจกต์หลัก',
+  sectionDesc: 'สี่ระบบที่ผมสร้าง พร้อมผลที่วัดได้ของแต่ละตัว กดการ์ดเพื่อดูรายละเอียด',
 } as const;
 
 // Map an English actionLabel (as stored on the card) to its Thai label.
