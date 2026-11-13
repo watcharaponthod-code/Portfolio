@@ -10,7 +10,6 @@ export default function Philosophy() {
     { value: "4+", label: t('about.stat.years') },
     { value: "7+", label: t('about.stat.projects') },
     { value: "3", label: t('about.stat.hackathons') },
-    { value: "100%", label: t('about.stat.delivery') },
   ];
 
   const awards = [
@@ -142,10 +141,10 @@ export default function Philosophy() {
         .story-photo { width: 100%; display: block; transition: transform 0.7s cubic-bezier(0.16,1,0.3,1); }
         .photo-frame:hover .story-photo { transform: scale(1.03); }
         .photo-badge { position: absolute; bottom: 20px; left: 20px; padding: 0.5rem 1rem; font-size: 0.7rem; font-weight: 800; letter-spacing: 0.06em; }
-        .story-stats { display: grid; grid-template-columns: 1fr 1fr; border: 1px solid rgba(0,0,0,0.1); margin-top: var(--space-5); }
+        .story-stats { display: grid; grid-template-columns: repeat(3, 1fr); border: 1px solid rgba(0,0,0,0.1); margin-top: var(--space-5); }
         .story-stat { padding: var(--space-5); border-right: 1px solid rgba(0,0,0,0.1); border-bottom: 1px solid rgba(0,0,0,0.1); text-align: center; transition: background 0.25s ease; }
-        .story-stat:nth-child(even) { border-right: none; }
-        .story-stat:nth-child(3), .story-stat:nth-child(4) { border-bottom: none; }
+        .story-stat { border-bottom: none; }
+        .story-stat:last-child { border-right: none; }
         .story-stat-value { font-size: 2rem; font-weight: 900; letter-spacing: -0.03em; line-height: 1; margin-bottom: var(--space-2); }
         .story-stat-label { font-size: 0.6rem; opacity: 0.4; letter-spacing: 0.14em; text-transform: uppercase; }
         .story-right { display: flex; flex-direction: column; gap: var(--space-7); min-width: 0; }

@@ -95,33 +95,16 @@ const HERO_REEL = [
 // ── Hero Section (Restoring Stage 0/1/2) ────────────────────────
 function HeroSection({ onAboutMe }: { onAboutMe: () => void }) {
   const { lang, t } = useLang();
-  const [stage, setStage] = useState(0);
+  const stage = 2; // intro animation removed: content is readable immediately
   const containerRef = useRef<HTMLDivElement>(null);
 
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ['start start', 'end end'],
-  });
-
-  const scale = useTransform(scrollYProgress, [0, 0.5], [1, 0.5]);
-  const yParallax = useTransform(scrollYProgress, [0, 1], [0, -100]);
-
-  useEffect(() => {
-    // Stage logic
-    const t1 = setTimeout(() => setStage(1), 500);
-    const t2 = setTimeout(() => setStage(2), 2500);
-    return () => { clearTimeout(t1); clearTimeout(t2); };
-  }, []);
 
   return (
-    <section ref={containerRef} id="hero" style={{ position: 'relative', height: '130vh', background: '#fff' }}>
+    <section ref={containerRef} id="hero" style={{ position: 'relative', minHeight: '100vh', background: '#fff' }}>
       <motion.div className="hero-sticky-wrap">
-        <div style={{ position: 'absolute', inset: 0, opacity: 0.10, zIndex: 0 }}>
-          <MatrixRain opacity={1} isDark />
-        </div>
 
         <motion.div className="container hero-grid" style={{
-          position: 'relative', zIndex: 2, scale: scale, y: yParallax
+          position: 'relative', zIndex: 2
         }}>
           <div className="hero-copy">
             <h1 style={{
@@ -134,7 +117,7 @@ function HeroSection({ onAboutMe }: { onAboutMe: () => void }) {
               opacity: stage >= 1 ? 1 : 0,
               transition: 'opacity 1.2s'
             }}>
-              {stage >= 1 && <ScrambleText text="Watcharapon" delay={100} duration={1500} />}
+              Watcharapon
             </h1>
 
             <div style={{
@@ -147,9 +130,8 @@ function HeroSection({ onAboutMe }: { onAboutMe: () => void }) {
               letterSpacing: '0.1em',
               marginBottom: '1.6rem'
             }}>
-              <ScrambleText key={lang} text={t('hero.role')} delay={700} duration={1200} chars="01" />
-              <span className="cursor-blink" style={{ color: 'var(--text-primary)' }}>_</span>
-            </div>
+              {t('hero.role')}
+                    </div>
 
             <p className="hero-blurb" style={{
               opacity: stage >= 2 ? 1 : 0,
@@ -203,7 +185,7 @@ function HeroSection({ onAboutMe }: { onAboutMe: () => void }) {
         }
         .hero-blurb {
           max-width: 46ch;
-          font-size: clamp(0.95rem, 1.5vw, 1.08rem);
+          font-size: clamp(1rem, 1.5vw, 1.15rem);
           line-height: 1.75;
           color: var(--text-secondary);
         }
@@ -397,9 +379,12 @@ export default function Landing({ onPresentationComplete }: LandingProps) {
     if (onPresentationComplete) onPresentationComplete();
   }, [onPresentationComplete]);
 
+  // no preloader: mark the intro as done on mount
+  useEffect(() => { handleComplete(); }, [handleComplete]);
+
   return (
     <div className="landing-page">
-      {!preloaderDone && <HackerPreloader onDone={() => { setPreloaderDone(true); handleComplete(); }} />}
+      
 
       {/* presentation intro removed: it repeated the hero and the case studies */}
 
