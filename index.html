@@ -4,7 +4,12 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#000000" />
-    <meta name="description" content="watcharapon portfolio" />
+    <meta name="description" content="Watcharapon Thod - AI/ML Engineer. Computer vision and satellite remote sensing models running in production at a sugar mill in Thailand." />
+    <meta property="og:title" content="Watcharapon Thod - AI/ML Engineer" />
+    <meta property="og:description" content="Computer vision and satellite remote sensing models in production: harvest monitoring on 8,924 fields (F1 0.883), truck inspection deployed at the mill, on-prem RAG." />
+    <meta property="og:image" content="https://portfolio-watcharapon.vercel.app/hero-portrait.png" />
+    <meta property="og:type" content="website" />
+    <link rel="canonical" href="https://portfolio-watcharapon.vercel.app/" />
     <link rel="icon" type="image/x-icon" href="data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAADAAAABgAAAAsAAAAQAAAAEgAAABEAAAAOAAAACQAAAAQAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD///////////////////////////////////////////////////////8=" />
     <link
       rel="stylesheet"
@@ -21,30 +26,40 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="index.css" />
-    <title>watcharapon</title>
-  <script type="importmap">
-{
-  "imports": {
-    "react/": "https://esm.sh/react@^19.1.0/",
-    "react": "https://esm.sh/react@^19.1.0",
-    "react-dom/": "https://esm.sh/react-dom@^19.1.0/",
-    "@google/genai": "https://esm.sh/@google/genai@^1.4.0",
-    "eventemitter3": "https://esm.sh/eventemitter3@^5.0.1",
-    "lodash": "https://esm.sh/lodash@^4.17.21",
-    "vite": "https://esm.sh/vite@^6.3.5",
-    "classnames": "https://esm.sh/classnames@^2.5.1",
-    "zustand": "https://esm.sh/zustand@^5.0.5",
-    "path": "https://esm.sh/path@^0.12.7"
-  }
-}
-</script>
-<link rel="stylesheet" href="/index.css">
+    <title>Watcharapon Thod - AI/ML Engineer (Computer Vision, Remote Sensing)</title>
 </head>
 
   <body>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div id="root"></div>
-    <script src="index.tsx" type="module"></script>
+        <div id="root">
+      <!-- Static fallback for crawlers, link previews and no-JS readers. React replaces it on load. Keep in sync with ALL_PROJECTS / FLAGSHIP in components/portfolio/Projects.tsx. -->
+      <main style="max-width:720px;margin:0 auto;padding:48px 24px;font-family:'IBM Plex Sans Thai',system-ui,sans-serif;line-height:1.6">
+        <h1>Watcharapon Thod - AI/ML Engineer</h1>
+        <p>I build computer vision and satellite remote sensing models and take them to production. Most of my current work runs at a sugar mill in Thailand.</p>
+        <p>
+          <a href="https://drive.google.com/uc?export=download&id=1s46ejC-br7Ykct-bP4PO1dYdWCkItDXq">Resume</a> ·
+          <a href="https://github.com/watcharaponthod-code">GitHub</a> ·
+          <a href="mailto:watcharapon.thod@gmail.com">Email</a>
+        </p>
+        <h2>Selected work</h2>
+        <ul>
+          <li><strong>CropScan: Harvest Monitoring</strong> - tells a sugar mill which cane fields have been harvested from Sentinel-1/Sentinel-2 imagery. F1 0.883 on 8,924 held-out fields.</li>
+          <li><strong>Yield Pro: Health, Cause &amp; Yield</strong> - field health check and yield forecast; SAR-to-NDVI gapfill with 95.7% of values within ±0.10.</li>
+          <li><strong>CaneGate: Truck Inspection</strong> - camera inspection of cane trucks, deployed at the mill.</li>
+          <li><strong>Enterprise RAG Ecosystem</strong> - LangGraph, BGE-M3, pgvector and Ollama assistant running 100% on-premises.</li>
+        </ul>
+        <h2>More projects</h2>
+        <ul>
+          <li>Burnt vs Fresh Cane Grading - classifier trained on 8,612 real CCTV frames</li>
+          <li>Tipping Dust Opacity - segmentation + rule (synthetic test only so far)</li>
+          <li>Contaminant Detection by Sound - audio CNN on real recordings</li>
+          <li>Conveyor Cane Flow - self-trained segmentation, 70 fps on real video</li>
+          <li>Thai Truck Plate OCR - 0 wrong of 60 hard images</li>
+          <li>YouTube Shorts Automation - 3.34M views across 189 clips</li>
+          <li>AlgoTrade: AI Trading Engine</li>
+          <li>ELIC: AI English Tutor - capstone 2025</li>
+        </ul>
+      </main>
+    </div>
   <script type="module" src="/index.tsx"></script>
 </body>
 </html>
