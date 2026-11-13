@@ -9,15 +9,15 @@
 <style>
   /* Layout of the owner's original resume (centred name, section heads with a rule above, skills and education first).
      Type: Source Serif 4 for name and heads, Inter for body; both are embedded in the PDF at render time. */
-  @page { size: A4; margin: 11mm 13mm; }
+  @page { size: A4; margin: 14mm 15mm; }
   * { box-sizing: border-box; }
-  body { font: 400 8.9pt/1.36 Inter, Arial, Helvetica, sans-serif; color: #1a1a1a; margin: 0; font-feature-settings: "tnum" 0, "cv11" 1; }
-  h1 { font: 600 23pt "Source Serif 4", Georgia, serif; text-align: center; margin: 0 0 3px; letter-spacing: -0.2px; color: #000; }
-  .contact { text-align: center; font-size: 9pt; line-height: 1.45; color: #333; }
+  body { font: 400 9.6pt/1.4 Inter, Arial, Helvetica, sans-serif; color: #1a1a1a; margin: 0; font-feature-settings: "tnum" 0, "cv11" 1; }
+  h1 { font: 600 25pt "Source Serif 4", Georgia, serif; text-align: center; margin: 0 0 3px; letter-spacing: -0.2px; color: #000; }
+  .contact { text-align: center; font-size: 10pt; line-height: 1.45; color: #333; }
   .contact a, .plink a { color: #1f4e8c; text-decoration: none; border-bottom: 0.6px solid #9db4d3; }
-  h2 { font: 600 10.5pt "Source Serif 4", Georgia, serif; text-transform: uppercase; letter-spacing: 1.3px; color: #000; border-top: 0.8px solid #000; margin: 6px 0 2px; padding-top: 3px; }
-  .lk { display: inline-flex; align-items: center; gap: 4px; margin: 0 7px; white-space: nowrap; }
-  .ic { width: 10.5pt; height: 10.5pt; fill: #1a1a1a; color: #1a1a1a; flex: none; }
+  h2 { font: 600 11.5pt "Source Serif 4", Georgia, serif; text-transform: uppercase; letter-spacing: 1.3px; color: #000; border-top: 0.8px solid #000; margin: 9px 0 3px; padding-top: 4px; }
+  .lk { display: inline-flex; align-items: center; gap: 3px; margin: 0 4px; white-space: nowrap; font-size: 9pt; }
+  .ic { width: 11.5pt; height: 11.5pt; fill: #1a1a1a; color: #1a1a1a; flex: none; }
   .ic.ol { fill: none; }
   p { margin: 0 0 2px; }
   b { font-weight: 600; color: #000; }
@@ -25,7 +25,7 @@
   .job span:nth-child(2) { text-align: center; }
   .job span:nth-child(3) { text-align: right; font-weight: 500; color: #333; }
   ul { margin: 1px 0 2px; padding-left: 20px; list-style: none; }
-  li { margin-bottom: 1.2px; position: relative; }
+  li { margin-bottom: 2px; position: relative; }
   li::before { content: "•"; position: absolute; left: -11px; color: #555; }
   .ptitle { font-weight: 600; color: #000; margin-top: 3px; }
   .ptech { font-style: italic; color: #444; }
@@ -44,39 +44,38 @@
 
 <h2>Skills</h2>
 <p><b>Programming Languages:</b> Python, SQL, TypeScript, JavaScript, Java</p>
-<p><b>ML / Computer Vision:</b> PyTorch, OpenCV, YOLO, scikit-learn, LightGBM, Hugging Face Transformers, NumPy, pandas</p>
+<p><b>ML / Computer Vision:</b> PyTorch, OpenCV, YOLO, scikit-learn, LightGBM, Hugging Face Transformers, pandas</p>
 <p><b>MLOps/DevOps:</b> Kubernetes (k3s), Kustomize, Helm, Docker, MLflow, Flux GitOps, GitHub Actions, GitLab CI, FastAPI, pytest, Grafana, Prometheus, Kaggle GPU, Railway</p>
 <p><b>LLM / Backend:</b> LangGraph, LangChain, pgvector, BGE-M3, Ollama, RAG, Spring Boot, Kafka, PostgreSQL</p>
 
 <h2>Education</h2>
 <p><b>Kasetsart University</b>, Chalermphrakiat Sakon Nakhon Campus</p>
-<p>Bachelor of Science (B.Sc.) | Major: Computer Science (Co-op Program) | Cumulative GPA: 3.10/4.00 | Graduated 2025</p>
+<p>Bachelor of Science (B.Sc.) | Major: Computer Science (Co-op Program)</p>
 
 <h2>Professional Experience</h2>
 
-<div class="job"><span>AI/ML Engineer (Contract)</span><span>TRR</span><span>2026 – Present</span></div>
+<div class="job"><span>AI/ML Engineer</span><span>TRR</span><span>2026 – Present</span></div>
 <p>Computer vision and satellite ML for a sugar mill group in Thailand.</p>
 <ul>
-  <li><b>CaneSight (CCTV dump-yard monitoring):</b> built the system that turns every truck dump into a result card for the mill's app: dust level 0–3, leafy-cane check, burnt or fresh, video clip and the matched truck. Seven top cameras and one side camera, served through a REST API on a CPU-only k3s server inside the mill (OpenVINO, ONNX).</li>
-  <li><b>MLOps for CaneSight:</b> MLflow model registry on k3s, training on Kaggle with pass/fail gates written before each test, promotion by registry alias with human approval, automatic deploy with checksum check and rollback, Flux GitOps with GitHub Actions checks, daily score-drift monitoring and Telegram alerts.</li>
-  <li><b>Burnt vs fresh cane classifier:</b> EfficientNet-B0 trained on labels from 25,980 weighbridge tickets; AUC 0.994 on 483 trucks from days the model never saw.</li>
-  <li><b>Leafy-cane detection:</b> fine-tuned DINOv2; correct verdict on 23 of 23 held-out truck frames at 1.8 s per image on CPU. Rejected a newer candidate that failed its gate on 300 new trucks.</li>
-  <li><b>CropScan (harvest monitoring from satellite):</b> Sentinel-2 with Sentinel-1 radar fallback under cloud; F1 0.883 on 8,924 held-out fields (FastAPI, rasterio, Railway).</li>
-  <li><b>Yield Pro (field health and yield):</b> SAR-to-NDVI gap-filling model with 95.7% of values within ±0.10 on 129k held-out pixels; yield ranges per field (LightGBM, PyTorch, MLflow).</li>
-  <li><b>CaneGate (weighbridge truck inspection):</b> cane grading and Thai licence-plate OCR (0 wrong reads on 60 hard images), shipped as Docker images and used at the mill.</li>
+  <li><b>CaneSight:</b> CCTV system that scores every truck dump for dust, leafy cane and burnt cane, and sends the result to the mill's app. Runs on a CPU-only k3s server inside the mill.</li>
+  <li><b>MLOps:</b> MLflow registry on k3s, gated training on Kaggle, automatic deploy with rollback, Flux GitOps, daily drift monitoring.</li>
+  <li><b>Burnt-cane classifier:</b> AUC 0.994 on 483 trucks from days the model never saw (labels from 25,980 weighbridge tickets).</li>
+  <li><b>CropScan:</b> harvest detection from Sentinel-1/2 satellite images; F1 0.883 on 8,924 held-out fields.</li>
+  <li><b>Yield Pro:</b> rebuilds the crop signal from radar when clouds block the image; 95.7% of values within ±0.10.</li>
+  <li><b>CaneGate:</b> truck inspection at the weighbridge with Thai plate OCR, shipped as Docker images, used at the mill.</li>
 </ul>
 
 <div class="job"><span>DevOps &amp; Backend Engineer (Intern)</span><span>Sycapt</span><span>Jan 2026 – May 2026</span></div>
 <ul>
-  <li>Built an on-premises RAG knowledge system for a network with no internet access: LangGraph agents, BGE-M3 embeddings, pgvector hybrid search with re-ranking, Ollama; ingests documents, Mantis tickets and email (n8n); deployed on Kubernetes.</li>
-  <li>Ran four LLMs on a single 16 GB GPU by swapping models through 120 GB of RAM.</li>
-  <li>Ran the Kubernetes, Docker and Helm deployments; designed the GitLab CI/CD pipeline (build, test, Docker build, staging, production with automatic rollback) and set up Grafana and Prometheus monitoring.</li>
+  <li>Built an on-premises RAG system (LangGraph, BGE-M3, pgvector, Ollama) on Kubernetes for a network with no internet access.</li>
+  <li>Ran four LLMs on one 16 GB GPU by swapping models through RAM.</li>
+  <li>Ran Kubernetes and Helm deployments, the GitLab CI/CD pipeline with automatic rollback, and Grafana/Prometheus monitoring.</li>
 </ul>
 
 <div class="job"><span>Programmer (Intern)</span><span>Sycapt</span><span>Nov 2025 – Jan 2026</span></div>
 <ul>
-  <li>Developed backend services for a payment service provider handling 1M+ transactions per day (PromptPay, Alipay).</li>
-  <li>Built an event-driven Kafka connector microservice (Java 21, Spring Boot, ELK) and a map dashboard for 15,423 payment terminals nationwide (Leaflet, FastAPI).</li>
+  <li>Developed backend services for a payment provider handling 1M+ transactions per day (PromptPay, Alipay).</li>
+  <li>Built a Kafka connector microservice (Java, Spring Boot) and a map dashboard for 15,423 payment terminals.</li>
 </ul>
 
 <h2>Projects</h2>
@@ -89,7 +88,7 @@
 <p class="ptitle">Teaching and Awards:</p>
 <ul>
   <li>Invited lecturer at Kasetsart University: workshops on React Native with the Gemini API and on Git/GitHub.</li>
-  <li>1st Runner-up, KUSE AI Hackathon 2025 · Winner, UI Design-athon 2025 · Participant, RERU Cyber Hackathon 2025.</li>
+  <li>1st Runner-up, KUSE AI Hackathon 2025 · Winner, UI Design-athon 2025.</li>
 </ul>
 
 </body>
