@@ -11,7 +11,7 @@ interface LandingProps {
   onPresentationComplete?: () => void;
 }
 
-const RESUME_DOWNLOAD_URL = 'https://drive.google.com/uc?export=download&id=1s46ejC-br7Ykct-bP4PO1dYdWCkItDXq';
+const RESUME_DOWNLOAD_URL = '/resume.pdf';
 
 // ── Hacker Preloader (Monochrome) ──────────────────────────────
 function HackerPreloader({ onDone }: { onDone: () => void }) {

@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { TbMenu2, TbX } from 'react-icons/tb';
 import { useLang, type I18nKey, type Lang } from '../lib/i18n';
 
-const RESUME_DOWNLOAD_URL = 'https://drive.google.com/uc?export=download&id=1s46ejC-br7Ykct-bP4PO1dYdWCkItDXq';
+const RESUME_DOWNLOAD_URL = '/resume.pdf';
 
 const NAV_ITEMS: { id: string; key: I18nKey }[] = [
   { id: 'hero',       key: 'nav.home' },
