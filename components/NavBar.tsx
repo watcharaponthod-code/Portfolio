@@ -114,7 +114,7 @@ export default function NavBar() {
               )}
             </button>
           ))}
-          <a href={RESUME_DOWNLOAD_URL} className="nav-resume-btn">{t('nav.resume')}</a>
+          <a href={RESUME_DOWNLOAD_URL} target="_blank" rel="noreferrer" className="nav-resume-btn">{t('nav.resume')}</a>
           <LangToggle />
         </div>
 
@@ -148,7 +148,7 @@ export default function NavBar() {
               initial={{ y: 20, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ delay: NAV_ITEMS.length * 0.05 }}
-              href={RESUME_DOWNLOAD_URL}
+              href={RESUME_DOWNLOAD_URL} target="_blank" rel="noreferrer"
               className="nav-mobile-resume-btn"
               onClick={() => setMenuOpen(false)}
             >
