@@ -45,9 +45,10 @@
 <h2>Skills</h2>
 <p><b>Programming Languages:</b> Python, SQL, TypeScript, JavaScript, Java</p>
 <p><b>ML / Computer Vision:</b> PyTorch, OpenCV, semantic segmentation (LR-ASPP, DeepLab), DINOv2, EfficientNet, YOLO (detection, oriented boxes), SAM 2, CLIPSeg, optical flow, audio event detection, scikit-learn, LightGBM</p>
-<p><b>Training / Optimization:</b> knowledge distillation, hard-negative mining, self-training with pseudo-labels, synthetic data, score calibration, ONNX, OpenVINO</p>
+<p><b>Training / Optimization:</b> knowledge distillation, hard-negative mining, pseudo-labels, ONNX, OpenVINO</p>
+<p><b>Security / On-premises:</b> air-gapped and private-network deployment, VPN-only access, token auth, PII filtering</p>
 <p><b>MLOps/DevOps:</b> Kubernetes (k3s), Kustomize, Helm, Docker, MLflow, Flux GitOps, GitHub Actions, GitLab CI, FastAPI, pytest, Grafana, Prometheus, Kaggle GPU, Railway</p>
-<p><b>LLM / Backend:</b> LangGraph, LangChain, RAG, MCP, LLM evaluation, pgvector, Ollama, Spring Boot, Kafka, PostgreSQL</p>
+<p><b>LLM / Backend:</b> LangGraph, LangChain, RAG, MCP, LLM evaluation, pgvector, Ollama, Spring Boot, PostgreSQL</p>
 
 <h2>Education</h2>
 <p><b>Kasetsart University</b></p>
@@ -58,12 +59,12 @@
 <div class="job"><span>AI/ML Engineer</span><span>TRR</span><span>2026 – Present</span></div>
 <p>Computer vision and satellite ML for a sugar mill group in Thailand.</p>
 <ul>
-  <li><b>CaneSight:</b> CCTV system that scores every truck dump for dust, leafy cane and burnt cane, and sends the result to the mill's app. Runs on a CPU-only k3s server inside the mill.</li>
+  <li><b>CaneSight:</b> CCTV system that scores every truck dump for dust, leafy cane and burnt cane, and sends the result to the mill's app. Runs on a CPU-only k3s server on the mill's private network.</li>
   <li><b>MLOps:</b> MLflow registry on k3s, gated training on Kaggle, automatic deploy with rollback, Flux GitOps, daily drift monitoring.</li>
   <li><b>Burnt-cane classifier:</b> AUC 0.994 on 483 trucks from days the model never saw (labels from 25,980 weighbridge tickets).</li>
   <li><b>CropScan:</b> harvest detection from Sentinel-1/2 satellite images; F1 0.883 on 8,924 held-out fields.</li>
   <li><b>Yield Pro:</b> rebuilds the crop signal from radar when clouds block the image; 95.7% of values within ±0.10.</li>
-  <li><b>AI assistant tools (MCP server):</b> 70 tools that let an LLM answer field and harvest questions from live data. Right tool chosen on 30 of 30 test questions, 0 personal-data leaks; runs on k3s.</li>
+  <li><b>AI assistant tools (MCP server):</b> 70 read-only tools that let an LLM answer field questions from live data. Token auth, personal data filtered out (0 leaks in tests), right tool on 30 of 30 questions.</li>
   <li><b>CaneGate:</b> weighbridge truck inspection with Thai plate OCR, shipped as Docker images.</li>
 </ul>
 
