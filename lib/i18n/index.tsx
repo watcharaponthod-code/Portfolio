@@ -38,7 +38,7 @@ const DICT = {
     'about.degree': 'B.Sc. in Computer Science (Co-op Program)',
     'about.graduation': 'GRADUATION: 2025',
     'about.bio':
-      'Recent work includes dust and material detection on live CCTV at the mill, and an agentic retrieval system that runs entirely on local inference. I also build the parts around the model: the inference server, the mobile app, the dashboard and the deployment. I test every model on data it was not trained on and report accuracy together with coverage. When a model is unsure, I let it say so.',
+      'I have worked and studied across AI, backend, DevOps and data, so I can take a project from start to finish myself: researching the options, training the model, improving it over many rounds with every experiment logged in MLflow, and deploying it on Kubernetes. The conditions are rarely convenient. Clouds hide the satellite image for weeks, the model has to work with the CCTV cameras the mill already owns, and some networks have no internet, so the LLM runs entirely on local machines. Recent work includes real-time dust and material detection on mill CCTV and an agentic retrieval system. I also build the parts around the model: the inference server, the mobile app, the dashboard, and the automation, which I have now done on several projects. I test every model on data it has never seen and report accuracy together with coverage. When a model is unsure, I let it say so.',
     'about.philosophy': 'How I work',
     'about.p1.name': 'Readable code',
     'about.p1.desc': 'I write it so I can still follow it six months later.',
@@ -105,7 +105,7 @@ const DICT = {
     'about.degree': 'วท.บ. วิทยาการคอมพิวเตอร์ (หลักสูตรสหกิจศึกษา)',
     'about.graduation': 'จบการศึกษา: 2025',
     'about.bio':
-      'งานล่าสุดคือระบบตรวจจับฝุ่นและวัสดุจากกล้องวงจรปิดในโรงงานแบบเรียลไทม์ กับระบบค้นคืนข้อมูลแบบ agentic ที่รันบนเครื่องภายในทั้งหมด ส่วนที่อยู่รอบโมเดลผมก็ทำเอง ทั้งเซิร์ฟเวอร์ inference แอปมือถือ แดชบอร์ด และการ deploy ผมทดสอบทุกโมเดลกับข้อมูลที่มันไม่ได้ใช้เทรน และรายงานความแม่นคู่กับ coverage ถ้าโมเดลไม่แน่ใจ ผมให้มันบอกว่าไม่แน่ใจ',
+      'ผมเคยทำและศึกษามาทั้งสาย AI, backend, DevOps และ data เลยรับงานหนึ่งได้เองตั้งแต่ต้นจนจบ ตั้งแต่สืบค้นหาทางเลือก เทรนโมเดล ปรับปรุงซ้ำหลายรอบโดยเก็บ log การทดลองทุกครั้งไว้ใน MLflow ไปจนถึง deploy บน Kubernetes หน้างานจริงไม่ค่อยมีอะไรพร้อมให้ เมฆบังภาพดาวเทียมได้เป็นสัปดาห์ โมเดลต้องใช้กับกล้องวงจรปิดที่โรงงานมีอยู่แล้ว บางเครือข่ายไม่มีอินเทอร์เน็ต LLM จึงต้องรันบนเครื่องภายในทั้งหมด งานล่าสุดคือระบบตรวจจับฝุ่นและวัสดุจากกล้องวงจรปิดในโรงงานแบบเรียลไทม์ กับระบบค้นคืนข้อมูลแบบ agentic ส่วนที่อยู่รอบโมเดลผมก็ทำเอง ทั้งเซิร์ฟเวอร์ inference แอปมือถือ แดชบอร์ด และระบบ automation ซึ่งทำมาแล้วหลายงาน ทุกโมเดลผมวัดผลกับข้อมูลที่มันไม่เคยเห็น รายงานความแม่นคู่กับ coverage และถ้าโมเดลไม่แน่ใจ ผมให้มันบอกว่าไม่แน่ใจ',
     'about.philosophy': 'วิธีทำงาน',
     'about.p1.name': 'โค้ดอ่านง่าย',
     'about.p1.desc': 'เขียนให้ตัวเองกลับมาอ่านรู้เรื่องในอีกหกเดือน',
