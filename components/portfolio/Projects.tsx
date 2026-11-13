@@ -221,6 +221,8 @@ const GROUP_DESCRIPTIONS: Record<Group, string> = {
 
 // The first two groups (flagship work) use the wider two-column grid.
 const WIDE_GRID_GROUPS = 2;
+// The four case studies shown before "show all" (also listed in the static fallback in index.html).
+const FLAGSHIP = ['CropScan: Harvest Monitoring', 'Yield Pro: Health, Cause & Yield', 'CaneGate: Truck Inspection', 'Enterprise RAG Ecosystem'];
 
 function ProjectCard({ p, index }: { p: Project; index: number }) {
   const { lang } = useLang();
@@ -395,11 +397,13 @@ function ProjectGroup({ group, order, projects, wide }: { group: Group; order: n
 export default function Projects() {
   const { lang } = useLang();
   const [active, setActive] = useState<Category>('ALL');
+  const [showAll, setShowAll] = useState(false);
+  const flagshipOnly = active === 'ALL' && !showAll;
 
   // Fixed group order; within a group, featured cards first, then the rest (array order preserved).
   const groups = GROUP_ORDER
     .map((group, order) => {
-      const inGroup = ALL_PROJECTS.filter(p => p.category === group);
+      const inGroup = ALL_PROJECTS.filter(p => p.category === group && (!flagshipOnly || FLAGSHIP.includes(p.title)));
       const projects = [...inGroup.filter(p => p.featured), ...inGroup.filter(p => !p.featured)];
       return { group, order, projects };
     })
@@ -438,6 +442,12 @@ export default function Projects() {
           wide={g.order < WIDE_GRID_GROUPS}
         />
       ))}
+
+      {flagshipOnly && (
+        <button className="filter-btn mono" style={{ alignSelf: 'center', marginTop: 32 }} onClick={() => setShowAll(true)}>
+          {lang === 'th' ? `ดูทั้งหมด ${ALL_PROJECTS.length} โปรเจกต์` : `SHOW ALL ${ALL_PROJECTS.length} PROJECTS`}
+        </button>
+      )}
 
       <style>{`
         .projects-section { justify-content: flex-start; }

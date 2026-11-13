@@ -177,6 +177,8 @@ function HeroSection({ onAboutMe }: { onAboutMe: () => void }) {
               flexWrap: 'wrap'
             }} transition={{ duration: 1 }}>
               <a href={RESUME_DOWNLOAD_URL} className="btn-monochrome-primary">{t('hero.resume')}</a>
+              <a href="https://github.com/watcharaponthod-code" target="_blank" rel="noreferrer" className="btn-monochrome-outline">GitHub</a>
+              <a href="mailto:watcharapon.thod@gmail.com" className="btn-monochrome-outline">Email</a>
               <button type="button" onClick={onAboutMe} className="btn-monochrome-outline">{t('hero.about')}</button>
             </motion.div>
           </div>
