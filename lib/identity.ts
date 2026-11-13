@@ -12,7 +12,7 @@ export const CREATOR_IDENTITY = {
     phone: "094-453-2072",
     github: "github.com/watcharaponthod-code",
     portfolio: "portfolio-watcharapon.vercel.app",
-    education: "B.Sc. Computer Science (Co-op Program), Kasetsart University Chalermphrakiat, graduated 2025",
+    education: "B.Sc. Computer Science (Co-op Program), Kasetsart University, graduated 2025",
     philosophy: "Building production-grade systems, not just interfaces. Clarity over cleverness. Every technical decision must serve a clear user need.",
     specialties: [
         "Computer Vision on real cameras: YOLOv8, OpenCV, MediaPipe, ONNX, audio detection, Thai plate OCR (sugarcane-cv, CaneGate)",
@@ -35,7 +35,7 @@ export const CREATOR_IDENTITY = {
         "Developed VHQ SOM Connector Microservice: Event-Driven Kafka integration in 3 phases (Java 21, Spring Boot, ELK Stack).",
         "Designed full GitLab CI/CD Pipeline: Build → Test → Docker Build → Staging → Production with Auto Rollback on Kubernetes.",
         "2nd Place Runner-Up — KUSE AI Hackathon 2025 (AI system built in 3 days using ML, Prompt Engineering, Design Thinking).",
-        "Invited Lecturer at KU Chalermphrakiat: React Native + Gemini API workshop (7,500 THB) and Git/GitHub workshop (5,000 THB).",
+        "Invited Lecturer at Kasetsart University: React Native + Gemini API workshop (7,500 THB) and Git/GitHub workshop (5,000 THB).",
         "Freelance: Delivered Donlaya Makeup portfolio website (Next.js, TypeScript, Tailwind CSS) on-time within 3,000 THB budget."
     ],
     awards: [
