@@ -413,8 +413,8 @@ export default function Projects() {
     <div className="section container projects-section">
       <SectionHeader
         subtitle={lang === 'th' ? UI_TH.sectionSubtitle : "02 / SELECTED WORKS"}
-        titleLines={lang === 'th' ? [UI_TH.sectionHeader] : ['Deep Dives &', 'Case Studies.']}
-        description={lang === 'th' ? UI_TH.sectionDesc : 'Four systems built for real use, each with its measured result. Click a card to open the case study.'}
+        titleLines={lang === 'th' ? [UI_TH.sectionHeader] : ['Main', 'projects.']}
+        description={lang === 'th' ? UI_TH.sectionDesc : 'Four systems I built, each with the result I measured. Click a card for details.'}
       />
 
 
