@@ -33,7 +33,6 @@ function App() {
   useEffect(() => {
     const handlePresComplete = () => {
       setIsPresenting(false);
-      setTimeout(() => setShowAiHint(true), 2000);
       setTimeout(() => setShowAiHint(false), 12000);
     };
     window.addEventListener('presentation-complete', handlePresComplete);

@@ -223,7 +223,7 @@ export const UI_TH = {
   liveDemo: 'เดโมสด',
   sectionSubtitle: '02 / ผลงานคัดสรร',
   sectionHeader: 'เจาะลึกผลงาน',
-  sectionDesc: 'ระบบที่ใช้งานจริง โปรเจกต์วิจัย และงานฟรีแลนซ์ เลือกดูตามสาขาได้ คลิกที่การ์ดเพื่อเปิดกรณีศึกษา เว็บไซต์จริง หรือเอกสารแผนงาน',
+  sectionDesc: 'สี่ระบบที่สร้างเพื่อใช้งานจริง พร้อมผลที่วัดได้ของแต่ละตัว กดการ์ดเพื่อเปิดกรณีศึกษา',
 } as const;
 
 // Map an English actionLabel (as stored on the card) to its Thai label.

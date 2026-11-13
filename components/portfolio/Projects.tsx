@@ -414,11 +414,17 @@ export default function Projects() {
       <SectionHeader
         subtitle={lang === 'th' ? UI_TH.sectionSubtitle : "02 / SELECTED WORKS"}
         titleLines={lang === 'th' ? [UI_TH.sectionHeader] : ['Deep Dives &', 'Case Studies.']}
-        description={lang === 'th' ? UI_TH.sectionDesc : 'Production systems, research projects, and freelance delivery work. Filter by discipline: click any card to open the case study, live site, or planning document.'}
+        description={lang === 'th' ? UI_TH.sectionDesc : 'Four systems built for real use, each with its measured result. Click a card to open the case study.'}
       />
 
 
-      {groups.map(g => (
+      {/* four flagship cards in one grid; the per-discipline groups below left single orphan cards */}
+      {flagshipOnly && (
+        <div className="projects-grid featured-grid">
+          {FLAGSHIP.map((title, i) => <ProjectCard key={title} p={ALL_PROJECTS.find(p => p.title === title)!} index={i} />)}
+        </div>
+      )}
+      {!flagshipOnly && groups.map(g => (
         <ProjectGroup
           key={g.group}
           group={g.group}
