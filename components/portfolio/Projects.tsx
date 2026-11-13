@@ -398,7 +398,7 @@ export default function Projects() {
   const { lang } = useLang();
   const [active, setActive] = useState<Category>('ALL');
   const [showAll, setShowAll] = useState(false);
-  const flagshipOnly = active === 'ALL' && !showAll;
+  const flagshipOnly = true; // big projects only; set false to bring back the full list
 
   // Fixed group order; within a group, featured cards first, then the rest (array order preserved).
   const groups = GROUP_ORDER
@@ -417,21 +417,6 @@ export default function Projects() {
         description={lang === 'th' ? UI_TH.sectionDesc : 'Production systems, research projects, and freelance delivery work. Filter by discipline: click any card to open the case study, live site, or planning document.'}
       />
 
-      <div className="category-filter" role="tablist" aria-label="Filter projects by discipline">
-        {CATEGORIES.map(cat => (
-          <button
-            key={cat}
-            role="tab"
-            aria-selected={active === cat}
-            className={`filter-btn mono ${active === cat ? 'active' : ''}`}
-            onClick={() => setActive(cat)}
-          >
-            {cat === 'ALL'
-              ? (lang === 'th' ? UI_TH.all : 'ALL')
-              : ((lang === 'th' && GROUP_TH[cat as Group]?.label) || cat)}
-          </button>
-        ))}
-      </div>
 
       {groups.map(g => (
         <ProjectGroup
@@ -443,11 +428,6 @@ export default function Projects() {
         />
       ))}
 
-      {flagshipOnly && (
-        <button className="filter-btn mono" style={{ alignSelf: 'center', marginTop: 32 }} onClick={() => setShowAll(true)}>
-          {lang === 'th' ? `ดูทั้งหมด ${ALL_PROJECTS.length} โปรเจกต์` : `SHOW ALL ${ALL_PROJECTS.length} PROJECTS`}
-        </button>
-      )}
 
       <style>{`
         .projects-section { justify-content: flex-start; }

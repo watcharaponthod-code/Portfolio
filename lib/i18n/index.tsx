@@ -38,7 +38,7 @@ const DICT = {
     'about.degree': 'B.Sc. in Computer Science (Co-op Program)',
     'about.graduation': 'GRADUATION: 2025',
     'about.bio':
-      'I build computer vision and LLM systems and take them to production. Recent work: dust and material detection on live mill CCTV, face liveness for eKYC, and agentic retrieval running fully on local inference. I also build what goes around the model, the inference server, the mobile app, the dashboard and the deploy. What I care about most is evaluation you can trust. I measure out of sample, I report accuracy next to coverage, and I would rather a model abstain than guess.',
+      'I build computer vision and LLM systems and take them to production. Recent work: dust and material detection on live mill CCTV, and agentic retrieval running fully on local inference. I also build what goes around the model, the inference server, the mobile app, the dashboard and the deploy. What I care about most is evaluation you can trust. I measure out of sample, I report accuracy next to coverage, and I would rather a model abstain than guess.',
     'about.philosophy': 'Core Philosophy',
     'about.p1.name': 'Clarity over cleverness',
     'about.p1.desc': 'The next person to read this is me in six months.',
@@ -105,7 +105,7 @@ const DICT = {
     'about.degree': 'วท.บ. วิทยาการคอมพิวเตอร์ (หลักสูตรสหกิจศึกษา)',
     'about.graduation': 'จบการศึกษา: 2025',
     'about.bio':
-      'ผมสร้างระบบ computer vision และระบบที่ใช้ LLM แล้วนำไปใช้งานจริง งานล่าสุด ได้แก่ การตรวจจับฝุ่นและวัสดุจากกล้องวงจรปิดในโรงงานแบบเรียลไทม์ การตรวจสอบใบหน้าจริง (face liveness) สำหรับ eKYC และระบบค้นคืนข้อมูลแบบ agentic ที่ประมวลผลบนเครื่องภายในทั้งหมด ผมสร้างส่วนที่อยู่รอบตัวโมเดลด้วย ทั้งเซิร์ฟเวอร์สำหรับ inference แอปมือถือ แดชบอร์ด และการ deploy สิ่งที่ผมให้ความสำคัญที่สุดคือการประเมินผลที่เชื่อถือได้ ผมวัดผลบนข้อมูลที่โมเดลไม่เคยเห็น รายงานความแม่นควบคู่กับ coverage และยอมให้โมเดลตอบว่าไม่แน่ใจ ดีกว่าให้โมเดลเดา',
+      'ผมสร้างระบบ computer vision และระบบที่ใช้ LLM แล้วนำไปใช้งานจริง งานล่าสุด ได้แก่ การตรวจจับฝุ่นและวัสดุจากกล้องวงจรปิดในโรงงานแบบเรียลไทม์ และระบบค้นคืนข้อมูลแบบ agentic ที่ประมวลผลบนเครื่องภายในทั้งหมด ผมสร้างส่วนที่อยู่รอบตัวโมเดลด้วย ทั้งเซิร์ฟเวอร์สำหรับ inference แอปมือถือ แดชบอร์ด และการ deploy สิ่งที่ผมให้ความสำคัญที่สุดคือการประเมินผลที่เชื่อถือได้ ผมวัดผลบนข้อมูลที่โมเดลไม่เคยเห็น รายงานความแม่นควบคู่กับ coverage และยอมให้โมเดลตอบว่าไม่แน่ใจ ดีกว่าให้โมเดลเดา',
     'about.philosophy': 'หลักการทำงาน',
     'about.p1.name': 'ชัดเจนสำคัญกว่าฉลาด',
     'about.p1.desc': 'คนต่อไปที่จะอ่านโค้ดนี้คือตัวผมเองในอีกหกเดือนข้างหน้า',

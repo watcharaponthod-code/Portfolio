@@ -2,7 +2,6 @@ import { useEffect, useRef, useState, useCallback } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import PresentationMode from './PresentationMode';
 import Philosophy from './Philosophy';
-import SkillArchitecture from './SkillArchitecture';
 import Projects from './Projects';
 import MatrixRain from '../visuals/MatrixRain';
 import ScrambleText from '../visuals/ScrambleText';
@@ -415,11 +414,6 @@ export default function Landing({ onPresentationComplete }: LandingProps) {
       {/* 02 / Projects */}
       <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}>
         <div id="projects"><Projects /></div>
-      </motion.div>
-
-      {/* 03 / Skills Architecture */}
-      <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}>
-        <div id="skills"><SkillArchitecture /></div>
       </motion.div>
 
       <style>{`

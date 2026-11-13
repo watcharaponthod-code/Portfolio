@@ -28,7 +28,6 @@ const BY_SECTION: Record<string, Entry[]> = {
     { view: 'project-sugarcane-cv', en: 'Open the nine detectors', th: 'เปิดหน้ารวมเก้าตัวตรวจจับ', match: /sugarcane-cv|nine|dust|burnt|plate|conveyor|acoustic|ฝุ่น|ไฟไหม้|ทะเบียน|สายพาน|เสียง|เก้า/i },
     { url: 'https://github.com/watcharaponthod-code/sugarcane-cv', en: 'sugarcane-cv on GitHub', th: 'sugarcane-cv บน GitHub', match: /sugarcane-cv|github|repo|โค้ด/i },
   ],
-  'projects-ekyc': [{ url: 'https://github.com/watcharaponthod-code/ekyc', en: 'eKYC on GitHub', th: 'eKYC บน GitHub', match: /ekyc|liveness|face/i }],
   'projects-shorts-automation': [{ view: 'project-shorts', en: 'Open the automation case study', th: 'เปิดกรณีศึกษาระบบอัตโนมัติ', match: /shorts|youtube|budystory|asmr|คลิป|ยูทูบ/i }],
   'projects-dragon-combat': [{ url: 'https://github.com/watcharaponthod-code/roblox-dragon-combat', en: 'Dragon Combat on GitHub', th: 'Dragon Combat บน GitHub', match: /dragon|roblox|bot/i }],
   'projects-rag-chat': [{ view: 'project-rag-ecosystem', en: 'Open the RAG case study', th: 'เปิดกรณีศึกษา RAG', match: /rag|langgraph|on-prem|ollama|mantis|ค้นเอกสาร/i }],
@@ -87,7 +86,7 @@ export function actionsFor(question: string, sectionIds: string[], answer = ''):
   };
 
   const ALIAS: Record<string, string> = {
-    'gh-sugarcane-cv': 'projects-sugarcane-cv', 'gh-ekyc': 'projects-ekyc', 'gh-elic': 'projects-elic',
+    'gh-sugarcane-cv': 'projects-sugarcane-cv', 'gh-elic': 'projects-elic',
     'gh-roblox-dragon-combat': 'projects-dragon-combat', 'gh-bitcoin-ml-prediction': 'projects-bitcoin-ml',
     'gh-rag-chat': 'projects-rag-chat', 'gh-embedding-rag': 'projects-embedding-rag', 'gh-ninja-fruit': 'projects-ninja-fruit',
     'gh-subway-kids': 'projects-subway-kids', 'gh-trading': 'projects-trading', 'gh-profile': 'about',
