@@ -1,8 +1,4 @@
 import ProjectDetail from './ProjectDetail';
-import pic1 from '../project/ai_RAG/Picture1.png';
-import pic3 from '../project/ai_RAG/Picture3.png';
-import pic4 from '../project/ai_RAG/Picture4.png';
-import pic5 from '../project/ai_RAG/Picture5.png';
 import pic8 from '../project/ai_RAG/Picture8.png';
 
 export default function SycaptAIProject() {
@@ -26,26 +22,18 @@ export default function SycaptAIProject() {
         {
           title: 'System Overview',
           body: 'The platform is a modular system: React frontend → Node.js/Express API gateway → LangGraph orchestrator → Ollama LLM → pgvector storage. Each layer is independently deployable and testable. The LangGraph state machine manages the "Thought Process": deciding whether to retrieve documents, query a database, or respond from context alone.',
-          image: pic3,
-          imageCaption: 'SYSTEM_OVERVIEW // AGENTIC RAG ARCHITECTURE',
         },
         {
           title: 'Document Ingestion Pipeline',
           body: 'Uploaded files are parsed, cleaned, and split into semantic chunks using a recursive text splitter with configurable overlap. Each chunk is embedded using bge-m3 (a multilingual embedding model with strong Thai language support) and stored with metadata in PostgreSQL + pgvector. Images within documents are extracted and embedded separately for image-aware retrieval.',
-          image: pic1,
-          imageCaption: 'DOCUMENT_PIPELINE // INGESTION TO VECTOR STORE',
         },
         {
           title: 'Hybrid Retrieval in Action',
           body: 'For each query, the system runs vector search and full-text search in parallel. Vector search finds semantically similar content even when keywords differ; FTS catches exact term matches that embeddings occasionally miss. Results are merged, deduplicated, and passed to the cross-encoder for final scoring.',
-          image: pic4,
-          imageCaption: 'HYBRID_RETRIEVAL // VECTOR + FTS FUSION',
         },
         {
           title: 'Deployment Infrastructure',
           body: 'The entire stack is containerized with optimized multi-stage Docker builds. Kubernetes handles orchestration, auto-scaling, and rolling updates. A fully automated GitLab CI/CD pipeline builds, tests, and deploys to staging on every merge request: production releases require a manual gate.',
-          image: pic5,
-          imageCaption: 'INFRA_DIAGRAM // KUBERNETES + GITLAB CI/CD',
         },
         {
           title: 'GPU Memory Optimization',

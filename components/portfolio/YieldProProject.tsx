@@ -21,7 +21,7 @@ export default function YieldProProject() {
         'Self-training round B (about 22k pseudo-labels per fold) changed nothing measurable (MAE +0.0001), and that null result is kept in the deck.',
         'Yield: LightGBM P10/P50/P90 from optical, radar, CHIRPS rain, Open-Meteo ET0, SoilGrids and DEM. In-sample Spearman 0.72 is the ceiling; out-of-zone GroupKFold over 15 zones gives 0.25–0.31.',
         'The P10–P90 band covers about 80% of real weighbridge tonnes out-of-zone, so it ships as deciles and a ranking, not a point estimate.',
-        'Cause labels and health states are pushed to the mill\'s SQL Server through SaveRecommendation / SavePrediction each cycle.',
+        'Cause labels and health states are pushed to the mill\'s own backend through its API each cycle.',
       ],
       sections: [
         { title: 'Why deciles, not tonnes', body: 'On the in-sample fit the model looks good (ρ 0.72, n = 8,386 at week 14). Held out by zone it drops to 0.25–0.31. The decile ordering still holds (P50 deciles rise monotonically with true tonnes/rai from 7.3 to 12.2), which is useful for prioritising fields, but a per-field tonne figure would be presenting the in-sample number as if it were real.' },

@@ -21,7 +21,7 @@ export default function SystemBrain() {
       id: 'frontend', x: 400, y: 70,
       label: 'CLIENT_ENGINE',
       icon: <TbBrandReact size={24} />,
-      details: 'Next.js + React frontend for AI Enterprise. Document upload interface (PDF/DOCX/PPTX), chat UI with streaming responses, and EDC Geo Map dashboard with Leaflet.js real-time visualization.',
+      details: 'Next.js + React frontend for AI Enterprise. Document upload interface (PDF/DOCX/PPTX), chat UI with streaming responses, and payment-terminal Geo Map dashboard with Leaflet.js real-time visualization.',
       tech: ['Next.js', 'React', 'TypeScript', 'Leaflet.js', 'Chart.js']
     },
     {
@@ -49,7 +49,7 @@ export default function SystemBrain() {
       id: 'worker', x: 400, y: 490,
       label: 'ASYNC_SUBSYSTEMS',
       icon: <TbSettingsAutomation size={24} />,
-      details: 'Apache Kafka event-driven microservices (VHQ SOM Connector: 3-phase pipeline). ELK Stack for centralized logging. Prometheus + Grafana for system observability and alerting.',
+      details: 'Apache Kafka event-driven microservices (terminal-management connector: 3-phase pipeline). ELK Stack for centralized logging. Prometheus + Grafana for system observability and alerting.',
       tech: ['Apache Kafka', 'Java 21', 'Spring Boot', 'ELK Stack', 'Docker']
     },
   ];
@@ -76,7 +76,7 @@ export default function SystemBrain() {
           <li>Designed and implemented an <strong>On-Premises Agentic RAG Pipeline</strong> using LangGraph and LlamaIndex for enterprise knowledge management.</li>
           <li>Engineered a <strong>Model Swapping system</strong> to run 4 large language models sequentially on a server with only 16GB VRAM, avoiding hardware upgrades.</li>
           <li>Developed a robust <strong>NestJS API Gateway</strong> handling JWT auth, file processing pipelines, and Kafka event publishing, deployed on Kubernetes.</li>
-          <li>Built interactive Next.js dashboards and tools, including a real-time EDC device mapping system supporting over 15,000 devices natively.</li>
+          <li>Built interactive Next.js dashboards and tools, including a real-time payment-terminal mapping system supporting thousands of devices.</li>
         </ul>
       </div>
 

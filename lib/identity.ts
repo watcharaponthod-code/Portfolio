@@ -26,17 +26,16 @@ export const CREATOR_IDENTITY = {
         "UX/UI Design: Figma, JTBD, Business Model Canvas, Canva, Power BI, n8n"
     ],
     achievements: [
-        "Agri-AI (TRR, 2026): per-field satellite monitoring for a Thai sugar mill. CropScan cut/standing F1 0.883 on 8,924 fields; SAR to NDVI gapfill 95.7% within ±0.10 on 129k held-out pixels; Yield Pro P10/P90 deciles. Paper submitted to Precision Agriculture (Springer), Aug 2026.",
+        "Agri-AI (2026): per-field satellite monitoring for a Thai sugar mill. CropScan cut/standing F1 0.883 on 8,924 fields; SAR to NDVI gapfill 95.7% within ±0.10 on 129k held-out pixels; Yield Pro P10/P90 deciles. Paper submitted to Precision Agriculture (Springer), Aug 2026.",
         "sugarcane-cv + CaneGate: nine CV/audio detectors at the weighbridge (burnt vs fresh on 8,612 real CCTV frames, cane flow at 70 fps, Thai plate OCR at zero wrong reads), shipped as Docker images and running at the mill.",
         "YouTube Shorts automation: analytics-driven AI content loop, BudyStory 3.34M views / 5,510 subscribers / 189 clips in its first weeks.",
         "Built Sycapt AI Enterprise — Full-stack On-Premises RAG system (Next.js, NestJS, Python) with Hybrid Search + Re-ranking, deployed on Kubernetes.",
         "Solved GPU VRAM 16GB constraint: designed Model Swapping system cycling 4 LLMs using 120GB RAM as buffer.",
-        "Built EDC Geo Map Dashboard visualizing 15,423 Bangkok Bank EDC machines nationwide with real-time filtering (Leaflet.js + FastAPI).",
-        "Developed VHQ SOM Connector Microservice: Event-Driven Kafka integration in 3 phases (Java 21, Spring Boot, ELK Stack).",
+        "Built a payment-terminal Geo Map Dashboard with real-time filtering (Leaflet.js + FastAPI).",
+        "Developed Terminal-Management Connector Microservice: Event-Driven Kafka integration in 3 phases (Java 21, Spring Boot, ELK Stack).",
         "Designed full GitLab CI/CD Pipeline: Build → Test → Docker Build → Staging → Production with Auto Rollback on Kubernetes.",
         "2nd Place Runner-Up — KUSE AI Hackathon 2025 (AI system built in 3 days using ML, Prompt Engineering, Design Thinking).",
-        "Invited Lecturer at Kasetsart University: React Native + Gemini API workshop (7,500 THB) and Git/GitHub workshop (5,000 THB).",
-        "Freelance: Delivered Donlaya Makeup portfolio website (Next.js, TypeScript, Tailwind CSS) on-time within 3,000 THB budget."
+        "Invited Lecturer at Kasetsart University: React Native + Gemini API workshop and Git/GitHub workshop.",
     ],
     awards: [
         "🥈 2nd Place Runner-Up — KUSE AI Hackathon 2025",

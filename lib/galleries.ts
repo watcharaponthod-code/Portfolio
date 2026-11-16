@@ -1,12 +1,7 @@
 // Every image a case study shows, keyed by the route its card opens. The card
 // uses this to preview the whole project on hover, before anyone clicks in.
 // Local assets are imported so they carry the same hashed URL as the page.
-import ragPic1 from '../components/project/ai_RAG/Picture1.png';
-import ragPic3 from '../components/project/ai_RAG/Picture3.png';
-import ragPic4 from '../components/project/ai_RAG/Picture4.png';
-import ragPic5 from '../components/project/ai_RAG/Picture5.png';
 import ragPic8 from '../components/project/ai_RAG/Picture8.png';
-import geoImg from '../components/project/geomap/LINE_20260324_213523.jpg';
 import kafkaImg from '../components/project/kafka/kafka1.png';
 import monitorImg from '../components/project/cpu/download.png';
 
@@ -39,8 +34,8 @@ export const PROJECT_GALLERY: Record<string, string[]> = {
   'project-sugarcane-cv': [`${SCV}/figures/site_map.svg`, `${SCV}/figures/method_map.svg`, `${SCV}/media/dust_real.gif`, `${SCV}/figures/cane_flow_grid.jpg`, `${SCV}/media/caneflow_real.gif`, `${SCV}/figures/canegate_live.png`],
 
   // AI and RAG
-  'project-rag-ecosystem': [EMB_DIAGRAM, CHAT_DIAGRAM, ragPic1, ragPic3, ragPic5, ragPic8],
-  'project-embedding-rag': [EMB_DIAGRAM, ragPic3, ragPic4, ragPic8],
+  'project-rag-ecosystem': [EMB_DIAGRAM, CHAT_DIAGRAM, ragPic8],
+  'project-embedding-rag': [EMB_DIAGRAM, ragPic8],
   'project-bitcoin': [BITCOIN_ARCH],
   'project-trading': [TRADING_DASH],
   'project-elic': [`${ELIC}/docs/images/usecase-diagram.jpg`, `${ELIC}/docs/images/conversation-roles.jpg`, `${ELIC}/docs/images/architecture-overview.jpg`, `${ELIC}/docs/images/llm-workflow.jpg`, `${ELIC}/docs/images/latency-streaming.jpg`],
@@ -50,8 +45,7 @@ export const PROJECT_GALLERY: Record<string, string[]> = {
   'project-subway': [`${SUBWAY}/demo/demo-gameplay.gif`, `${SUBWAY}/demo/demo-gameplay-2.gif`, `${SUBWAY}/docs/ml-dataflow.svg`],
 
   // Systems and full-stack
-  'project-kafka': ['/media/kafka-connector.jpg', kafkaImg],
-  'project-geomap': [geoImg],
+  'project-kafka': [kafkaImg],
   'project-monitoring': [monitorImg],
   'project-shorts': ['/media/shorts-pipeline.jpg'],
 };

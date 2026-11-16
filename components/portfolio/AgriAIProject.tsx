@@ -5,7 +5,7 @@ export default function AgriAIProject() {
     <ProjectDetail data={{
       id: 'agri-ai',
       title: 'Agri-AI: Satellite Field Monitoring',
-      role: 'AI / MLOPS ENGINEER · TOKINTECH',
+      role: 'AI / MLOPS ENGINEER · SUGAR MILL GROUP',
       year: '2026',
       tagline: 'Per-field sugarcane monitoring for a Thai sugar mill from Sentinel-2 optical, Sentinel-1 radar and weather data. Two products run on it: CropScan Harvest Monitoring answers "cut or still standing, and how much", Yield Pro answers "how healthy, why, and how many tonnes per rai".',
       overview: 'Thousands of registered cane fields, one mill, and a 5-day satellite revisit that clouds wipe out for half the season. The system pulls every new Sentinel-2 and Sentinel-1 scene from Planetary Computer, computes per-pixel and per-field signals, fills the cloud gaps with a radar-to-NDVI model, labels each field with a health state and a cause, and pushes recommendations back into the mill\'s own backend. Every number it ships is measured out-of-block against the mill\'s real weighbridge tickets and harvest records, and the numbers that are not good enough yet are reported as exactly that.',
@@ -21,7 +21,7 @@ export default function AgriAIProject() {
         'SAR→NDVI gapfill, the part that works through the rainy season: predicts the optical index from Sentinel-1 radar when clouds block Sentinel-2 for weeks. 95.7% of answered pixels within ±0.10 NDVI (MAE 0.034) on 129k held-out pixels, with conformal intervals and an explicit reject option at 28.8% coverage. Self-training with 22k pseudo-labels per fold changed nothing, and the deck says so.',
         'Yield Pro: LightGBM P10/P50/P90 tonnes-per-rai from optical, radar, rain, ET0, soil and DEM features. In-sample Spearman 0.72 is the ceiling; the honest out-of-zone number is 0.25–0.31, so the product ships deciles and ranking, not a tonne figure.',
         'MLOps loop: warehouse of raw pixels on a bucket, Kaggle/Modal GPU training, PROVENANCE.json next to every artifact, MLflow run registry, and a gate that cannot be moved after the result is seen.',
-        'Production on Railway: FastAPI + built-in scheduler (daily every 5 days, full weekly), Loki + Grafana + Prometheus, per-pixel fetches served through the API only. Results land in the mill\'s SQL Server through SaveRecommendation / SaveStateSnapshot / SavePrediction.',
+        'Production on Railway: FastAPI + built-in scheduler (daily every 5 days, full weekly), Loki + Grafana + Prometheus, per-pixel fetches served through the API only. Results land in the mill\'s SQL Server through its backend API.',
         'Field-scale cane mapping paper (unregistered field detection from AlphaEarth embeddings, recall 93.2%) submitted to Precision Agriculture (Springer), August 2026.',
       ],
       sections: [

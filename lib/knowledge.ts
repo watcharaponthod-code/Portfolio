@@ -10,7 +10,7 @@ export const KNOWLEDGE_BASE: KnowledgeSection[] = [
     {
         id: "about",
         title: "About Watcharapon",
-        content: "Watcharapon (Oat) Thodraksa is an AI Engineer who builds computer vision and satellite ML that runs on real cameras and real fields. Most of his current work is for a Thai sugar mill: Agri-AI satellite field monitoring (CropScan, Yield Pro, SAR to NDVI gapfill) at TRR, and CaneGate / sugarcane-cv at the weighbridge. Earlier he worked as a Full-Stack Developer on AI applications, mobile and UX/UI. He holds a B.Sc. in Computer Science (Co-op Program) from Kasetsart University, graduated 2025, with hands-on enterprise experience from his co-op at Sycapt Co., Ltd. in Bangkok. He can be reached at watcharapon.thod@gmail.com or 094-453-2072.",
+        content: "Watcharapon (Oat) Thodraksa is an AI Engineer who builds computer vision and satellite ML that runs on real cameras and real fields. Most of his current work is for a Thai sugar mill: Agri-AI satellite field monitoring (CropScan, Yield Pro, SAR to NDVI gapfill), and CaneGate / sugarcane-cv at the weighbridge. Earlier he worked as a Full-Stack Developer on AI applications, mobile and UX/UI. He holds a B.Sc. in Computer Science (Co-op Program) from Kasetsart University, graduated 2025, with hands-on enterprise experience from his co-op at Sycapt Co., Ltd. in Bangkok. He can be reached at watcharapon.thod@gmail.com or 094-453-2072.",
         keywords: ["who", "biography", "background", "location", "bangkok", "contact", "email", "phone", "education", "university"]
     },
     {
@@ -27,9 +27,9 @@ export const KNOWLEDGE_BASE: KnowledgeSection[] = [
     },
     {
         id: "projects-agri-ai",
-        title: "Project: Agri-AI — Satellite Sugarcane Field Monitoring (TRR, 2026)",
-        content: "Agri-AI is a per-field sugarcane monitoring system built for a Thai sugar mill from Sentinel-2 optical, Sentinel-1 radar, DEM, CHIRPS rain, Open-Meteo weather and SoilGrids. It runs on Railway as a FastAPI service with a built-in scheduler, pulls every new scene from Planetary Computer, computes per-pixel and per-field signals, and pushes recommendations into the mill's own SQL Server backend. Two products: CropScan Harvest Monitoring (cut or standing, and cut percentage per field; two-colour NDVI rule plus a Sentinel-1 VH-drop gate; out-of-block on 8,924 fields season 68: precision 0.869, recall 0.897, F1 0.883) and Yield Pro (field health, cause labels such as drought/decline/recovery, and P10/P50/P90 tonnes per rai from LightGBM; in-sample Spearman 0.72, honest out-of-zone 0.25–0.31, so it ships deciles and ranking not a tonne figure). A SAR→NDVI gapfill model predicts the optical index under cloud: 95.7% of answered pixels within ±0.10 NDVI, MAE 0.034, on 129k held-out pixels from 448,986 out-of-block pixels, conformal intervals with a reject option at 28.8% coverage. MLOps: warehouse bucket, Kaggle/Modal GPU training, PROVENANCE.json per artifact, MLflow, Loki + Grafana + Prometheus. A related paper on unregistered cane field detection from AlphaEarth embeddings (recall 93.2%) was submitted to Precision Agriculture (Springer) in August 2026. Watcharapon is the AI/MLOps engineer on this at TRR.",
-        keywords: ["agri", "agri-ai", "satellite", "sentinel", "sugarcane", "cane", "field", "cropscan", "yield pro", "yield", "harvest", "ndvi", "sar", "radar", "gapfill", "remote sensing", "tokintech", "mill", "railway", "mlflow", "precision agriculture", "paper"]
+        title: "Project: Agri-AI — Satellite Sugarcane Field Monitoring (2026)",
+        content: "Agri-AI is a per-field sugarcane monitoring system built for a Thai sugar mill from Sentinel-2 optical, Sentinel-1 radar, DEM, CHIRPS rain, Open-Meteo weather and SoilGrids. It runs on Railway as a FastAPI service with a built-in scheduler, pulls every new scene from Planetary Computer, computes per-pixel and per-field signals, and pushes recommendations into the mill's own SQL Server backend. Two products: CropScan Harvest Monitoring (cut or standing, and cut percentage per field; two-colour NDVI rule plus a Sentinel-1 VH-drop gate; out-of-block on 8,924 fields season 68: precision 0.869, recall 0.897, F1 0.883) and Yield Pro (field health, cause labels such as drought/decline/recovery, and P10/P50/P90 tonnes per rai from LightGBM; in-sample Spearman 0.72, honest out-of-zone 0.25–0.31, so it ships deciles and ranking not a tonne figure). A SAR→NDVI gapfill model predicts the optical index under cloud: 95.7% of answered pixels within ±0.10 NDVI, MAE 0.034, on 129k held-out pixels from 448,986 out-of-block pixels, conformal intervals with a reject option at 28.8% coverage. MLOps: warehouse bucket, Kaggle/Modal GPU training, PROVENANCE.json per artifact, MLflow, Loki + Grafana + Prometheus. A related paper on unregistered cane field detection from AlphaEarth embeddings (recall 93.2%) was submitted to Precision Agriculture (Springer) in August 2026. Watcharapon is the AI/MLOps engineer on this at a Thai sugar mill group.",
+        keywords: ["agri", "agri-ai", "satellite", "sentinel", "sugarcane", "cane", "field", "cropscan", "yield pro", "yield", "harvest", "ndvi", "sar", "radar", "gapfill", "remote sensing", "mill", "railway", "mlflow", "precision agriculture", "paper"]
     },
     {
         id: "projects-sugarcane-cv",
@@ -52,8 +52,8 @@ export const KNOWLEDGE_BASE: KnowledgeSection[] = [
     {
         id: "projects-rag-chat",
         title: "Project: RAG Chat — WebClient AI Workspace",
-        content: "rag-chat (WebClient AI Workspace) was built at Sycapt Co., Ltd. in Bangkok during Watcharapon's co-op internship (January to May 2025), not for the sugar mill. It is an enterprise agentic RAG chat platform for document retrieval and bug tracking, powered by LangGraph and Ollama. It runs 100% on-premises — no data leaves the building. The system works in 3 stages: Pre-Retrieval (query intent analysis + HyDE query expansion), Hybrid Retrieval (pgvector cosine similarity + full-text search + dynamic SQL generation for Mantis bug tracker), and Post-Retrieval (cross-encoder re-ranking). LangGraph state-machine routes between document search, image retrieval, and live SQL depending on query intent. Multi-user session management with per-department document scoping. Dynamic GPU model swapping runs 4 LLMs concurrently on 16GB VRAM by cycling models between GPU and RAM. Every reasoning step streams to the client via SSE. Stack: LangGraph, LangChain, Ollama, React, Node.js, PostgreSQL + pgvector, GitLab CI/CD + Kubernetes. GitHub: https://github.com/watcharaponthod-code/rag-chat",
-        keywords: ["sycapt", "co-op", "internship", "company", "organisation", "องค์กร", "บริษัท", "ฝึกงาน", "project", "rag", "chat", "rag-chat", "langgraph", "langchain", "ollama", "vector", "hybrid", "retrieval", "on-premises", "sql", "mantis", "bug tracker", "streaming", "sse", "agentic"]
+        content: "rag-chat (WebClient AI Workspace) was built at Sycapt Co., Ltd. in Bangkok during Watcharapon's co-op internship (January to May 2025), not for the sugar mill. It is an enterprise agentic RAG chat platform for document retrieval and bug tracking, powered by LangGraph and Ollama. It runs 100% on-premises — no data leaves the building. The system works in 3 stages: Pre-Retrieval (query intent analysis + HyDE query expansion), Hybrid Retrieval (pgvector cosine similarity + full-text search + dynamic SQL generation for bug-tracker bug tracker), and Post-Retrieval (cross-encoder re-ranking). LangGraph state-machine routes between document search, image retrieval, and live SQL depending on query intent. Multi-user session management with per-department document scoping. Dynamic GPU model swapping runs 4 LLMs concurrently on 16GB VRAM by cycling models between GPU and RAM. Every reasoning step streams to the client via SSE. Stack: LangGraph, LangChain, Ollama, React, Node.js, PostgreSQL + pgvector, GitLab CI/CD + Kubernetes. GitHub: https://github.com/watcharaponthod-code/rag-chat",
+        keywords: ["sycapt", "co-op", "internship", "company", "organisation", "องค์กร", "บริษัท", "ฝึกงาน", "project", "rag", "chat", "rag-chat", "langgraph", "langchain", "ollama", "vector", "hybrid", "retrieval", "on-premises", "sql", "bug tracker", "streaming", "sse", "agentic"]
     },
     {
         id: "projects-embedding-rag",
@@ -64,7 +64,7 @@ export const KNOWLEDGE_BASE: KnowledgeSection[] = [
     {
         id: "projects-bitcoin-ml",
         title: "Project: bitcoin-ml-prediction — Bitcoin Price Prediction",
-        content: "bitcoin-ml-prediction is a machine learning project for Bitcoin price prediction using LSTM, XGBoost, and Random Forest ensemble trained on 12 years of BTC-USD OHLCV data (2013–2025, 4,200+ samples). LSTM handles continuous price regression with a 90-day lookback window; XGBoost and Random Forest handle directional classification. LSTM architecture: 3 stacked layers (128→64→32), Dropout(0.2), Huber loss for outlier robustness. Result: 87.81% accuracy (MAPE-based), MAE $2,847, RMSE $5,219 on held-out test data. 18 engineered technical indicators: trend (MA7/30/50, EMA12/26), momentum, volatility (Bollinger Bands), oscillators (RSI, MACD), and volume ratios. Top XGBoost features by importance: RSI, MACD Histogram, 7-day Volatility. GitHub: https://github.com/watcharaponthod-code/bitcoin-ml-prediction",
+        content: "bitcoin-ml-prediction is a machine learning project for Bitcoin price prediction using LSTM, XGBoost, and Random Forest ensemble trained on 12 years of BTC-USD OHLCV data (2013–2025, 4,200+ samples). LSTM handles continuous price regression with a 90-day lookback window; XGBoost and Random Forest handle directional classification. LSTM architecture: 3 stacked layers (128→64→32), Dropout(0.2), Huber loss for outlier robustness. Result: 12.19% MAPE on regression, MAE $2,847, RMSE $5,219 on held-out test data. The directional XGBoost and Random Forest classifiers perform close to random guessing, which the repo reports openly. 18 engineered technical indicators: trend (MA7/30/50, EMA12/26), momentum, volatility (Bollinger Bands), oscillators (RSI, MACD), and volume ratios. Top XGBoost features by importance: RSI, MACD Histogram, 7-day Volatility. GitHub: https://github.com/watcharaponthod-code/bitcoin-ml-prediction",
         keywords: ["project", "bitcoin", "ml", "machine learning", "lstm", "xgboost", "random forest", "prediction", "crypto", "trading", "deep learning", "time series", "technical indicators", "rsi", "macd"]
     },
     {
@@ -105,15 +105,15 @@ export const KNOWLEDGE_BASE: KnowledgeSection[] = [
     },
     {
         id: "projects-edc-map",
-        title: "Project: EDC Geo Map Dashboard (Co-op)",
-        content: "Built a web application visualizing 15,423 Bangkok Bank EDC (Electronic Data Capture) machines nationwide on an interactive map. Features real-time filtering by province, region, machine type, and status. Supports CSV export. Tech: FastAPI, SQLAlchemy, Leaflet.js, Chart.js, PostgreSQL. (Sycapt, 2025)",
-        keywords: ["project", "edc", "map", "geo", "dashboard", "leaflet", "visualization", "bangkok bank", "geospatial"]
+        title: "Project: Payment Terminal Map Dashboard (Co-op)",
+        content: "Built an internal web application that plots the company's card payment terminals nationwide on an interactive map. Features real-time filtering by province, region, machine type, and status. Supports CSV export. Tech: FastAPI, SQLAlchemy, Leaflet.js, Chart.js, PostgreSQL. (Sycapt, 2025)",
+        keywords: ["project", "edc", "map", "geo", "dashboard", "leaflet", "visualization", "geospatial", "payment terminal"]
     },
     {
         id: "projects-kafka-connector",
-        title: "Project: VHQ SOM Connector Microservice (Co-op)",
-        content: "Developed a microservice connecting Kafka message queues to VHQ API using Event-Driven Architecture. 3-phase flow: receive job → send batch → return result. Uses ELK Stack for centralized logging. Tech: Java 21, Spring Boot, Apache Kafka, PostgreSQL, Docker. (Sycapt, 2025)",
-        keywords: ["project", "kafka", "microservice", "event-driven", "java", "spring boot", "connector", "vhq"]
+        title: "Project: Terminal-Management Connector Microservice (Co-op)",
+        content: "Developed a microservice connecting Kafka message queues to a terminal-management API using Event-Driven Architecture. 3-phase flow: receive job → send batch → return result. Uses ELK Stack for centralized logging. Tech: Java 21, Spring Boot, Apache Kafka, PostgreSQL, Docker. (Sycapt, 2025)",
+        keywords: ["project", "kafka", "microservice", "event-driven", "java", "spring boot", "connector", "terminal management"]
     },
     {
         id: "projects-cicd",
@@ -124,14 +124,8 @@ export const KNOWLEDGE_BASE: KnowledgeSection[] = [
     {
         id: "projects-mobile-workshop",
         title: "Project: React Native AI App (Workshop)",
-        content: "Built a mobile application connecting to Gemini API for AI features on iOS/Android, developed as educational material for a university workshop at Kasetsart University. Received 7,500 THB speaking fee. Also taught Git/GitHub workshop (5,000 THB). Tech: React Native, Gemini API, JavaScript.",
+        content: "Built a mobile application connecting to Gemini API for AI features on iOS/Android, developed as educational material for a university workshop at Kasetsart University. Also taught a Git/GitHub workshop. Tech: React Native, Gemini API, JavaScript.",
         keywords: ["project", "mobile", "react native", "gemini", "workshop", "teaching", "lecture", "university"]
-    },
-    {
-        id: "projects-freelance",
-        title: "Project: Donlaya Makeup Portfolio Website (Freelance)",
-        content: "Freelance project: built a portfolio website for a makeup artist (Donlaya Makeup) via Fastwork platform. Fully responsive design, delivered on-time within 3,000 THB budget. Tech: Next.js, React, TypeScript, Tailwind CSS. (2024)",
-        keywords: ["project", "freelance", "website", "portfolio", "makeup", "nextjs", "tailwind"]
     },
     {
         id: "awards",

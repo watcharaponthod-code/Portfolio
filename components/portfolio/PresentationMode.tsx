@@ -229,26 +229,26 @@ export default function PresentationMode({ onComplete }: Props) {
               <Caption
                 title="WEBCLIENT AI WORKSPACE, WHAT IT DOES"
                 paras={[
-                  'WebClient AI Workspace layers a LangGraph state-machine on top of the same retrieval stack. Rather than routing every query to document search, the agent first classifies intent, is this a document question, an image question, or a structured data question about the live Mantis Bug Tracker?',
+                  'WebClient AI Workspace layers a LangGraph state-machine on top of the same retrieval stack. Rather than routing every query to document search, the agent first classifies intent, is this a document question, an image question, or a structured data question about the live an internal bug tracker?',
                   'Document and image queries go through HyDE (Hypothetical Document Embeddings) query expansion and multi-query rewriting to improve recall on ambiguous inputs. Bug tracker queries are converted to SQL and executed against a live MySQL instance in real time: so the answer reflects current ticket status, not stale indexed data.',
                   'Every reasoning step streams to the client via Server-Sent Events, giving users full visibility into how the answer was assembled. Multi-user session management with per-department document scoping ensures teams only access data they are authorised for.',
                 ]}
-                specs={['LANGRAPH AGENTS', 'HYDE QUERY EXPANSION', 'LIVE SQL · MANTIS', 'SSE STREAMING', 'MULTI-TENANT']}
+                specs={['LANGRAPH AGENTS', 'HYDE QUERY EXPANSION', 'LIVE SQL · BUG TRACKER', 'SSE STREAMING', 'MULTI-TENANT']}
                 links={[{ label: 'RAG CHAT REPO', url: 'https://github.com/watcharaponthod-code/rag-chat' }]}
               />
             </div>
 
             {/* ── 02 BITCOIN ML ─────────────────────────────────── */}
             <div style={{ borderBottom: '1px solid rgba(0,0,0,0.06)' }}>
-              <SectionHeader index="02" label="FEATURED · ML RESEARCH" title="BITCOIN ML PREDICTION" subtitle="LSTM 87.81% · XGBOOST · RANDOM FOREST · 12 YEARS DATA" />
+              <SectionHeader index="02" label="FEATURED · ML RESEARCH" title="BITCOIN ML PREDICTION" subtitle="LSTM 12.19% MAPE · XGBOOST · RANDOM FOREST · 12 YEARS DATA" />
               <FramedImage src={MEDIA.BITCOIN_ARCH} caption="MODEL_ARCHITECTURE // LSTM (128→64→32) + XGBOOST + RANDOM FOREST ENSEMBLE · 18 TECHNICAL INDICATORS" />
               <Caption
                 paras={[
                   'A three-model ensemble for Bitcoin price prediction trained on 12 years of BTC-USD OHLCV data (2013–2025, 4,200+ samples). The LSTM handles continuous price regression with a 90-day lookback window; XGBoost and Random Forest handle directional classification.',
-                  'The LSTM architecture uses three stacked layers (128 → 64 → 32 units) with Dropout(0.2) between layers and Huber loss for outlier robustness. It achieves 87.81% accuracy (MAPE-based), MAE $2,847, RMSE $5,219 on held-out test data.',
+                  'The LSTM architecture uses three stacked layers (128 → 64 → 32 units) with Dropout(0.2) between layers and Huber loss for outlier robustness. It reaches 12.19% MAPE on regression, MAE $2,847, RMSE $5,219 on held-out test data.',
                   '18 engineered technical indicators span five categories: trend (MA7/30/50, EMA12/26), momentum (rate of return, trend strength), volatility (Bollinger Bands, 7/14-day rolling std), oscillators (RSI, MACD, histogram), and volume change ratio. Top XGBoost features: RSI, MACD Histogram, 7-day Volatility.',
                 ]}
-                specs={['87.81% LSTM ACC', '18 INDICATORS', '12 YEARS DATA', '90-DAY LOOKBACK', 'HUBER LOSS']}
+                specs={['12.19% LSTM MAPE', '18 INDICATORS', '12 YEARS DATA', '90-DAY LOOKBACK', 'HUBER LOSS']}
                 links={[{ label: 'BITCOIN ML REPO', url: 'https://github.com/watcharaponthod-code/bitcoin-ml-prediction' }]}
               />
             </div>

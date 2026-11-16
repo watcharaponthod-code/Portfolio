@@ -8,7 +8,6 @@ import { galleryFor } from '../../lib/galleries';
 import { useLang } from '../../lib/i18n';
 import { PROJECT_TH, GROUP_TH, UI_TH, ACTION_LABEL_TH, TECH_TH, ROLE_TH } from '../../lib/i18n/projects.th';
 
-import picGeo     from '../project/geomap/LINE_20260324_213523.jpg';
 import picKafka   from '../project/kafka/kafka1.png';
 import picMonitor from '../project/cpu/download.png';
 
@@ -18,7 +17,6 @@ const TRADING_DASH  = 'https://raw.githubusercontent.com/watcharaponthod-code/tr
 const NINJA_GIF     = 'https://raw.githubusercontent.com/watcharaponthod-code/Ninja_fruit/main/demo/demo-gameplay.gif';
 const SUBWAY_GIF    = 'https://raw.githubusercontent.com/watcharaponthod-code/subway-kids/main/demo/demo-gameplay.gif';
 const RAG_CHAT_DIAG = 'https://raw.githubusercontent.com/watcharaponthod-code/rag-chat/main/diagram/diagram.png';
-const DONLAYA_WORK  = 'https://lh3.googleusercontent.com/d/1LlQNx6MpBvUXJ9VEZEzTk_YvhFnBLEA4=w1600';
 const DUST_GIF      = 'https://raw.githubusercontent.com/watcharaponthod-code/sugarcane-cv/main/media/dust_real.gif';
 const CANEGATE_LIVE = 'https://raw.githubusercontent.com/watcharaponthod-code/canegate-assets/main/screen-live.png';
 const DRAGON_GIF    = 'https://raw.githubusercontent.com/watcharaponthod-code/roblox-dragon-combat/main/media/dragon_combat.gif';

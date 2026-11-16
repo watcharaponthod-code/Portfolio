@@ -22,7 +22,7 @@ export default function CropScanProject() {
         'Out-of-block on 8,924 fields, season 68: precision 0.869, recall 0.897, accuracy 0.881, F1 0.883. A field counts as truly cut 7 days after its last ticket and truly standing 7 days before its first.',
         'Largest contiguous cut block reported alongside cut %, so a 50% figure can be told apart from scattered noise.',
         'Fields cut before the baseline image score 0% by design and are handed to the radar channel: the optical rule measures change between two images, not cumulative harvest.',
-        'Runs on the Agri-AI pipeline on Railway; results land in the mill\'s SQL Server through SaveStateSnapshot every cycle.',
+        'Runs on the Agri-AI pipeline on Railway; results land in the mill\'s own backend through its API every cycle.',
       ],
       sections: [
         { title: 'How the signal is proven', body: 'The rule is scored against the mill\'s weighbridge tickets, which say when each field actually delivered cane. The score is out-of-block: fields in the test set never influenced the thresholds. False negatives are mostly fields that were cut in stages over weeks; false positives are mostly fields that were cut before the baseline image, which is why that case is routed to radar.' },

@@ -12,7 +12,7 @@ export default function EmbeddingRagProject() {
       tagline: 'Comprehensive document management and intelligent knowledge retrieval system. Ask your company\'s internal documents anything: in natural language, with citations. 100% on-premises.',
       overview: 'Vector Docs solves the enterprise document search problem: thousands of PDFs, PPTX, and DOCX files that are invisible to keyword search. The system ingests them through three pipelines (manual upload, automated email, external services), embeds them using BGE-M3, and stores everything in a hybrid PostgreSQL + pgvector database. Users query in natural language and receive precise, cited answers: without any data leaving the company\'s infrastructure.',
       keyFeatures: [
-        'Three ingestion pipelines: manual file upload (PDF/PPTX/DOCX), automated email capture via n8n webhooks, and external processed data from the Mantis Embedding & Conversion service.',
+        'Three ingestion pipelines: manual file upload (PDF/PPTX/DOCX), automated email capture via n8n webhooks, and external processed data from the external embedding & conversion service.',
         'BGE-M3 embedding model: multilingual, 1024-dimension vectors with strong cross-lingual support for Thai and English content.',
         'Vision-enhanced RAG: images within documents are extracted, described by a vision model, and independently embedded: enabling image-aware retrieval.',
         'Hybrid retrieval with Reciprocal Rank Fusion (RRF) merges vector cosine similarity and PostgreSQL full-text search results before re-ranking.',

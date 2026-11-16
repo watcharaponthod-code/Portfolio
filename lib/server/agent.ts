@@ -159,8 +159,8 @@ export function buildGraph(ai: GoogleGenAI | null) {
     .addNode('lookupWeb', async (s: AgentState) => {
       // The planner already produced English queries; the first one after the
       // raw question is the cleanest thing to search for. Pull out the named
-      // entity when the question names one, so "TokinTech คือบริษัทอะไร"
-      // searches "TokinTech company" rather than the Thai sentence.
+      // entity when the question names one, so "<company> คือบริษัทอะไร"
+      // searches "<company> company" rather than the Thai sentence.
       const named = s.question.match(/[A-Z][A-Za-z0-9.&-]{2,}(?:\s+(?:Co\.?|Ltd\.?|Inc\.?|Corp\.?))*/g) || [];
       const english = s.plan.find(q => q !== s.question && !hasThai(q)) || '';
       const query = named.length ? `${named.join(' ')} ${/company|บริษัท|องค์กร/i.test(s.question) ? 'company' : ''}`.trim() : english;

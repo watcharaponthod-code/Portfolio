@@ -30,7 +30,7 @@ const BY_SECTION: Record<string, Entry[]> = {
   ],
   'projects-shorts-automation': [{ view: 'project-shorts', en: 'Open the automation case study', th: 'เปิดกรณีศึกษาระบบอัตโนมัติ', match: /shorts|youtube|budystory|asmr|คลิป|ยูทูบ/i }],
   'projects-dragon-combat': [{ url: 'https://github.com/watcharaponthod-code/roblox-dragon-combat', en: 'Dragon Combat on GitHub', th: 'Dragon Combat บน GitHub', match: /dragon|roblox|bot/i }],
-  'projects-rag-chat': [{ view: 'project-rag-ecosystem', en: 'Open the RAG case study', th: 'เปิดกรณีศึกษา RAG', match: /rag|langgraph|on-prem|ollama|mantis|ค้นเอกสาร/i }],
+  'projects-rag-chat': [{ view: 'project-rag-ecosystem', en: 'Open the RAG case study', th: 'เปิดกรณีศึกษา RAG', match: /rag|langgraph|on-prem|ollama|ค้นเอกสาร/i }],
   'projects-embedding-rag': [{ view: 'project-embedding-rag', en: 'Open Vector Docs', th: 'เปิด Vector Docs', match: /vector docs|embedding|bge|pgvector|rrf/i }],
   'projects-bitcoin-ml': [{ view: 'project-bitcoin', en: 'Open the Bitcoin ML case study', th: 'เปิดกรณีศึกษา Bitcoin ML', match: /bitcoin|btc|lstm|บิตคอยน์/i }],
   'projects-ninja-fruit': [{ view: 'project-ninja', en: 'Open Ninja Fruit', th: 'เปิด Ninja Fruit', match: /ninja|fruit|yolov8 pose/i }],
@@ -38,7 +38,7 @@ const BY_SECTION: Record<string, Entry[]> = {
   'projects-trading': [{ view: 'project-trading', en: 'Open AlgoTrade', th: 'เปิด AlgoTrade', match: /algotrade|trading|alpaca|เทรด/i }],
   'projects-elic': [{ view: 'project-elic', en: 'Open ELIC', th: 'เปิด ELIC', match: /elic|english|ภาษาอังกฤษ/i }],
   'projects-edc-map': [{ view: 'project-geomap', en: 'Open the EDC map', th: 'เปิดแผนที่ EDC', match: /edc|leaflet|แผนที่/i }],
-  'projects-kafka-connector': [{ view: 'project-kafka', en: 'Open the Kafka connector', th: 'เปิด Kafka connector', match: /kafka|spring boot|vhq/i }],
+  'projects-kafka-connector': [{ view: 'project-kafka', en: 'Open the Kafka connector', th: 'เปิด Kafka connector', match: /kafka|spring boot/i }],
   'about': [
     { url: 'mailto:watcharapon.thod@gmail.com', en: 'Email Watcharapon', th: 'ส่งอีเมล', match: /email|อีเมล|contact|ติดต่อ/i },
     { url: 'https://github.com/watcharaponthod-code', en: 'GitHub profile', th: 'โปรไฟล์ GitHub', match: /github/i },
@@ -65,7 +65,6 @@ const COVERS: Record<string, string> = {
   'project-shorts': '/media/shorts-pipeline.jpg',
   'project-ninja': 'https://raw.githubusercontent.com/watcharaponthod-code/Ninja_fruit/main/demo/demo-gameplay.gif',
   'project-subway': 'https://raw.githubusercontent.com/watcharaponthod-code/subway-kids/main/demo/demo-gameplay.gif',
-  'project-kafka': '/media/kafka-connector.jpg',
 };
 
 function coverFor(view?: string) {
@@ -111,7 +110,7 @@ export function actionsFor(question: string, sectionIds: string[], answer = ''):
     push({ kind: 'link', label: { en: 'GitHub profile', th: 'โปรไฟล์ GitHub' }, url: 'https://github.com/watcharaponthod-code' });
   }
   if (RESUME_RE.test(question)) {
-    push({ kind: 'link', label: { en: 'Download resume', th: 'ดาวน์โหลดเรซูเม่' }, url: '/components/project/Resume.pdf' });
+    push({ kind: 'link', label: { en: 'Download resume', th: 'ดาวน์โหลดเรซูเม่' }, url: '/resume.pdf' });
   }
 
   return out.slice(0, 3);
