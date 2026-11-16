@@ -62,7 +62,7 @@ const COVERS: Record<string, string> = {
   'project-bitcoin': 'https://raw.githubusercontent.com/watcharaponthod-code/bitcoin-ml-prediction/main/architecture_diagram.png',
   'project-trading': 'https://raw.githubusercontent.com/watcharaponthod-code/trading/main/public/dashboard.png',
   'project-elic': 'https://raw.githubusercontent.com/watcharaponthod-code/elic/main/docs/images/conversation-roles.jpg',
-  'project-shorts': '/media/shorts-pipeline.jpg',
+  'project-shorts': '/media/shorts-pipeline-v2.jpg',
   'project-ninja': 'https://raw.githubusercontent.com/watcharaponthod-code/Ninja_fruit/main/demo/demo-gameplay.gif',
   'project-subway': 'https://raw.githubusercontent.com/watcharaponthod-code/subway-kids/main/demo/demo-gameplay.gif',
 };

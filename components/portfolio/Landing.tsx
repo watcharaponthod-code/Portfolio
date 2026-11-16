@@ -89,7 +89,7 @@ const HERO_REEL = [
   { src: '/media/plate-ocr.jpg', label: 'Plate OCR' },
   { src: `${SCV}/caneflow_real.gif`, label: 'Conveyor flow' },
   { src: 'https://raw.githubusercontent.com/watcharaponthod-code/canegate-assets/main/screen-live.png', label: 'CaneGate' },
-  { src: '/media/shorts-pipeline.jpg', label: 'Shorts AI' },
+  { src: '/media/shorts-pipeline-v2.jpg', label: 'Shorts AI' },
 ];
 
 // ── Hero Section (Restoring Stage 0/1/2) ────────────────────────

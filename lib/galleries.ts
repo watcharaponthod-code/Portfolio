@@ -47,7 +47,7 @@ export const PROJECT_GALLERY: Record<string, string[]> = {
   // Systems and full-stack
   'project-kafka': [kafkaImg],
   'project-monitoring': [monitorImg],
-  'project-shorts': ['/media/shorts-pipeline.jpg'],
+  'project-shorts': ['/media/shorts-pipeline-v2.jpg'],
 };
 
 // Cards that open an external link instead of a page, keyed by card title.
